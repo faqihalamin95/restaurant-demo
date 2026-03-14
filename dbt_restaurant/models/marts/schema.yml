@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: mart_daily_revenue
+    description: >
+      Daily revenue per branch with 7-day rolling average.
+      pct_change_vs_7d_avg drives Telegram early warning alerts.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: branch_name
+        tests: [not_null]
+      - name: total_orders
+        tests: [not_null]
+      - name: total_revenue
+        tests: [not_null]
+
+  - name: mart_menu_performance
+    description: >
+      Daily menu performance with 30-day rolling qty and
+      week-over-week change. qty_wow_change drives declining menu detection.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: menu_id
+        tests: [not_null]
+      - name: menu_name
+        tests: [not_null]
+      - name: total_qty_sold
+        tests: [not_null]
+
+  - name: mart_peak_hours
+    description: >
+      Hourly order distribution per branch and order type.
+      day_part and is_peak_hour used for dashboard grouping.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: order_hour
+        tests: [not_null]
+      - name: day_part
+        tests:
+          - accepted_values:
+              values: ['Morning', 'Lunch Peak', 'Afternoon', 'Dinner Peak', 'Late Night']

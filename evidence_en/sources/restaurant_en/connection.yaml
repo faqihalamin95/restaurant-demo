@@ -1,0 +1,4 @@
+name: restaurant_en
+type: duckdb
+options:
+  filename: warehouse_en.duckdb

@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: dim_branches
+    description: "Branch dimension with derived fields"
+    columns:
+      - name: branch_id
+        tests: [unique, not_null]
+      - name: branch_name
+        tests: [not_null]
+      - name: opened_date
+        tests: [not_null]
+      - name: days_since_opening
+        tests: [not_null]
+
+  - name: dim_menu_items
+    description: "Menu item dimension with price tier"
+    columns:
+      - name: menu_id
+        tests: [unique, not_null]
+      - name: price
+        tests: [not_null]
+      - name: price_tier
+        tests:
+          - accepted_values:
+              values: ['budget', 'standard', 'premium', 'bundle']
+
+  - name: fct_orders
+    description: "Granular fact table — one row per order line item"
+    columns:
+      - name: order_item_id
+        tests: [unique, not_null]
+      - name: order_id
+        tests: [not_null]
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+      - name: menu_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_menu_items')
+              field: menu_id
+      - name: order_date
+        tests: [not_null]
+      - name: subtotal
+        tests: [not_null]

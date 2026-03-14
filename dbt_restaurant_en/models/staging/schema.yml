@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: stg_branches
+    description: "Cleaned branch master data"
+    columns:
+      - name: branch_id
+        tests: [unique, not_null]
+      - name: branch_name
+        tests: [not_null]
+      - name: opened_date
+        tests: [not_null]
+
+  - name: stg_menu_items
+    description: "Cleaned menu item master data"
+    columns:
+      - name: menu_id
+        tests: [unique, not_null]
+      - name: category
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['main', 'drink', 'snack', 'side', 'dessert']
+      - name: price
+        tests: [not_null]
+
+  - name: stg_orders
+    description: "Cleaned order headers. payment_method nullable by design."
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: order_time
+        tests: [not_null]
+      - name: order_type
+        tests:
+          - accepted_values:
+              values: ['dine_in', 'delivery', 'takeaway']
+
+  - name: stg_order_items
+    description: "Cleaned order line items"
+    columns:
+      - name: order_item_id
+        tests: [unique, not_null]
+      - name: order_id
+        tests: [not_null]
+      - name: menu_id
+        tests: [not_null]
+      - name: qty
+        tests: [not_null]
+      - name: subtotal
+        tests: [not_null]

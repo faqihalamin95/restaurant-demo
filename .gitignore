@@ -1,0 +1,12 @@
+.env
+data/
+logs/
+__pycache__/
+*.pyc
+.venv
+.dagster
+dbt/target/
+dbt/dbt_packages/
+target/
+dbt_packages/
+logs/

@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Raw CSV data loaded into DuckDB"
+    tables:
+      - name: branches
+        columns:
+          - name: branch_id
+            tests: [unique, not_null]
+          - name: opened_date
+            tests: [not_null]
+
+      - name: menu_items
+        columns:
+          - name: menu_id
+            tests: [unique, not_null]
+          - name: category
+            tests:
+              - accepted_values:
+                  values: ['main', 'drink', 'snack', 'side', 'dessert']
+
+      - name: orders
+        columns:
+          - name: order_id
+            tests: [unique, not_null]
+          - name: branch_id
+            tests: [not_null]
+          - name: order_time
+            tests: [not_null]
+
+      - name: order_items
+        columns:
+          - name: order_item_id
+            tests: [unique, not_null]
+          - name: order_id
+            tests: [not_null]
+          - name: subtotal
+            tests: [not_null]
