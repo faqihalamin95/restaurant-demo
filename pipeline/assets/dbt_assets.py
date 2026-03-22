@@ -88,3 +88,23 @@ def send_telegram_alert_en():
         value=result.stdout,
         metadata={"output": MetadataValue.text(result.stdout)},
     )
+
+@asset(group_name="dashboard", compute_kind="evidence", deps=[dbt_build])
+def build_evidence_dashboard():
+    result = subprocess.run(
+        ["npm", "run", "sources"],
+        capture_output=True, text=True,
+        cwd=str(ROOT_DIR / "evidence"),
+    )
+    if result.returncode != 0:
+        raise Exception(f"npm run sources failed:\n{result.stderr}")
+    
+    result = subprocess.run(
+        ["npm", "run", "build"],
+        capture_output=True, text=True,
+        cwd=str(ROOT_DIR / "evidence"),
+    )
+    if result.returncode != 0:
+        raise Exception(f"npm run build failed:\n{result.stderr}")
+    
+    return Output(value="Dashboard rebuilt successfully")

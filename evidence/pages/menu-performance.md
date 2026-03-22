@@ -2,17 +2,21 @@
 title: Performa Menu
 ---
 
-# 🍽️ Performa Menu
+# Performa Menu
 
-## Top Menu — 30 Hari Terakhir
+_Analisis penjualan, tren, dan potensi menu restoran._
+
+---
+
+## Menu Terlaris (30 Hari Terakhir)
 
 ```sql top_menu
 SELECT
     menu_name,
     category,
     price_tier,
-    SUM(total_qty_sold)     AS total_qty,
-    SUM(total_revenue)      AS total_revenue
+    SUM(total_qty_sold) AS total_qty,
+    SUM(total_revenue)  AS total_revenue
 FROM restaurant.menu_performance
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days'
 GROUP BY menu_name, category, price_tier
@@ -24,20 +28,21 @@ ORDER BY total_qty DESC
     x="menu_name"
     y="total_qty"
     series="category"
-    title="Qty Terjual per Menu (30 Hari)"
+    title="Jumlah Terjual per Menu"
     swapXY=true
+    xAxisTitle="Total Terjual"
 />
 
 ---
 
-## Tren Menu — Week over Week
+## Tren Menu — Rata-rata Perubahan Mingguan (30 Hari Terakhir)
 
 ```sql menu_wow
 SELECT
     menu_name,
     category,
-    SUM(total_qty_sold)                         AS qty_total,
-    ROUND(AVG(qty_wow_change) * 100, 1)         AS avg_wow_change
+    SUM(total_qty_sold)           AS qty_total,
+    ROUND(AVG(qty_wow_change), 3) AS avg_wow_change
 FROM restaurant.menu_performance
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days'
 GROUP BY menu_name, category
@@ -47,13 +52,15 @@ ORDER BY avg_wow_change ASC
 <DataTable data={menu_wow}>
     <Column id="menu_name" title="Menu"/>
     <Column id="category" title="Kategori"/>
-    <Column id="qty_total" title="Total Qty" fmt="#,##0"/>
-    <Column id="avg_wow_change" title="WoW Change %" fmt="+0.0%;-0.0%;0.0%" contentType="delta"/>
+    <Column id="qty_total" title="Total Terjual" fmt="#,##0"/>
+    <Column id="avg_wow_change" title="Avg. Perubahan WoW" fmt="+0.0%;-0.0%;0.0%" contentType="delta"/>
 </DataTable>
+
+_Positif = rata-rata pertumbuhan mingguan. Negatif = rata-rata penurunan. Dihitung dari perbandingan qty terjual minggu ini vs minggu sebelumnya selama 30 hari terakhir._
 
 ---
 
-## 💡 Hidden Gem — Margin Bagus, Volume Rendah
+## Potensi Tersembunyi — Margin Tinggi, Volume Rendah
 
 ```sql hidden_gem
 SELECT
@@ -61,8 +68,8 @@ SELECT
     category,
     price,
     price_tier,
-    SUM(total_qty_sold)     AS total_qty,
-    SUM(total_revenue)      AS total_revenue
+    SUM(total_qty_sold) AS total_qty,
+    SUM(total_revenue)  AS total_revenue
 FROM restaurant.menu_performance
 WHERE price_tier IN ('premium', 'bundle')
 GROUP BY menu_name, category, price, price_tier
@@ -74,16 +81,15 @@ LIMIT 5
     <Column id="menu_name" title="Menu"/>
     <Column id="price" title="Harga" fmt="Rp #,##0"/>
     <Column id="price_tier" title="Tier"/>
-    <Column id="total_qty" title="Total Qty" fmt="#,##0"/>
+    <Column id="total_qty" title="Total Terjual" fmt="#,##0"/>
     <Column id="total_revenue" title="Total Revenue" fmt="Rp #,##0"/>
 </DataTable>
 
-> 💡 Menu di atas memiliki harga premium tapi volume penjualan rendah.
-> Berpotensi untuk ditingkatkan melalui promosi atau penempatan menu yang lebih strategis.
+> Menu di atas memiliki harga premium namun volume penjualan masih rendah. Berpotensi untuk ditingkatkan melalui promosi atau penempatan yang lebih strategis di menu.
 
 ---
 
-## Tren Menu Declining
+## Menu dengan Tren Menurun
 
 ```sql declining_menu
 SELECT
@@ -108,5 +114,7 @@ ORDER BY order_date, menu_name
     x="order_date"
     y="qty_30d_rolling"
     series="menu_name"
-    title="Menu dengan Tren Menurun (90 Hari)"
+    title="Menu dengan Tren Penjualan Menurun (90 Hari)"
+    xAxisTitle="Tanggal"
+    yAxisTitle="Qty (30-Day Rolling)"
 />
