@@ -1,4 +1,4 @@
 name: restaurant
 type: duckdb
 options:
-  filename: warehouse.duckdb
+  filename: ../../data/warehouse.duckdb
