@@ -14,7 +14,7 @@ from dagster import (
 )
 
 from pipeline.assets import ingestion, dbt_assets
-from pipeline.assets.ingestion import load_raw_to_duckdb, load_raw_to_duckdb_en
+from pipeline.assets.ingestion import load_raw_to_duckdb
 
 # ── Assets ────────────────────────────────────────────────────────────────────
 all_assets = load_assets_from_modules([ingestion, dbt_assets])

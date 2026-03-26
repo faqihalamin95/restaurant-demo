@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 from dagster import asset, Output, MetadataValue
-from pipeline.assets.ingestion import load_raw_to_duckdb, load_raw_to_duckdb_en
+from pipeline.assets.ingestion import load_raw_to_duckdb
 
 import subprocess
 
@@ -40,17 +40,17 @@ def dbt_build():
         metadata={"dbt_output": MetadataValue.text(output_text)},
     )
 
-@asset(group_name="dbt_en", compute_kind="dbt", deps=[load_raw_to_duckdb_en])
-def dbt_build_en():
-    result = subprocess.run(
-        ["dbt", "build"],
-        capture_output=True, text=True,
-        cwd=str(ROOT_DIR / "dbt_restaurant_en"),
-    )
-    output_text = result.stdout + result.stderr
-    if result.returncode != 0:
-        raise Exception(f"dbt build EN failed:\n{output_text}")
-    return Output(value=output_text, metadata={"dbt_output": MetadataValue.text(output_text)})
+# @asset(group_name="dbt_en", compute_kind="dbt", deps=[load_raw_to_duckdb_en])
+# def dbt_build_en():
+#     result = subprocess.run(
+#         ["dbt", "build"],
+#         capture_output=True, text=True,
+#         cwd=str(ROOT_DIR / "dbt_restaurant_en"),
+#     )
+#     output_text = result.stdout + result.stderr
+#     if result.returncode != 0:
+#         raise Exception(f"dbt build EN failed:\n{output_text}")
+#     return Output(value=output_text, metadata={"dbt_output": MetadataValue.text(output_text)})
 
 @asset(group_name="alert", compute_kind="python", deps=[dbt_build])
 def send_telegram_alert():
@@ -71,23 +71,23 @@ def send_telegram_alert():
         metadata={"output": MetadataValue.text(result.stdout)},
     )
 
-@asset(group_name="alert", compute_kind="python", deps=[dbt_build_en])
-def send_telegram_alert_en():
-    """
-    Sends daily Restaurant Report (EN) to owner via Telegram.
-    """
-    result = subprocess.run(
-        ["python", str(ROOT_DIR / "scripts" / "telegram_alert_en.py")],
-        capture_output=True,
-        text=True,
-        cwd=str(ROOT_DIR),
-    )
-    if result.returncode != 0:
-        raise Exception(f"Telegram alert EN failed:\n{result.stderr}")
-    return Output(
-        value=result.stdout,
-        metadata={"output": MetadataValue.text(result.stdout)},
-    )
+# @asset(group_name="alert", compute_kind="python", deps=[dbt_build_en])
+# def send_telegram_alert_en():
+#     """
+#     Sends daily Restaurant Report (EN) to owner via Telegram.
+#     """
+#     result = subprocess.run(
+#         ["python", str(ROOT_DIR / "scripts" / "telegram_alert_en.py")],
+#         capture_output=True,
+#         text=True,
+#         cwd=str(ROOT_DIR),
+#     )
+#     if result.returncode != 0:
+#         raise Exception(f"Telegram alert EN failed:\n{result.stderr}")
+#     return Output(
+#         value=result.stdout,
+#         metadata={"output": MetadataValue.text(result.stdout)},
+#     )
 
 @asset(group_name="dashboard", compute_kind="evidence", deps=[dbt_build])
 def build_evidence_dashboard():

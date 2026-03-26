@@ -59,23 +59,23 @@ def load_raw_to_duckdb():
         metadata={"output": MetadataValue.text(result.stdout)},
     )
 
-@asset(group_name="ingestion_en", compute_kind="python")
-def generate_daily_data_en():
-    result = subprocess.run(
-        ["python", str(ROOT_DIR / "ingestion" / "generate_data_en.py"), "--mode", "daily"],
-        capture_output=True, text=True, cwd=str(ROOT_DIR),
-    )
-    if result.returncode != 0:
-        raise Exception(f"generate_data_en.py failed:\n{result.stderr}")
-    return Output(value=result.stdout, metadata={"output": MetadataValue.text(result.stdout)})
+# @asset(group_name="ingestion_en", compute_kind="python")
+# def generate_daily_data_en():
+#     result = subprocess.run(
+#         ["python", str(ROOT_DIR / "ingestion" / "generate_data_en.py"), "--mode", "daily"],
+#         capture_output=True, text=True, cwd=str(ROOT_DIR),
+#     )
+#     if result.returncode != 0:
+#         raise Exception(f"generate_data_en.py failed:\n{result.stderr}")
+#     return Output(value=result.stdout, metadata={"output": MetadataValue.text(result.stdout)})
 
 
-@asset(group_name="ingestion_en", compute_kind="duckdb", deps=[generate_daily_data_en])
-def load_raw_to_duckdb_en():
-    result = subprocess.run(
-        ["python", str(ROOT_DIR / "ingestion" / "load_raw.py"), "--lang", "en"],
-        capture_output=True, text=True, cwd=str(ROOT_DIR),
-    )
-    if result.returncode != 0:
-        raise Exception(f"load_raw.py failed:\n{result.stderr}")
-    return Output(value=result.stdout, metadata={"output": MetadataValue.text(result.stdout)})
+# @asset(group_name="ingestion_en", compute_kind="duckdb", deps=[generate_daily_data_en])
+# def load_raw_to_duckdb_en():
+#     result = subprocess.run(
+#         ["python", str(ROOT_DIR / "ingestion" / "load_raw.py"), "--lang", "en"],
+#         capture_output=True, text=True, cwd=str(ROOT_DIR),
+#     )
+#     if result.returncode != 0:
+#         raise Exception(f"load_raw.py failed:\n{result.stderr}")
+#     return Output(value=result.stdout, metadata={"output": MetadataValue.text(result.stdout)})

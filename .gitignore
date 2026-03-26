@@ -10,3 +10,7 @@ dbt/dbt_packages/
 target/
 dbt_packages/
 logs/
+# Local Netlify folder
+.netlify
+
+microsoft.gpg
