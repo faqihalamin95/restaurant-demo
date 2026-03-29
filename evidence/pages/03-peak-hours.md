@@ -6,8 +6,8 @@ _Ketahui kapan pelanggan datang dan optimalkan operasional restoranmu._
 
 ```sql peak_summary
 SELECT
-    day_part                                                            AS periode_tersibuk,
-    SUM(total_orders)                                                   AS total_orders
+    day_part                AS periode_tersibuk,
+    SUM(total_orders)       AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
 GROUP BY day_part
@@ -17,8 +17,8 @@ LIMIT 1
 
 ```sql peak_hour_summary
 SELECT
-    order_hour                                                          AS jam_tersibuk,
-    SUM(total_orders)                                                   AS total_orders
+    order_hour              AS jam_tersibuk,
+    SUM(total_orders)       AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
 GROUP BY order_hour
@@ -28,8 +28,8 @@ LIMIT 1
 
 ```sql peak_order_type
 SELECT
-    order_type                                                          AS tipe_terbanyak,
-    SUM(total_orders)                                                   AS total_orders
+    order_type              AS tipe_terbanyak,
+    SUM(total_orders)       AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
 GROUP BY order_type
@@ -37,23 +37,9 @@ ORDER BY total_orders DESC
 LIMIT 1
 ```
 
-<BigValue
-    data={peak_summary}
-    value="periode_tersibuk"
-    title="Periode Tersibuk (30 Hari Terakhir)"
-/>
-
-<BigValue
-    data={peak_hour_summary}
-    value="jam_tersibuk"
-    title="Jam Tersibuk (30 Hari Terakhir)"
-/>
-
-<BigValue
-    data={peak_order_type}
-    value="tipe_terbanyak"
-    title="Tipe Order Terbanyak"
-/>
+<BigValue data={peak_summary}      value="periode_tersibuk" title="Periode Tersibuk (30 Hari Terakhir)" />
+<BigValue data={peak_hour_summary} value="jam_tersibuk"     title="Jam Tersibuk (30 Hari Terakhir)" />
+<BigValue data={peak_order_type}   value="tipe_terbanyak"   title="Tipe Order Terbanyak" />
 
 ---
 
@@ -130,6 +116,24 @@ GROUP BY order_hour, day_part
 ORDER BY order_hour
 ```
 
+```sql daypart_summary
+SELECT
+    day_part,
+    SUM(total_orders)                                                   AS total_orders,
+    SUM(total_revenue)                                                  AS total_revenue,
+    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0)         AS avg_order_value
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
+GROUP BY day_part
+ORDER BY total_orders DESC
+```
+
+<Grid cols=2>
+
+<div>
+
+### Order per Jam
+
 <BarChart
     data={hourly_all}
     x="order_hour"
@@ -140,7 +144,92 @@ ORDER BY order_hour
     yAxisTitle="Total Order"
 />
 
-_Jam dengan order tertinggi adalah momen kritis — pastikan staf penuh dan stok siap di jam-jam ini. Persiapan 30 menit sebelum jam sibuk biasanya sudah cukup untuk menghindari kehabisan menu._
+</div>
+
+<div>
+
+### Ringkasan per Periode
+
+<DataTable data={daypart_summary}>
+    <Column id="day_part"        title="Periode"/>
+    <Column id="total_orders"    title="Total Order"             fmt="#,##0"/>
+    <Column id="total_revenue"   title="Total Revenue (Rp)"      fmt="#,##0"/>
+    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
+</DataTable>
+
+</div>
+
+</Grid>
+
+_Jam dengan order tertinggi adalah momen kritis — pastikan staf penuh dan stok siap di jam-jam ini. Periode dengan avg order value tinggi tapi volume rendah adalah peluang promo untuk mendorong traffic._
+
+---
+
+## Weekday vs Weekend (30 Hari Terakhir)
+
+```sql weekday_vs_weekend
+SELECT
+    order_hour,
+    CASE WHEN DAYOFWEEK(order_date) IN (1, 7) THEN 'Weekend' ELSE 'Weekday' END AS tipe_hari,
+    SUM(total_orders)                                                             AS total_orders,
+    ROUND(AVG(total_orders), 1)                                                   AS avg_orders
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
+GROUP BY order_hour, tipe_hari
+ORDER BY order_hour, tipe_hari
+```
+
+```sql daypart_weekday_weekend
+SELECT
+    day_part,
+    CASE WHEN DAYOFWEEK(order_date) IN (1, 7) THEN 'Weekend' ELSE 'Weekday' END AS tipe_hari,
+    SUM(total_orders)   AS total_orders,
+    SUM(total_revenue)  AS total_revenue
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
+GROUP BY day_part, tipe_hari
+ORDER BY day_part, tipe_hari
+```
+
+<Grid cols=2>
+
+<div>
+
+### Pola Order per Jam
+
+<BarChart
+    data={weekday_vs_weekend}
+    x="order_hour"
+    y="total_orders"
+    series="tipe_hari"
+    type="grouped"
+    title="Order per Jam — Weekday vs Weekend"
+    xAxisTitle="Jam"
+    yAxisTitle="Total Order"
+/>
+
+</div>
+
+<div>
+
+### Kontribusi per Periode
+
+<BarChart
+    data={daypart_weekday_weekend}
+    x="day_part"
+    y="total_orders"
+    series="tipe_hari"
+    type="grouped"
+    title="Periode — Weekday vs Weekend"
+    xAxisTitle="Periode"
+    yAxisTitle="Total Order"
+/>
+
+</div>
+
+</Grid>
+
+_Weekend biasanya menggeser pola traffic — jam makan siang lebih ramai dan dine-in meningkat. Kalau pola weekday dan weekend di cabangmu hampir sama, kemungkinan cabang berada di area transit atau perkantoran dengan traffic konstan._
 
 ---
 
@@ -162,8 +251,8 @@ ORDER BY branch_name, total_orders DESC
     x="day_part"
     y="total_orders"
     series="branch_name"
-    title="Distribusi Periode per Cabang"
     type="grouped"
+    title="Distribusi Periode per Cabang"
     xAxisTitle="Periode"
     yAxisTitle="Total Order"
 />
@@ -185,19 +274,6 @@ GROUP BY order_hour, order_type
 ORDER BY order_hour
 ```
 
-<BarChart
-    data={order_type_hourly}
-    x="order_hour"
-    y="total_orders"
-    series="order_type"
-    type="stacked"
-    title="Dine-in vs Delivery vs Takeaway per Jam"
-    xAxisTitle="Jam"
-    yAxisTitle="Total Order"
-/>
-
-_Kalau order jenis delivery yang dominan, pastikan kerjasama dengan platform ojol berjalan lancar di jam tersebut. Sebaliknya, kalau order jenis dine-in yang dominan, fokuskan kapasitas meja dan pelayanan di jam tersebut._
-
 ```sql order_type_by_branch
 SELECT
     branch_name,
@@ -210,36 +286,38 @@ GROUP BY branch_name, day_part, order_type
 ORDER BY branch_name, day_part, order_type
 ```
 
+<Grid cols=2>
+
+<div>
+
+### Tipe Order per Jam
+
+<BarChart
+    data={order_type_hourly}
+    x="order_hour"
+    y="total_orders"
+    series="order_type"
+    type="stacked"
+    title="Dine-in vs Delivery vs Takeaway per Jam"
+    xAxisTitle="Jam"
+    yAxisTitle="Total Order"
+/>
+
+</div>
+
+<div>
+
+### Detail per Cabang & Periode
+
 <DataTable data={order_type_by_branch}>
-    <Column id="branch_name" title="Cabang"/>
-    <Column id="day_part" title="Periode"/>
-    <Column id="order_type" title="Tipe Order"/>
+    <Column id="branch_name"  title="Cabang"/>
+    <Column id="day_part"     title="Periode"/>
+    <Column id="order_type"   title="Tipe Order"/>
     <Column id="total_orders" title="Total Order" fmt="#,##0"/>
 </DataTable>
 
-_Detail jenis order per cabang per periode — gunakan ini untuk mengoptimalkan alokasi staf dan kapasitas per tipe layanan di tiap cabang._
+</div>
 
----
+</Grid>
 
-## Ringkasan per Periode (30 Hari Terakhir)
-
-```sql daypart_summary
-SELECT
-    day_part,
-    SUM(total_orders)                                                   AS total_orders,
-    SUM(total_revenue)                                                  AS total_revenue,
-    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0)         AS avg_order_value
-FROM restaurant.peak_hours
-WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
-GROUP BY day_part
-ORDER BY total_orders DESC
-```
-
-<DataTable data={daypart_summary}>
-    <Column id="day_part" title="Periode"/>
-    <Column id="total_orders" title="Total Order" fmt="#,##0"/>
-    <Column id="total_revenue" title="Total Revenue (Rp)" fmt="#,##0"/>
-    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
-</DataTable>
-
-_Periode dengan rata-rata nilai order tinggi tapi volume rendah adalah peluang — coba dorong traffic di jam tersebut lewat promo atau diskon khusus._
+_Kalau delivery dominan di jam tertentu, pastikan kerjasama dengan platform ojol berjalan lancar di jam tersebut. Kalau dine-in dominan, fokuskan kapasitas meja dan pelayanan. Detail per cabang membantu mengalokasikan staf sesuai tipe layanan yang paling dibutuhkan._

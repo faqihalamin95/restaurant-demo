@@ -301,48 +301,52 @@ _Perbandingan langsung antara minggu ini dan minggu lalu — menu dengan tanda m
 ## Menu dengan Tren Menurun (90 Hari Terakhir)
 
 ```sql declining_trend
-SELECT
+WITH declining_menus AS (
+    -- 1. Cari dulu menu apa saja yang turun (30 hari terakhir vs 30 hari pertama)
+    SELECT menu_name
+    FROM restaurant.menu_performance
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
+    GROUP BY menu_name
+    HAVING 
+        SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days' THEN total_qty_sold ELSE 0 END)
+        < 
+        SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '60 days' THEN total_qty_sold ELSE 0 END)
+),
+daily_sales AS (
+    -- 2. Ambil total penjualan harian untuk menu-menu yang turun tersebut
+    SELECT 
+        order_date,
+        menu_name,
+        SUM(total_qty_sold) AS qty_harian
+    FROM restaurant.menu_performance
+    WHERE menu_name IN (SELECT menu_name FROM declining_menus)
+    AND order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
+    GROUP BY order_date, menu_name
+)
+-- 3. Hitung 7-Day Moving Average
+SELECT 
     order_date,
     menu_name,
-    SUM(total_qty_sold) AS qty_harian
-FROM restaurant.menu_performance
-WHERE menu_name IN (
-    SELECT menu_name
-    FROM (
-        SELECT
-            menu_name,
-            AVG(CASE WHEN hari_ke <= 30 THEN total_qty_sold END) AS avg_awal,
-            AVG(CASE WHEN hari_ke > 60  THEN total_qty_sold END) AS avg_akhir
-        FROM (
-            SELECT
-                menu_name,
-                order_date,
-                total_qty_sold,
-                ROW_NUMBER() OVER (PARTITION BY menu_name ORDER BY order_date) AS hari_ke
-            FROM restaurant.menu_performance
-            WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
-        )
-        GROUP BY menu_name
-    )
-    WHERE (avg_akhir - avg_awal) / NULLIF(avg_awal, 0) <= 0
-    ORDER BY (avg_akhir - avg_awal) / NULLIF(avg_awal, 0) ASC
-)
-AND order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
-GROUP BY order_date, menu_name
+    AVG(qty_harian) OVER (
+        PARTITION BY menu_name 
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) AS rolling_avg_qty
+FROM daily_sales
 ORDER BY order_date, menu_name
 ```
 
 <LineChart
     data={declining_trend}
     x="order_date"
-    y="qty_harian"
+    y="rolling_avg_qty"
     series="menu_name"
-    title="Menu dengan Tren Penjualan Menurun (90 Hari)"
+    title="Tren Penurunan Menu (7-Day Moving Average)"
     xAxisTitle="Tanggal"
-    yAxisTitle="Qty Terjual per Hari"
+    yAxisTitle="Rata-rata Qty Terjual (7 Hari)"
 />
 
-_Grafik menunjukkan tren penjualan harian menu dengan penurunan konsisten dalam 90 hari terakhir._
+_Grafik ini menggunakan metode Rata-rata Bergerak 7 Hari (7-Day Moving Average) untuk menghaluskan lonjakan pesanan di akhir pekan. Jika garis tren terus mengarah ke bawah, artinya minat pelanggan terhadap menu ini secara konsisten berkurang, bukan sekadar efek hari kerja yang sepi._
 
 ---
 
@@ -352,25 +356,17 @@ _Grafik menunjukkan tren penjualan harian menu dengan penurunan konsisten dalam 
 SELECT
     branch_name,
     menu_name,
-    SUM(CASE WHEN hari_ke <= 30 THEN total_qty_sold END) AS qty_30_awal,
-    SUM(CASE WHEN hari_ke > 60  THEN total_qty_sold END) AS qty_30_akhir,
+    SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '60 days' THEN total_qty_sold ELSE 0 END) AS qty_30_awal,
+    SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days' THEN total_qty_sold ELSE 0 END) AS qty_30_akhir,
     ROUND(
-        (SUM(CASE WHEN hari_ke > 60  THEN total_qty_sold END)
-        - SUM(CASE WHEN hari_ke <= 30 THEN total_qty_sold END))
-        / NULLIF(SUM(CASE WHEN hari_ke <= 30 THEN total_qty_sold END), 0) * 100
+        (SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days' THEN total_qty_sold ELSE 0 END)
+        - SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '60 days' THEN total_qty_sold ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '60 days' THEN total_qty_sold ELSE 0 END), 0) * 100
     , 1) AS pct_change
-FROM (
-    SELECT
-        branch_name,
-        menu_name,
-        order_date,
-        total_qty_sold,
-        ROW_NUMBER() OVER (PARTITION BY branch_name, menu_name ORDER BY order_date) AS hari_ke
-    FROM restaurant.menu_performance
-    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
-)
+FROM restaurant.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
 GROUP BY branch_name, menu_name
-HAVING pct_change <= 0
+HAVING pct_change < 0
 ORDER BY pct_change ASC
 ```
 

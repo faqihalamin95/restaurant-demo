@@ -37,15 +37,13 @@ SELECT
     END AS kondisi
 FROM (
     SELECT
-        ROUND(
-            (today_rev - avg_7d) / NULLIF(avg_7d, 0)
-        , 3) AS pct_change
+        ROUND((today_rev - avg_7d) / NULLIF(avg_7d, 0), 3) AS pct_change
     FROM (
         SELECT
             SUM(CASE WHEN order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
-                THEN daily_total ELSE 0 END)                            AS today_rev,
+                THEN daily_total ELSE 0 END)                AS today_rev,
             AVG(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.daily_revenue)
-                THEN daily_total ELSE NULL END)                         AS avg_7d
+                THEN daily_total ELSE NULL END)              AS avg_7d
         FROM (
             SELECT order_date, SUM(total_revenue) AS daily_total
             FROM restaurant.daily_revenue
@@ -57,9 +55,7 @@ FROM (
 ```
 
 ```sql best_branch
-SELECT
-    branch_name,
-    total_revenue
+SELECT branch_name, total_revenue
 FROM restaurant.daily_revenue
 WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
 ORDER BY total_revenue DESC
@@ -83,25 +79,33 @@ WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
   AND pct_change_vs_7d_avg < -0.20
 ```
 
-_Data diperbarui otomatis setiap hari. Menampilkan performa {last_date[0].tanggal_display}._
+_Data diperbarui otomatis setiap hari. Menampilkan performa **{last_date[0].tanggal_display}**._
 
 ---
 
 {#if pct_change[0].kondisi === 'naik'}
+<div>
 
-🎉 **Halo Owner! Kabar baik** — revenue kemarin naik **{pct_change[0].pct_change_display}%** dibanding rata-rata 7 hari terakhir. Cabang terbaik kemarin adalah **{best_branch[0].branch_name}**. Menu terlaris adalah **{top_menu_today[0].menu_name}**. Detail lengkap ada di halaman masing-masing.
+🎉 **Halo Owner! Kabar baik** — revenue kemarin naik **{pct_change[0].pct_change_display}%** dibanding rata-rata 7 hari terakhir. Cabang terbaik adalah **{best_branch[0].branch_name}**, dengan menu terlaris **{top_menu_today[0].menu_name}**. Detail lengkap tersedia di halaman masing-masing.
 
+</div>
 {:else if pct_change[0].kondisi === 'turun'}
+<div>
 
-⚠️ **Halo Owner**, ada yang perlu diperhatikan — revenue kemarin turun **{pct_change[0].pct_change_abs}%** dibanding rata-rata 7 hari terakhir. Terdapat **{declining_branches[0].jumlah_cabang} cabang** dengan penurunan signifikan, dan **{declining_branches[0].cabang_terparah}** mengalami penurunan paling tajam. Detail bisa dicek di halaman Performa Cabang.
+⚠️ **Halo Owner**, ada yang perlu diperhatikan — revenue kemarin turun **{pct_change[0].pct_change_abs}%** dibanding rata-rata 7 hari terakhir. Terdapat **{declining_branches[0].jumlah_cabang} cabang** dengan penurunan signifikan, paling tajam di **{declining_branches[0].cabang_terparah}**. Cek detail di halaman Performa Cabang.
 
+</div>
 {:else}
+<div>
 
-👋 **Halo Owner!** Performa kemarin terjaga stabil. Cabang terbaik adalah **{best_branch[0].branch_name}**. Menu terlaris kemarin adalah **{top_menu_today[0].menu_name}**. Detail lengkap ada di halaman masing-masing.
+👋 **Halo Owner!** Performa kemarin terjaga stabil. Cabang terbaik adalah **{best_branch[0].branch_name}**, menu terlaris **{top_menu_today[0].menu_name}**. Detail lengkap tersedia di halaman masing-masing.
 
+</div>
 {/if}
 
 ---
+
+## Revenue Hari Ini
 
 <BigValue
     data={today_summary}
@@ -109,20 +113,17 @@ _Data diperbarui otomatis setiap hari. Menampilkan performa {last_date[0].tangga
     title="Total Revenue (Rp)"
     fmt="#,##0"
 />
-
 <BigValue
     data={today_summary}
     value="total_orders"
     title="Total Pesanan"
     fmt="#,##0"
 />
-
 <BigValue
     data={today_summary}
     value="active_branches"
     title="Cabang Aktif"
 />
-
 <BigValue
     data={today_summary}
     value="avg_order_value"
@@ -132,7 +133,7 @@ _Data diperbarui otomatis setiap hari. Menampilkan performa {last_date[0].tangga
 
 ---
 
-## Tren Revenue (30 Hari Terakhir)
+## Tren Revenue 30 Hari Terakhir
 
 ```sql revenue_trend
 SELECT
@@ -157,7 +158,7 @@ ORDER BY order_date
 
 ---
 
-## Performa Cabang {last_date[0].tanggal_display}
+## Performa Cabang — {last_date[0].tanggal_display}
 
 ```sql branch_yesterday
 SELECT
@@ -180,3 +181,106 @@ ORDER BY total_revenue DESC
             contentType="delta"
     />
 </DataTable>
+
+---
+
+## Ringkasan Pegawai & Shift
+
+```sql employee_summary
+SELECT
+    COUNT(DISTINCT employee_name)                               AS total_pegawai,
+    SUM(orders_handled)                                         AS total_orders_handled,
+    ROUND(AVG(avg_ticket), 0)                                   AS avg_ticket_global
+FROM restaurant.employee_shift_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
+```
+
+```sql attendance_mix
+SELECT
+    attendance_status,
+    COUNT(*) AS total_rows
+FROM restaurant.employee_shift_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
+GROUP BY 1
+ORDER BY 2 DESC
+```
+
+<BigValue
+    data={employee_summary}
+    value="total_pegawai"
+    title="Total Pegawai Aktif"
+/>
+<BigValue
+    data={employee_summary}
+    value="total_orders_handled"
+    title="Order Ditangani (30 Hari)"
+    fmt="#,##0"
+/>
+<BigValue
+    data={employee_summary}
+    value="avg_ticket_global"
+    title="Rata-rata Ticket (Rp)"
+    fmt="#,##0"
+/>
+
+<BarChart
+    data={attendance_mix}
+    x="attendance_status"
+    y="total_rows"
+    title="Distribusi Absensi — 30 Hari Terakhir"
+    xAxisTitle="Status Absensi"
+    yAxisTitle="Jumlah Catatan"
+/>
+
+---
+
+## Ringkasan Member
+
+```sql member_summary
+SELECT
+    COUNT(DISTINCT member_id)                                           AS total_member,
+    SUM(total_orders)                                                   AS total_orders,
+    ROUND(SUM(total_spend) / NULLIF(COUNT(DISTINCT member_id), 0), 0)  AS avg_spend_per_member
+FROM restaurant.member_purchase_behavior
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+```
+
+```sql member_tier_summary
+SELECT
+    tier,
+    COUNT(DISTINCT member_id) AS total_member,
+    SUM(total_spend)          AS total_spend
+FROM restaurant.member_purchase_behavior
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+GROUP BY 1
+ORDER BY total_spend DESC
+```
+
+<BigValue
+    data={member_summary}
+    value="total_member"
+    title="Total Member Aktif"
+    fmt="#,##0"
+/>
+<BigValue
+    data={member_summary}
+    value="total_orders"
+    title="Total Order Member (90 Hari)"
+    fmt="#,##0"
+/>
+<BigValue
+    data={member_summary}
+    value="avg_spend_per_member"
+    title="Rata-rata Spend per Member (Rp)"
+    fmt="#,##0"
+/>
+
+<BarChart
+    data={member_tier_summary}
+    x="tier"
+    y="total_spend"
+    title="Kontribusi Revenue per Tier Member — 90 Hari"
+    yFmt="#,##0"
+    xAxisTitle="Tier Member"
+    yAxisTitle="Total Spend (Rp)"
+/>
