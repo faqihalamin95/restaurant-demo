@@ -1,5 +1,7 @@
 .env
-data/
+data/raw
+data/raw_en
+data/warehouse_en.duckdb
 logs/
 __pycache__/
 *.pyc

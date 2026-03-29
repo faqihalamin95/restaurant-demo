@@ -48,3 +48,34 @@ models:
         tests: [not_null]
       - name: subtotal
         tests: [not_null]
+      - name: handler_employee_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_employees')
+              field: employee_id
+
+  - name: dim_employees
+    description: "Employee dimension for operational and staffing analysis"
+    columns:
+      - name: employee_id
+        tests: [unique, not_null]
+      - name: employee_name
+        tests: [not_null]
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+
+  - name: dim_members
+    description: "Member dimension for loyalty and buying behavior analysis"
+    columns:
+      - name: member_id
+        tests: [unique, not_null]
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['Bronze', 'Silver', 'Gold']
+

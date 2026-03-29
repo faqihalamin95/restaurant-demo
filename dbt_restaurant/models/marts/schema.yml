@@ -46,3 +46,38 @@ models:
         tests:
           - accepted_values:
               values: ['Morning', 'Lunch Peak', 'Afternoon', 'Dinner Peak', 'Late Night']
+
+
+  - name: mart_employee_shift_performance
+    description: >
+      Employee-level transaction handling by shift and attendance status
+      for productivity and staffing analysis.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: employee_id
+        tests: [not_null]
+      - name: shift_id
+        tests: [not_null]
+      - name: orders_handled
+        tests: [not_null]
+      - name: attendance_status
+        tests:
+          - accepted_values:
+              values: ['present', 'late', 'leave', 'absent']
+
+  - name: mart_member_purchase_behavior
+    description: >
+      Daily purchase behavior for member customers used to analyze
+      buying patterns and loyalty segmentation.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: member_id
+        tests: [not_null]
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['Bronze', 'Silver', 'Gold']
+      - name: total_spend
+        tests: [not_null]

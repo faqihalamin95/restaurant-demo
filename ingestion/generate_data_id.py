@@ -12,7 +12,8 @@ Usage:
     python generate_data.py --mode daily
 
 Output: data/raw/
-    branches.csv, menu_items.csv, orders.csv, order_items.csv
+    branches.csv, menu_items.csv, employees.csv, members.csv,
+    employee_attendance.csv, orders.csv, order_items.csv
 """
 
 import argparse
@@ -109,9 +110,71 @@ MENU_ITEMS = [
     {"menu_id": "M16", "name": "Pisang Goreng Keju", "category": "dessert", "price": 14000,  "is_active": True, "note": "stable"},
 ]
 
+SHIFTS = [
+    {"shift_id": "S1", "shift_name": "Pagi", "start_hour": 8, "end_hour": 15},
+    {"shift_id": "S2", "shift_name": "Siang", "start_hour": 12, "end_hour": 20},
+    {"shift_id": "S3", "shift_name": "Malam", "start_hour": 16, "end_hour": 23},
+]
+
+EMPLOYEE_NAMES = [
+    "Andi Pratama", "Budi Santoso", "Citra Lestari", "Dewi Anggraini",
+    "Eka Saputra", "Fajar Nugroho", "Gita Maharani", "Hendra Kurniawan",
+    "Intan Permata", "Joko Susilo", "Kiki Amelia", "Lukman Hakim",
+    "Maya Sari", "Nadia Ramadhani", "Oki Prasetyo", "Putri Nabila",
+    "Rizky Maulana", "Sari Wulandari", "Tono Wijaya", "Vina Kartika",
+    "Wahyu Firmansyah", "Yuni Astuti", "Zaki Abdullah", "Bella Ananda",
+    "Chandra Prabowo", "Dimas Akbar", "Erika Putri", "Fina Azzahra",
+    "Galih Setiawan", "Hanif Fauzan", "Indra Setia", "Jihan Rahma",
+]
+
 menu_notes  = {m["menu_id"]: m["note"]  for m in MENU_ITEMS}
 menu_prices = {m["menu_id"]: m["price"] for m in MENU_ITEMS}
 menu_ids    = [m["menu_id"] for m in MENU_ITEMS]
+
+MEMBERS = []
+for i in range(1, 701):
+    signup_date = BACKFILL_START + timedelta(days=random.randint(0, 350))
+    tier = random.choices(
+        ["Bronze", "Silver", "Gold"],
+        weights=[0.58, 0.30, 0.12],
+    )[0]
+    MEMBERS.append(
+        {
+            "member_id": f"MBR{i:04d}",
+            "member_name": f"Pelanggan Member {i:04d}",
+            "gender": random.choice(["M", "F"]),
+            "birth_year": random.randint(1975, 2005),
+            "city": random.choice(["Jakarta", "Depok", "Bekasi", "Tangerang", "Bogor"]),
+            "join_date": str(signup_date),
+            "tier": tier,
+            "is_active": random.choices([True, False], weights=[0.93, 0.07])[0],
+        }
+    )
+
+EMPLOYEES = []
+employee_branch_map = {}
+for branch in BRANCHES:
+    for _ in range(8):
+        emp_idx = len(EMPLOYEES) + 1
+        opened_date = datetime.strptime(branch["opened_date"], "%Y-%m-%d").date()
+        start_date = opened_date + timedelta(days=random.randint(0, 60))
+        shift_id = random.choices(["S1", "S2", "S3"], weights=[0.35, 0.40, 0.25])[0]
+        employee_id = f"EMP{emp_idx:04d}"
+        EMPLOYEES.append(
+            {
+                "employee_id": employee_id,
+                "employee_name": EMPLOYEE_NAMES[(emp_idx - 1) % len(EMPLOYEE_NAMES)],
+                "branch_id": branch["branch_id"],
+                "role": random.choices(
+                    ["kasir", "pramusaji", "supervisor"],
+                    weights=[0.45, 0.40, 0.15],
+                )[0],
+                "assigned_shift_id": shift_id,
+                "start_date": str(start_date),
+                "is_active": random.choices([True, False], weights=[0.96, 0.04])[0],
+            }
+        )
+        employee_branch_map.setdefault(branch["branch_id"], []).append(employee_id)
 
 
 # ── 2. HELPERS ────────────────────────────────────────────────────────────────
@@ -165,6 +228,68 @@ def get_order_type(hour: int) -> str:
         return random.choices(["dine_in", "delivery", "takeaway"], weights=[0.30, 0.20, 0.50])[0]
     return random.choices(["dine_in", "delivery", "takeaway"], weights=[0.50, 0.25, 0.25])[0]
 
+def infer_shift_id(hour: int) -> str:
+    if 8 <= hour <= 11:
+        return "S1"
+    if 12 <= hour <= 15:
+        return random.choices(["S1", "S2"], weights=[0.40, 0.60])[0]
+    if 16 <= hour <= 20:
+        return random.choices(["S2", "S3"], weights=[0.55, 0.45])[0]
+    return "S3"
+
+
+def get_off_days(employee_id: str) -> set:
+    """
+    Deterministic off-days per employee (0=Mon ... 6=Sun).
+    Each employee gets 1-2 fixed days off per week.
+    """
+    seed_val = int(employee_id[3:])  # numeric part of EMP0001
+    rng = random.Random(seed_val)
+    n_off = rng.choices([1, 2], weights=[0.4, 0.6])[0]
+    return set(rng.sample(range(7), n_off))
+
+
+def build_attendance_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    # Pre-compute off days per employee once
+    emp_off_days = {emp["employee_id"]: get_off_days(emp["employee_id"]) for emp in EMPLOYEES}
+
+    for target_date in date_range:
+        is_weekend = target_date.weekday() >= 5
+        day_of_week = target_date.weekday()  # 0=Mon, 6=Sun
+
+        for emp in EMPLOYEES:
+            start_date = datetime.strptime(emp["start_date"], "%Y-%m-%d").date()
+            if target_date < start_date:
+                continue
+            if not emp["is_active"] and target_date > YESTERDAY - timedelta(days=60):
+                continue
+
+            # ← FIX: skip scheduled off days entirely
+            if day_of_week in emp_off_days[emp["employee_id"]]:
+                continue
+
+            attendance_status = random.choices(
+                ["present", "late", "leave", "absent"],
+                weights=[0.82, 0.10, 0.04, 0.04] if not is_weekend else [0.78, 0.12, 0.03, 0.07],
+            )[0]
+            shift_id = emp["assigned_shift_id"]
+            overtime_hours = 0
+            if attendance_status in ("present", "late"):
+                overtime_hours = random.choices([0, 1, 2], weights=[0.78, 0.17, 0.05])[0]
+
+            rows.append({
+                "attendance_id":  f"ATD{target_date.strftime('%Y%m%d')}{emp['employee_id'][3:]}",
+                "attendance_date": str(target_date),
+                "employee_id":    emp["employee_id"],
+                "branch_id":      emp["branch_id"],
+                "shift_id":       shift_id,
+                "status":         attendance_status,
+                "overtime_hours": overtime_hours,
+            })
+
+    return pd.DataFrame(rows)
+
 
 # ── 3. CORE GENERATOR ────────────────────────────────────────────────────────
 
@@ -211,6 +336,12 @@ def generate_for_dates(date_range: list) -> tuple:
                     "order_time":     ts.strftime("%Y-%m-%d %H:%M:%S"),
                     "payment_method": get_payment_method(),
                     "order_type":     get_order_type(hour),
+                    "shift_id":       infer_shift_id(hour),
+                    "handler_employee_id": random.choice(employee_branch_map[branch_id]),
+                    "member_id":      random.choices(
+                        [None] + [m["member_id"] for m in MEMBERS],
+                        weights=[0.62] + [0.38 / len(MEMBERS)] * len(MEMBERS)
+                    )[0],
                 })
 
                 n_items      = random.choices([1, 2, 3, 4], weights=[0.30, 0.40, 0.20, 0.10])[0]
@@ -240,8 +371,14 @@ def write_dimensions():
     pd.DataFrame([{k: v for k, v in m.items() if k != "note"} for m in MENU_ITEMS]).to_csv(
         OUTPUT_DIR / "menu_items.csv", index=False
     )
+    pd.DataFrame(EMPLOYEES).to_csv(OUTPUT_DIR / "employees.csv", index=False)
+    pd.DataFrame(MEMBERS).to_csv(OUTPUT_DIR / "members.csv", index=False)
+    pd.DataFrame(SHIFTS).to_csv(OUTPUT_DIR / "shifts.csv", index=False)
     print(f"✓ branches.csv   — {len(BRANCHES)} rows")
     print(f"✓ menu_items.csv — {len(MENU_ITEMS)} rows")
+    print(f"✓ employees.csv  — {len(EMPLOYEES)} rows")
+    print(f"✓ members.csv    — {len(MEMBERS)} rows")
+    print(f"✓ shifts.csv     — {len(SHIFTS)} rows")
 
 
 # ── 5. MODES ──────────────────────────────────────────────────────────────────
@@ -254,11 +391,15 @@ def run_backfill():
                    for i in range((YESTERDAY - BACKFILL_START).days + 1)]
     orders_df, items_df = generate_for_dates(date_range)
 
-    orders_df.to_csv(OUTPUT_DIR / "orders.csv",      index=False)
-    items_df.to_csv(OUTPUT_DIR  / "order_items.csv", index=False)
+    attendance_df = build_attendance_for_dates(date_range)
+
+    orders_df.to_csv(OUTPUT_DIR / "orders.csv",                index=False)
+    items_df.to_csv(OUTPUT_DIR / "order_items.csv",            index=False)
+    attendance_df.to_csv(OUTPUT_DIR / "employee_attendance.csv", index=False)
 
     print(f"✓ orders.csv      — {len(orders_df):,} rows")
     print(f"✓ order_items.csv — {len(items_df):,} rows")
+    print(f"✓ employee_attendance.csv — {len(attendance_df):,} rows")
     _sanity_check(orders_df, items_df)
     print("\n✅ Backfill complete.")
 
@@ -268,6 +409,7 @@ def run_daily():
 
     orders_path = OUTPUT_DIR / "orders.csv"
     items_path  = OUTPUT_DIR / "order_items.csv"
+    attendance_path = OUTPUT_DIR / "employee_attendance.csv"
 
     if not orders_path.exists():
         print("✗ No existing data. Run --mode backfill first.")
@@ -280,11 +422,14 @@ def run_daily():
         return
 
     orders_df, items_df = generate_for_dates([YESTERDAY])
+    attendance_df = build_attendance_for_dates([YESTERDAY])
     orders_df.to_csv(orders_path, mode="a", header=False, index=False)
     items_df.to_csv(items_path,   mode="a", header=False, index=False)
+    attendance_df.to_csv(attendance_path, mode="a", header=False, index=False)
 
     print(f"✓ Appended {len(orders_df):,} orders")
     print(f"✓ Appended {len(items_df):,} order items")
+    print(f"✓ Appended {len(attendance_df):,} attendance rows")
     print("\n✅ Daily append complete.")
 
 

@@ -37,6 +37,10 @@ models:
         tests:
           - accepted_values:
               values: ['dine_in', 'delivery', 'takeaway']
+      - name: handler_employee_id
+        tests: [not_null]
+      - name: shift_id
+        tests: [not_null]
 
   - name: stg_order_items
     description: "Cleaned order line items"
@@ -51,3 +55,45 @@ models:
         tests: [not_null]
       - name: subtotal
         tests: [not_null]
+
+  - name: stg_employees
+    description: "Employee master data including assigned shift"
+    columns:
+      - name: employee_id
+        tests: [unique, not_null]
+      - name: employee_name
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: role
+        tests:
+          - accepted_values:
+              values: ['kasir', 'pramusaji', 'supervisor']
+      - name: assigned_shift_id
+        tests: [not_null]
+
+  - name: stg_members
+    description: "Restaurant member profile and membership status"
+    columns:
+      - name: member_id
+        tests: [unique, not_null]
+      - name: member_name
+        tests: [not_null]
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['Bronze', 'Silver', 'Gold']
+
+  - name: stg_employee_attendance
+    description: "Daily attendance history for each employee"
+    columns:
+      - name: attendance_id
+        tests: [unique, not_null]
+      - name: attendance_date
+        tests: [not_null]
+      - name: employee_id
+        tests: [not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['present', 'late', 'leave', 'absent']

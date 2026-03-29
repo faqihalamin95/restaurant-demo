@@ -25,6 +25,9 @@ joined as (
         o.order_time,
         o.payment_method,
         o.order_type,
+        o.shift_id,
+        o.handler_employee_id,
+        o.member_id,
         ot.order_revenue,
         ot.total_items
     from orders o
@@ -44,6 +47,9 @@ line_items as (
         o.order_time,
         o.payment_method,
         o.order_type,
+        o.shift_id,
+        o.handler_employee_id,
+        o.member_id,
         oi.menu_id,
         oi.qty,
         oi.subtotal

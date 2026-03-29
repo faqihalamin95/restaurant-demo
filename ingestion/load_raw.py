@@ -19,7 +19,16 @@ import duckdb
 # ── Config ────────────────────────────────────────────────────────────────────
 ROOT_DIR = Path(__file__).parent.parent
 
-TABLES = ["branches", "menu_items", "orders", "order_items"]
+TABLES = [
+    "branches",
+    "menu_items",
+    "employees",
+    "members",
+    "shifts",
+    "employee_attendance",
+    "orders",
+    "order_items",
+]
 
 
 def load(raw_dir: Path, db_path: Path):
