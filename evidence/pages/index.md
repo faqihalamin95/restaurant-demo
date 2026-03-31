@@ -1,7 +1,6 @@
 ---
 title: Ringkasan Performa Bisnis
 ---
-
 ```sql last_date
 SELECT
     DAY(MAX(order_date)) || ' ' ||
@@ -14,17 +13,15 @@ SELECT
     YEAR(MAX(order_date)) AS tanggal_display
 FROM restaurant.daily_revenue
 ```
-
 ```sql today_summary
 SELECT
-    SUM(total_revenue)                                                  AS total_revenue,
-    SUM(total_orders)                                                   AS total_orders,
-    COUNT(DISTINCT branch_id)                                           AS active_branches,
-    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0)         AS avg_order_value
+    SUM(total_revenue)                                          AS total_revenue,
+    SUM(total_orders)                                           AS total_orders,
+    COUNT(DISTINCT branch_id)                                   AS active_branches,
+    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0) AS avg_order_value
 FROM restaurant.daily_revenue
 WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
 ```
-
 ```sql pct_change
 SELECT
     ROUND(pct_change * 100, 1)      AS pct_change_display,
@@ -53,7 +50,6 @@ FROM (
     )
 )
 ```
-
 ```sql best_branch
 SELECT branch_name, total_revenue
 FROM restaurant.daily_revenue
@@ -61,7 +57,6 @@ WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
 ORDER BY total_revenue DESC
 LIMIT 1
 ```
-
 ```sql top_menu_today
 SELECT menu_name
 FROM restaurant.menu_performance
@@ -69,7 +64,6 @@ WHERE order_date = (SELECT MAX(order_date) FROM restaurant.menu_performance)
 ORDER BY total_qty_sold DESC
 LIMIT 1
 ```
-
 ```sql declining_branches
 SELECT
     COUNT(*)         AS jumlah_cabang,
@@ -105,36 +99,7 @@ _Data diperbarui otomatis setiap hari. Menampilkan performa **{last_date[0].tang
 
 ---
 
-## Revenue Hari Ini
-
-<BigValue
-    data={today_summary}
-    value="total_revenue"
-    title="Total Revenue (Rp)"
-    fmt="#,##0"
-/>
-<BigValue
-    data={today_summary}
-    value="total_orders"
-    title="Total Pesanan"
-    fmt="#,##0"
-/>
-<BigValue
-    data={today_summary}
-    value="active_branches"
-    title="Cabang Aktif"
-/>
-<BigValue
-    data={today_summary}
-    value="avg_order_value"
-    title="Rata-rata Nilai Order (Rp)"
-    fmt="#,##0"
-/>
-
----
-
-## Tren Revenue 30 Hari Terakhir
-
+## Revenue {last_date[0].tanggal_display}
 ```sql revenue_trend
 SELECT
     order_date,
@@ -144,6 +109,27 @@ FROM restaurant.daily_revenue
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '30 days'
 ORDER BY order_date
 ```
+```sql branch_yesterday
+SELECT
+    branch_name,
+    total_revenue,
+    total_orders,
+    pct_change_vs_7d_avg
+FROM restaurant.daily_revenue
+WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
+ORDER BY total_revenue DESC
+```
+
+<BigValue data={today_summary} value="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0" />
+<BigValue data={today_summary} value="total_orders"    title="Total Pesanan"              fmt="#,##0" />
+<BigValue data={today_summary} value="active_branches" title="Cabang Aktif" />
+<BigValue data={today_summary} value="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0" />
+
+<Grid cols=2>
+
+<div>
+
+### Tren 30 Hari Terakhir
 
 <LineChart
     data={revenue_trend}
@@ -156,86 +142,78 @@ ORDER BY order_date
     yAxisTitle="Revenue (Rp)"
 />
 
----
+</div>
 
-## Performa Cabang — {last_date[0].tanggal_display}
+<div>
 
-```sql branch_yesterday
-SELECT
-    branch_name,
-    total_revenue,
-    total_orders,
-    pct_change_vs_7d_avg
-FROM restaurant.daily_revenue
-WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
-ORDER BY total_revenue DESC
-```
+### Performa Cabang — {last_date[0].tanggal_display}
 
 <DataTable data={branch_yesterday} rows=5>
-    <Column id="branch_name" title="Cabang"/>
-    <Column id="total_revenue" title="Revenue (Rp)" fmt="#,##0"/>
-    <Column id="total_orders" title="Pesanan" fmt="#,##0"/>
-    <Column id="pct_change_vs_7d_avg"
-            title="Tren (7hr)"
-            fmt="+0.0%;-0.0%;0.0%"
-            contentType="delta"
-    />
+    <Column id="branch_name"          title="Cabang"/>
+    <Column id="total_revenue"        title="Revenue (Rp)" fmt="#,##0"/>
+    <Column id="total_orders"         title="Pesanan"      fmt="#,##0"/>
+    <Column id="pct_change_vs_7d_avg" title="Tren (7hr)"
+            fmt="+0.0%;-0.0%;0.0%"    contentType="delta"/>
 </DataTable>
+
+</div>
+
+</Grid>
+
+_Detail tren dan analisis cabang lebih lengkap tersedia di halaman **Performa Cabang** dan **Laporan Harian**._
 
 ---
 
 ## Ringkasan Pegawai & Shift
-
 ```sql employee_summary
 SELECT
-    COUNT(DISTINCT employee_name)                               AS total_pegawai,
-    SUM(orders_handled)                                         AS total_orders_handled,
-    ROUND(AVG(avg_ticket), 0)                                   AS avg_ticket_global
+    COUNT(DISTINCT employee_id)                                         AS total_pegawai,
+    SUM(orders_handled)                                                 AS total_orders_handled,
+    ROUND(AVG(avg_ticket), 0)                                           AS avg_ticket_global
 FROM restaurant.employee_shift_performance
-WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
 ```
-
 ```sql attendance_mix
 SELECT
     attendance_status,
-    COUNT(*) AS total_rows
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS pct
 FROM restaurant.employee_shift_performance
-WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
 GROUP BY 1
 ORDER BY 2 DESC
 ```
 
-<BigValue
-    data={employee_summary}
-    value="total_pegawai"
-    title="Total Pegawai Aktif"
-/>
-<BigValue
-    data={employee_summary}
-    value="total_orders_handled"
-    title="Order Ditangani (30 Hari)"
-    fmt="#,##0"
-/>
-<BigValue
-    data={employee_summary}
-    value="avg_ticket_global"
-    title="Rata-rata Ticket (Rp)"
-    fmt="#,##0"
-/>
+<Grid cols=2>
+
+<div>
+
+<BigValue data={employee_summary} value="total_pegawai"        title="Total Pegawai Aktif" />
+<BigValue data={employee_summary} value="total_orders_handled" title="Order Ditangani (30 Hari)" fmt="#,##0" />
+<BigValue data={employee_summary} value="avg_ticket_global"    title="Rata-rata Nilai Order (Rp)"     fmt="#,##0" />
+
+</div>
+
+<div>
 
 <BarChart
     data={attendance_mix}
     x="attendance_status"
-    y="total_rows"
+    y="pct"
+    yFmt="0.0\%"
     title="Distribusi Absensi — 30 Hari Terakhir"
     xAxisTitle="Status Absensi"
-    yAxisTitle="Jumlah Catatan"
+    yAxisTitle="Persentase (%)"
 />
+
+</div>
+
+</Grid>
+
+_Analisis lengkap produktivitas dan kehadiran pegawai tersedia di halaman **Performa Pegawai**._
 
 ---
 
 ## Ringkasan Member
-
 ```sql member_summary
 SELECT
     COUNT(DISTINCT member_id)                                           AS total_member,
@@ -244,7 +222,6 @@ SELECT
 FROM restaurant.member_purchase_behavior
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
 ```
-
 ```sql member_tier_summary
 SELECT
     tier,
@@ -256,31 +233,30 @@ GROUP BY 1
 ORDER BY total_spend DESC
 ```
 
-<BigValue
-    data={member_summary}
-    value="total_member"
-    title="Total Member Aktif"
-    fmt="#,##0"
-/>
-<BigValue
-    data={member_summary}
-    value="total_orders"
-    title="Total Order Member (90 Hari)"
-    fmt="#,##0"
-/>
-<BigValue
-    data={member_summary}
-    value="avg_spend_per_member"
-    title="Rata-rata Spend per Member (Rp)"
-    fmt="#,##0"
-/>
+<Grid cols=2>
+
+<div>
+
+<BigValue data={member_summary} value="total_member"         title="Total Member Aktif"               fmt="#,##0" />
+<BigValue data={member_summary} value="total_orders"         title="Total Order Member (90 Hari)"     fmt="#,##0" />
+<BigValue data={member_summary} value="avg_spend_per_member" title="Rata-rata Belanja per Member (Rp)" fmt="#,##0" />
+
+</div>
+
+<div>
 
 <BarChart
     data={member_tier_summary}
     x="tier"
     y="total_spend"
-    title="Kontribusi Revenue per Tier Member — 90 Hari"
+    title="Kontribusi Revenue per Tier — 90 Hari"
     yFmt="#,##0"
     xAxisTitle="Tier Member"
     yAxisTitle="Total Spend (Rp)"
 />
+
+</div>
+
+</Grid>
+
+_Analisis churn risk, top member, dan tren belanja tersedia di halaman **Analisis Perilaku Member**._

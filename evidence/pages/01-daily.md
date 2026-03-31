@@ -1,7 +1,6 @@
 ---
 title: Laporan Harian
 ---
-
 ```sql tgl
 SELECT
     DAY(MAX(order_date)) || ' ' ||
@@ -29,7 +28,6 @@ _Ringkasan operasional **{tgl[0].nama_hari}, {tgl[0].tanggal_display}**. Semua d
 ---
 
 ## Revenue & Order
-
 ```sql daily_kpi
 SELECT
     SUM(total_revenue)                                                  AS total_revenue,
@@ -39,7 +37,6 @@ SELECT
 FROM restaurant.daily_revenue
 WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
 ```
-
 ```sql daily_vs_avg
 SELECT
     ROUND(pct_change * 100, 1)       AS pct_change_display,
@@ -68,10 +65,10 @@ FROM (
 )
 ```
 
-<BigValue data={daily_kpi} value="total_revenue"   title="Total Revenue (Rp)"         fmt="#,##0" />
-<BigValue data={daily_kpi} value="total_orders"    title="Total Order"                 fmt="#,##0" />
+<BigValue data={daily_kpi} value="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0" />
+<BigValue data={daily_kpi} value="total_orders"    title="Total Order"                fmt="#,##0" />
 <BigValue data={daily_kpi} value="cabang_aktif"    title="Cabang Aktif" />
-<BigValue data={daily_kpi} value="avg_order_value" title="Rata-rata Nilai Order (Rp)"  fmt="#,##0" />
+<BigValue data={daily_kpi} value="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0" />
 
 {#if daily_vs_avg[0].kondisi === 'naik'}
 <div>
@@ -96,7 +93,6 @@ FROM (
 ---
 
 ## Performa per Cabang
-
 ```sql branch_daily
 SELECT
     branch_name,
@@ -108,7 +104,6 @@ FROM restaurant.daily_revenue
 WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
 ORDER BY total_revenue DESC
 ```
-
 ```sql branch_trend_7d
 SELECT
     order_date,
@@ -127,10 +122,10 @@ ORDER BY order_date, branch_name
 
 <DataTable data={branch_daily}>
     <Column id="branch_name"          title="Cabang"/>
-    <Column id="total_revenue"        title="Revenue (Rp)"      fmt="#,##0"/>
-    <Column id="total_orders"         title="Order"             fmt="#,##0"/>
-    <Column id="avg_order_value"      title="Rata-rata Nilai Order (Rp)"   fmt="#,##0"/>
-    <Column id="pct_change_vs_7d_avg" title="vs 7hr"            fmt="+0.0%;-0.0%;0.0%" contentType="delta"/>
+    <Column id="total_revenue"        title="Revenue (Rp)"     fmt="#,##0"/>
+    <Column id="total_orders"         title="Order"            fmt="#,##0"/>
+    <Column id="avg_order_value"      title="Rata-rata Nilai Order (Rp)"  fmt="#,##0"/>
+    <Column id="pct_change_vs_7d_avg" title="vs 7hr"           fmt="+0.0%;-0.0%;0.0%" contentType="delta"/>
 </DataTable>
 
 </div>
@@ -159,7 +154,6 @@ _Kolom "vs 7hr" menunjukkan apakah performa cabang hari ini di atas atau di bawa
 ---
 
 ## Menu Terlaris Hari Ini
-
 ```sql menu_daily
 SELECT
     menu_name,
@@ -172,7 +166,6 @@ GROUP BY menu_name, category
 ORDER BY total_qty DESC
 LIMIT 10
 ```
-
 ```sql menu_daily_by_branch
 SELECT
     branch_name,
@@ -191,9 +184,9 @@ ORDER BY branch_name, total_qty DESC
 ### Top 10 Menu by Volume
 
 <DataTable data={menu_daily}>
-    <Column id="menu_name"    title="Menu"/>
-    <Column id="category"     title="Kategori"/>
-    <Column id="total_qty"    title="Qty Terjual"    fmt="#,##0"/>
+    <Column id="menu_name"     title="Menu"/>
+    <Column id="category"      title="Kategori"/>
+    <Column id="total_qty"     title="Qty Terjual"   fmt="#,##0"/>
     <Column id="total_revenue" title="Revenue (Rp)"  fmt="#,##0"/>
 </DataTable>
 
@@ -223,7 +216,6 @@ _Menu yang laris di semua cabang sekaligus adalah indikator kuat — pastikan st
 ---
 
 ## Ringkasan Shift & Kehadiran
-
 ```sql shift_daily
 SELECT
     shift_name,
@@ -231,17 +223,16 @@ SELECT
     SUM(total_revenue)        AS total_revenue,
     ROUND(AVG(avg_ticket), 0) AS avg_ticket
 FROM restaurant.employee_shift_performance
-WHERE order_date = (SELECT MAX(order_date) FROM restaurant.employee_shift_performance)
+WHERE attendance_date = (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance)
 GROUP BY shift_name
 ORDER BY total_revenue DESC
 ```
-
 ```sql attendance_daily
 SELECT
     attendance_status,
     COUNT(*) AS total
 FROM restaurant.employee_shift_performance
-WHERE order_date = (SELECT MAX(order_date) FROM restaurant.employee_shift_performance)
+WHERE attendance_date = (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance)
 GROUP BY attendance_status
 ORDER BY total DESC
 ```
@@ -254,9 +245,9 @@ ORDER BY total DESC
 
 <DataTable data={shift_daily}>
     <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Order Ditangani"    fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)"       fmt="#,##0"/>
-    <Column id="avg_ticket"    title="Rata-rata Nilai Order (Rp)"    fmt="#,##0"/>
+    <Column id="total_orders"  title="Order Ditangani"   fmt="#,##0"/>
+    <Column id="total_revenue" title="Revenue (Rp)"      fmt="#,##0"/>
+    <Column id="avg_ticket"    title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
 </DataTable>
 
 </div>
@@ -283,7 +274,6 @@ _Kalau `absent` hari ini tinggi, cek apakah ada shift yang kekurangan staf — b
 ---
 
 ## Pola Order per Jam Hari Ini
-
 ```sql hourly_daily
 SELECT
     order_hour,
