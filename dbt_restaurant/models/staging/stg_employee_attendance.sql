@@ -5,12 +5,12 @@ with source as (
 renamed as (
     select
         attendance_id,
-        cast(attendance_date as date) as attendance_date,
         employee_id,
         branch_id,
         shift_id,
-        status,
-        cast(overtime_hours as integer) as overtime_hours
+        cast(attendance_date as date)   as attendance_date,
+        lower(trim(status))             as status,          -- normalisasi case & spasi
+        cast(overtime_hours as numeric) as overtime_hours   -- jaga nilai desimal
     from source
 )
 

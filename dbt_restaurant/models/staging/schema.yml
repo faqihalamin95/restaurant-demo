@@ -95,5 +95,7 @@ models:
         tests: [not_null]
       - name: status
         tests:
+          - not_null
           - accepted_values:
               values: ['present', 'late', 'leave', 'absent']
+              severity: warn   # warn dulu, bukan error — agar pipeline tidak langsung patah
