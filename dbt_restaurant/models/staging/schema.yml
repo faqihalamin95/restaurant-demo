@@ -99,3 +99,46 @@ models:
           - accepted_values:
               values: ['present', 'late', 'leave', 'absent']
               severity: warn   # warn dulu, bukan error — agar pipeline tidak langsung patah
+
+  - name: stg_employee_compensation
+    description: "Employee compensation setup by branch"
+    columns:
+      - name: employee_id
+        tests: [unique, not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: base_salary_monthly
+        tests: [not_null]
+
+  - name: stg_inventory_catalog
+    description: "Inventory item catalog and baseline cost"
+    columns:
+      - name: inventory_id
+        tests: [unique, not_null]
+      - name: category
+        tests: [not_null]
+      - name: base_unit_cost
+        tests: [not_null]
+
+  - name: stg_inventory_transactions
+    description: "Daily inventory usage and purchase transactions"
+    columns:
+      - name: inventory_txn_id
+        tests: [unique, not_null]
+      - name: txn_date
+        tests: [not_null]
+      - name: txn_type
+        tests:
+          - accepted_values:
+              values: ['usage', 'purchase']
+      - name: total_cost
+        tests: [not_null]
+
+  - name: stg_branch_daily_operational_costs
+    description: "Daily branch overhead (rent, water, electricity, utilities)"
+    columns:
+      - name: cost_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+

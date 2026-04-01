@@ -3,6 +3,7 @@ title: Performa Cabang
 ---
 
 _Analisis revenue dan tren performa per cabang restoran._
+
 ```sql summary_all
 SELECT
     SUM(total_revenue)        AS total_revenue_all,
@@ -19,11 +20,20 @@ GROUP BY branch_name
 ORDER BY total_revenue DESC
 LIMIT 1
 ```
+```sql net_summary_month
+SELECT
+    SUM(net_revenue)                                                  AS net_revenue_month,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_avg
+FROM restaurant.daily_net_revenue
+WHERE DATE_TRUNC('month', metric_date) = DATE_TRUNC('month', (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue))
+```
 
-<BigValue data={summary_all}       value="total_revenue_all" title="Total Revenue Keseluruhan (Rp)" fmt="#,##0" />
-<BigValue data={summary_all}       value="total_cabang"      title="Total Cabang Aktif" />
-<BigValue data={best_branch_month} value="branch_name"       title="Cabang Terbaik Bulan Ini" />
-<BigValue data={best_branch_month} value="total_revenue"     title="Revenue Cabang Terbaik (Rp)" fmt="#,##0" />
+<BigValue data={summary_all}        value="total_revenue_all"  title="Total Revenue Keseluruhan (Rp)" fmt="#,##0" />
+<BigValue data={summary_all}        value="total_cabang"       title="Total Cabang Aktif" />
+<BigValue data={best_branch_month}  value="branch_name"        title="Cabang Terbaik Bulan Ini" />
+<BigValue data={best_branch_month}  value="total_revenue"      title="Revenue Cabang Terbaik (Rp)"   fmt="#,##0" />
+<BigValue data={net_summary_month}  value="net_revenue_month"  title="Net Revenue Bulan Ini (Rp)"    fmt="#,##0" />
+<BigValue data={net_summary_month}  value="net_margin_avg"     title="Net Margin Rata-rata (%)"       fmt="0.0\%" />
 
 ---
 
@@ -68,7 +78,7 @@ ORDER BY branch_name
 
 <div>
 
-### Revenue Bulanan 
+### Revenue Bulanan
 
 <BarChart
     data={branch_monthly}
@@ -157,30 +167,105 @@ _Chart kiri menunjukkan revenue aktual harian — naik turun mengikuti pola week
 
 ---
 
+## Profitabilitas per Cabang (30 Hari Terakhir)
+```sql profitability_30d
+SELECT
+    branch_name,
+    SUM(gross_revenue)          AS gross_revenue,
+    SUM(net_revenue)            AS net_revenue,
+    SUM(inventory_usage_cost)   AS inventory_usage_cost,
+    SUM(labor_total_cost)       AS labor_total_cost,
+    SUM(operational_total_cost) AS operational_total_cost,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+GROUP BY branch_name
+ORDER BY net_revenue DESC
+```
+
+<Grid cols=2>
+
+<div>
+
+### Gross vs Net Revenue per Cabang
+
+<BarChart
+    data={profitability_30d}
+    x="branch_name"
+    y={["gross_revenue", "net_revenue"]}
+    type="grouped"
+    title="Gross vs Net Revenue — 30 Hari (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Cabang"
+    yAxisTitle="Revenue (Rp)"
+/>
+
+</div>
+
+<div>
+
+### Breakdown Biaya per Cabang
+
+<BarChart
+    data={profitability_30d}
+    x="branch_name"
+    y={["inventory_usage_cost", "labor_total_cost", "operational_total_cost"]}
+    type="stacked"
+    title="Struktur Biaya per Cabang — 30 Hari (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Cabang"
+    yAxisTitle="Total Biaya (Rp)"
+/>
+
+</div>
+
+</Grid>
+
+<DataTable data={profitability_30d}>
+    <Column id="branch_name"            title="Cabang"/>
+    <Column id="gross_revenue"          title="Gross Revenue (Rp)"      fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Biaya Bahan (Rp)"        fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="Biaya SDM (Rp)"          fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Biaya Operasional (Rp)"  fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"        fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"              fmt="0.0\%"/>
+</DataTable>
+
+_Gap besar antara gross dan net revenue menunjukkan struktur biaya yang perlu dioptimalkan. Cabang dengan margin rendah meski omset tinggi adalah prioritas review biaya — terutama komponen mana yang paling membebani._
+
+---
+
 ## Ringkasan Keseluruhan
 ```sql branch_summary
 SELECT
-    branch_name,
-    SUM(total_revenue)                                          AS total_revenue,
-    SUM(total_orders)                                           AS total_orders,
-    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0) AS avg_order_value,
-    MIN(order_date)                                             AS first_date,
-    MAX(order_date)                                             AS last_date
-FROM restaurant.daily_revenue
-GROUP BY branch_name
+    dr.branch_name,
+    SUM(dr.total_revenue)                                               AS total_revenue,
+    SUM(dr.total_orders)                                                AS total_orders,
+    ROUND(SUM(dr.total_revenue) / NULLIF(SUM(dr.total_orders), 0), 0)  AS avg_order_value,
+    SUM(nr.net_revenue)                                                 AS net_revenue,
+    ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS net_margin_pct,
+    MIN(dr.order_date)                                                  AS first_date,
+    MAX(dr.order_date)                                                  AS last_date
+FROM restaurant.daily_revenue dr
+LEFT JOIN restaurant.daily_net_revenue nr
+    ON dr.order_date = nr.metric_date
+    AND dr.branch_id = nr.branch_id
+GROUP BY dr.branch_name
 ORDER BY total_revenue DESC
 ```
 
 <DataTable data={branch_summary}>
     <Column id="branch_name"     title="Cabang"/>
-    <Column id="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0"/>
-    <Column id="total_orders"    title="Total Pesanan"              fmt="#,##0"/>
+    <Column id="total_revenue"   title="Gross Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="total_orders"    title="Total Pesanan"             fmt="#,##0"/>
     <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
+    <Column id="net_revenue"     title="Net Revenue (Rp)"          fmt="#,##0"/>
+    <Column id="net_margin_pct"  title="Margin (%)"                fmt="0.0\%"/>
     <Column id="first_date"      title="Mulai Beroperasi"/>
     <Column id="last_date"       title="Data Terakhir"/>
 </DataTable>
 
-_Rata-rata nilai order yang rendah di suatu cabang bisa jadi peluang untuk mendorong upselling atau bundling menu. Bandingkan antar cabang untuk menemukan best practice yang bisa diterapkan di cabang lain._
+_Rata-rata nilai order yang rendah di suatu cabang bisa jadi peluang untuk mendorong upselling atau bundling menu. Bandingkan net margin antar cabang untuk menemukan cabang mana yang paling efisien secara biaya._
 
 ---
 

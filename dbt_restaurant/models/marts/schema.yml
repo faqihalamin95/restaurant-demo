@@ -53,7 +53,7 @@ models:
       Employee-level transaction handling by shift and attendance status
       for productivity and staffing analysis.
     columns:
-      - name: order_date
+      - name: attendance_date
         tests: [not_null]
       - name: employee_id
         tests: [not_null]
@@ -80,4 +80,23 @@ models:
           - accepted_values:
               values: ['Bronze', 'Silver', 'Gold']
       - name: total_spend
+        tests: [not_null]
+
+
+  - name: mart_daily_net_revenue
+    description: >
+      Daily branch profitability view combining gross revenue with
+      inventory, labor, and overhead costs for net revenue analysis.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: gross_revenue
+        tests: [not_null]
+      - name: labor_total_cost
+        tests: [not_null]
+      - name: operational_total_cost
+        tests: [not_null]
+      - name: net_revenue
         tests: [not_null]

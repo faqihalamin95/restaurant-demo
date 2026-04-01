@@ -72,6 +72,26 @@ FROM restaurant.daily_revenue
 WHERE order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
   AND pct_change_vs_7d_avg < -0.20
 ```
+```sql net_summary_today
+SELECT
+    SUM(net_revenue)                                                  AS net_revenue,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
+```
+```sql cost_breakdown_today
+SELECT
+    branch_name,
+    gross_revenue,
+    inventory_usage_cost,
+    labor_total_cost,
+    operational_total_cost,
+    net_revenue,
+    ROUND(net_revenue / NULLIF(gross_revenue, 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
+ORDER BY net_revenue DESC
+```
 
 _Data diperbarui otomatis setiap hari. Menampilkan performa **{last_date[0].tanggal_display}**._
 
@@ -124,6 +144,8 @@ ORDER BY total_revenue DESC
 <BigValue data={today_summary} value="total_orders"    title="Total Pesanan"              fmt="#,##0" />
 <BigValue data={today_summary} value="active_branches" title="Cabang Aktif" />
 <BigValue data={today_summary} value="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0" />
+<BigValue data={net_summary_today} value="net_revenue"    title="Net Revenue (Rp)"  fmt="#,##0" />
+<BigValue data={net_summary_today} value="net_margin_pct" title="Net Margin (%)"    fmt="0.0\%" />
 
 <Grid cols=2>
 
@@ -161,6 +183,22 @@ ORDER BY total_revenue DESC
 </Grid>
 
 _Detail tren dan analisis cabang lebih lengkap tersedia di halaman **Performa Cabang** dan **Laporan Harian**._
+
+---
+
+## Kesehatan Finansial — {last_date[0].tanggal_display}
+
+<DataTable data={cost_breakdown_today}>
+    <Column id="branch_name"            title="Cabang"/>
+    <Column id="gross_revenue"          title="Gross Revenue (Rp)"      fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Biaya Bahan (Rp)"        fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="Biaya SDM (Rp)"          fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Biaya Operasional (Rp)"  fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"        fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"              fmt="0.0\%"/>
+</DataTable>
+
+_Net Revenue = Gross Revenue dikurangi biaya bahan, SDM, dan operasional. Cabang dengan margin rendah meski revenue tinggi perlu dicek struktur biayanya — detail lengkap tersedia di halaman **Financial Health**._
 
 ---
 

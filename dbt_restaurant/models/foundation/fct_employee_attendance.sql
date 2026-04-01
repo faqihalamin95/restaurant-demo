@@ -26,7 +26,7 @@ enriched as (
 
         -- measures
         status,
-        overtime_hours,
+        coalesce(overtime_hours, 0)                         as overtime_hours,
 
         -- derived flags
         case when status = 'present' then 1 else 0 end      as is_present,

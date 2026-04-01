@@ -79,3 +79,37 @@ sources:
             tests: [unique, not_null]
           - name: join_date
             tests: [not_null]
+
+      - name: employee_compensation
+        columns:
+          - name: employee_id
+            tests: [unique, not_null]
+          - name: branch_id
+            tests: [not_null]
+          - name: base_salary_monthly
+            tests: [not_null]
+
+      - name: inventory_catalog
+        columns:
+          - name: inventory_id
+            tests: [unique, not_null]
+          - name: base_unit_cost
+            tests: [not_null]
+
+      - name: inventory_transactions
+        columns:
+          - name: inventory_txn_id
+            tests: [unique, not_null]
+          - name: txn_type
+            tests:
+              - accepted_values:
+                  values: ['usage', 'purchase']
+          - name: total_cost
+            tests: [not_null]
+
+      - name: branch_daily_operational_costs
+        columns:
+          - name: cost_date
+            tests: [not_null]
+          - name: branch_id
+            tests: [not_null]

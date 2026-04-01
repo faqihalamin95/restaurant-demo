@@ -28,6 +28,10 @@ TABLES = [
     "employee_attendance",
     "orders",
     "order_items",
+    "employee_compensation",
+    "inventory_catalog",
+    "inventory_transactions",
+    "branch_daily_operational_costs",
 ]
 
 
@@ -63,15 +67,15 @@ if __name__ == "__main__":
         "--lang",
         choices=["id", "en"],
         default="id",
-        help="id: data/raw/ (Indonesian) | en: data/raw_en/ (US)"
+        help="id: data/raw/ (Indonesian) | en: data/raw_en/ (US)",
     )
     args = parser.parse_args()
 
-if args.lang == "id":
-    raw_dir = ROOT_DIR / "data" / "raw"
-    db_path = ROOT_DIR / "data" / "warehouse.duckdb"
-else:
-    raw_dir = ROOT_DIR / "data" / "raw_en"
-    db_path = ROOT_DIR / "data" / "warehouse_en.duckdb"
+    if args.lang == "id":
+        raw_dir = ROOT_DIR / "data" / "raw"
+        db_path = ROOT_DIR / "data" / "warehouse.duckdb"
+    else:
+        raw_dir = ROOT_DIR / "data" / "raw_en"
+        db_path = ROOT_DIR / "data" / "warehouse_en.duckdb"
 
-load(raw_dir, db_path)
+    load(raw_dir, db_path)

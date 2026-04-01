@@ -13,7 +13,9 @@ Usage:
 
 Output: data/raw/
     branches.csv, menu_items.csv, employees.csv, members.csv,
-    employee_attendance.csv, orders.csv, order_items.csv
+    employee_attendance.csv, orders.csv, order_items.csv,
+    employee_compensation.csv, inventory_catalog.csv,
+    inventory_transactions.csv, branch_daily_operational_costs.csv
 """
 
 import argparse
@@ -116,6 +118,17 @@ SHIFTS = [
     {"shift_id": "S3", "shift_name": "Malam", "start_hour": 16, "end_hour": 23},
 ]
 
+INVENTORY_CATALOG = [
+    {"inventory_id": "INV01", "item_name": "Daging Ayam Fillet", "category": "protein", "unit": "kg", "base_unit_cost": 58000},
+    {"inventory_id": "INV02", "item_name": "Beras Premium", "category": "grain", "unit": "kg", "base_unit_cost": 15000},
+    {"inventory_id": "INV03", "item_name": "Minyak Goreng", "category": "oil", "unit": "liter", "base_unit_cost": 19000},
+    {"inventory_id": "INV04", "item_name": "Cabai Rawit", "category": "produce", "unit": "kg", "base_unit_cost": 42000},
+    {"inventory_id": "INV05", "item_name": "Bawang Putih", "category": "produce", "unit": "kg", "base_unit_cost": 32000},
+    {"inventory_id": "INV06", "item_name": "Teh Celup", "category": "drink", "unit": "box", "base_unit_cost": 26000},
+    {"inventory_id": "INV07", "item_name": "Jeruk Peras", "category": "produce", "unit": "kg", "base_unit_cost": 30000},
+    {"inventory_id": "INV08", "item_name": "LPG 12kg", "category": "utility", "unit": "tabung", "base_unit_cost": 205000},
+]
+
 EMPLOYEE_NAMES = [
     "Andi Pratama", "Budi Santoso", "Citra Lestari", "Dewi Anggraini",
     "Eka Saputra", "Fajar Nugroho", "Gita Maharani", "Hendra Kurniawan",
@@ -152,6 +165,7 @@ for i in range(1, 701):
     )
 
 EMPLOYEES = []
+EMPLOYEE_COMPENSATION = []
 employee_branch_map = {}
 for branch in BRANCHES:
     for _ in range(8):
@@ -172,6 +186,16 @@ for branch in BRANCHES:
                 "assigned_shift_id": shift_id,
                 "start_date": str(start_date),
                 "is_active": random.choices([True, False], weights=[0.96, 0.04])[0],
+            }
+        )
+        EMPLOYEE_COMPENSATION.append(
+            {
+                "employee_id": employee_id,
+                "branch_id": branch["branch_id"],
+                "base_salary_monthly": random.choice([3500000, 3800000, 4000000, 4300000, 4700000]),
+                "meal_allowance_daily": random.choice([25000, 30000, 35000]),
+                "overtime_rate_hourly": random.choice([22000, 25000, 28000]),
+                "effective_from": str(start_date),
             }
         )
         employee_branch_map.setdefault(branch["branch_id"], []).append(employee_id)
@@ -364,6 +388,81 @@ def generate_for_dates(date_range: list) -> tuple:
     return pd.DataFrame(orders_rows), pd.DataFrame(items_rows)
 
 
+def generate_inventory_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    trx_counter = int(date_range[0].strftime("%Y%m%d")) * 10000
+    for target_date in date_range:
+        np.random.seed(BASE_SEED + 7 + int(target_date.strftime("%Y%m%d")))
+        random.seed(BASE_SEED + 7 + int(target_date.strftime("%Y%m%d")))
+        for branch in BRANCHES:
+            for item in INVENTORY_CATALOG:
+                if item["inventory_id"] == "INV08":   # LPG — beli 1 tabung tiap 2-3 hari
+                    usage_qty = max(np.random.normal(loc=0.4, scale=0.1), 0.2)
+                else:
+                    usage_qty = max(np.random.normal(loc=7.5, scale=2.0), 1.2)
+                if item["category"] in ("protein", "grain"):
+                    usage_qty *= 1.35
+                unit_cost = int(item["base_unit_cost"] * np.random.uniform(0.95, 1.08))
+                rows.append({
+                    "inventory_txn_id": f"ITX{trx_counter:011d}",
+                    "txn_date": str(target_date),
+                    "branch_id": branch["branch_id"],
+                    "inventory_id": item["inventory_id"],
+                    "txn_type": "usage",
+                    "qty": round(usage_qty, 2),
+                    "unit_cost": unit_cost,
+                    "total_cost": int(round(usage_qty * unit_cost, 0)),
+                })
+                trx_counter += 1
+
+                if target_date.weekday() in (0, 3):
+                    purchase_qty = usage_qty * np.random.uniform(2.1, 2.8)
+                    rows.append({
+                        "inventory_txn_id": f"ITX{trx_counter:011d}",
+                        "txn_date": str(target_date),
+                        "branch_id": branch["branch_id"],
+                        "inventory_id": item["inventory_id"],
+                        "txn_type": "purchase",
+                        "qty": round(purchase_qty, 2),
+                        "unit_cost": unit_cost,
+                        "total_cost": int(round(purchase_qty * unit_cost, 0)),
+                    })
+                    trx_counter += 1
+    return pd.DataFrame(rows)
+
+
+def generate_operational_costs_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    for target_date in date_range:
+        np.random.seed(BASE_SEED + 13 + int(target_date.strftime("%Y%m%d")))
+        random.seed(BASE_SEED + 13 + int(target_date.strftime("%Y%m%d")))
+        days_in_month = (target_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+
+        for branch in BRANCHES:
+            rent_monthly = {
+                "BR01": 30_000_000,   # was 65M
+                "BR02": 22_000_000,   # was 50M
+                "BR03": 18_000_000,   # was 42M
+                "BR04": 25_000_000,   # was 56M
+            }[branch["branch_id"]]
+
+            open_date = datetime.strptime(branch["opened_date"], "%Y-%m-%d").date()
+            if target_date < open_date:
+                continue
+
+            water_daily       = int(np.random.uniform(150_000, 250_000))   # was 340K–560K
+            electricity_daily = int(np.random.uniform(300_000, 600_000))   # was 720K–1.3M
+            rows.append({
+                "cost_date": str(target_date),
+                "branch_id": branch["branch_id"],
+                "building_rent_daily": int(rent_monthly / days_in_month.day),
+                "water_cost": water_daily,
+                "electricity_cost": electricity_daily,
+                "other_utilities_cost": int(np.random.uniform(50_000, 100_000)),
+            })
+    return pd.DataFrame(rows)
+
+
 # ── 4. DIMENSION TABLES ───────────────────────────────────────────────────────
 
 def write_dimensions():
@@ -374,11 +473,15 @@ def write_dimensions():
     pd.DataFrame(EMPLOYEES).to_csv(OUTPUT_DIR / "employees.csv", index=False)
     pd.DataFrame(MEMBERS).to_csv(OUTPUT_DIR / "members.csv", index=False)
     pd.DataFrame(SHIFTS).to_csv(OUTPUT_DIR / "shifts.csv", index=False)
+    pd.DataFrame(EMPLOYEE_COMPENSATION).to_csv(OUTPUT_DIR / "employee_compensation.csv", index=False)
+    pd.DataFrame(INVENTORY_CATALOG).to_csv(OUTPUT_DIR / "inventory_catalog.csv", index=False)
     print(f"✓ branches.csv   — {len(BRANCHES)} rows")
     print(f"✓ menu_items.csv — {len(MENU_ITEMS)} rows")
     print(f"✓ employees.csv  — {len(EMPLOYEES)} rows")
     print(f"✓ members.csv    — {len(MEMBERS)} rows")
     print(f"✓ shifts.csv     — {len(SHIFTS)} rows")
+    print(f"✓ employee_compensation.csv — {len(EMPLOYEE_COMPENSATION)} rows")
+    print(f"✓ inventory_catalog.csv     — {len(INVENTORY_CATALOG)} rows")
 
 
 # ── 5. MODES ──────────────────────────────────────────────────────────────────
@@ -392,14 +495,20 @@ def run_backfill():
     orders_df, items_df = generate_for_dates(date_range)
 
     attendance_df = build_attendance_for_dates(date_range)
+    inventory_df = generate_inventory_for_dates(date_range)
+    branch_cost_df = generate_operational_costs_for_dates(date_range)
 
     orders_df.to_csv(OUTPUT_DIR / "orders.csv",                index=False)
     items_df.to_csv(OUTPUT_DIR / "order_items.csv",            index=False)
     attendance_df.to_csv(OUTPUT_DIR / "employee_attendance.csv", index=False)
+    inventory_df.to_csv(OUTPUT_DIR / "inventory_transactions.csv", index=False)
+    branch_cost_df.to_csv(OUTPUT_DIR / "branch_daily_operational_costs.csv", index=False)
 
     print(f"✓ orders.csv      — {len(orders_df):,} rows")
     print(f"✓ order_items.csv — {len(items_df):,} rows")
     print(f"✓ employee_attendance.csv — {len(attendance_df):,} rows")
+    print(f"✓ inventory_transactions.csv — {len(inventory_df):,} rows")
+    print(f"✓ branch_daily_operational_costs.csv — {len(branch_cost_df):,} rows")
     _sanity_check(orders_df, items_df)
     print("\n✅ Backfill complete.")
 
@@ -410,6 +519,8 @@ def run_daily():
     orders_path = OUTPUT_DIR / "orders.csv"
     items_path  = OUTPUT_DIR / "order_items.csv"
     attendance_path = OUTPUT_DIR / "employee_attendance.csv"
+    inventory_path = OUTPUT_DIR / "inventory_transactions.csv"
+    branch_cost_path = OUTPUT_DIR / "branch_daily_operational_costs.csv"
 
     if not orders_path.exists():
         print("✗ No existing data. Run --mode backfill first.")
@@ -423,13 +534,19 @@ def run_daily():
 
     orders_df, items_df = generate_for_dates([YESTERDAY])
     attendance_df = build_attendance_for_dates([YESTERDAY])
+    inventory_df = generate_inventory_for_dates([YESTERDAY])
+    branch_cost_df = generate_operational_costs_for_dates([YESTERDAY])
     orders_df.to_csv(orders_path, mode="a", header=False, index=False)
     items_df.to_csv(items_path,   mode="a", header=False, index=False)
     attendance_df.to_csv(attendance_path, mode="a", header=False, index=False)
+    inventory_df.to_csv(inventory_path, mode="a", header=not inventory_path.exists(), index=False)
+    branch_cost_df.to_csv(branch_cost_path, mode="a", header=not branch_cost_path.exists(), index=False)
 
     print(f"✓ Appended {len(orders_df):,} orders")
     print(f"✓ Appended {len(items_df):,} order items")
     print(f"✓ Appended {len(attendance_df):,} attendance rows")
+    print(f"✓ Appended {len(inventory_df):,} inventory rows")
+    print(f"✓ Appended {len(branch_cost_df):,} operational cost rows")
     print("\n✅ Daily append complete.")
 
 

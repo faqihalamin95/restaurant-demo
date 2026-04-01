@@ -55,6 +55,38 @@ models:
               to: ref('dim_employees')
               field: employee_id
 
+  - name: fct_employee_attendance
+    description: "Employee attendance fact (daily grain per employee and shift)"
+    columns:
+      - name: attendance_sk
+        tests: [unique, not_null]
+      - name: attendance_id
+        tests: [unique, not_null]
+      - name: attendance_date
+        tests: [not_null]
+      - name: employee_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_employees')
+              field: employee_id
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+      - name: shift_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_shifts')
+              field: shift_id
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['present', 'late', 'leave', 'absent']
+
   - name: dim_employees
     description: "Employee dimension for operational and staffing analysis"
     columns:
@@ -79,3 +111,58 @@ models:
           - accepted_values:
               values: ['Bronze', 'Silver', 'Gold']
 
+  - name: dim_inventory_items
+    description: "Inventory dimension for cost analytics"
+    columns:
+      - name: inventory_id
+        tests: [unique, not_null]
+      - name: item_name
+        tests: [not_null]
+      - name: cost_tier
+        tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+
+  - name: fct_inventory_costs_daily
+    description: "Daily branch-level inventory costs split by usage and purchase"
+    columns:
+      - name: cost_date
+        tests: [not_null]
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+      - name: inventory_usage_cost
+        tests: [not_null]
+      - name: inventory_total_cost
+        tests: [not_null]
+
+  - name: fct_labor_costs_daily
+    description: "Daily branch labor costs derived from attendance + compensation"
+    columns:
+      - name: cost_date
+        tests: [not_null]
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+      - name: labor_total_cost
+        tests: [not_null]
+
+  - name: fct_branch_operational_costs_daily
+    description: "Daily branch overhead costs (rent + utilities)"
+    columns:
+      - name: cost_date
+        tests: [not_null]
+      - name: branch_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_branches')
+              field: branch_id
+      - name: total_operational_cost
+        tests: [not_null]

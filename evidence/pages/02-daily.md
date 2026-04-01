@@ -92,6 +92,48 @@ FROM (
 
 ---
 
+## Biaya & Net Revenue Hari Ini
+```sql net_kpi_today
+SELECT
+    SUM(gross_revenue)                                                    AS gross_revenue,
+    SUM(inventory_usage_cost + labor_total_cost + operational_total_cost) AS total_biaya,
+    SUM(net_revenue)                                                       AS net_revenue,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1)      AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
+```
+```sql net_by_branch_today
+SELECT
+    branch_name,
+    gross_revenue,
+    inventory_usage_cost  AS biaya_bahan,
+    labor_total_cost      AS biaya_sdm,
+    operational_total_cost AS biaya_operasional,
+    net_revenue,
+    ROUND(net_revenue / NULLIF(gross_revenue, 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
+ORDER BY net_revenue DESC
+```
+
+<BigValue data={net_kpi_today} value="total_biaya"    title="Total Biaya Hari Ini (Rp)" fmt="#,##0" />
+<BigValue data={net_kpi_today} value="net_revenue"    title="Net Revenue Hari Ini (Rp)" fmt="#,##0" />
+<BigValue data={net_kpi_today} value="net_margin_pct" title="Net Margin (%)"             fmt="0.0\%" />
+
+<DataTable data={net_by_branch_today}>
+    <Column id="branch_name"       title="Cabang"/>
+    <Column id="gross_revenue"     title="Gross Revenue (Rp)"     fmt="#,##0"/>
+    <Column id="biaya_bahan"       title="Biaya Bahan (Rp)"       fmt="#,##0"/>
+    <Column id="biaya_sdm"         title="Biaya SDM (Rp)"         fmt="#,##0"/>
+    <Column id="biaya_operasional" title="Biaya Operasional (Rp)" fmt="#,##0"/>
+    <Column id="net_revenue"       title="Net Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="net_margin_pct"    title="Margin (%)"             fmt="0.0\%"/>
+</DataTable>
+
+_Net Revenue = Gross Revenue dikurangi seluruh biaya operasional hari ini. Detail tren biaya dan profitabilitas jangka panjang tersedia di halaman **Financial Health**._
+
+---
+
 ## Performa per Cabang
 ```sql branch_daily
 SELECT

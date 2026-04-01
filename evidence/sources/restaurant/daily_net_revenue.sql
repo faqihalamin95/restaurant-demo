@@ -1,0 +1,1 @@
+select * from main_marts.mart_daily_net_revenue
