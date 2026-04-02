@@ -3,12 +3,13 @@ title: Performa Pegawai
 ---
 
 _Analisis produktivitas pegawai berdasarkan transaksi yang ditangani, shift kerja, dan histori absensi._
+
 ```sql employee_summary_30d
 SELECT
     COUNT(DISTINCT employee_id)  AS total_pegawai,
     SUM(orders_handled)          AS total_order_ditangani,
     SUM(total_revenue)           AS total_revenue_ditangani,
-    ROUND(AVG(avg_ticket), 0)    AS avg_ticket
+    ROUND(AVG(avg_ticket), 0)    AS avg_order_value
 FROM restaurant.employee_shift_performance
 WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
 ```
@@ -16,11 +17,12 @@ WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_s
 <BigValue data={employee_summary_30d} value="total_pegawai"           title="Total Pegawai Aktif" />
 <BigValue data={employee_summary_30d} value="total_order_ditangani"   title="Order Ditangani (30 Hari)"    fmt="#,##0" />
 <BigValue data={employee_summary_30d} value="total_revenue_ditangani" title="Revenue Ditangani (Rp)"       fmt="#,##0" />
-<BigValue data={employee_summary_30d} value="avg_ticket"              title="Rata-rata Nilai Order (Rp)"   fmt="#,##0" />
+<BigValue data={employee_summary_30d} value="avg_order_value"         title="Rata-rata Nilai Order (Rp)"   fmt="#,##0" />
 
 ---
 
 ## Distribusi Absensi Pegawai (30 Hari Terakhir)
+
 ```sql attendance_mix_30d
 SELECT
     attendance_status,
@@ -30,6 +32,7 @@ WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_s
 GROUP BY 1
 ORDER BY 2 DESC
 ```
+
 ```sql attendance_by_branch
 SELECT
     branch_name,
@@ -75,22 +78,24 @@ ORDER BY branch_name, pct DESC
 </div>
 </Grid>
 
-_`present` (kehadiran) dan `late` (keterlambatan) adalah hari kerja aktif. `absent` dan `leave` (cuti) adalah ketidakhadiran — angka ini yang perlu diperhatikan._
+_`present` dan `late` adalah hari kerja aktif. `absent` dan `leave` adalah ketidakhadiran — angka ini yang perlu diperhatikan._
 
 ---
 
 ## Performa per Shift (30 Hari Terakhir)
+
 ```sql shift_performance_30d
 SELECT
     shift_name,
     SUM(orders_handled)       AS total_orders,
     SUM(total_revenue)        AS total_revenue,
-    ROUND(AVG(avg_ticket), 0) AS avg_ticket
+    ROUND(AVG(avg_ticket), 0) AS avg_order_value
 FROM restaurant.employee_shift_performance
 WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
 GROUP BY 1
 ORDER BY total_revenue DESC
 ```
+
 ```sql shift_wow
 WITH max_date AS (
     SELECT MAX(attendance_date) AS d FROM restaurant.employee_shift_performance
@@ -149,16 +154,17 @@ ORDER BY shift_name
 
 <DataTable data={shift_performance_30d}>
     <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Total Orders"        fmt="#,##0"/>
-    <Column id="total_revenue" title="Total Revenue (Rp)"  fmt="#,##0"/>
-    <Column id="avg_ticket"    title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
+    <Column id="total_orders"  title="Total Order"               fmt="#,##0"/>
+    <Column id="total_revenue" title="Total Revenue (Rp)"        fmt="#,##0"/>
+    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
 </DataTable>
 
-_Shift dengan rata-rata nilai order tinggi menunjukkan pegawai berhasil mendorong pembelian item bernilai lebih besar. Shift dengan volume order tinggi tapi rata-rata nilai order rendah bisa jadi kandidat program upselling._
+_Shift dengan rata-rata nilai order tinggi menunjukkan pegawai berhasil mendorong pembelian item bernilai lebih besar. Shift dengan volume order tinggi tapi rata-rata nilai order rendah adalah kandidat program upselling._
 
 ---
 
 ## Top Pegawai — Revenue Ditangani (30 Hari Terakhir)
+
 ```sql top_employee_30d
 SELECT
     employee_name,
@@ -166,7 +172,7 @@ SELECT
     branch_name,
     SUM(orders_handled)                                            AS orders_handled,
     SUM(total_revenue)                                             AS total_revenue,
-    ROUND(AVG(avg_ticket), 0)                                      AS avg_ticket,
+    ROUND(AVG(avg_ticket), 0)                                      AS avg_order_value,
     SUM(CASE WHEN attendance_status = 'late'   THEN 1 ELSE 0 END) AS total_terlambat,
     SUM(CASE WHEN attendance_status = 'absent' THEN 1 ELSE 0 END) AS total_absent
 FROM restaurant.employee_shift_performance
@@ -180,11 +186,11 @@ LIMIT 20
     <Column id="employee_name"   title="Pegawai"/>
     <Column id="role"            title="Role"/>
     <Column id="branch_name"     title="Cabang"/>
-    <Column id="orders_handled"  title="Orders Ditangani"       fmt="#,##0"/>
-    <Column id="total_revenue"   title="Revenue Ditangani (Rp)" fmt="#,##0"/>
-    <Column id="avg_ticket"      title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
-    <Column id="total_terlambat" title="Terlambat"               fmt="#,##0"/>
-    <Column id="total_absent"    title="Absent"                  fmt="#,##0"/>
+    <Column id="orders_handled"  title="Order Ditangani"            fmt="#,##0"/>
+    <Column id="total_revenue"   title="Revenue Ditangani (Rp)"     fmt="#,##0"/>
+    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
+    <Column id="total_terlambat" title="Terlambat"                  fmt="#,##0"/>
+    <Column id="total_absent"    title="Absent"                     fmt="#,##0"/>
 </DataTable>
 
 _Revenue ditangani bukan satu-satunya ukuran — perhatikan kombinasi rata-rata nilai order dan konsistensi kehadiran untuk menilai performa pegawai secara menyeluruh._
@@ -192,6 +198,7 @@ _Revenue ditangani bukan satu-satunya ukuran — perhatikan kombinasi rata-rata 
 ---
 
 ## Pegawai dengan Kehadiran Bermasalah (30 Hari Terakhir)
+
 ```sql attendance_problem
 SELECT
     employee_name,

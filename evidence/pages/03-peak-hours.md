@@ -6,7 +6,7 @@ _Ketahui kapan pelanggan datang dan optimalkan operasional restoranmu._
 
 ```sql peak_summary
 SELECT
-    day_part                AS periode_tersibuk,
+    day_part                AS periode,
     SUM(total_orders)       AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
@@ -28,7 +28,7 @@ LIMIT 1
 
 ```sql peak_order_type
 SELECT
-    order_type              AS tipe_terbanyak,
+    order_type              AS tipe_order,
     SUM(total_orders)       AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
@@ -37,9 +37,9 @@ ORDER BY total_orders DESC
 LIMIT 1
 ```
 
-<BigValue data={peak_summary}      value="periode_tersibuk" title="Periode Tersibuk (30 Hari Terakhir)" />
-<BigValue data={peak_hour_summary} value="jam_tersibuk"     title="Jam Tersibuk (30 Hari Terakhir)" />
-<BigValue data={peak_order_type}   value="tipe_terbanyak"   title="Tipe Order Terbanyak" />
+<BigValue data={peak_summary}      value="periode"      title="Periode Tersibuk (30 Hari Terakhir)" />
+<BigValue data={peak_hour_summary} value="jam_tersibuk" title="Jam Tersibuk (30 Hari Terakhir)" />
+<BigValue data={peak_order_type}   value="tipe_order"   title="Tipe Order Terbanyak" />
 
 ---
 
@@ -93,12 +93,12 @@ ORDER BY order_hour, branch_name
     y="prediksi_order"
     series="branch_name"
     type="stacked"
-    title="Prediksi Order per Jam Besok — per Cabang"
+    title="Prediksi Total Order per Jam Besok — per Cabang"
     xAxisTitle="Jam"
     yAxisTitle="Prediksi Total Order"
 />
 
-_Prediksi berdasarkan rata-rata order di hari {besok[0].nama_hari} dalam 30 hari terakhir. Gunakan ini untuk merencanakan jumlah staf dan persiapan stok sehari sebelumnya — bukan prediksi pasti, tapi pola historis yang cukup andal untuk planning operasional._
+_Prediksi berdasarkan rata-rata order di hari {besok[0].nama_hari} dalam 30 hari terakhir. Gunakan ini untuk merencanakan jumlah staf dan persiapan stok sehari sebelumnya._
 
 ---
 
@@ -118,10 +118,10 @@ ORDER BY order_hour
 
 ```sql daypart_summary
 SELECT
-    day_part,
+    day_part                                                            AS periode,
     SUM(total_orders)                                                   AS total_orders,
     SUM(total_revenue)                                                  AS total_revenue,
-    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0)         AS avg_order_value
+    ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0)        AS avg_order_value
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
 GROUP BY day_part
@@ -132,7 +132,7 @@ ORDER BY total_orders DESC
 
 <div>
 
-### Order per Jam
+### Total Order per Jam
 
 <BarChart
     data={hourly_all}
@@ -151,9 +151,9 @@ ORDER BY total_orders DESC
 ### Ringkasan per Periode
 
 <DataTable data={daypart_summary}>
-    <Column id="day_part"        title="Periode"/>
-    <Column id="total_orders"    title="Total Order"             fmt="#,##0"/>
-    <Column id="total_revenue"   title="Total Revenue (Rp)"      fmt="#,##0"/>
+    <Column id="periode"         title="Periode"/>
+    <Column id="total_orders"    title="Total Order"               fmt="#,##0"/>
+    <Column id="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0"/>
     <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
 </DataTable>
 
@@ -161,7 +161,7 @@ ORDER BY total_orders DESC
 
 </Grid>
 
-_Jam dengan order tertinggi adalah momen kritis — pastikan staf penuh dan stok siap di jam-jam ini. Periode dengan avg order value tinggi tapi volume rendah adalah peluang promo untuk mendorong traffic._
+_Jam dengan order tertinggi adalah momen kritis — pastikan staf penuh dan stok siap. Periode dengan rata-rata nilai order tinggi tapi volume rendah adalah peluang promo untuk mendorong traffic._
 
 ---
 
@@ -181,7 +181,7 @@ ORDER BY order_hour, tipe_hari
 
 ```sql daypart_weekday_weekend
 SELECT
-    day_part,
+    day_part                                                                      AS periode,
     CASE WHEN DAYOFWEEK(order_date) IN (1, 7) THEN 'Weekend' ELSE 'Weekday' END AS tipe_hari,
     SUM(total_orders)   AS total_orders,
     SUM(total_revenue)  AS total_revenue
@@ -203,7 +203,7 @@ ORDER BY day_part, tipe_hari
     y="total_orders"
     series="tipe_hari"
     type="grouped"
-    title="Order per Jam — Weekday vs Weekend"
+    title="Total Order per Jam — Weekday vs Weekend"
     xAxisTitle="Jam"
     yAxisTitle="Total Order"
 />
@@ -216,7 +216,7 @@ ORDER BY day_part, tipe_hari
 
 <BarChart
     data={daypart_weekday_weekend}
-    x="day_part"
+    x="periode"
     y="total_orders"
     series="tipe_hari"
     type="grouped"
@@ -229,7 +229,7 @@ ORDER BY day_part, tipe_hari
 
 </Grid>
 
-_Weekend biasanya menggeser pola traffic — jam makan siang lebih ramai dan dine-in meningkat. Kalau pola weekday dan weekend di cabangmu hampir sama, kemungkinan cabang berada di area transit atau perkantoran dengan traffic konstan._
+_Weekend biasanya menggeser pola traffic — jam makan siang lebih ramai dan dine-in meningkat. Kalau pola weekday dan weekend hampir sama, kemungkinan cabang berada di area transit atau perkantoran._
 
 ---
 
@@ -238,7 +238,7 @@ _Weekend biasanya menggeser pola traffic — jam makan siang lebih ramai dan din
 ```sql peak_by_branch
 SELECT
     branch_name,
-    day_part,
+    day_part AS periode,
     SUM(total_orders) AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
@@ -248,7 +248,7 @@ ORDER BY branch_name, total_orders DESC
 
 <BarChart
     data={peak_by_branch}
-    x="day_part"
+    x="periode"
     y="total_orders"
     series="branch_name"
     type="grouped"
@@ -257,16 +257,16 @@ ORDER BY branch_name, total_orders DESC
     yAxisTitle="Total Order"
 />
 
-_Tiap cabang bisa punya jam sibuk yang berbeda tergantung lokasi dan demografi pelanggan. Jadikan data ini dasar penjadwalan staf per cabang — cabang di area perkantoran biasanya peak siang, cabang di area perumahan biasanya peak malam._
+_Tiap cabang bisa punya jam sibuk yang berbeda tergantung lokasi dan demografi pelanggan. Jadikan data ini dasar penjadwalan staf per cabang._
 
 ---
 
-## Jenis Order per Jam (30 Hari Terakhir)
+## Tipe Order per Jam (30 Hari Terakhir)
 
 ```sql order_type_hourly
 SELECT
     order_hour,
-    order_type,
+    order_type AS tipe_order,
     SUM(total_orders) AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
@@ -277,8 +277,8 @@ ORDER BY order_hour
 ```sql order_type_by_branch
 SELECT
     branch_name,
-    day_part,
-    order_type,
+    day_part   AS periode,
+    order_type AS tipe_order,
     SUM(total_orders) AS total_orders
 FROM restaurant.peak_hours
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '30 days'
@@ -296,7 +296,7 @@ ORDER BY branch_name, day_part, order_type
     data={order_type_hourly}
     x="order_hour"
     y="total_orders"
-    series="order_type"
+    series="tipe_order"
     type="stacked"
     title="Dine-in vs Delivery vs Takeaway per Jam"
     xAxisTitle="Jam"
@@ -311,8 +311,8 @@ ORDER BY branch_name, day_part, order_type
 
 <DataTable data={order_type_by_branch}>
     <Column id="branch_name"  title="Cabang"/>
-    <Column id="day_part"     title="Periode"/>
-    <Column id="order_type"   title="Tipe Order"/>
+    <Column id="periode"      title="Periode"/>
+    <Column id="tipe_order"   title="Tipe Order"/>
     <Column id="total_orders" title="Total Order" fmt="#,##0"/>
 </DataTable>
 
@@ -320,4 +320,4 @@ ORDER BY branch_name, day_part, order_type
 
 </Grid>
 
-_Kalau delivery dominan di jam tertentu, pastikan kerjasama dengan platform ojol berjalan lancar di jam tersebut. Kalau dine-in dominan, fokuskan kapasitas meja dan pelayanan. Detail per cabang membantu mengalokasikan staf sesuai tipe layanan yang paling dibutuhkan._
+_Kalau delivery dominan di jam tertentu, pastikan kerjasama dengan platform ojol berjalan lancar. Kalau dine-in dominan, fokuskan kapasitas meja dan pelayanan._

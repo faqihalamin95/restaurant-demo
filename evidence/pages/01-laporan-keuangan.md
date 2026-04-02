@@ -1,5 +1,5 @@
 ---
-title: Financial Health
+title: Laporan Keuangan
 ---
 
 _Analisis profitabilitas, struktur biaya, dan kesehatan finansial bisnis secara keseluruhan._

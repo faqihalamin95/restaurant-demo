@@ -257,7 +257,7 @@ ORDER BY total_revenue DESC
 <DataTable data={branch_summary}>
     <Column id="branch_name"     title="Cabang"/>
     <Column id="total_revenue"   title="Gross Revenue (Rp)"       fmt="#,##0"/>
-    <Column id="total_orders"    title="Total Pesanan"             fmt="#,##0"/>
+    <Column id="total_orders"    title="Total Order"               fmt="#,##0"/>
     <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
     <Column id="net_revenue"     title="Net Revenue (Rp)"          fmt="#,##0"/>
     <Column id="net_margin_pct"  title="Margin (%)"                fmt="0.0\%"/>

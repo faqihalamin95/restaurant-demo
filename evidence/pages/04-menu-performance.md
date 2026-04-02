@@ -32,37 +32,11 @@ ORDER BY total_revenue DESC
 LIMIT 1
 ```
 
-<BigValue
-    data={best_menu_30d}
-    value="menu_name"
-    title="Menu Terlaris (30 Hari Terakhir)"
-/>
-
-<BigValue
-    data={best_menu_30d}
-    value="total_qty"
-    title="Total Terjual"
-    fmt="#,##0"
-/>
-
-<BigValue
-    data={best_revenue_30d}
-    value="menu_name"
-    title="Menu Penggerak Revenue (30 Hari Terakhir)"
-/>
-
-<BigValue
-    data={best_revenue_30d}
-    value="total_revenue"
-    title="Total Revenue Menu Tersebut (Rp)"
-    fmt="#,##0"
-/>
-
-<BigValue
-    data={summary_menu}
-    value="total_menu"
-    title="Total Menu Aktif"
-/>
+<BigValue data={best_menu_30d}    value="menu_name"    title="Menu Terlaris (30 Hari Terakhir)" />
+<BigValue data={best_menu_30d}    value="total_qty"    title="Total Terjual"                    fmt="#,##0" />
+<BigValue data={best_revenue_30d} value="menu_name"    title="Menu Penggerak Revenue (30 Hari)" />
+<BigValue data={best_revenue_30d} value="total_revenue" title="Total Revenue Menu Tersebut (Rp)" fmt="#,##0" />
+<BigValue data={summary_menu}     value="total_menu"   title="Total Menu Aktif" />
 
 ---
 
@@ -145,10 +119,10 @@ ORDER BY
 />
 
 <DataTable data={menu_engineering_table}>
-    <Column id="klasifikasi" title="Klasifikasi"/>
-    <Column id="menu_name" title="Menu"/>
-    <Column id="category" title="Kategori"/>
-    <Column id="total_qty" title="Volume Terjual" fmt="#,##0"/>
+    <Column id="klasifikasi"   title="Klasifikasi"/>
+    <Column id="menu_name"     title="Menu"/>
+    <Column id="category"      title="Kategori"/>
+    <Column id="total_qty"     title="Volume Terjual"   fmt="#,##0"/>
     <Column id="total_revenue" title="Total Revenue (Rp)" fmt="#,##0"/>
 </DataTable>
 
@@ -219,7 +193,7 @@ LIMIT 10
 
 </Grid>
 
-_Menu terlaris belum tentu penggerak revenue terbesar. Menu murah yang sering dipesan bisa jadi tidak banyak menggerakkan omset — pertimbangkan strategi upselling atau bundling untuk mendorong revenue dari menu-menu tersebut._
+_Menu terlaris belum tentu penggerak revenue terbesar. Pertimbangkan strategi upselling atau bundling untuk mendorong revenue dari menu-menu murah yang sering dipesan._
 
 ---
 
@@ -249,11 +223,11 @@ ORDER BY branch_name
 ```
 
 <DataTable data={andalan_per_cabang}>
-    <Column id="branch_name" title="Cabang"/>
-    <Column id="top_volume_menu" title="Menu Terlaris"/>
-    <Column id="top_volume_qty" title="Qty Terjual" fmt="#,##0"/>
+    <Column id="branch_name"      title="Cabang"/>
+    <Column id="top_volume_menu"  title="Menu Terlaris"/>
+    <Column id="top_volume_qty"   title="Qty Terjual"        fmt="#,##0"/>
     <Column id="top_revenue_menu" title="Menu Revenue Terbesar"/>
-    <Column id="top_revenue_value" title="Revenue (Rp)" fmt="#,##0"/>
+    <Column id="top_revenue_value" title="Revenue (Rp)"      fmt="#,##0"/>
 </DataTable>
 
 _Tiap cabang punya karakter pelanggan yang berbeda. Menu andalan yang berbeda antar cabang bisa jadi dasar strategi stok, promo, dan pelatihan staf yang lebih tepat sasaran._
@@ -287,11 +261,11 @@ ORDER BY pct_change ASC
 ```
 
 <DataTable data={menu_wow}>
-    <Column id="menu_name" title="Menu"/>
-    <Column id="category" title="Kategori"/>
-    <Column id="qty_minggu_ini" title="Minggu Ini" fmt="#,##0"/>
-    <Column id="qty_minggu_lalu" title="Minggu Lalu" fmt="#,##0"/>
-    <Column id="pct_change" title="Perubahan (%)" fmt="+0.0;-0.0" contentType="delta"/>
+    <Column id="menu_name"      title="Menu"/>
+    <Column id="category"       title="Kategori"/>
+    <Column id="qty_minggu_ini"  title="Minggu Ini"    fmt="#,##0"/>
+    <Column id="qty_minggu_lalu" title="Minggu Lalu"   fmt="#,##0"/>
+    <Column id="pct_change"      title="Perubahan (%)" fmt="+0.0;-0.0" contentType="delta"/>
 </DataTable>
 
 _Perbandingan langsung antara minggu ini dan minggu lalu — menu dengan tanda merah perlu perhatian segera._
@@ -302,19 +276,17 @@ _Perbandingan langsung antara minggu ini dan minggu lalu — menu dengan tanda m
 
 ```sql declining_trend
 WITH declining_menus AS (
-    -- 1. Cari dulu menu apa saja yang turun (30 hari terakhir vs 30 hari pertama)
     SELECT menu_name
     FROM restaurant.menu_performance
     WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
     GROUP BY menu_name
-    HAVING 
+    HAVING
         SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days' THEN total_qty_sold ELSE 0 END)
-        < 
+        <
         SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '60 days' THEN total_qty_sold ELSE 0 END)
 ),
 daily_sales AS (
-    -- 2. Ambil total penjualan harian untuk menu-menu yang turun tersebut
-    SELECT 
+    SELECT
         order_date,
         menu_name,
         SUM(total_qty_sold) AS qty_harian
@@ -323,13 +295,12 @@ daily_sales AS (
     AND order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '90 days'
     GROUP BY order_date, menu_name
 )
--- 3. Hitung 7-Day Moving Average
-SELECT 
+SELECT
     order_date,
     menu_name,
     AVG(qty_harian) OVER (
-        PARTITION BY menu_name 
-        ORDER BY order_date 
+        PARTITION BY menu_name
+        ORDER BY order_date
         ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
     ) AS rolling_avg_qty
 FROM daily_sales
@@ -346,7 +317,7 @@ ORDER BY order_date, menu_name
     yAxisTitle="Rata-rata Qty Terjual (7 Hari)"
 />
 
-_Grafik ini menggunakan metode Rata-rata Bergerak 7 Hari (7-Day Moving Average) untuk menghaluskan lonjakan pesanan di akhir pekan. Jika garis tren terus mengarah ke bawah, artinya minat pelanggan terhadap menu ini secara konsisten berkurang, bukan sekadar efek hari kerja yang sepi._
+_Grafik ini menggunakan Rata-rata Bergerak 7 Hari untuk menghaluskan lonjakan di akhir pekan. Garis yang terus mengarah ke bawah berarti minat pelanggan berkurang secara konsisten._
 
 ---
 
@@ -371,11 +342,11 @@ ORDER BY pct_change ASC
 ```
 
 <DataTable data={declining_by_branch}>
-    <Column id="branch_name" title="Cabang"/>
-    <Column id="menu_name" title="Menu"/>
-    <Column id="qty_30_awal" title="30 Hari Pertama" fmt="#,##0"/>
+    <Column id="branch_name"  title="Cabang"/>
+    <Column id="menu_name"    title="Menu"/>
+    <Column id="qty_30_awal"  title="30 Hari Pertama" fmt="#,##0"/>
     <Column id="qty_30_akhir" title="30 Hari Terakhir" fmt="#,##0"/>
-    <Column id="pct_change" title="Perubahan (%)" fmt="+0.0;-0.0" contentType="delta"/>
+    <Column id="pct_change"   title="Perubahan (%)"    fmt="+0.0;-0.0" contentType="delta"/>
 </DataTable>
 
 _Menu di atas mengalami penurunan dalam 90 hari terakhir. Cek per cabang untuk tindakan yang lebih tepat sasaran._
