@@ -1,6 +1,8 @@
 appearance:
-  default: system
-  switcher: true
+  default: light
+  switcher: false
+
+logo: /logo.png 
 
 theme:
   colorPalettes:
@@ -43,7 +45,7 @@ theme:
       light: "#c2410c"
       dark: "#fdba74"
     base:
-      light: "#ffffff"
+      light: "#f5f0e8"
       dark: "#09090b"
     info:
       light: "#0284c7"

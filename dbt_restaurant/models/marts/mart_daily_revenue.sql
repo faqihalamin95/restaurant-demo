@@ -15,17 +15,36 @@ with daily as (
 -- 1. Hitung Rata-rata 7 Hari (TANPA memasukkan hari H)
 with_rolling as (
     select
-        d.*,
-        b.branch_name,
-        b.branch_location,
-        avg(d.total_revenue) over (
-            partition by d.branch_id
-            order by d.order_date
-            rows between 7 preceding and 1 preceding -- PERBAIKAN DI SINI
-        ) as revenue_7d_avg
+        d.order_date,
+        d.branch_id,
+        b.branch_name,        -- dari b, bukan d
+        b.branch_location,    -- dari b, bukan d
+        d.total_orders,
+        d.total_revenue,
+        d.total_items_sold,
+        d.delivery_orders,
+        d.dine_in_orders,
+        d.takeaway_orders,
+        avg(d2.total_revenue) as revenue_sdow_avg
     from daily d
+    left join daily d2
+        on  d.branch_id              = d2.branch_id
+        and d2.order_date            < d.order_date
+        and d2.order_date            >= d.order_date - interval '30 days'
+        and dayofweek(d2.order_date) = dayofweek(d.order_date)
     left join {{ ref('dim_branches') }} b
         on d.branch_id = b.branch_id
+    group by
+        d.order_date,
+        d.branch_id,
+        b.branch_name,        -- dari b, bukan d
+        b.branch_location,    -- dari b, bukan d
+        d.total_orders,
+        d.total_revenue,
+        d.total_items_sold,
+        d.delivery_orders,
+        d.dine_in_orders,
+        d.takeaway_orders
 ),
 
 -- 2. Hitung Persentase Perubahan (Kode jadi jauh lebih bersih)
@@ -33,9 +52,9 @@ final_calc as (
     select 
         *,
         case
-            when revenue_7d_avg = 0 or revenue_7d_avg is null then null
-            else round((total_revenue - revenue_7d_avg) / revenue_7d_avg, 4)
-        end as pct_change_vs_7d_avg
+            when revenue_sdow_avg = 0 or revenue_sdow_avg is null then null
+            else round((total_revenue - revenue_sdow_avg) / revenue_sdow_avg, 4)
+        end as pct_change_vs_sdow_avg
     from with_rolling
 )
 

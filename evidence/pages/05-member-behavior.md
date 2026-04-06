@@ -2,26 +2,104 @@
 title: Analisis Perilaku Member
 ---
 
-_Melihat pola pembelian customer member berdasarkan tier, frekuensi belanja, dan nilai transaksi._
+_Pola pembelian customer member berdasarkan tier, frekuensi belanja, dan nilai transaksi._
 
 ```sql member_summary_90d
 SELECT
-    COUNT(DISTINCT member_id)                                          AS total_member_aktif,
-    SUM(total_orders)                                                  AS total_orders_member,
-    SUM(total_spend)                                                   AS total_belanja_member,
-    ROUND(SUM(total_spend) / NULLIF(SUM(total_orders), 0), 0)         AS avg_order_value
+    COUNT(DISTINCT member_id)                                 AS total_member_aktif,
+    SUM(total_orders)                                         AS total_orders_member,
+    SUM(total_spend)                                          AS total_belanja_member,
+    ROUND(SUM(total_spend) / NULLIF(SUM(total_orders), 0), 0) AS avg_order_value
 FROM restaurant.member_purchase_behavior
 WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
 ```
 
-<BigValue data={member_summary_90d} value="total_member_aktif"   title="Total Member Aktif Belanja"    fmt="#,##0" />
-<BigValue data={member_summary_90d} value="total_orders_member"  title="Total Order Member (90 Hari)"  fmt="#,##0" />
-<BigValue data={member_summary_90d} value="total_belanja_member" title="Total Belanja Member (Rp)"     fmt="#,##0" />
-<BigValue data={member_summary_90d} value="avg_order_value"      title="Rata-rata Nilai Order (Rp)"    fmt="#,##0" />
+```sql member_vs_periode_lalu
+SELECT
+    ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_spend END) /
+    NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_orders END), 0), 0) AS avg_order_value_90d,
+    ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_spend END) /
+    NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_orders END), 0), 0) AS avg_order_value_90d_lalu,
+    ROUND(
+        (ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 0)
+        -
+        ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 0))
+    / NULLIF(ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 0), 0) * 100
+    , 1) AS pct_change_aov
+FROM restaurant.member_purchase_behavior
+```
+
+```sql churn_count
+SELECT
+    COUNT(DISTINCT member_name) AS jumlah_churn_risk,
+    SUM(CASE WHEN tier = 'Gold'   THEN 1 ELSE 0 END) AS gold_churn,
+    SUM(CASE WHEN tier = 'Silver' THEN 1 ELSE 0 END) AS silver_churn
+FROM (
+    SELECT
+        member_name,
+        tier,
+        MIN(recency_days) AS hari_sejak_transaksi
+    FROM restaurant.member_purchase_behavior
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '90 days'
+    GROUP BY member_name, tier
+    HAVING MIN(recency_days) >= 21
+)
+```
 
 ---
 
-## Kontribusi per Tier Member (90 Hari Terakhir)
+## Ringkasan 90 Hari Terakhir
+
+<BigValue data={member_summary_90d} value="total_member_aktif"   title="Total Member Aktif"          fmt="#,##0" />
+<BigValue data={member_summary_90d} value="total_orders_member"  title="Total Order Member"           fmt="#,##0" />
+<BigValue data={member_summary_90d} value="total_belanja_member" title="Total Belanja (Rp)"           fmt="#,##0" />
+<BigValue data={member_summary_90d} value="avg_order_value"      title="Rata-rata Nilai Order (Rp)"   fmt="#,##0" />
+
+{#if member_vs_periode_lalu[0].pct_change_aov > 5}
+<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+✅ <strong>Rata-rata nilai order naik {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Member semakin loyal dan belanja lebih besar.
+</div>
+{:else if member_vs_periode_lalu[0].pct_change_aov < -5}
+<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+🔴 <strong>Rata-rata nilai order turun {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Cek apakah ada pergeseran tier atau penurunan frekuensi belanja.
+</div>
+{:else}
+<div style="background: #f5f5f5; border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+➡️ <strong>Rata-rata nilai order stabil</strong> vs 90 hari sebelumnya — perubahan hanya {member_vs_periode_lalu[0].pct_change_aov}%.
+</div>
+{/if}
+
+{#if churn_count[0].jumlah_churn_risk > 0}
+<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+🟡 <strong>{churn_count[0].jumlah_churn_risk} member berisiko churn</strong> — tidak bertransaksi dalam 21 hari terakhir.
+{#if churn_count[0].gold_churn > 0} Termasuk <strong>{churn_count[0].gold_churn} member Gold</strong> yang perlu prioritas outreach.{/if}
+{#if churn_count[0].silver_churn > 0} Dan <strong>{churn_count[0].silver_churn} member Silver</strong>.{/if}
+Detail ada di bagian bawah halaman ini.
+</div>
+{/if}
+
+---
+
+## Kontribusi per Tier (90 Hari Terakhir)
 
 ```sql tier_spending_90d
 SELECT
@@ -53,7 +131,7 @@ SELECT
         / NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '13 days'
              AND order_date < (SELECT MAX(order_date) FROM restaurant.member_purchase_behavior) - INTERVAL '6 days'
             THEN total_spend END), 0) * 100
-    , 1)                                                                        AS pct_change
+    , 1) AS pct_change
 FROM restaurant.member_purchase_behavior
 GROUP BY 1
 ORDER BY tier
@@ -200,7 +278,7 @@ LIMIT 25
     <Column id="hari_sejak_transaksi" title="Hari Sejak Transaksi"      fmt="#,##0"/>
 </DataTable>
 
-_Member dengan Hari Sejak Transaksi tinggi di list belanja tertinggi perlu perhatian khusus — mereka pernah belanja besar tapi sudah lama tidak kembali. Kandidat utama untuk program win-back._
+_Member dengan Hari Sejak Transaksi tinggi di list ini pernah belanja besar tapi sudah lama tidak kembali — kandidat utama program win-back._
 
 ---
 
@@ -223,6 +301,8 @@ ORDER BY total_belanja DESC, hari_sejak_transaksi DESC
 LIMIT 25
 ```
 
+{#if churn_risk.length > 0}
+
 <DataTable data={churn_risk}>
     <Column id="member_name"          title="Member"/>
     <Column id="tier"                 title="Tier"/>
@@ -233,4 +313,10 @@ LIMIT 25
     <Column id="hari_sejak_transaksi" title="Hari Sejak Transaksi"      fmt="#,##0"/>
 </DataTable>
 
-_Member yang tidak bertransaksi dalam 21 hari terakhir, diurutkan dari yang pernah paling banyak belanja. Tabel kosong berarti semua member masih aktif — kondisi ideal. Prioritaskan outreach ke tier Gold dan Silver dengan Hari Sejak Transaksi tertinggi._
+_Prioritaskan outreach ke tier Gold dan Silver dengan Hari Sejak Transaksi tertinggi — mereka punya nilai tinggi dan paling sayang untuk hilang._
+
+{:else}
+<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px;">
+✅ <strong>Tidak ada member berisiko churn</strong> saat ini — semua member masih aktif bertransaksi dalam 21 hari terakhir.
+</div>
+{/if}

@@ -2,7 +2,7 @@
 title: Laporan Keuangan
 ---
 
-_Analisis profitabilitas, struktur biaya, dan kesehatan finansial bisnis secara keseluruhan._
+_Kesehatan finansial bisnis — profitabilitas, struktur biaya, dan tren margin._
 
 ```sql header_kpi
 SELECT
@@ -14,69 +14,77 @@ FROM restaurant.daily_net_revenue
 WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
 ```
 
-<BigValue data={header_kpi} value="gross_revenue"   title="Gross Revenue (Rp) — 30 Hari"  fmt="#,##0" />
-<BigValue data={header_kpi} value="total_biaya"     title="Total Biaya (Rp) — 30 Hari"    fmt="#,##0" />
-<BigValue data={header_kpi} value="net_revenue"     title="Net Revenue (Rp) — 30 Hari"    fmt="#,##0" />
-<BigValue data={header_kpi} value="net_margin_pct"  title="Net Margin (%) — 30 Hari"      fmt="0.0\%" />
+```sql margin_vs_bulan_lalu
+SELECT
+    ROUND(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+        THEN net_revenue END) /
+    NULLIF(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+        THEN gross_revenue END), 0) * 100, 1) AS margin_30d,
+    ROUND(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '60 days'
+               AND metric_date <  (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+        THEN net_revenue END) /
+    NULLIF(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '60 days'
+               AND metric_date <  (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+        THEN gross_revenue END), 0) * 100, 1) AS margin_30d_lalu,
+    ROUND(
+        ROUND(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+            THEN net_revenue END) /
+        NULLIF(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+            THEN gross_revenue END), 0) * 100, 1)
+        -
+        ROUND(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '60 days'
+               AND metric_date <  (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+            THEN net_revenue END) /
+        NULLIF(SUM(CASE WHEN metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '60 days'
+               AND metric_date <  (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+            THEN gross_revenue END), 0) * 100, 1)
+    , 1) AS selisih_margin
+FROM restaurant.daily_net_revenue
+```
+
+```sql cabang_margin_alert
+SELECT
+    branch_name,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
+GROUP BY branch_name
+HAVING net_margin_pct < 10
+ORDER BY net_margin_pct ASC
+```
 
 ---
 
-## Tren Net Revenue per Cabang (90 Hari Terakhir)
+## Ringkasan 30 Hari Terakhir
 
-```sql net_trend_90d
-SELECT
-    metric_date,
-    branch_name,
-    net_revenue,
-    ROUND(AVG(net_revenue) OVER (
-        PARTITION BY branch_name
-        ORDER BY metric_date
-        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-    ), 0) AS net_revenue_7d_avg
-FROM restaurant.daily_net_revenue
-WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '90 days'
-ORDER BY metric_date, branch_name
-```
+<BigValue data={header_kpi} value="gross_revenue"  title="Gross Revenue (Rp)"  fmt="#,##0" />
+<BigValue data={header_kpi} value="total_biaya"    title="Total Biaya (Rp)"    fmt="#,##0" />
+<BigValue data={header_kpi} value="net_revenue"    title="Net Revenue (Rp)"    fmt="#,##0" />
+<BigValue data={header_kpi} value="net_margin_pct" title="Net Margin (%)"      fmt="0.0\%" />
 
-<Grid cols=2>
-
-<div>
-
-### Net Revenue Harian
-
-<LineChart
-    data={net_trend_90d}
-    x="metric_date"
-    y="net_revenue"
-    series="branch_name"
-    title="Net Revenue Harian per Cabang (Rp)"
-    yFmt="#,##0"
-    xAxisTitle="Tanggal"
-    yAxisTitle="Net Revenue (Rp)"
-/>
-
+{#if margin_vs_bulan_lalu[0].selisih_margin < -2}
+<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+🔴 <strong>Margin turun {Math.abs(margin_vs_bulan_lalu[0].selisih_margin)} poin</strong> dibanding 30 hari sebelumnya ({margin_vs_bulan_lalu[0].margin_30d_lalu}% → {margin_vs_bulan_lalu[0].margin_30d}%). Biaya tumbuh lebih cepat dari revenue — cek struktur biaya di bawah.
 </div>
-
-<div>
-
-### Rata-rata 7 Hari (Tren Halus)
-
-<LineChart
-    data={net_trend_90d}
-    x="metric_date"
-    y="net_revenue_7d_avg"
-    series="branch_name"
-    title="Net Revenue 7-Day Avg per Cabang (Rp)"
-    yFmt="#,##0"
-    xAxisTitle="Tanggal"
-    yAxisTitle="Net Revenue 7-Day Avg (Rp)"
-/>
-
+{:else if margin_vs_bulan_lalu[0].selisih_margin > 2}
+<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+✅ <strong>Margin naik {margin_vs_bulan_lalu[0].selisih_margin} poin</strong> dibanding 30 hari sebelumnya ({margin_vs_bulan_lalu[0].margin_30d_lalu}% → {margin_vs_bulan_lalu[0].margin_30d}%). Efisiensi biaya membaik.
 </div>
+{:else}
+<div style="background: #f5f5f5; border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+➡️ <strong>Margin stabil</strong> di {margin_vs_bulan_lalu[0].margin_30d}% — selisih hanya {margin_vs_bulan_lalu[0].selisih_margin} poin vs 30 hari sebelumnya.
+</div>
+{/if}
 
-</Grid>
-
-_Chart kanan menghaluskan fluktuasi harian sehingga arah tren profitabilitas tiap cabang terlihat lebih jelas. Garis yang konsisten di bawah nol perlu perhatian segera — cabang tersebut membakar uang setiap hari._
+{#if cabang_margin_alert.length > 0}
+<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+🟡 <strong>Margin di bawah 10%:</strong>
+{#each cabang_margin_alert as row}
+{row.branch_name} ({row.net_margin_pct}%)&nbsp;
+{/each}
+— cabang ini perlu review biaya lebih lanjut.
+</div>
+{/if}
 
 ---
 
@@ -101,21 +109,15 @@ ORDER BY net_revenue DESC
 ```
 
 ```sql cost_proportion_all
-SELECT
-    'Biaya Bahan'       AS komponen,
-    SUM(inventory_usage_cost)   AS total
+SELECT 'Biaya Bahan'       AS komponen, SUM(inventory_usage_cost)   AS total
 FROM restaurant.daily_net_revenue
 WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
 UNION ALL
-SELECT
-    'Biaya SDM'         AS komponen,
-    SUM(labor_total_cost)       AS total
+SELECT 'Biaya SDM'         AS komponen, SUM(labor_total_cost)       AS total
 FROM restaurant.daily_net_revenue
 WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
 UNION ALL
-SELECT
-    'Biaya Operasional' AS komponen,
-    SUM(operational_total_cost) AS total
+SELECT 'Biaya Operasional' AS komponen, SUM(operational_total_cost) AS total
 FROM restaurant.daily_net_revenue
 WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '30 days'
 ```
@@ -171,11 +173,11 @@ WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
     <Column id="net_margin_pct"    title="Margin (%)"             fmt="0.0\%"/>
 </DataTable>
 
-_Persentase biaya terhadap gross revenue adalah metrik kunci — standar industri restoran: biaya bahan ~28–32%, SDM ~18–22%, operasional ~12–15%. Komponen mana yang melampaui batas ini adalah titik mulai optimasi._
+_Standar industri restoran: biaya bahan ~28–32%, SDM ~18–22%, operasional ~12–15%. Komponen yang melampaui batas ini adalah prioritas optimasi._
 
 ---
 
-## Gross vs Net Revenue per Bulan
+## Tren Bulanan
 
 ```sql monthly_gross_net
 SELECT
@@ -202,7 +204,7 @@ ORDER BY 1
 
 <div>
 
-### Gross vs Net per Bulan — Semua Cabang
+### Gross vs Net Revenue per Bulan
 
 <BarChart
     data={monthly_gross_net}
@@ -236,12 +238,70 @@ ORDER BY 1
 
 </Grid>
 
-_Tren margin bulanan adalah sinyal paling penting — margin yang terus mengecil meski revenue tumbuh berarti biaya tumbuh lebih cepat dari omset. Tangani sebelum menjadi masalah struktural._
+_Margin yang terus mengecil meski revenue tumbuh berarti biaya tumbuh lebih cepat dari omset — tangani sebelum menjadi masalah struktural._
+
+---
+
+## Tren Net Revenue Harian (90 Hari Terakhir)
+
+```sql net_trend_90d
+SELECT
+    metric_date,
+    branch_name,
+    net_revenue,
+    ROUND(AVG(net_revenue) OVER (
+        PARTITION BY branch_name
+        ORDER BY metric_date
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ), 0) AS net_revenue_7d_avg
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '90 days'
+ORDER BY metric_date, branch_name
+```
+
+<Grid cols=2>
+
+<div>
+
+### Net Revenue Harian
+
+<LineChart
+    data={net_trend_90d}
+    x="metric_date"
+    y="net_revenue"
+    series="branch_name"
+    title="Net Revenue Harian per Cabang (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Tanggal"
+    yAxisTitle="Net Revenue (Rp)"
+/>
+
+</div>
+
+<div>
+
+### Rata-rata 7 Hari (Tren Halus)
+
+<LineChart
+    data={net_trend_90d}
+    x="metric_date"
+    y="net_revenue_7d_avg"
+    series="branch_name"
+    title="Net Revenue 7-Day Avg per Cabang (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Tanggal"
+    yAxisTitle="Net Revenue 7-Day Avg (Rp)"
+/>
+
+</div>
+
+</Grid>
+
+_Garis yang konsisten di bawah nol berarti cabang tersebut membakar uang setiap hari — perlu tindakan segera._
 
 ---
 
 ## Detail Harian (30 Hari Terakhir)
-
 ```sql daily_detail_30d
 SELECT
     metric_date,
@@ -257,15 +317,72 @@ WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
 ORDER BY metric_date DESC, branch_name
 ```
 
-<DataTable data={daily_detail_30d} rows=15>
-    <Column id="metric_date"           title="Tanggal"/>
-    <Column id="branch_name"           title="Cabang"/>
-    <Column id="gross_revenue"         title="Gross Revenue (Rp)"      fmt="#,##0"/>
-    <Column id="inventory_usage_cost"  title="Biaya Bahan (Rp)"        fmt="#,##0"/>
-    <Column id="labor_total_cost"      title="Biaya SDM (Rp)"          fmt="#,##0"/>
-    <Column id="operational_total_cost" title="Biaya Operasional (Rp)" fmt="#,##0"/>
-    <Column id="net_revenue"           title="Net Revenue (Rp)"        fmt="#,##0"/>
-    <Column id="net_margin_pct"        title="Margin (%)"              fmt="0.0\%"/>
+<Grid cols=2>
+
+<div>
+
+### Cabang Pusat
+
+<DataTable data={daily_detail_30d.filter(d => d.branch_name === 'Cabang Pusat')} rows=10>
+    <Column id="metric_date"            title="Tanggal"/>
+    <Column id="gross_revenue"          title="Revenue (Rp)"           fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Bahan (Rp)"             fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="SDM (Rp)"               fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Operasional (Rp)"       fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"             fmt="0.0\%"/>
 </DataTable>
 
-_Tabel ini memperlihatkan kondisi finansial harian per cabang. Baris dengan margin negatif adalah hari di mana biaya melebihi revenue — wajar sesekali, tapi kalau terjadi berulang di cabang yang sama perlu investigasi lebih lanjut._
+</div>
+
+<div>
+
+### Cabang Selatan
+
+<DataTable data={daily_detail_30d.filter(d => d.branch_name === 'Cabang Selatan')} rows=10>
+    <Column id="metric_date"            title="Tanggal"/>
+    <Column id="gross_revenue"          title="Revenue (Rp)"           fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Bahan (Rp)"             fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="SDM (Rp)"               fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Operasional (Rp)"       fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"             fmt="0.0\%"/>
+</DataTable>
+
+</div>
+
+<div>
+
+### Cabang Utara
+
+<DataTable data={daily_detail_30d.filter(d => d.branch_name === 'Cabang Utara')} rows=10>
+    <Column id="metric_date"            title="Tanggal"/>
+    <Column id="gross_revenue"          title="Revenue (Rp)"           fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Bahan (Rp)"             fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="SDM (Rp)"               fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Operasional (Rp)"       fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"             fmt="0.0\%"/>
+</DataTable>
+
+</div>
+
+<div>
+
+### Cabang Timur
+
+<DataTable data={daily_detail_30d.filter(d => d.branch_name === 'Cabang Timur')} rows=10>
+    <Column id="metric_date"            title="Tanggal"/>
+    <Column id="gross_revenue"          title="Revenue (Rp)"           fmt="#,##0"/>
+    <Column id="inventory_usage_cost"   title="Bahan (Rp)"             fmt="#,##0"/>
+    <Column id="labor_total_cost"       title="SDM (Rp)"               fmt="#,##0"/>
+    <Column id="operational_total_cost" title="Operasional (Rp)"       fmt="#,##0"/>
+    <Column id="net_revenue"            title="Net Revenue (Rp)"       fmt="#,##0"/>
+    <Column id="net_margin_pct"         title="Margin (%)"             fmt="0.0\%"/>
+</DataTable>
+
+</div>
+
+</Grid>
+
+_Baris dengan margin negatif adalah hari di mana biaya melebihi revenue — wajar sesekali, tapi kalau terjadi berulang di cabang yang sama perlu investigasi lebih lanjut._

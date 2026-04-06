@@ -14,10 +14,48 @@ FROM restaurant.employee_shift_performance
 WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
 ```
 
+```sql attendance_alert_today
+SELECT COUNT(*) AS jumlah_absent
+FROM restaurant.employee_shift_performance
+WHERE attendance_date = (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance)
+  AND attendance_status = 'absent'
+```
+
+```sql attendance_problem_count
+SELECT COUNT(DISTINCT employee_name) AS jumlah_bermasalah
+FROM (
+    SELECT employee_name
+    FROM restaurant.employee_shift_performance
+    WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant.employee_shift_performance) - INTERVAL '30 days'
+    GROUP BY employee_name
+    HAVING
+        SUM(CASE WHEN attendance_status = 'absent' THEN 1 ELSE 0 END) >= 2
+        OR SUM(CASE WHEN attendance_status = 'late'   THEN 1 ELSE 0 END) >= 4
+)
+```
+
+---
+
+## Ringkasan 30 Hari Terakhir
+
 <BigValue data={employee_summary_30d} value="total_pegawai"           title="Total Pegawai Aktif" />
 <BigValue data={employee_summary_30d} value="total_order_ditangani"   title="Order Ditangani (30 Hari)"    fmt="#,##0" />
 <BigValue data={employee_summary_30d} value="total_revenue_ditangani" title="Revenue Ditangani (Rp)"       fmt="#,##0" />
 <BigValue data={employee_summary_30d} value="avg_order_value"         title="Rata-rata Nilai Order (Rp)"   fmt="#,##0" />
+
+{#if attendance_problem_count[0].jumlah_bermasalah > 0}
+<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+🔴 <strong>{attendance_problem_count[0].jumlah_bermasalah} pegawai</strong> dengan kehadiran bermasalah dalam 30 hari terakhir — absent ≥ 2 atau terlambat ≥ 4 kali. Detail ada di bagian bawah halaman ini.
+</div>
+{:else if attendance_alert_today[0].jumlah_absent >= 3}
+<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+🟡 <strong>{attendance_alert_today[0].jumlah_absent} pegawai tidak hadir</strong> kemarin. Pastikan tidak ada shift yang kekurangan staf.
+</div>
+{:else}
+<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+✅ <strong>Kehadiran normal.</strong> Tidak ada pegawai dengan pola absensi bermasalah dalam 30 hari terakhir.
+</div>
+{/if}
 
 ---
 
@@ -153,9 +191,9 @@ ORDER BY shift_name
 </Grid>
 
 <DataTable data={shift_performance_30d}>
-    <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Total Order"               fmt="#,##0"/>
-    <Column id="total_revenue" title="Total Revenue (Rp)"        fmt="#,##0"/>
+    <Column id="shift_name"      title="Shift"/>
+    <Column id="total_orders"    title="Total Order"                fmt="#,##0"/>
+    <Column id="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0"/>
     <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
 </DataTable>
 
@@ -217,6 +255,8 @@ HAVING
 ORDER BY total_absent DESC, total_terlambat DESC
 ```
 
+{#if attendance_problem.length > 0}
+
 <DataTable data={attendance_problem}>
     <Column id="employee_name"    title="Pegawai"/>
     <Column id="role"             title="Role"/>
@@ -227,4 +267,10 @@ ORDER BY total_absent DESC, total_terlambat DESC
     <Column id="total_cuti"       title="Cuti"        fmt="#,##0"/>
 </DataTable>
 
-_Pegawai dengan absent ≥ 2 atau terlambat ≥ 4 dalam 30 hari terakhir. Tabel kosong berarti tidak ada masalah kehadiran signifikan — kondisi ideal._
+_Pegawai dengan absent ≥ 2 atau terlambat ≥ 4 dalam 30 hari terakhir. Tindak lanjut perlu dilakukan sebelum pola ini berdampak pada operasional shift._
+
+{:else}
+<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px;">
+✅ <strong>Tidak ada pegawai dengan kehadiran bermasalah</strong> dalam 30 hari terakhir — kondisi ideal.
+</div>
+{/if}

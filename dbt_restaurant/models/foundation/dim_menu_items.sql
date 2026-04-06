@@ -9,12 +9,12 @@ select
     price,
     is_active,
 
-    -- Derived: price tier for grouping in dashboard
+    -- Derived: segmen harga untuk pengelompokan di dashboard
     case
-        when price <= 10000  then 'budget'
-        when price <= 30000  then 'standard'
-        when price <= 50000  then 'premium'
-        else                      'bundle'
+        when price <= 10000  then 'Hemat'
+        when price <= 30000  then 'Standar'
+        when price <= 50000  then 'Premium'
+        else                      'Paket'
     end                             as price_tier
 
 from source

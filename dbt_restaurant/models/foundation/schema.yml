@@ -23,7 +23,7 @@ models:
       - name: price_tier
         tests:
           - accepted_values:
-              values: ['budget', 'standard', 'premium', 'bundle']
+              values: ['Hemat', 'Standar', 'Premium', 'Paket']
 
   - name: fct_orders
     description: "Granular fact table — one row per order line item"

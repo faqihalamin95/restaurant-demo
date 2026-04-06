@@ -20,16 +20,16 @@ with_branch as (
         h.*,
         b.branch_name,
 
-        -- Label hour buckets for dashboard display
+        -- Label periode waktu dalam Bahasa Indonesia
         case
-            when h.order_hour between 8  and 10 then 'Morning'
-            when h.order_hour between 11 and 13 then 'Lunch Peak'
-            when h.order_hour between 14 and 16 then 'Afternoon'
-            when h.order_hour between 17 and 20 then 'Dinner Peak'
-            else                                     'Late Night'
+            when h.order_hour between 8  and 10 then 'Pagi'
+            when h.order_hour between 11 and 13 then 'Makan Siang'
+            when h.order_hour between 14 and 16 then 'Sore'
+            when h.order_hour between 17 and 20 then 'Makan Malam'
+            else                                     'Larut Malam'
         end                             as day_part,
 
-        -- Flag peak hours (top traffic periods)
+        -- Flag jam puncak (jam dengan traffic tertinggi)
         case
             when h.order_hour in (12, 13, 18, 19) then true
             else false

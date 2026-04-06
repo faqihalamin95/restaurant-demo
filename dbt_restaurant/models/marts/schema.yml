@@ -45,7 +45,7 @@ models:
       - name: day_part
         tests:
           - accepted_values:
-              values: ['Morning', 'Lunch Peak', 'Afternoon', 'Dinner Peak', 'Late Night']
+              values: ['Pagi', 'Makan Siang', 'Sore', 'Makan Malam', 'Larut Malam']
 
 
   - name: mart_employee_shift_performance
