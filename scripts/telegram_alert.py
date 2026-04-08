@@ -33,7 +33,7 @@ def fetch_summary(target_date: date) -> dict:
             branch_name,
             total_revenue,
             total_orders,
-            ROUND(pct_change_vs_7d_avg * 100, 1) AS pct_change
+            ROUND(pct_change_vs_sdow_avg * 100, 1) AS pct_change
         FROM main_marts.mart_daily_revenue
         WHERE order_date = '{target_date}'
         ORDER BY total_revenue DESC
@@ -92,7 +92,7 @@ def format_message(target_date: date, data: dict) -> str:
         lines.append(
             f"{arrow} *{branch_name}*\n"
             f"   Rp {revenue:,.0f} ({orders} pesanan) "
-            f"[{sign}{pct_change}% vs 7h avg]"
+            f"[{sign}{pct_change}% vs hari serupa]"
         )
         total_revenue += revenue
         total_orders  += orders
@@ -121,7 +121,7 @@ def format_message(target_date: date, data: dict) -> str:
         ]
         for branch_name, pct_drop in data["alerts"]:
             lines.append(
-                f"   🔴 {branch_name}: {pct_drop}% vs rata-rata 7 hari"
+                f"   🔴 {branch_name}: {pct_drop}% vs rata-rata hari serupa"
             )
         lines.append("   _Segera cek kondisi cabang ini._")
 

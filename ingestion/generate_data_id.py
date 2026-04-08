@@ -324,6 +324,9 @@ def generate_for_dates(date_range: list) -> tuple:
     orders_rows = []
     items_rows  = []
 
+    # Pre-compute off days sekali saja di luar loop
+    emp_off_days = {emp["employee_id"]: get_off_days(emp["employee_id"]) for emp in EMPLOYEES}
+
     # ID counter prefix from first date — avoids collisions on append
     order_counter = int(date_range[0].strftime("%Y%m%d")) * 100000
     oi_counter    = order_counter * 10
@@ -332,6 +335,20 @@ def generate_for_dates(date_range: list) -> tuple:
         # Per-day seed — deterministic but unique per day
         np.random.seed(BASE_SEED + int(target_date.strftime("%Y%m%d")))
         random.seed(BASE_SEED + int(target_date.strftime("%Y%m%d")))
+
+        day_of_week = target_date.weekday()
+
+        # Pool handler yang benar-benar masuk kerja hari ini
+        available_handlers = {}
+        for emp in EMPLOYEES:
+            start_date = datetime.strptime(emp["start_date"], "%Y-%m-%d").date()
+            if target_date < start_date:
+                continue
+            if not emp["is_active"] and target_date > YESTERDAY - timedelta(days=60):
+                continue
+            if day_of_week in emp_off_days[emp["employee_id"]]:
+                continue
+            available_handlers.setdefault(emp["branch_id"], []).append(emp["employee_id"])
 
         months_elapsed = (
             (target_date.year  - BACKFILL_START.year)  * 12
@@ -361,7 +378,9 @@ def generate_for_dates(date_range: list) -> tuple:
                     "payment_method": get_payment_method(),
                     "order_type":     get_order_type(hour),
                     "shift_id":       infer_shift_id(hour),
-                    "handler_employee_id": random.choice(employee_branch_map[branch_id]),
+                    "handler_employee_id": random.choice(
+                        available_handlers.get(branch_id) or employee_branch_map[branch_id]
+                    ),
                     "member_id":      random.choices(
                         [None] + [m["member_id"] for m in MEMBERS],
                         weights=[0.62] + [0.38 / len(MEMBERS)] * len(MEMBERS)

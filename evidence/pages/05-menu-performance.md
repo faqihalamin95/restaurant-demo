@@ -4,6 +4,46 @@ title: Performa Menu
 
 _Analisis penjualan, tren, dan potensi menu restoran._
 
+<style>
+.tip {
+    border-bottom: 1px dashed var(--color-text-secondary);
+    cursor: help;
+    position: relative;
+}
+.tip::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    color: #1e293b;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    white-space: normal;
+    width: 220px;
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    z-index: 10;
+}
+.tip:hover::after {
+    opacity: 1;
+}
+</style>
+
+```sql periode_30d
+SELECT
+    strftime('%d %b %Y', MAX(order_date) - INTERVAL '29 days') AS tgl_awal,
+    strftime('%d %b %Y', MAX(order_date))                       AS tgl_akhir
+FROM restaurant.menu_performance
+```
+
 ```sql summary_menu
 SELECT
     COUNT(DISTINCT menu_name) AS total_menu
@@ -59,6 +99,10 @@ LIMIT 1
 
 ## Ringkasan 30 Hari Terakhir
 
+<span style="font-size:0.85em;color:var(--color-text-secondary)">{periode_30d[0].tgl_awal} – {periode_30d[0].tgl_akhir}</span>
+
+_Ringkasan kumulatif performa menu dalam 30 hari terakhir — patokan kondisi operasional terkini sebelum melihat tren._
+
 <BigValue data={best_menu_30d}    value="menu_name"     title="Menu Terlaris" />
 <BigValue data={best_menu_30d}    value="total_qty"     title="Total Terjual"             fmt="#,##0" />
 <BigValue data={best_revenue_30d} value="menu_name"     title="Menu Penggerak Revenue" />
@@ -69,7 +113,7 @@ LIMIT 1
 <div style="display: flex; flex-direction: column; gap: 8px; margin: 16px 0;">
 {#each menu_alert_declining as row}
 <div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px;">
-🔴 <strong>{row.menu_name}</strong> — penjualan turun <strong>{row.pct_change}%</strong> vs minggu lalu. Pertimbangkan promo atau evaluasi menu ini.
+🔴 <strong>{row.menu_name}</strong> — penjualan turun <strong>{row.pct_change}%</strong> vs minggu lalu. Pertimbangkan promo atau evaluasi menu ini — cek dulu apakah penurunan terjadi di semua cabang atau hanya satu cabang sebelum ambil keputusan.
 </div>
 {/each}
 </div>
@@ -160,7 +204,141 @@ LIMIT 10
 
 </Grid>
 
-_Menu terlaris belum tentu penggerak revenue terbesar. Pertimbangkan upselling atau bundling untuk mendorong revenue dari menu murah yang sering dipesan._
+_Kalau menu di Top 10 Volume dan Top 10 Revenue tidak banyak overlap, 
+berarti ada gap antara apa yang laku dan apa yang menghasilkan uang — 
+cek kolom <span class="tip" data-tip="Rata-rata harga jual per item berdasarkan yang benar-benar terjual — bukan harga di menu">**Harga Realisasi**</span> 
+di tabel kategori._
+
+---
+
+## Kontribusi per Kategori & Segmen Harga (30 Hari Terakhir)
+```sql category_summary_30d
+SELECT
+    CASE category
+        WHEN 'main'    THEN 'Menu Utama'
+        WHEN 'drink'   THEN 'Minuman'
+        WHEN 'snack'   THEN 'Camilan'
+        WHEN 'dessert' THEN 'Dessert'
+        WHEN 'side'    THEN 'Pendamping'
+        ELSE category
+    END AS category,
+    COUNT(DISTINCT menu_name)                                            AS total_menu,
+    SUM(total_qty_sold)                                                  AS total_qty,
+    SUM(total_revenue)                                                   AS total_revenue,
+    ROUND(SUM(total_revenue) / NULLIF(SUM(total_qty_sold), 0), 0)       AS avg_price_realisasi,
+    ROUND(SUM(total_revenue) / NULLIF(SUM(SUM(total_revenue)) OVER (), 0) * 100, 1) AS pct_revenue
+FROM restaurant.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days'
+GROUP BY category
+ORDER BY total_revenue DESC
+```
+```sql price_tier_summary_30d
+SELECT
+    price_tier,
+    COUNT(DISTINCT menu_name)                                            AS total_menu,
+    SUM(total_qty_sold)                                                  AS total_qty,
+    SUM(total_revenue)                                                   AS total_revenue,
+    ROUND(SUM(total_revenue) / NULLIF(SUM(SUM(total_revenue)) OVER (), 0) * 100, 1) AS pct_revenue
+FROM restaurant.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days'
+GROUP BY price_tier
+ORDER BY total_revenue DESC
+```
+
+<Grid cols=2>
+
+<div>
+
+### Per Kategori
+
+<BarChart
+    data={category_summary_30d}
+    x="category"
+    y="total_revenue"
+    title="Revenue per Kategori (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Kategori"
+    yAxisTitle="Revenue (Rp)"
+/>
+
+</div>
+
+<div>
+
+### Per Segmen Harga
+
+<BarChart
+    data={price_tier_summary_30d}
+    x="price_tier"
+    y="total_revenue"
+    title="Revenue per Segmen Harga (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Segmen"
+    yAxisTitle="Revenue (Rp)"
+/>
+
+</div>
+
+</Grid>
+
+<Grid cols=2>
+
+<div>
+
+<DataTable data={category_summary_30d}>
+    <Column id="category"           title="Kategori"/>
+    <Column id="total_menu"         title="Jumlah Menu"    fmt="#,##0"/>
+    <Column id="total_qty"          title="Qty Terjual"    fmt="#,##0"/>
+    <Column id="total_revenue"      title="Revenue (Rp)"   fmt="#,##0"/>
+    <Column id="avg_price_realisasi" title="Harga Realisasi (Rp)" fmt="#,##0"/>
+    <Column id="pct_revenue"        title="% Revenue"      fmt="0.0\%"/>
+</DataTable>
+
+</div>
+
+<div>
+
+<DataTable data={price_tier_summary_30d}>
+    <Column id="price_tier"    title="Segmen"/>
+    <Column id="total_menu"    title="Jumlah Menu"  fmt="#,##0"/>
+    <Column id="total_qty"     title="Qty Terjual"  fmt="#,##0"/>
+    <Column id="total_revenue" title="Revenue (Rp)" fmt="#,##0"/>
+    <Column id="pct_revenue"   title="% Revenue"    fmt="0.0\%"/>
+</DataTable>
+
+</div>
+
+</Grid>
+
+_Kalau kategori **Menu Utama** dominasi revenue >70% artinya bisnis sangat bergantung pada satu segmen — risiko tinggi kalau ada gangguan supply atau kompetitor masuk._
+
+```sql menu_reference
+SELECT
+    menu_name,
+    CASE category
+        WHEN 'main'    THEN 'Menu Utama'
+        WHEN 'drink'   THEN 'Minuman'
+        WHEN 'snack'   THEN 'Camilan'
+        WHEN 'dessert' THEN 'Dessert'
+        WHEN 'side'    THEN 'Pendamping'
+        ELSE category
+    END AS category,
+    price_tier,
+    ROUND(AVG(price), 0) AS harga
+FROM restaurant.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '30 days'
+GROUP BY menu_name, category, price_tier
+ORDER BY category, harga DESC
+```
+
+### Referensi Menu — Kategori & Segmen Harga
+
+<DataTable data={menu_reference} search=true>
+    <Column id="menu_name"  title="Menu"/>
+    <Column id="category"   title="Kategori"/>
+    <Column id="price_tier" title="Segmen"/>
+    <Column id="harga"      title="Harga (Rp)" fmt="#,##0"/>
+</DataTable>
 
 ---
 
@@ -332,21 +510,39 @@ SELECT
         / NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '13 days'
              AND order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
             THEN total_qty_sold END), 0) * 100
-    , 1) AS pct_change
+    , 1) AS pct_change_qty,
+    SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
+        THEN total_revenue END)                                         AS rev_minggu_ini,
+    SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '13 days'
+         AND order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
+        THEN total_revenue END)                                         AS rev_minggu_lalu,
+    ROUND(
+        (SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
+            THEN total_revenue END)
+        - SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '13 days'
+             AND order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
+            THEN total_revenue END))
+        / NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '13 days'
+             AND order_date < (SELECT MAX(order_date) FROM restaurant.menu_performance) - INTERVAL '6 days'
+            THEN total_revenue END), 0) * 100
+    , 1) AS pct_change_revenue
 FROM restaurant.menu_performance
 GROUP BY menu_name, category
-ORDER BY pct_change ASC
+ORDER BY pct_change_qty ASC
 ```
 
 <DataTable data={menu_wow}>
-    <Column id="menu_name"       title="Menu"/>
-    <Column id="category"        title="Kategori"/>
-    <Column id="qty_minggu_ini"  title="Minggu Ini"    fmt="#,##0"/>
-    <Column id="qty_minggu_lalu" title="Minggu Lalu"   fmt="#,##0"/>
-    <Column id="pct_change"      title="Perubahan (%)" fmt="+0.0;-0.0" contentType="delta"/>
+    <Column id="menu_name"        title="Menu"/>
+    <Column id="category"         title="Kategori"/>
+    <Column id="qty_minggu_ini"   title="Qty Minggu Ini"      fmt="#,##0"/>
+    <Column id="qty_minggu_lalu"  title="Qty Minggu Lalu"     fmt="#,##0"/>
+    <Column id="pct_change_qty"   title="Δ Qty (%)"           fmt="+0.0;-0.0" contentType="delta"/>
+    <Column id="rev_minggu_ini"   title="Revenue Minggu Ini"  fmt="#,##0"/>
+    <Column id="rev_minggu_lalu"  title="Revenue Minggu Lalu" fmt="#,##0"/>
+    <Column id="pct_change_revenue" title="Δ Revenue (%)"     fmt="+0.0;-0.0" contentType="delta"/>
 </DataTable>
 
-_Menu dengan tanda merah perlu perhatian segera. Cek apakah penurunan terjadi di semua cabang atau hanya cabang tertentu._
+_Menu dengan Δ Qty negatif tapi Δ Revenue positif berarti harga rata-rata naik atau mix produk bergeser ke item mahal — tidak selalu buruk. Sebaliknya, Δ Qty positif tapi Δ Revenue stagnan bisa berarti yang laku justru item murah._
 
 ---
 

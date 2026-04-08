@@ -53,9 +53,20 @@ HAVING net_margin_pct < 10
 ORDER BY net_margin_pct ASC
 ```
 
+```sql periode_30d
+SELECT
+    strftime(MAX(metric_date) - INTERVAL '29 days', '%d %b %Y') AS tgl_awal,
+    strftime(MAX(metric_date), '%d %b %Y')                       AS tgl_akhir
+FROM restaurant.daily_net_revenue
+```
+
 ---
 
 ## Ringkasan 30 Hari Terakhir
+
+<span style="font-size:0.85em;color:var(--color-text-secondary)">{periode_30d[0].tgl_awal} – {periode_30d[0].tgl_akhir}</span>
+
+_Ringkasan kumulatif kondisi keuangan dalam 30 hari terakhir — patokan kondisi operasional terkini sebelum melihat tren._
 
 <BigValue data={header_kpi} value="gross_revenue"  title="Gross Revenue (Rp)"  fmt="#,##0" />
 <BigValue data={header_kpi} value="total_biaya"    title="Total Biaya (Rp)"    fmt="#,##0" />

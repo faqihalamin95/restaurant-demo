@@ -4,6 +4,13 @@ title: Analisis Jam Sibuk
 
 _Ketahui kapan pelanggan datang dan optimalkan operasional restoranmu._
 
+```sql periode_30d
+SELECT
+    strftime('%d %b %Y', MAX(order_date) - INTERVAL '29 days') AS tgl_awal,
+    strftime('%d %b %Y', MAX(order_date))                       AS tgl_akhir
+FROM restaurant.peak_hours
+```
+
 ```sql peak_summary
 SELECT
     day_part                AS periode,
@@ -77,6 +84,10 @@ LIMIT 1
 
 ## Ringkasan 30 Hari Terakhir
 
+<span style="font-size:0.85em;color:var(--color-text-secondary)">{periode_30d[0].tgl_awal} – {periode_30d[0].tgl_akhir}</span>
+
+_Ringkasan kumulatif jam sibuk dalam 30 hari terakhir — patokan kondisi operasional terkini sebelum melihat tren._
+
 <BigValue data={peak_summary}      value="periode"      title="Periode Tersibuk" />
 <BigValue data={peak_hour_summary} value="jam_tersibuk" title="Jam Tersibuk" />
 <BigValue data={peak_order_type}   value="tipe_order"   title="Tipe Order Terbanyak" />
@@ -124,21 +135,34 @@ ORDER BY order_hour
 
 <div>
 
-### Ringkasan per Periode
+### Total Revenue per Jam
 
-<DataTable data={daypart_summary}>
-    <Column id="periode"         title="Periode"/>
-    <Column id="rentang_jam"     title="Jam"/>
-    <Column id="total_orders"    title="Total Order"               fmt="#,##0"/>
-    <Column id="total_revenue"   title="Total Revenue (Rp)"        fmt="#,##0"/>
-    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
-</DataTable>
+<BarChart
+    data={hourly_all}
+    x="order_hour"
+    y="total_revenue"
+    series="day_part"
+    title="Total Revenue per Jam (Rp)"
+    yFmt="#,##0"
+    xAxisTitle="Jam"
+    yAxisTitle="Revenue (Rp)"
+/>
 
 </div>
 
 </Grid>
 
-_Periode dengan rata-rata nilai order tinggi tapi volume rendah adalah peluang promo untuk mendorong traffic._
+### Ringkasan per Periode
+
+<DataTable data={daypart_summary}>
+    <Column id="periode"         title="Periode"/>
+    <Column id="rentang_jam"     title="Jam"/>
+    <Column id="total_orders"    title="Total Order"                fmt="#,##0"/>
+    <Column id="total_revenue"   title="Revenue (Rp)"               fmt="#,##0"/>
+    <Column id="avg_order_value" title="Rata-rata Nilai Order (Rp)" fmt="#,##0"/>
+</DataTable>
+
+_Dua chart di atas bisa jadi tidak selaras — jam dengan order sedikit belum tentu sepi revenue. Shift malam misalnya cenderung lebih sedikit transaksi tapi AOV lebih tinggi karena dominan dine-in dan paket. Gunakan kolom **Rata-rata Nilai Order** di tabel sebagai penentu prioritas staf: periode dengan AOV tinggi butuh pelayan berpengalaman, bukan sekadar headcount._
 
 ---
 

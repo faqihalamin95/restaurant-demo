@@ -200,7 +200,7 @@ _Data diperbarui otomatis setiap hari. Laporan berikut mencakup operasional **{t
 
 ---
 
-## Performa Cabang — {tgl[0].nama_hari},{tgl[0].tanggal_display}
+## Performa Cabang — {tgl[0].tanggal_display}
 
 ```sql branch_daily
 SELECT
@@ -250,7 +250,7 @@ _Detail tren jangka panjang ada di halaman **Performa Cabang** dan **Laporan Keu
 
 ---
 
-## Menu Terlaris — {tgl[0].nama_hari},{tgl[0].tanggal_display}
+## Menu Terlaris — {tgl[0].tanggal_display}
 
 ```sql menu_daily
 SELECT
@@ -276,7 +276,7 @@ _Analisis tren, menu engineering, dan perbandingan antar cabang ada di halaman *
 
 ---
 
-## Shift & Kehadiran — {tgl[0].nama_hari},{tgl[0].tanggal_display}
+## Shift & Kehadiran — {tgl[0].tanggal_display}
 
 ```sql shift_daily
 SELECT
@@ -336,7 +336,7 @@ _Analisis lengkap produktivitas dan absensi ada di halaman **Performa Pegawai**.
 
 ---
 
-## Pola Order per Jam — {tgl[0].nama_hari},{tgl[0].tanggal_display}
+## Pola Order per Jam — {tgl[0].tanggal_display}
 
 ```sql hourly_daily
 SELECT

@@ -6,12 +6,11 @@ orders as (
     select
         order_date,
         branch_id,
-        shift_id,
         handler_employee_id as employee_id,
         count(distinct order_id) as orders_handled,
         sum(subtotal)           as total_revenue
     from {{ ref('fct_orders') }}
-    group by 1, 2, 3, 4
+    group by order_date, branch_id, handler_employee_id
 ),
 
 joined as (
@@ -51,7 +50,6 @@ joined as (
     left join orders o
         on  a.attendance_date = o.order_date
         and a.employee_id     = o.employee_id
-        and a.shift_id        = o.shift_id
     left join {{ ref('dim_employees') }} e
         on a.employee_id = e.employee_id
     left join {{ ref('dim_branches') }} b
