@@ -51,11 +51,11 @@ def fetch_summary(target_date: date) -> dict:
     alerts = con.execute(f"""
         SELECT
             branch_name,
-            ROUND(pct_change_vs_7d_avg * 100, 1) AS pct_drop
+            ROUND(pct_change_vs_sdow_avg * 100, 1) AS pct_drop
         FROM main_marts.mart_daily_revenue
         WHERE order_date = '{target_date}'
-          AND pct_change_vs_7d_avg < -0.15
-        ORDER BY pct_change_vs_7d_avg ASC
+        AND pct_change_vs_sdow_avg < -0.15
+        ORDER BY pct_change_vs_sdow_avg ASC
     """).fetchall()
 
     con.close()

@@ -5,6 +5,8 @@ Runs dbt build after ingestion completes.
 Uses subprocess for simplicity — no dagster-dbt dependency needed.
 """
 
+from datetime import date
+
 import subprocess
 from pathlib import Path
 
@@ -108,3 +110,34 @@ def build_evidence_dashboard():
         raise Exception(f"npm run build failed:\n{result.stderr}")
     
     return Output(value="Dashboard rebuilt successfully")
+
+@asset(group_name="publish", compute_kind="git", deps=[dbt_build])
+def push_to_github():
+    """
+    Push DuckDB ke GitHub setelah dbt build selesai.
+    Data demo otomatis terupdate setiap hari.
+    """
+    import subprocess
+    
+    result = subprocess.run(
+        ["git", "add", "sources/restaurant_demo.duckdb"],
+        capture_output=True, text=True, cwd=str(ROOT_DIR)
+    )
+    
+    result = subprocess.run(
+        ["git", "commit", "-m", f"chore: update daily data {date.today()}"],
+        capture_output=True, text=True, cwd=str(ROOT_DIR)
+    )
+    
+    result = subprocess.run(
+        ["git", "push", "origin", "main"],
+        capture_output=True, text=True, cwd=str(ROOT_DIR)
+    )
+    
+    if result.returncode != 0:
+        raise Exception(f"Git push failed:\n{result.stderr}")
+    
+    return Output(
+        value="GitHub updated successfully",
+        metadata={"output": MetadataValue.text(result.stdout)}
+    )
