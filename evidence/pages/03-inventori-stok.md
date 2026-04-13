@@ -79,29 +79,29 @@ _Ringkasan kumulatif kondisi stok & inventori dalam 30 hari terakhir — patokan
 <BigValue data={header_kpi} value="total_cabang"          title="Cabang Terpantau" />
 
 {#if wow_biaya[0].pct_change > 10}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 🔴 <strong>Biaya pemakaian minggu ini naik {wow_biaya[0].pct_change}%</strong> vs minggu lalu (Rp {wow_biaya[0].biaya_minggu_lalu?.toLocaleString()} → Rp {wow_biaya[0].biaya_minggu_ini?.toLocaleString()}). Cek item mana yang mendorong kenaikan di tabel per kategori di bawah.
 </div>
 {:else if wow_biaya[0].pct_change < -10}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 ✅ <strong>Biaya pemakaian minggu ini turun {Math.abs(wow_biaya[0].pct_change)}%</strong> vs minggu lalu — efisiensi membaik atau volume operasional memang lebih rendah.
 </div>
 {:else}
-<div style="background: #f5f5f5; border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(100,116,139,0.08); border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 ➡️ <strong>Biaya pemakaian stabil</strong> — selisih hanya {wow_biaya[0].pct_change}% vs minggu lalu.
 </div>
 {/if}
 
 {#if price_alert_count[0].jumlah_item > 0}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 🔴 <strong>{price_alert_count[0].jumlah_item} bahan baku</strong> dengan harga beli aktual >10% di atas harga dasar. Segera renegosiasi dengan supplier — detail ada di bagian Perbandingan Harga di bawah.
 </div>
 {:else if overstock_alert_count[0].jumlah_cabang > 0}
-<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 🟡 <strong>{overstock_alert_count[0].jumlah_cabang} cabang</strong> dengan total pembelian melebihi pemakaian >30% — potensi stok menumpuk atau jadwal pembelian yang tidak efisien. Cek grafik Pemakaian vs Pembelian di bawah.
 </div>
 {:else}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 ✅ <strong>Semua indikator normal.</strong> Tidak ada lonjakan harga beli atau penumpukan stok yang signifikan dalam 30 hari terakhir.
 </div>
 {/if}
@@ -314,7 +314,7 @@ ORDER BY selisih_pct DESC
 ```
 
 {#if price_alert_count[0].jumlah_item > 0}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 🔴 <strong>{price_alert_count[0].jumlah_item} item</strong> dengan harga beli di atas 10% harga dasar — tandai merah di tabel di bawah. Prioritaskan untuk renegosiasi supplier.
 </div>
 {/if}

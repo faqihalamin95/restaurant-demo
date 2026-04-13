@@ -111,7 +111,7 @@ ORDER BY avg_pct_change ASC
 {/each}
 </div>
 {:else}
-<div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">
 ✅ <strong>Semua cabang normal.</strong> Tidak ada penurunan signifikan vs hari serupa dalam 30 hari terakhir.
 </div>
 {/if}
@@ -274,7 +274,7 @@ _Patokan: perbandingan 15 hari pertama vs 15 hari terakhir dalam periode ini. Si
     <Column id="pct_change"       title="Perubahan (%)" fmt="+0.0;-0.0" contentType="delta"/>
 </DataTable>
 {:else}
-<div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">
 ✅ Semua cabang stabil atau tumbuh — tidak ada perlambatan omset signifikan.
 </div>
 {/if}
@@ -292,7 +292,7 @@ _Patokan: total net revenue 30 hari terakhir setelah dikurangi biaya bahan, SDM,
     <Column id="hari_merugi"       title="Hari Merugi (dari 30)" fmt="#,##0"/>
 </DataTable>
 {:else}
-<div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">
 ✅ Semua cabang menghasilkan net revenue positif dalam 30 hari terakhir.
 </div>
 {/if}

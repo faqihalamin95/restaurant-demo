@@ -2,9 +2,9 @@
 title: Panduan Dashboard
 ---
 
-<div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;padding:12px 20px;border-radius:10px;margin-bottom:24px;">
-  <span style="font-size:0.9em;color:#030303;">Sudah familiar dengan dashboard ini?</span>
-  <a href="/" style="font-size:0.85em;color:#030303;text-decoration:none;border:1px solid #cbd5e1;padding:6px 14px;border-radius:6px;background:white;">
+<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.2);padding:12px 20px;border-radius:10px;margin-bottom:24px;">
+  <span style="font-size:0.9em;">Sudah familiar dengan dashboard ini?</span>
+  <a href="/" style="font-size:0.85em;text-decoration:none;border:1px solid rgba(128,128,128,0.3);padding:6px 14px;border-radius:6px;background:rgba(128,128,128,0.05);">
     Lewati panduan →
   </a>
 </div>
@@ -50,7 +50,7 @@ _Data per {tgl_update[0].tgl}. Diperbarui otomatis setiap hari._
 
 ### 📊 1 — Grafik & Chart
 
-<div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
 
 🖱️ <strong>Hover</strong> ke titik atau bar untuk melihat angka detailnya.<br/>
 🏷️ <strong>Klik nama</strong> di legend untuk menyembunyikan atau memunculkan data tertentu — berguna kalau mau fokus ke satu cabang saja.<br/>
@@ -83,7 +83,7 @@ ORDER BY order_date, branch_name
 
 ### 📋 2 — Tabel Data
 
-<div style="background:#eff6ff;border-left:4px solid #2563eb;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
+<div style="background:rgba(37,99,235,0.08);border-left:4px solid #2563eb;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
 
 ↔️ <strong>Tabel lebar</strong>: geser ke kiri-kanan untuk melihat kolom yang tersembunyi di sisi kanan.<br/>
 📄 <strong>Tabel panjang</strong>: gunakan tombol <strong>← →</strong> di pojok kanan bawah tabel untuk pindah halaman.<br/>
@@ -124,7 +124,7 @@ _👆 Coba klik judul kolom untuk mengurutkan. Di layar kecil, geser tabel ke ka
 
 ### 📱 3 — Di Handphone / Tablet
 
-<div style="background:#fefce8;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
+<div style="background:rgba(245,158,11,0.08);border-left:4px solid #f59e0b;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 20px 0;font-size:0.9em;">
 
 📲 Semua halaman bisa diakses dari HP.<br/>
 👆 Grafik bisa di-tap untuk lihat detail angka.<br/>

@@ -74,21 +74,21 @@ _Ringkasan kumulatif kondisi keuangan dalam 30 hari terakhir — patokan kondisi
 <BigValue data={header_kpi} value="net_margin_pct" title="Net Margin (%)"      fmt="0.0\%" />
 
 {#if margin_vs_bulan_lalu[0].selisih_margin < -2}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 🔴 <strong>Margin turun {Math.abs(margin_vs_bulan_lalu[0].selisih_margin)} poin</strong> dibanding 30 hari sebelumnya ({margin_vs_bulan_lalu[0].margin_30d_lalu}% → {margin_vs_bulan_lalu[0].margin_30d}%). Biaya tumbuh lebih cepat dari revenue — cek struktur biaya di bawah.
 </div>
 {:else if margin_vs_bulan_lalu[0].selisih_margin > 2}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 ✅ <strong>Margin naik {margin_vs_bulan_lalu[0].selisih_margin} poin</strong> dibanding 30 hari sebelumnya ({margin_vs_bulan_lalu[0].margin_30d_lalu}% → {margin_vs_bulan_lalu[0].margin_30d}%). Efisiensi biaya membaik.
 </div>
 {:else}
-<div style="background: #f5f5f5; border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(100,116,139,0.08); border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 ➡️ <strong>Margin stabil</strong> di {margin_vs_bulan_lalu[0].margin_30d}% — selisih hanya {margin_vs_bulan_lalu[0].selisih_margin} poin vs 30 hari sebelumnya.
 </div>
 {/if}
 
 {#if cabang_margin_alert.length > 0}
-<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 🟡 <strong>Margin di bawah 10%:</strong>
 {#each cabang_margin_alert as row}
 {row.branch_name} ({row.net_margin_pct}%)&nbsp;

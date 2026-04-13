@@ -94,7 +94,7 @@ _Ringkasan kumulatif jam sibuk dalam 30 hari terakhir — patokan kondisi operas
 <BigValue data={peak_hour_summary} value="total_orders" title="Total Order di Jam Tersibuk" fmt="#,##0" />
 
 {#if quiet_period.length > 0 && peak_summary.length > 0}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 📊 Periode paling ramai: <strong>{peak_summary[0].periode}</strong> dengan <strong>{peak_summary[0].total_orders}</strong> order. Periode paling sepi: <strong>{quiet_period[0].periode}</strong> dengan <strong>{quiet_period[0].total_orders}</strong> order — peluang promo untuk mendorong traffic di jam ini.
 </div>
 {/if}

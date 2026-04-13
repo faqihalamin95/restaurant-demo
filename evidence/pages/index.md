@@ -162,19 +162,19 @@ _Data diperbarui otomatis setiap hari. Laporan berikut mencakup operasional **{t
 <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
 
 {#each insights as row}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px;">
 🔴 <strong>{row.branch_name}</strong> — Revenue turun <strong>{row.pct_change}%</strong> vs rata-rata hari serupa dalam 30 hari terakhir. Segera cek kondisi operasional cabang ini.
 </div>
 {/each}
 
 {#if attendance_alerts[0].jumlah_absent >= 3}
-<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px;">
+<div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px;">
 🟡 <strong>{attendance_alerts[0].jumlah_absent} pegawai tidak hadir</strong> kemarin. Pastikan tidak ada shift yang kekurangan staf.
 </div>
 {/if}
 
 {#each menu_alerts as row}
-<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px;">
+<div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px;">
 🟡 <strong>{row.menu_name}</strong> — Penjualan turun <strong>{row.pct_change}%</strong> vs minggu lalu. Pertimbangkan promo atau evaluasi menu.
 </div>
 {/each}
@@ -182,7 +182,7 @@ _Data diperbarui otomatis setiap hari. Laporan berikut mencakup operasional **{t
 </div>
 
 {:else}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px;">
 ✅ <strong>Semua indikator normal.</strong> Tidak ada cabang, menu, atau kehadiran yang perlu perhatian kemarin.
 </div>
 {/if}

@@ -1,6 +1,6 @@
 appearance:
   default: light
-  switcher: false
+  switcher: true
 
 logo: /logo.png 
 

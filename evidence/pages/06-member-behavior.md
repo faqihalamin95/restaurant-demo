@@ -81,7 +81,7 @@ FROM (
 
 <span style="font-size:0.85em;color:var(--color-text-secondary)">{periode_90d[0].tgl_awal} – {periode_90d[0].tgl_akhir}</span>
 
-<div style="background:#f0fdf4;border-left:4px solid #1D9E75;padding:12px 16px;border-radius:6px;margin:12px 0;font-size:0.9em;line-height:1.6;">
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #1D9E75;padding:12px 16px;border-radius:6px;margin:12px 0;font-size:0.9em;line-height:1.6;">
 💡 <strong>Kenapa pelanggan setia perlu dicatat?</strong><br/>
 Hampir setiap restoran punya pelanggan yang sering datang — tapi tanpa pencatatan, kamu tidak tahu siapa mereka, seberapa sering mereka datang, atau kapan mereka mulai jarang kembali. Program member bukan untuk menciptakan pelanggan setia, tapi untuk <strong>mengenali yang sudah ada</strong> — supaya kamu bisa menjaga mereka sebelum pergi ke tempat lain tanpa kamu sadari.
 </div>
@@ -92,21 +92,21 @@ Hampir setiap restoran punya pelanggan yang sering datang — tapi tanpa pencata
 <BigValue data={member_summary_90d} value="avg_order_value"      title="Rata-rata Nilai Order (Rp)"   fmt="#,##0" />
 
 {#if member_vs_periode_lalu[0].pct_change_aov > 5}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 ✅ <strong>Rata-rata nilai order naik {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Member semakin loyal dan belanja lebih besar.
 </div>
 {:else if member_vs_periode_lalu[0].pct_change_aov < -5}
-<div style="background: #fff3f3; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 🔴 <strong>Rata-rata nilai order turun {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Cek apakah ada pergeseran tier atau penurunan frekuensi belanja.
 </div>
 {:else}
-<div style="background: #f5f5f5; border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+<div style="background: rgba(100,116,139,0.08); border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
 ➡️ <strong>Rata-rata nilai order stabil</strong> vs 90 hari sebelumnya — perubahan hanya {member_vs_periode_lalu[0].pct_change_aov}%.
 </div>
 {/if}
 
 {#if churn_count[0].jumlah_churn_risk > 0}
-<div style="background: #fffbeb; border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
+<div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
 🟡 <strong>{churn_count[0].jumlah_churn_risk} member berisiko churn</strong> — tidak bertransaksi dalam 21 hari terakhir.
 {#if churn_count[0].gold_churn > 0} Termasuk <strong>{churn_count[0].gold_churn} member Gold</strong> yang perlu prioritas outreach.{/if}
 {#if churn_count[0].silver_churn > 0} Dan <strong>{churn_count[0].silver_churn} member Silver</strong>.{/if}
@@ -499,7 +499,7 @@ LIMIT 25
 _Threshold berbeda per tier: Gold 14 hari, Silver 21 hari, Bronze 30 hari — disesuaikan dengan pola kunjungan normal tiap segmen. Member dengan frekuensi tinggi yang tiba-tiba berhenti lebih urgent ditangani daripada member yang memang jarang datang._
 
 {:else}
-<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px;">
+<div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px;">
 ✅ <strong>Tidak ada member berisiko churn</strong> saat ini — semua member masih aktif bertransaksi dalam 21 hari terakhir.
 </div>
 {/if}
