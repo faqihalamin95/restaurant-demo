@@ -3,8 +3,8 @@ version: 2
 models:
   - name: mart_daily_revenue
     description: >
-      Daily revenue per branch with 7-day rolling average.
-      pct_change_vs_7d_avg drives Telegram early warning alerts.
+      Daily revenue per branch with same-day-of-week (SDOW) rolling average.
+      pct_change_vs_sdow_avg drives Telegram early warning alerts.
     columns:
       - name: order_date
         tests: [not_null]
@@ -19,8 +19,8 @@ models:
 
   - name: mart_menu_performance
     description: >
-      Daily menu performance with 30-day rolling qty and
-      week-over-week change. qty_wow_change drives declining menu detection.
+      Daily menu performance per branch with 30-day rolling qty and
+      week-over-week change.
     columns:
       - name: order_date
         tests: [not_null]
@@ -34,7 +34,6 @@ models:
   - name: mart_peak_hours
     description: >
       Hourly order distribution per branch and order type.
-      day_part and is_peak_hour used for dashboard grouping.
     columns:
       - name: order_date
         tests: [not_null]
@@ -46,3 +45,63 @@ models:
         tests:
           - accepted_values:
               values: ['Morning', 'Lunch Peak', 'Afternoon', 'Dinner Peak', 'Late Night']
+
+  - name: mart_daily_net_revenue
+    description: >
+      Daily branch profitability combining gross revenue with all cost layers.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: gross_revenue
+        tests: [not_null]
+      - name: labor_total_cost
+        tests: [not_null]
+      - name: operational_total_cost
+        tests: [not_null]
+      - name: net_revenue
+        tests: [not_null]
+
+  - name: mart_employee_shift_performance
+    description: >
+      Employee-level transaction handling by shift and attendance status.
+    columns:
+      - name: attendance_date
+        tests: [not_null]
+      - name: employee_id
+        tests: [not_null]
+      - name: shift_id
+        tests: [not_null]
+      - name: orders_handled
+        tests: [not_null]
+      - name: attendance_status
+        tests:
+          - accepted_values:
+              values: ['present', 'late', 'leave', 'absent']
+
+  - name: mart_member_purchase_behavior
+    description: >
+      Daily purchase behavior for member customers.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: member_id
+        tests: [not_null]
+      - name: tier
+        tests:
+          - accepted_values:
+              values: ['Bronze', 'Silver', 'Gold']
+      - name: total_spend
+        tests: [not_null]
+
+  - name: mart_inventory_stok
+    description: >
+      Daily inventory usage vs purchase by branch and item.
+    columns:
+      - name: txn_date
+        tests: [not_null]
+      - name: branch_id
+        tests: [not_null]
+      - name: inventory_id
+        tests: [not_null]

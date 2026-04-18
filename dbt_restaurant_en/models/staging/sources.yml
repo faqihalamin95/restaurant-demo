@@ -29,6 +29,10 @@ sources:
             tests: [not_null]
           - name: order_time
             tests: [not_null]
+          - name: handler_employee_id
+            tests: [not_null]
+          - name: shift_id
+            tests: [not_null]
 
       - name: order_items
         columns:
@@ -37,4 +41,74 @@ sources:
           - name: order_id
             tests: [not_null]
           - name: subtotal
+            tests: [not_null]
+
+      - name: employees
+        columns:
+          - name: employee_id
+            tests: [unique, not_null]
+          - name: branch_id
+            tests: [not_null]
+          - name: assigned_shift_id
+            tests: [not_null]
+
+      - name: shifts
+        columns:
+          - name: shift_id
+            tests: [unique, not_null]
+          - name: shift_name
+            tests: [not_null]
+
+      - name: employee_attendance
+        columns:
+          - name: attendance_id
+            tests: [unique, not_null]
+          - name: attendance_date
+            tests: [not_null]
+          - name: employee_id
+            tests: [not_null]
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['present', 'late', 'leave', 'absent']
+
+      - name: members
+        columns:
+          - name: member_id
+            tests: [unique, not_null]
+          - name: join_date
+            tests: [not_null]
+
+      - name: employee_compensation
+        columns:
+          - name: employee_id
+            tests: [unique, not_null]
+          - name: branch_id
+            tests: [not_null]
+          - name: base_salary_monthly
+            tests: [not_null]
+
+      - name: inventory_catalog
+        columns:
+          - name: inventory_id
+            tests: [unique, not_null]
+          - name: base_unit_cost
+            tests: [not_null]
+
+      - name: inventory_transactions
+        columns:
+          - name: inventory_txn_id
+            tests: [unique, not_null]
+          - name: txn_type
+            tests:
+              - accepted_values:
+                  values: ['usage', 'purchase']
+          - name: total_cost
+            tests: [not_null]
+
+      - name: branch_daily_operational_costs
+        columns:
+          - name: cost_date
+            tests: [not_null]
+          - name: branch_id
             tests: [not_null]

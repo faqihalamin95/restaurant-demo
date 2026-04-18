@@ -11,8 +11,11 @@ renamed as (
                                         as order_date,
         hour(cast(order_time as timestamp))
                                         as order_hour,
-        payment_method,                 -- nullable (chaos injection)
-        order_type
+        payment_method,                 -- nullable by design
+        order_type,
+        shift_id,
+        handler_employee_id,
+        member_id
     from source
 )
 

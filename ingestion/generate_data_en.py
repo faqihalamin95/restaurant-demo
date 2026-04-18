@@ -2,6 +2,11 @@
 Burger Restaurant Demo (US) - Synthetic Data Generator
 =======================================================
 Generates realistic restaurant transaction data relative to today's date.
+Full parity with the Indonesian (ID) version:
+  branches, menu_items, employees, members, shifts,
+  employee_attendance, orders, order_items, employee_compensation,
+  inventory_catalog, inventory_transactions,
+  branch_daily_operational_costs
 
 Modes:
   --mode backfill   Generate (today - 365 days) up to yesterday. Run once.
@@ -12,7 +17,6 @@ Usage:
     python generate_data_en.py --mode daily
 
 Output: data/raw_en/
-    branches.csv, menu_items.csv, orders.csv, order_items.csv
 """
 
 import argparse
@@ -45,24 +49,20 @@ def get_branch_multiplier(branch_id: str, target_date: date) -> float:
     )
 
     if branch_id == "BR01":
-        # Downtown — stable flagship
         return 1.0
 
     elif branch_id == "BR02":
-        # Midtown — office lunch crowd, consistent growth
         growth = [0.70, 0.74, 0.78, 0.81, 0.84, 0.87,
                   0.90, 0.92, 0.95, 0.97, 1.00, 1.04]
         return growth[min(months_elapsed, len(growth) - 1)]
 
     elif branch_id == "BR03":
-        # Westside — new suburban location, opens month 4
         if months_elapsed < 4:
             return 0.0
         ramp = [0.42, 0.53, 0.62, 0.68, 0.72, 0.75, 0.79, 0.84]
         return ramp[min(months_elapsed - 4, len(ramp) - 1)]
 
     elif branch_id == "BR04":
-        # Northside — road construction months 6-8, recovery after
         drop     = {6: 0.58, 7: 0.52, 8: 0.56}
         recovery = [0.74, 0.81, 0.87]
         if months_elapsed in drop:
@@ -75,13 +75,13 @@ def get_branch_multiplier(branch_id: str, target_date: date) -> float:
 
 
 BRANCHES = [
-    {"branch_id": "BR01", "name": "Downtown", "location": "Chicago, IL — Loop",
+    {"branch_id": "BR01", "name": "Downtown",  "location": "Chicago, IL — Loop",
      "opened_date": str(BACKFILL_START)},
-    {"branch_id": "BR02", "name": "Midtown",  "location": "Chicago, IL — River North",
+    {"branch_id": "BR02", "name": "Midtown",   "location": "Chicago, IL — River North",
      "opened_date": str(BACKFILL_START)},
-    {"branch_id": "BR03", "name": "Westside", "location": "Oak Park, IL",
+    {"branch_id": "BR03", "name": "Westside",  "location": "Oak Park, IL",
      "opened_date": str(BACKFILL_START + timedelta(days=120))},
-    {"branch_id": "BR04", "name": "Northside","location": "Chicago, IL — Lincoln Park",
+    {"branch_id": "BR04", "name": "Northside", "location": "Chicago, IL — Lincoln Park",
      "opened_date": str(BACKFILL_START)},
 ]
 
@@ -104,15 +104,94 @@ MENU_ITEMS = [
     {"menu_id": "M16", "name": "Brownie",                 "category": "dessert", "price": 3.99,  "is_active": True, "note": "stable"},
 ]
 
+SHIFTS = [
+    {"shift_id": "S1", "shift_name": "Morning",   "start_hour": 8,  "end_hour": 15},
+    {"shift_id": "S2", "shift_name": "Afternoon", "start_hour": 12, "end_hour": 20},
+    {"shift_id": "S3", "shift_name": "Evening",   "start_hour": 16, "end_hour": 23},
+]
+
+INVENTORY_CATALOG = [
+    {"inventory_id": "INV01", "item_name": "Beef Patty",       "category": "protein",  "unit": "lb",    "base_unit_cost": 6.50},
+    {"inventory_id": "INV02", "item_name": "Burger Buns",      "category": "bakery",   "unit": "dozen", "base_unit_cost": 4.20},
+    {"inventory_id": "INV03", "item_name": "Frying Oil",       "category": "oil",      "unit": "gal",   "base_unit_cost": 8.99},
+    {"inventory_id": "INV04", "item_name": "Fresh Tomatoes",   "category": "produce",  "unit": "lb",    "base_unit_cost": 2.50},
+    {"inventory_id": "INV05", "item_name": "Iceberg Lettuce",  "category": "produce",  "unit": "head",  "base_unit_cost": 1.80},
+    {"inventory_id": "INV06", "item_name": "Soda Syrup",       "category": "beverage", "unit": "box",   "base_unit_cost": 18.00},
+    {"inventory_id": "INV07", "item_name": "Lemons",           "category": "produce",  "unit": "lb",    "base_unit_cost": 1.50},
+    {"inventory_id": "INV08", "item_name": "Propane Tank",     "category": "utility",  "unit": "tank",  "base_unit_cost": 22.00},
+]
+
+EMPLOYEE_NAMES = [
+    "James Carter", "Emily Johnson", "Michael Brown", "Sarah Davis",
+    "Robert Wilson", "Jessica Martinez", "David Anderson", "Ashley Taylor",
+    "Christopher Thomas", "Amanda Jackson", "Daniel White", "Stephanie Harris",
+    "Matthew Lewis", "Nicole Robinson", "Joshua Walker", "Megan Hall",
+    "Andrew Young", "Lauren Allen", "Ryan King", "Brittany Wright",
+    "Kevin Scott", "Samantha Green", "Brandon Adams", "Kayla Baker",
+    "Tyler Nelson", "Rachel Hill", "Nathan Mitchell", "Heather Carter",
+    "Justin Perez", "Amber Roberts", "Eric Turner", "Melissa Phillips",
+]
+
+MEMBER_CITIES = ["Chicago", "Oak Park", "Evanston", "Naperville", "Aurora", "Schaumburg"]
+
 menu_notes  = {m["menu_id"]: m["note"]  for m in MENU_ITEMS}
 menu_prices = {m["menu_id"]: m["price"] for m in MENU_ITEMS}
 menu_ids    = [m["menu_id"] for m in MENU_ITEMS]
+
+# ── Generate static dimensions ────────────────────────────────────────────────
+random.seed(BASE_SEED)
+
+MEMBERS = []
+for i in range(1, 701):
+    signup_date = BACKFILL_START + timedelta(days=random.randint(0, 350))
+    tier = random.choices(["Bronze", "Silver", "Gold"], weights=[0.58, 0.30, 0.12])[0]
+    MEMBERS.append({
+        "member_id":   f"MBR{i:04d}",
+        "member_name": f"Member Customer {i:04d}",
+        "gender":      random.choice(["M", "F"]),
+        "birth_year":  random.randint(1970, 2005),
+        "city":        random.choice(MEMBER_CITIES),
+        "join_date":   str(signup_date),
+        "tier":        tier,
+        "is_active":   random.choices([True, False], weights=[0.93, 0.07])[0],
+    })
+
+EMPLOYEES = []
+EMPLOYEE_COMPENSATION = []
+employee_branch_map = {}
+
+for branch in BRANCHES:
+    for _ in range(8):
+        emp_idx    = len(EMPLOYEES) + 1
+        opened_dt  = datetime.strptime(branch["opened_date"], "%Y-%m-%d").date()
+        start_date = opened_dt + timedelta(days=random.randint(0, 60))
+        shift_id   = random.choices(["S1", "S2", "S3"], weights=[0.35, 0.40, 0.25])[0]
+        employee_id = f"EMP{emp_idx:04d}"
+        role = random.choices(["cashier", "server", "supervisor"], weights=[0.45, 0.40, 0.15])[0]
+
+        EMPLOYEES.append({
+            "employee_id":       employee_id,
+            "employee_name":     EMPLOYEE_NAMES[(emp_idx - 1) % len(EMPLOYEE_NAMES)],
+            "branch_id":         branch["branch_id"],
+            "role":              role,
+            "assigned_shift_id": shift_id,
+            "start_date":        str(start_date),
+            "is_active":         random.choices([True, False], weights=[0.96, 0.04])[0],
+        })
+        EMPLOYEE_COMPENSATION.append({
+            "employee_id":          employee_id,
+            "branch_id":            branch["branch_id"],
+            "base_salary_monthly":  random.choice([3200, 3500, 3800, 4200, 4800]),
+            "meal_allowance_daily": random.choice([12, 15, 18]),
+            "overtime_rate_hourly": random.choice([18, 20, 22]),
+            "effective_from":       str(start_date),
+        })
+        employee_branch_map.setdefault(branch["branch_id"], []).append(employee_id)
 
 
 # ── 2. HELPERS ────────────────────────────────────────────────────────────────
 
 def get_hour_weight(hour: int) -> float:
-    # Strong lunch peak, moderate dinner — typical US fast casual
     weights = {
         8: 0.3, 9: 0.5, 10: 0.8, 11: 2.2,
         12: 3.0, 13: 2.5, 14: 0.8, 15: 0.6,
@@ -162,7 +241,66 @@ def get_order_type(hour: int) -> str:
     return random.choices(["dine_in", "delivery", "takeaway"], weights=[0.48, 0.28, 0.24])[0]
 
 
-# ── 3. CORE GENERATOR ────────────────────────────────────────────────────────
+def infer_shift_id(hour: int) -> str:
+    if 8 <= hour <= 11:
+        return "S1"
+    if 12 <= hour <= 15:
+        return random.choices(["S1", "S2"], weights=[0.40, 0.60])[0]
+    if 16 <= hour <= 20:
+        return random.choices(["S2", "S3"], weights=[0.55, 0.45])[0]
+    return "S3"
+
+
+def get_off_days(employee_id: str) -> set:
+    seed_val = int(employee_id[3:])
+    rng = random.Random(seed_val)
+    n_off = rng.choices([1, 2], weights=[0.4, 0.6])[0]
+    return set(rng.sample(range(7), n_off))
+
+
+# ── 3. ATTENDANCE ─────────────────────────────────────────────────────────────
+
+def build_attendance_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    emp_off_days = {e["employee_id"]: get_off_days(e["employee_id"]) for e in EMPLOYEES}
+
+    for target_date in date_range:
+        is_weekend  = target_date.weekday() >= 5
+        day_of_week = target_date.weekday()
+
+        for emp in EMPLOYEES:
+            start_date = datetime.strptime(emp["start_date"], "%Y-%m-%d").date()
+            if target_date < start_date:
+                continue
+            if not emp["is_active"] and target_date > YESTERDAY - timedelta(days=60):
+                continue
+            if day_of_week in emp_off_days[emp["employee_id"]]:
+                continue
+
+            status = random.choices(
+                ["present", "late", "leave", "absent"],
+                weights=[0.82, 0.10, 0.04, 0.04] if not is_weekend
+                        else [0.78, 0.12, 0.03, 0.07],
+            )[0]
+
+            overtime_hours = 0
+            if status in ("present", "late"):
+                overtime_hours = random.choices([0, 1, 2], weights=[0.78, 0.17, 0.05])[0]
+
+            rows.append({
+                "attendance_id":   f"ATD{target_date.strftime('%Y%m%d')}{emp['employee_id'][3:]}",
+                "attendance_date": str(target_date),
+                "employee_id":     emp["employee_id"],
+                "branch_id":       emp["branch_id"],
+                "shift_id":        emp["assigned_shift_id"],
+                "status":          status,
+                "overtime_hours":  overtime_hours,
+            })
+
+    return pd.DataFrame(rows)
+
+
+# ── 4. CORE ORDER GENERATOR ───────────────────────────────────────────────────
 
 def generate_for_dates(date_range: list) -> tuple:
     hours        = list(range(8, 23))
@@ -171,12 +309,27 @@ def generate_for_dates(date_range: list) -> tuple:
     orders_rows = []
     items_rows  = []
 
+    emp_off_days  = {e["employee_id"]: get_off_days(e["employee_id"]) for e in EMPLOYEES}
     order_counter = int(date_range[0].strftime("%Y%m%d")) * 100000
     oi_counter    = order_counter * 10
 
     for target_date in date_range:
         np.random.seed(BASE_SEED + int(target_date.strftime("%Y%m%d")))
         random.seed(BASE_SEED + int(target_date.strftime("%Y%m%d")))
+
+        day_of_week = target_date.weekday()
+
+        # Pool of available handlers for today
+        available_handlers = {}
+        for emp in EMPLOYEES:
+            start_date = datetime.strptime(emp["start_date"], "%Y-%m-%d").date()
+            if target_date < start_date:
+                continue
+            if not emp["is_active"] and target_date > YESTERDAY - timedelta(days=60):
+                continue
+            if day_of_week in emp_off_days[emp["employee_id"]]:
+                continue
+            available_handlers.setdefault(emp["branch_id"], []).append(emp["employee_id"])
 
         months_elapsed = (
             (target_date.year  - BACKFILL_START.year)  * 12
@@ -200,11 +353,19 @@ def generate_for_dates(date_range: list) -> tuple:
                 order_id = f"ORD{order_counter:010d}"
 
                 orders_rows.append({
-                    "order_id":       order_id,
-                    "branch_id":      branch_id,
-                    "order_time":     ts.strftime("%Y-%m-%d %H:%M:%S"),
-                    "payment_method": get_payment_method(),
-                    "order_type":     get_order_type(hour),
+                    "order_id":            order_id,
+                    "branch_id":           branch_id,
+                    "order_time":          ts.strftime("%Y-%m-%d %H:%M:%S"),
+                    "payment_method":      get_payment_method(),
+                    "order_type":          get_order_type(hour),
+                    "shift_id":            infer_shift_id(hour),
+                    "handler_employee_id": random.choice(
+                        available_handlers.get(branch_id) or employee_branch_map[branch_id]
+                    ),
+                    "member_id": random.choices(
+                        [None] + [m["member_id"] for m in MEMBERS],
+                        weights=[0.62] + [0.38 / len(MEMBERS)] * len(MEMBERS)
+                    )[0],
                 })
 
                 n_items      = random.choices([1, 2, 3, 4], weights=[0.25, 0.42, 0.23, 0.10])[0]
@@ -212,7 +373,7 @@ def generate_for_dates(date_range: list) -> tuple:
                 selected     = random.choices(menu_ids, weights=item_weights, k=n_items)
 
                 for menu_id in selected:
-                    qty      = random.choices([1, 2, 3], weights=[0.72, 0.23, 0.05])[0]
+                    qty = random.choices([1, 2, 3], weights=[0.72, 0.23, 0.05])[0]
                     items_rows.append({
                         "order_item_id": f"OI{oi_counter:011d}",
                         "order_id":      order_id,
@@ -227,32 +388,134 @@ def generate_for_dates(date_range: list) -> tuple:
     return pd.DataFrame(orders_rows), pd.DataFrame(items_rows)
 
 
-# ── 4. DIMENSION TABLES ───────────────────────────────────────────────────────
+# ── 5. INVENTORY ──────────────────────────────────────────────────────────────
+
+def generate_inventory_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    trx_counter = int(date_range[0].strftime("%Y%m%d")) * 10000
+
+    for target_date in date_range:
+        np.random.seed(BASE_SEED + 7 + int(target_date.strftime("%Y%m%d")))
+        random.seed(BASE_SEED + 7 + int(target_date.strftime("%Y%m%d")))
+
+        for branch in BRANCHES:
+            for item in INVENTORY_CATALOG:
+                if item["inventory_id"] == "INV08":
+                    usage_qty = max(np.random.normal(loc=0.4, scale=0.1), 0.2)
+                else:
+                    usage_qty = max(np.random.normal(loc=7.5, scale=2.0), 1.2)
+                if item["category"] in ("protein", "bakery"):
+                    usage_qty *= 1.35
+                unit_cost = round(item["base_unit_cost"] * np.random.uniform(0.95, 1.08), 2)
+
+                rows.append({
+                    "inventory_txn_id": f"ITX{trx_counter:011d}",
+                    "txn_date":         str(target_date),
+                    "branch_id":        branch["branch_id"],
+                    "inventory_id":     item["inventory_id"],
+                    "txn_type":         "usage",
+                    "qty":              round(usage_qty, 2),
+                    "unit_cost":        unit_cost,
+                    "total_cost":       round(usage_qty * unit_cost, 2),
+                })
+                trx_counter += 1
+
+                if target_date.weekday() in (0, 3):
+                    purchase_qty = usage_qty * np.random.uniform(2.1, 2.8)
+                    rows.append({
+                        "inventory_txn_id": f"ITX{trx_counter:011d}",
+                        "txn_date":         str(target_date),
+                        "branch_id":        branch["branch_id"],
+                        "inventory_id":     item["inventory_id"],
+                        "txn_type":         "purchase",
+                        "qty":              round(purchase_qty, 2),
+                        "unit_cost":        unit_cost,
+                        "total_cost":       round(purchase_qty * unit_cost, 2),
+                    })
+                    trx_counter += 1
+
+    return pd.DataFrame(rows)
+
+
+# ── 6. OPERATIONAL COSTS ─────────────────────────────────────────────────────
+
+def generate_operational_costs_for_dates(date_range: list) -> pd.DataFrame:
+    rows = []
+    for target_date in date_range:
+        np.random.seed(BASE_SEED + 13 + int(target_date.strftime("%Y%m%d")))
+        random.seed(BASE_SEED + 13 + int(target_date.strftime("%Y%m%d")))
+        days_in_month = (target_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+
+        for branch in BRANCHES:
+            rent_monthly = {
+                "BR01": 8500,
+                "BR02": 6200,
+                "BR03": 4800,
+                "BR04": 7000,
+            }[branch["branch_id"]]
+
+            open_date = datetime.strptime(branch["opened_date"], "%Y-%m-%d").date()
+            if target_date < open_date:
+                continue
+
+            rows.append({
+                "cost_date":           str(target_date),
+                "branch_id":           branch["branch_id"],
+                "building_rent_daily": round(rent_monthly / days_in_month.day, 2),
+                "water_cost":          round(np.random.uniform(30, 65), 2),
+                "electricity_cost":    round(np.random.uniform(80, 180), 2),
+                "other_utilities_cost": round(np.random.uniform(15, 35), 2),
+            })
+
+    return pd.DataFrame(rows)
+
+
+# ── 7. DIMENSION TABLES ───────────────────────────────────────────────────────
 
 def write_dimensions():
     pd.DataFrame(BRANCHES).to_csv(OUTPUT_DIR / "branches.csv", index=False)
     pd.DataFrame([{k: v for k, v in m.items() if k != "note"} for m in MENU_ITEMS]).to_csv(
         OUTPUT_DIR / "menu_items.csv", index=False
     )
-    print(f"✓ branches.csv   — {len(BRANCHES)} rows")
-    print(f"✓ menu_items.csv — {len(MENU_ITEMS)} rows")
+    pd.DataFrame(EMPLOYEES).to_csv(OUTPUT_DIR / "employees.csv", index=False)
+    pd.DataFrame(MEMBERS).to_csv(OUTPUT_DIR / "members.csv", index=False)
+    pd.DataFrame(SHIFTS).to_csv(OUTPUT_DIR / "shifts.csv", index=False)
+    pd.DataFrame(EMPLOYEE_COMPENSATION).to_csv(OUTPUT_DIR / "employee_compensation.csv", index=False)
+    pd.DataFrame(INVENTORY_CATALOG).to_csv(OUTPUT_DIR / "inventory_catalog.csv", index=False)
+    print(f"✓ branches.csv              — {len(BRANCHES)} rows")
+    print(f"✓ menu_items.csv            — {len(MENU_ITEMS)} rows")
+    print(f"✓ employees.csv             — {len(EMPLOYEES)} rows")
+    print(f"✓ members.csv               — {len(MEMBERS)} rows")
+    print(f"✓ shifts.csv                — {len(SHIFTS)} rows")
+    print(f"✓ employee_compensation.csv — {len(EMPLOYEE_COMPENSATION)} rows")
+    print(f"✓ inventory_catalog.csv     — {len(INVENTORY_CATALOG)} rows")
 
 
-# ── 5. MODES ──────────────────────────────────────────────────────────────────
+# ── 8. MODES ──────────────────────────────────────────────────────────────────
 
 def run_backfill():
     print(f"▶ Backfill: {BACKFILL_START} → {YESTERDAY}")
     write_dimensions()
 
-    date_range  = [BACKFILL_START + timedelta(days=i)
-                   for i in range((YESTERDAY - BACKFILL_START).days + 1)]
+    date_range = [BACKFILL_START + timedelta(days=i)
+                  for i in range((YESTERDAY - BACKFILL_START).days + 1)]
+
     orders_df, items_df = generate_for_dates(date_range)
+    attendance_df       = build_attendance_for_dates(date_range)
+    inventory_df        = generate_inventory_for_dates(date_range)
+    branch_cost_df      = generate_operational_costs_for_dates(date_range)
 
-    orders_df.to_csv(OUTPUT_DIR / "orders.csv",      index=False)
-    items_df.to_csv(OUTPUT_DIR  / "order_items.csv", index=False)
+    orders_df.to_csv(OUTPUT_DIR / "orders.csv",                          index=False)
+    items_df.to_csv(OUTPUT_DIR / "order_items.csv",                      index=False)
+    attendance_df.to_csv(OUTPUT_DIR / "employee_attendance.csv",         index=False)
+    inventory_df.to_csv(OUTPUT_DIR / "inventory_transactions.csv",       index=False)
+    branch_cost_df.to_csv(OUTPUT_DIR / "branch_daily_operational_costs.csv", index=False)
 
-    print(f"✓ orders.csv      — {len(orders_df):,} rows")
-    print(f"✓ order_items.csv — {len(items_df):,} rows")
+    print(f"✓ orders.csv                         — {len(orders_df):,} rows")
+    print(f"✓ order_items.csv                    — {len(items_df):,} rows")
+    print(f"✓ employee_attendance.csv            — {len(attendance_df):,} rows")
+    print(f"✓ inventory_transactions.csv         — {len(inventory_df):,} rows")
+    print(f"✓ branch_daily_operational_costs.csv — {len(branch_cost_df):,} rows")
     _sanity_check(orders_df, items_df)
     print("\n✅ Backfill complete.")
 
@@ -260,8 +523,11 @@ def run_backfill():
 def run_daily():
     print(f"▶ Daily append: {YESTERDAY}")
 
-    orders_path = OUTPUT_DIR / "orders.csv"
-    items_path  = OUTPUT_DIR / "order_items.csv"
+    orders_path     = OUTPUT_DIR / "orders.csv"
+    items_path      = OUTPUT_DIR / "order_items.csv"
+    attendance_path = OUTPUT_DIR / "employee_attendance.csv"
+    inventory_path  = OUTPUT_DIR / "inventory_transactions.csv"
+    branch_cost_path = OUTPUT_DIR / "branch_daily_operational_costs.csv"
 
     if not orders_path.exists():
         print("✗ No existing data. Run --mode backfill first.")
@@ -273,15 +539,25 @@ def run_daily():
         return
 
     orders_df, items_df = generate_for_dates([YESTERDAY])
-    orders_df.to_csv(orders_path, mode="a", header=False, index=False)
-    items_df.to_csv(items_path,   mode="a", header=False, index=False)
+    attendance_df       = build_attendance_for_dates([YESTERDAY])
+    inventory_df        = generate_inventory_for_dates([YESTERDAY])
+    branch_cost_df      = generate_operational_costs_for_dates([YESTERDAY])
+
+    orders_df.to_csv(orders_path,     mode="a", header=False, index=False)
+    items_df.to_csv(items_path,       mode="a", header=False, index=False)
+    attendance_df.to_csv(attendance_path, mode="a", header=False, index=False)
+    inventory_df.to_csv(inventory_path,   mode="a", header=not inventory_path.exists(), index=False)
+    branch_cost_df.to_csv(branch_cost_path, mode="a", header=not branch_cost_path.exists(), index=False)
 
     print(f"✓ Appended {len(orders_df):,} orders")
     print(f"✓ Appended {len(items_df):,} order items")
+    print(f"✓ Appended {len(attendance_df):,} attendance rows")
+    print(f"✓ Appended {len(inventory_df):,} inventory rows")
+    print(f"✓ Appended {len(branch_cost_df):,} operational cost rows")
     print("\n✅ Daily append complete.")
 
 
-# ── 6. SANITY CHECK ───────────────────────────────────────────────────────────
+# ── 9. SANITY CHECK ───────────────────────────────────────────────────────────
 
 def _sanity_check(orders_df: pd.DataFrame, items_df: pd.DataFrame):
     print("\n── Sanity Check ──────────────────────────────────────────────────")
@@ -303,7 +579,7 @@ def _sanity_check(orders_df: pd.DataFrame, items_df: pd.DataFrame):
     print(counts.tail(3).to_string(index=False))
 
 
-# ── 7. ENTRYPOINT ─────────────────────────────────────────────────────────────
+# ── 10. ENTRYPOINT ────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Burger Restaurant (US) data generator")

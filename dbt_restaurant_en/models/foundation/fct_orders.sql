@@ -6,34 +6,15 @@ order_items as (
     select * from {{ ref('stg_order_items') }}
 ),
 
--- Aggregate order_items to order level first
 order_totals as (
     select
         order_id,
-        sum(subtotal)               as order_revenue,
-        sum(qty)                    as total_items
+        sum(subtotal) as order_revenue,
+        sum(qty)      as total_items
     from order_items
     group by order_id
 ),
 
-joined as (
-    select
-        o.order_id,
-        o.branch_id,
-        o.order_date,
-        o.order_hour,
-        o.order_time,
-        o.payment_method,
-        o.order_type,
-        ot.order_revenue,
-        ot.total_items
-    from orders o
-    left join order_totals ot
-        on o.order_id = ot.order_id
-),
-
--- Granular fact: one row per order line item
--- Keeps full flexibility for menu-level analysis in marts
 line_items as (
     select
         oi.order_item_id,
@@ -44,6 +25,9 @@ line_items as (
         o.order_time,
         o.payment_method,
         o.order_type,
+        o.shift_id,
+        o.handler_employee_id,
+        o.member_id,
         oi.menu_id,
         oi.qty,
         oi.subtotal

@@ -2,7 +2,7 @@
 Dagster Definitions
 ===================
 Entry point for dagster dev.
-Registers all assets, jobs, and schedules.
+Registers all assets, jobs, and schedules for both ID and EN pipelines.
 """
 
 from dagster import (
@@ -14,7 +14,6 @@ from dagster import (
 )
 
 from pipeline.assets import ingestion, dbt_assets
-from pipeline.assets.ingestion import load_raw_to_duckdb
 
 # ── Assets ────────────────────────────────────────────────────────────────────
 all_assets = load_assets_from_modules([ingestion, dbt_assets])
@@ -23,7 +22,7 @@ all_assets = load_assets_from_modules([ingestion, dbt_assets])
 daily_pipeline_job = define_asset_job(
     name="daily_pipeline",
     selection=AssetSelection.all(),
-    description="Daily: generate data → load raw → dbt build",
+    description="Daily: generate data → load raw → dbt build (ID + EN)",
 )
 
 # ── Schedules ─────────────────────────────────────────────────────────────────
