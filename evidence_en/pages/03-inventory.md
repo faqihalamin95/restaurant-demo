@@ -409,3 +409,36 @@ ORDER BY buy_use_ratio DESC
 </DataTable>
 
 _Sort **Buy/Use Ratio** descending — the highest rows represent the largest waste risk. Focus first on protein and produce due to perishability._
+
+---
+
+## Detail per Item per Location (Last 30 Days)
+
+```sql detail_per_item_branch
+SELECT
+    branch_name,
+    item_name,
+    category,
+    unit,
+    SUM(usage_qty)                                              AS total_usage_qty,
+    SUM(purchase_qty)                                           AS total_purchase_qty,
+    SUM(usage_cost)                                             AS total_usage_cost,
+    ROUND(SUM(usage_cost) / NULLIF(SUM(usage_qty), 0), 2)      AS cost_per_unit_actual
+FROM restaurant_en.inventory_stok
+WHERE txn_date >= (SELECT MAX(txn_date) FROM restaurant_en.inventory_stok) - INTERVAL '30 days'
+GROUP BY branch_name, item_name, category, unit
+ORDER BY branch_name, total_usage_cost DESC
+```
+
+<DataTable data={detail_per_item_branch} rows=15>
+    <Column id="branch_name"       title="Location"/>
+    <Column id="item_name"         title="Ingredient"/>
+    <Column id="category"          title="Category"/>
+    <Column id="unit"              title="Unit"/>
+    <Column id="total_usage_qty"   title="Qty Used"          fmt="#,##0"/>
+    <Column id="total_purchase_qty" title="Qty Purchased"    fmt="#,##0"/>
+    <Column id="total_usage_cost"  title="Usage Cost"        fmt="$#,##0.00"/>
+    <Column id="cost_per_unit_actual" title="Actual Cost/Unit" fmt="$#,##0.00"/>
+</DataTable>
+
+_Compare Qty Purchased vs Qty Used per location — a consistently large gap on a specific item warrants a field check._

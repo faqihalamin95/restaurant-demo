@@ -225,6 +225,27 @@ ORDER BY total_revenue DESC
 </div>
 </Grid>
 
+### Menu Reference — Category & Price Tier
+
+```sql menu_reference
+SELECT
+    menu_name,
+    category,
+    price_tier,
+    ROUND(AVG(price), 2) AS price
+FROM restaurant_en.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '30 days'
+GROUP BY menu_name, category, price_tier
+ORDER BY category, price DESC
+```
+
+<DataTable data={menu_reference} search=true>
+    <Column id="menu_name"  title="Item"/>
+    <Column id="category"   title="Category"/>
+    <Column id="price_tier" title="Tier"/>
+    <Column id="price"      title="Price" fmt="$#,##0.00"/>
+</DataTable>
+
 ---
 
 ## Top Item by Location (Last 30 Days)
@@ -433,6 +454,41 @@ ORDER BY order_date, menu_name
 />
 
 _A line continuously trending downward signals sustained loss of customer interest — consider a promotion, recipe reformulation, or removal._
+
+### Decline by Location
+
+```sql declining_by_branch
+SELECT
+    branch_name,
+    menu_name,
+    SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '60 days'
+        THEN total_qty_sold ELSE 0 END) AS qty_first_30d,
+    SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '30 days'
+        THEN total_qty_sold ELSE 0 END) AS qty_last_30d,
+    ROUND(
+        (SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '30 days'
+            THEN total_qty_sold ELSE 0 END)
+        - SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '60 days'
+            THEN total_qty_sold ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '60 days'
+            THEN total_qty_sold ELSE 0 END), 0) * 100
+    , 1) AS pct_change
+FROM restaurant_en.menu_performance
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant_en.menu_performance) - INTERVAL '90 days'
+GROUP BY branch_name, menu_name
+HAVING pct_change < 0
+ORDER BY pct_change ASC
+```
+
+<DataTable data={declining_by_branch}>
+    <Column id="branch_name"  title="Location"/>
+    <Column id="menu_name"    title="Item"/>
+    <Column id="qty_first_30d" title="First 30 Days" fmt="#,##0"/>
+    <Column id="qty_last_30d"  title="Last 30 Days"  fmt="#,##0"/>
+    <Column id="pct_change"    title="Change"        fmt="+0.0;-0.0" contentType="delta"/>
+</DataTable>
+
+_A decline in one location only needs a different response than a chain-wide drop — check here before acting._
 
 {:else}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">

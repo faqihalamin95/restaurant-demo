@@ -38,6 +38,40 @@ FROM (
 )
 ```
 
+```sql member_vs_periode_lalu
+SELECT
+    ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_spend END) /
+    NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_orders END), 0), 2) AS avg_order_value_90d,
+    ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_spend END) /
+    NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date <  (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+        THEN total_orders END), 0), 2) AS avg_order_value_prev,
+    ROUND(
+        (ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 2)
+        -
+        ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date < (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date < (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 2))
+    / NULLIF(ROUND(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date < (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_spend END) /
+        NULLIF(SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '180 days'
+               AND order_date < (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+            THEN total_orders END), 0), 2), 0) * 100
+    , 1) AS pct_change_aov
+FROM restaurant_en.member_purchase_behavior
+```
+
 ---
 
 ## Last 90 Days Summary
@@ -53,6 +87,20 @@ Most restaurants have regulars — but without data, you don't know who they are
 <BigValue data={member_summary_90d} value="total_member_orders"  title="Member Orders"          fmt="#,##0" />
 <BigValue data={member_summary_90d} value="total_member_spend"   title="Total Member Spend"     fmt="$#,##0.00" />
 <BigValue data={member_summary_90d} value="avg_order_value"      title="Avg Order Value"        fmt="$#,##0.00" />
+
+{#if member_vs_periode_lalu[0].pct_change_aov > 5}
+<div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">
+✅ <strong>Avg order value up {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs the prior 90 days (${member_vs_periode_lalu[0].avg_order_value_prev} → ${member_vs_periode_lalu[0].avg_order_value_90d}). Members are spending more per visit.
+</div>
+{:else if member_vs_periode_lalu[0].pct_change_aov < -5}
+<div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:16px 0;">
+🔴 <strong>Avg order value down {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs the prior 90 days (${member_vs_periode_lalu[0].avg_order_value_prev} → ${member_vs_periode_lalu[0].avg_order_value_90d}). Check for tier shifts or lower-value item mix.
+</div>
+{:else}
+<div style="background:rgba(100,116,139,0.08);border-left:4px solid #888;padding:12px 16px;border-radius:6px;margin:16px 0;">
+➡️ <strong>Avg order value stable</strong> vs prior 90 days — only {member_vs_periode_lalu[0].pct_change_aov}% change.
+</div>
+{/if}
 
 {#if churn_count[0].churn_risk_count > 0}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;margin:16px 0;">
@@ -145,6 +193,72 @@ _Gold members drive disproportionate revenue despite being few — prioritize re
 
 ---
 
+## Daily Spend Trend & City Distribution (Last 30 Days)
+
+```sql spending_trend_30d
+SELECT
+    order_date,
+    tier,
+    SUM(total_spend) AS total_spend
+FROM restaurant_en.member_purchase_behavior
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '30 days'
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+
+```sql spending_by_city
+SELECT
+    city,
+    COUNT(DISTINCT member_id)      AS total_members,
+    SUM(total_spend)               AS total_spend,
+    ROUND(AVG(avg_order_value), 2) AS avg_order_value
+FROM restaurant_en.member_purchase_behavior
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+GROUP BY 1
+ORDER BY total_spend DESC
+```
+
+<Grid cols=2>
+
+<div>
+
+### Spend Trend by Tier
+
+<LineChart
+    data={spending_trend_30d}
+    x="order_date"
+    y="total_spend"
+    series="tier"
+    title="Daily Member Spend by Tier ($)"
+    yFmt="$#,##0.00"
+    xAxisTitle="Date"
+    yAxisTitle="Total Spend ($)"
+/>
+
+</div>
+
+<div>
+
+### Member Spend by City (90 Days)
+
+<BarChart
+    data={spending_by_city}
+    x="city"
+    y="total_spend"
+    title="Total Member Spend by City ($)"
+    yFmt="$#,##0.00"
+    xAxisTitle="City"
+    yAxisTitle="Total Spend ($)"
+/>
+
+</div>
+
+</Grid>
+
+_Daily trend peaks indicate high-engagement days — potential timing for targeted promotions. City distribution guides expansion priorities._
+
+---
+
 ## Top Members — Highest Spend (Last 90 Days)
 
 ```sql top_member_90d
@@ -176,6 +290,75 @@ LIMIT 25
 </DataTable>
 
 _High-frequency + low spend = upselling opportunity. Low-frequency + high AOV = frequency program candidate (e.g., punch card, visit bonus)._
+
+---
+
+## Tier Distribution by City (Last 90 Days)
+
+```sql tier_per_city
+SELECT
+    city,
+    tier,
+    COUNT(DISTINCT member_id)                                                     AS total_members,
+    SUM(total_spend)                                                              AS total_spend,
+    ROUND(AVG(avg_order_value), 2)                                                AS avg_order_value,
+    ROUND(COUNT(DISTINCT member_id) * 100.0 /
+        SUM(COUNT(DISTINCT member_id)) OVER (PARTITION BY city), 1)              AS pct_of_city
+FROM restaurant_en.member_purchase_behavior
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant_en.member_purchase_behavior) - INTERVAL '90 days'
+GROUP BY city, tier
+ORDER BY city, total_spend DESC
+```
+
+<Grid cols=2>
+
+<div>
+
+### Member Count by Tier per City
+
+<BarChart
+    data={tier_per_city}
+    x="city"
+    y="total_members"
+    series="tier"
+    type="stacked"
+    title="Tier Distribution by City"
+    xAxisTitle="City"
+    yAxisTitle="Members"
+/>
+
+</div>
+
+<div>
+
+### Total Spend by Tier per City
+
+<BarChart
+    data={tier_per_city}
+    x="city"
+    y="total_spend"
+    series="tier"
+    type="stacked"
+    title="Total Spend by Tier per City ($)"
+    yFmt="$#,##0.00"
+    xAxisTitle="City"
+    yAxisTitle="Total Spend ($)"
+/>
+
+</div>
+
+</Grid>
+
+<DataTable data={tier_per_city}>
+    <Column id="city"            title="City"/>
+    <Column id="tier"            title="Tier"/>
+    <Column id="total_members"   title="Members"         fmt="#,##0"/>
+    <Column id="total_spend"     title="Total Spend"     fmt="$#,##0.00"/>
+    <Column id="avg_order_value" title="Avg Order Value" fmt="$#,##0.00"/>
+    <Column id="pct_of_city"     title="% of City"       fmt="0.0\%"/>
+</DataTable>
+
+_Cities with a high Gold proportion are priority retention markets. Cities dominated by Bronze with high total spend signal strong upgrade potential — a good fit for tier-progression programs._
 
 ---
 

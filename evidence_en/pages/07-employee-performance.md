@@ -158,6 +158,21 @@ GROUP BY 1, 2
 ORDER BY 2
 ```
 
+```sql attendance_wow
+SELECT
+    SUM(CASE WHEN attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '6 days'
+         AND attendance_status = 'absent' THEN 1 ELSE 0 END) AS absent_this_week,
+    SUM(CASE WHEN attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '13 days'
+         AND attendance_date <  (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '6 days'
+         AND attendance_status = 'absent' THEN 1 ELSE 0 END) AS absent_last_week,
+    SUM(CASE WHEN attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '6 days'
+         AND attendance_status = 'late' THEN 1 ELSE 0 END)   AS late_this_week,
+    SUM(CASE WHEN attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '13 days'
+         AND attendance_date <  (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '6 days'
+         AND attendance_status = 'late' THEN 1 ELSE 0 END)   AS late_last_week
+FROM restaurant_en.employee_shift_performance
+```
+
 <Grid cols=2>
 <div>
 
@@ -192,6 +207,15 @@ ORDER BY 2
 </div>
 </Grid>
 
+<DataTable data={attendance_wow}>
+    <Column id="absent_last_week" title="Absent Last Week" fmt="#,##0"/>
+    <Column id="absent_this_week" title="Absent This Week" fmt="#,##0"/>
+    <Column id="late_last_week"   title="Late Last Week"   fmt="#,##0"/>
+    <Column id="late_this_week"   title="Late This Week"   fmt="#,##0"/>
+</DataTable>
+
+_The trend chart shows whether absenteeism is spiking in specific periods. The day-of-week pattern identifies chronic problem days — e.g. consistent Monday or Friday spikes. The WoW table gives a quick pulse check._
+
 ---
 
 ## Performance by Shift (Last 30 Days)
@@ -206,6 +230,32 @@ FROM restaurant_en.employee_shift_performance
 WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
 GROUP BY 1
 ORDER BY total_revenue DESC
+```
+
+```sql shift_wow
+WITH max_date AS (
+    SELECT MAX(attendance_date) AS d FROM restaurant_en.employee_shift_performance
+)
+SELECT
+    shift_name,
+    SUM(CASE WHEN attendance_date >= (SELECT d FROM max_date) - INTERVAL '6 days'
+        THEN orders_handled END)                                                        AS orders_this_week,
+    SUM(CASE WHEN attendance_date <  (SELECT d FROM max_date) - INTERVAL '6 days'
+         AND  attendance_date >= (SELECT d FROM max_date) - INTERVAL '13 days'
+        THEN orders_handled END)                                                        AS orders_last_week,
+    ROUND(
+        (SUM(CASE WHEN attendance_date >= (SELECT d FROM max_date) - INTERVAL '6 days'
+            THEN orders_handled END)
+        - SUM(CASE WHEN attendance_date <  (SELECT d FROM max_date) - INTERVAL '6 days'
+             AND   attendance_date >= (SELECT d FROM max_date) - INTERVAL '13 days'
+            THEN orders_handled END))
+        / NULLIF(SUM(CASE WHEN attendance_date <  (SELECT d FROM max_date) - INTERVAL '6 days'
+             AND  attendance_date >= (SELECT d FROM max_date) - INTERVAL '13 days'
+            THEN orders_handled END), 0) * 100
+    , 1) AS pct_change
+FROM restaurant_en.employee_shift_performance
+GROUP BY 1
+ORDER BY shift_name
 ```
 
 <Grid cols=2>
@@ -226,15 +276,24 @@ ORDER BY total_revenue DESC
 </div>
 <div>
 
+### This Week vs Last Week
+
+<DataTable data={shift_wow}>
+    <Column id="shift_name"         title="Shift"/>
+    <Column id="orders_this_week"   title="This Week"   fmt="#,##0"/>
+    <Column id="orders_last_week"   title="Last Week"   fmt="#,##0"/>
+    <Column id="pct_change"         title="Change"      fmt="+0.0;-0.0" contentType="delta"/>
+</DataTable>
+
+</div>
+</Grid>
+
 <DataTable data={shift_performance_30d}>
     <Column id="shift_name"      title="Shift"/>
     <Column id="total_orders"    title="Orders Handled"  fmt="#,##0"/>
     <Column id="total_revenue"   title="Revenue"         fmt="$#,##0.00"/>
     <Column id="avg_order_value" title="Avg Ticket"      fmt="$#,##0.00"/>
 </DataTable>
-
-</div>
-</Grid>
 
 _Shifts with a high average ticket suggest staff are effectively upselling. High-volume but low-AOV shifts are upselling program candidates._
 
@@ -259,6 +318,32 @@ GROUP BY 1
 ORDER BY total_overtime_hours DESC
 ```
 
+```sql overtime_by_branch
+SELECT
+    branch_name,
+    SUM(overtime_hours)                                                             AS total_overtime_hours,
+    ROUND(AVG(overtime_hours), 2)                                                   AS avg_ot_per_person,
+    ROUND(SUM(CASE WHEN overtime_hours > 0 THEN 1 ELSE 0 END) * 100.0
+          / NULLIF(COUNT(*), 0), 1)                                                 AS pct_sessions_with_ot
+FROM restaurant_en.employee_shift_performance
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
+  AND attendance_status IN ('present', 'late')
+GROUP BY 1
+ORDER BY total_overtime_hours DESC
+```
+
+```sql overtime_trend
+SELECT
+    attendance_date,
+    shift_name,
+    SUM(overtime_hours) AS total_overtime_hours
+FROM restaurant_en.employee_shift_performance
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
+  AND overtime_hours > 0
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+
 ```sql top_overtime_employees
 SELECT
     employee_name, role, branch_name, shift_name,
@@ -273,6 +358,48 @@ HAVING SUM(overtime_hours) > 0
 ORDER BY total_overtime_hours DESC
 LIMIT 15
 ```
+
+<Grid cols=2>
+<div>
+
+### Overtime by Shift
+
+<BarChart
+    data={overtime_by_shift}
+    x="shift_name"
+    y="total_overtime_hours"
+    title="Total OT Hours by Shift (30 Days)"
+    xAxisTitle="Shift"
+    yAxisTitle="Total OT Hours"
+/>
+
+</div>
+<div>
+
+### % Sessions with OT by Location
+
+<BarChart
+    data={overtime_by_branch}
+    x="branch_name"
+    y="pct_sessions_with_ot"
+    title="% Work Sessions with Overtime by Location"
+    yFmt="0.0\%"
+    xAxisTitle="Location"
+    yAxisTitle="% Sessions with OT"
+/>
+
+</div>
+</Grid>
+
+<LineChart
+    data={overtime_trend}
+    x="attendance_date"
+    y="total_overtime_hours"
+    series="shift_name"
+    title="Daily OT Hours Trend by Shift (30 Days)"
+    xAxisTitle="Date"
+    yAxisTitle="Total OT Hours"
+/>
 
 <DataTable data={overtime_by_shift}>
     <Column id="shift_name"             title="Shift"/>
@@ -294,9 +421,13 @@ LIMIT 15
     <Column id="avg_hrs_per_session"  title="Avg Hrs/Session"  fmt="0.0"/>
 </DataTable>
 
+_Shifts or locations with high % OT sessions need a staffing capacity review. Employees with frequent overtime may be absorbing the burden of absent colleagues — check their attendance peers._
+
 ---
 
 ## Performance by Role (Last 30 Days)
+
+_Cashiers, servers, and supervisors have different functions — comparing them without separating by role is comparing apples and oranges._
 
 ```sql role_performance_30d
 SELECT
@@ -314,6 +445,65 @@ GROUP BY 1
 ORDER BY total_revenue DESC
 ```
 
+```sql attendance_by_role
+SELECT
+    role,
+    attendance_status,
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (PARTITION BY role), 1) AS pct
+FROM restaurant_en.employee_shift_performance
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
+GROUP BY 1, 2
+ORDER BY role, pct DESC
+```
+
+```sql overtime_by_role
+SELECT
+    role,
+    SUM(overtime_hours)                                                              AS total_overtime_hours,
+    ROUND(AVG(CASE WHEN overtime_hours > 0 THEN overtime_hours END), 1)              AS avg_hrs_per_session,
+    ROUND(SUM(CASE WHEN overtime_hours > 0 THEN 1 ELSE 0 END) * 100.0
+          / NULLIF(SUM(CASE WHEN attendance_status IN ('present','late') THEN 1 ELSE 0 END), 0), 1) AS pct_sessions_with_ot
+FROM restaurant_en.employee_shift_performance
+WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
+GROUP BY 1
+ORDER BY total_overtime_hours DESC
+```
+
+<Grid cols=2>
+<div>
+
+### Attendance by Role
+
+<BarChart
+    data={attendance_by_role}
+    x="role"
+    y="pct"
+    series="attendance_status"
+    type="stacked"
+    title="Attendance Status Distribution by Role"
+    yFmt="0.0\%"
+    xAxisTitle="Role"
+    yAxisTitle="Percentage (%)"
+/>
+
+</div>
+<div>
+
+### OT by Role
+
+<BarChart
+    data={overtime_by_role}
+    x="role"
+    y="pct_sessions_with_ot"
+    title="% Sessions with OT by Role"
+    yFmt="0.0\%"
+    xAxisTitle="Role"
+    yAxisTitle="% Sessions with OT"
+/>
+
+</div>
+</Grid>
+
 <DataTable data={role_performance_30d}>
     <Column id="role"                  title="Role"/>
     <Column id="total_staff"           title="Staff"                fmt="#,##0"/>
@@ -324,6 +514,8 @@ ORDER BY total_revenue DESC
     <Column id="pct_absent"            title="% Absent"             fmt="0.0\%"/>
     <Column id="pct_late"              title="% Late"               fmt="0.0\%"/>
 </DataTable>
+
+_Supervisors with attendance issues have a larger operational impact than individual contributors — address them with higher urgency. Watch % absent and % OT per role separately for more targeted action._
 
 ---
 
@@ -357,6 +549,8 @@ LIMIT 20
     <Column id="total_late"           title="Late"            fmt="#,##0"/>
     <Column id="total_absent"         title="Absent"          fmt="#,##0"/>
 </DataTable>
+
+_Revenue handled alone doesn't tell the full story — pair it with avg ticket and attendance consistency. Staff with high revenue but frequent OT may be carrying excess load._
 
 ---
 
@@ -397,6 +591,48 @@ ORDER BY revenue_per_hour DESC
 LIMIT 20
 ```
 
+```sql revenue_per_hour_by_shift
+WITH shift_hours AS (
+    SELECT shift_id, shift_name,
+        CASE shift_id WHEN 'S1' THEN 7 WHEN 'S2' THEN 8 WHEN 'S3' THEN 7 ELSE 7 END AS shift_duration_hours
+    FROM (SELECT DISTINCT shift_id, shift_name FROM restaurant_en.employee_shift_performance)
+),
+employee_stats AS (
+    SELECT
+        e.shift_id, e.shift_name, e.role,
+        COUNT(CASE WHEN e.attendance_status IN ('present', 'late') THEN 1 END) AS days_worked,
+        SUM(e.total_revenue) AS total_revenue
+    FROM restaurant_en.employee_shift_performance e
+    WHERE attendance_date >= (SELECT MAX(attendance_date) FROM restaurant_en.employee_shift_performance) - INTERVAL '30 days'
+    GROUP BY 1, 2, 3
+    HAVING days_worked > 0
+)
+SELECT
+    es.shift_name,
+    es.role,
+    ROUND(SUM(es.total_revenue) / NULLIF(SUM(es.days_worked * sh.shift_duration_hours), 0), 2) AS revenue_per_hour
+FROM employee_stats es
+LEFT JOIN shift_hours sh ON es.shift_id = sh.shift_id
+GROUP BY 1, 2
+ORDER BY revenue_per_hour DESC
+```
+
+### Revenue per Hour by Shift × Role
+
+<BarChart
+    data={revenue_per_hour_by_shift}
+    x="shift_name"
+    y="revenue_per_hour"
+    series="role"
+    type="grouped"
+    title="Revenue per Hour Worked ($) — Shift × Role"
+    yFmt="$#,##0.00"
+    xAxisTitle="Shift"
+    yAxisTitle="Revenue per Hour ($)"
+/>
+
+_This levels the playing field across shifts with different durations. A large gap between roles within the same shift indicates a real productivity difference, not a scheduling artifact._
+
 ### Top 20 — Revenue per Hour
 
 <DataTable data={revenue_per_hour} rows=20>
@@ -411,6 +647,8 @@ LIMIT 20
     <Column id="orders_per_hour"  title="Orders/Hour"     fmt="0.00"/>
     <Column id="avg_ticket"       title="Avg Ticket"      fmt="$#,##0.00"/>
 </DataTable>
+
+_Staff at the top of this list are the real per-unit-of-time contributors — not simply those with the most hours or the busiest shift. Use this for career development decisions and incentive programs._
 
 ---
 
@@ -432,6 +670,8 @@ HAVING
 ORDER BY total_absent DESC, total_late DESC
 ```
 
+_Staff flagged with absent ≥ 2 or late ≥ 4 in the last 30 days. Note the role column: supervisors with attendance issues warrant faster escalation than other roles._
+
 {#if attendance_problem.length > 0}
 
 <DataTable data={attendance_problem}>
@@ -444,7 +684,7 @@ ORDER BY total_absent DESC, total_late DESC
     <Column id="total_on_leave" title="On Leave"   fmt="#,##0"/>
 </DataTable>
 
-_Supervisors with attendance issues have a larger operational impact than individual contributors — address them with higher urgency._
+_Follow up before these patterns start affecting shift coverage._
 
 {:else}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;">
