@@ -13,5 +13,6 @@ dbt_packages/
 logs/
 # Local Netlify folder
 .netlify
+AGENTS.md
 
 microsoft.gpg

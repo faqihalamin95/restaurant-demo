@@ -56,11 +56,11 @@ _Ringkasan kumulatif performa pegawai dalam 30 hari terakhir — patokan kondisi
 
 {#if attendance_problem_count[0].jumlah_bermasalah > 0}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
-🔴 <strong>{attendance_problem_count[0].jumlah_bermasalah} pegawai</strong> dengan kehadiran bermasalah dalam 30 hari terakhir — absent ≥ 2 atau terlambat ≥ 4 kali. Detail ada di bagian bawah halaman ini.
+🚨 <strong>{attendance_problem_count[0].jumlah_bermasalah} pegawai</strong> dengan kehadiran bermasalah dalam 30 hari terakhir — absent ≥ 2 atau terlambat ≥ 4 kali. Detail ada di bagian bawah halaman ini.
 </div>
 {:else if attendance_alert_today[0].jumlah_absent >= 3}
 <div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
-🟡 <strong>{attendance_alert_today[0].jumlah_absent} pegawai tidak hadir</strong> kemarin. Pastikan tidak ada shift yang kekurangan staf.
+⚠️ <strong>{attendance_alert_today[0].jumlah_absent} pegawai tidak hadir</strong> kemarin. Pastikan tidak ada shift yang kekurangan staf.
 </div>
 {:else}
 <div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">

@@ -97,7 +97,7 @@ Hampir setiap restoran punya pelanggan yang sering datang — tapi tanpa pencata
 </div>
 {:else if member_vs_periode_lalu[0].pct_change_aov < -5}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
-🔴 <strong>Rata-rata nilai order turun {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Cek apakah ada pergeseran tier atau penurunan frekuensi belanja.
+🚨 <strong>Rata-rata nilai order turun {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs 90 hari sebelumnya (Rp {member_vs_periode_lalu[0].avg_order_value_90d_lalu} → Rp {member_vs_periode_lalu[0].avg_order_value_90d}). Cek apakah ada pergeseran tier atau penurunan frekuensi belanja.
 </div>
 {:else}
 <div style="background: rgba(100,116,139,0.08); border-left: 4px solid #888; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
@@ -107,7 +107,7 @@ Hampir setiap restoran punya pelanggan yang sering datang — tapi tanpa pencata
 
 {#if churn_count[0].jumlah_churn_risk > 0}
 <div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
-🟡 <strong>{churn_count[0].jumlah_churn_risk} member berisiko churn</strong> — tidak bertransaksi dalam 21 hari terakhir.
+⚠️ <strong>{churn_count[0].jumlah_churn_risk} member berisiko churn</strong> — tidak bertransaksi dalam 21 hari terakhir.
 {#if churn_count[0].gold_churn > 0} Termasuk <strong>{churn_count[0].gold_churn} member Gold</strong> yang perlu prioritas outreach.{/if}
 {#if churn_count[0].silver_churn > 0} Dan <strong>{churn_count[0].silver_churn} member Silver</strong>.{/if}
 Detail ada di bagian bawah halaman ini.

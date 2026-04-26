@@ -63,7 +63,7 @@ ORDER BY qty_wow_change DESC LIMIT 1
 <div style="display:flex;flex-direction:column;gap:8px;margin:16px 0;">
 {#each menu_alert_declining as row}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;">
-🔴 <strong>{row.menu_name}</strong> — sales down <strong>{row.pct_change}%</strong> vs last week. Consider a promotion or recipe review. Check whether the decline is chain-wide or location-specific before acting.
+🚨 <strong>{row.menu_name}</strong> — sales down <strong>{row.pct_change}%</strong> vs last week. Consider a promotion or recipe review. Check whether the decline is chain-wide or location-specific before acting.
 </div>
 {/each}
 </div>
@@ -71,7 +71,7 @@ ORDER BY qty_wow_change DESC LIMIT 1
 
 {#if menu_alert_rising.length > 0}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:8px 0;">
-🟢 <strong>{menu_alert_rising[0].menu_name}</strong> — sales up <strong>{menu_alert_rising[0].pct_change}%</strong> vs last week. Ensure sufficient stock.
+✅ <strong>{menu_alert_rising[0].menu_name}</strong> — sales up <strong>{menu_alert_rising[0].pct_change}%</strong> vs last week. Ensure sufficient stock.
 </div>
 {/if}
 

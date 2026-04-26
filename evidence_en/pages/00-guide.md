@@ -135,7 +135,7 @@ Use the **left sidebar** (or the ☰ menu icon on mobile) to navigate between pa
 | Page | Business Question |
 |---|---|
 | 🏠 **Overview** | How is the business performing today? |
-| 💰 **Financial Report** | What is the net revenue and profit margin per location? |
+| 💵 **Financial Report** | What is the net revenue and profit margin per location? |
 | 🏪 **Branch Performance** | Which locations are growing, flat, or underperforming? |
 | ⏰ **Peak Hours** | When do customers arrive? What's tomorrow's forecast? |
 | 🍽️ **Menu Performance** | What's selling, what's declining, what has hidden potential? |

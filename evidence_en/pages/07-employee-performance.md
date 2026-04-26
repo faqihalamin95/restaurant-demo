@@ -54,11 +54,11 @@ WHERE attendance_date = (SELECT MAX(attendance_date) FROM restaurant_en.employee
 
 {#if attendance_problem_count[0].flagged_staff > 0}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🔴 <strong>{attendance_problem_count[0].flagged_staff} staff members</strong> with attendance issues in the last 30 days — absent ≥ 2 or late ≥ 4 times. Details at the bottom of this page.
+🚨 <strong>{attendance_problem_count[0].flagged_staff} staff members</strong> with attendance issues in the last 30 days — absent ≥ 2 or late ≥ 4 times. Details at the bottom of this page.
 </div>
 {:else if attendance_alert_today[0].absent_count >= 3}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🟡 <strong>{attendance_alert_today[0].absent_count} staff absent</strong> yesterday. Verify no shifts are understaffed.
+⚠️ <strong>{attendance_alert_today[0].absent_count} staff absent</strong> yesterday. Verify no shifts are understaffed.
 </div>
 {:else}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">

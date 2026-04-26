@@ -73,7 +73,7 @@ FROM restaurant_en.daily_net_revenue
 
 {#if margin_vs_prev[0].margin_delta < -2}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🔴 <strong>Margin dropped {Math.abs(margin_vs_prev[0].margin_delta)} pts</strong> vs the prior 30 days ({margin_vs_prev[0].margin_30d_prev}% → {margin_vs_prev[0].margin_30d}%). Costs are growing faster than revenue — review the cost breakdown below.
+🚨 <strong>Margin dropped {Math.abs(margin_vs_prev[0].margin_delta)} pts</strong> vs the prior 30 days ({margin_vs_prev[0].margin_30d_prev}% → {margin_vs_prev[0].margin_30d}%). Costs are growing faster than revenue — review the cost breakdown below.
 </div>
 {:else if margin_vs_prev[0].margin_delta > 2}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">
@@ -87,7 +87,7 @@ FROM restaurant_en.daily_net_revenue
 
 {#if location_margin_alert.length > 0}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;margin:8px 0;">
-🟡 <strong>Margin below 10%:</strong>
+⚠️ <strong>Margin below 10%:</strong>
 {#each location_margin_alert as row}
 {row.branch_name} ({row.net_margin_pct}%)&nbsp;
 {/each}

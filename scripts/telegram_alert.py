@@ -76,7 +76,7 @@ def format_message(target_date: date, data: dict) -> str:
     tanggal   = f"{target_date.day} {bulan_map[target_date.month]} {target_date.year}"
 
     lines = [
-        "🟢 *Wekadata — Laporan Harian*",
+        "✅ *Wekadata — Laporan Harian*",
         f"📅 {nama_hari}, {tanggal}",
         "",
         "━━━━━━━━━━━━━━━━━━━━",
@@ -87,7 +87,7 @@ def format_message(target_date: date, data: dict) -> str:
     total_orders  = 0
 
     for branch_name, revenue, orders, pct_change in data["revenue"]:
-        arrow = "🟢" if pct_change >= 0 else "🔴"
+        arrow = "✅" if pct_change >= 0 else "🚨"
         sign  = "+" if pct_change >= 0 else ""
         lines.append(
             f"{arrow} *{branch_name}*\n"
@@ -100,7 +100,7 @@ def format_message(target_date: date, data: dict) -> str:
     lines += [
         "",
         "━━━━━━━━━━━━━━━━━━━━",
-        f"💰 *Total: Rp {total_revenue:,.0f}*",
+        f"💵 *Total: Rp {total_revenue:,.0f}*",
         f"🧾 *Total Pesanan: {total_orders:,}*",
     ]
 
@@ -121,7 +121,7 @@ def format_message(target_date: date, data: dict) -> str:
         ]
         for branch_name, pct_drop in data["alerts"]:
             lines.append(
-                f"   🔴 {branch_name}: {pct_drop}% vs rata-rata hari serupa"
+                f"   🚨 {branch_name}: {pct_drop}% vs rata-rata hari serupa"
             )
         lines.append("   _Segera cek kondisi cabang ini._")
 

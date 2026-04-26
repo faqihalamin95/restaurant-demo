@@ -78,7 +78,7 @@ FROM restaurant_en.inventory_stok
 
 {#if wow_cost[0].pct_change > 10}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:8px 0;">
-🔴 <strong>Usage cost up {wow_cost[0].pct_change}% this week</strong> vs last week. Check which items are driving the increase in the category table below.
+🚨 <strong>Usage cost up {wow_cost[0].pct_change}% this week</strong> vs last week. Check which items are driving the increase in the category table below.
 </div>
 {:else if wow_cost[0].pct_change < -10}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:8px 0;">
@@ -92,11 +92,11 @@ FROM restaurant_en.inventory_stok
 
 {#if price_alert_count[0].flagged_items > 0}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🔴 <strong>{price_alert_count[0].flagged_items} ingredient(s)</strong> with actual purchase price >10% above baseline. Renegotiate with supplier — see Price Comparison section below.
+🚨 <strong>{price_alert_count[0].flagged_items} ingredient(s)</strong> with actual purchase price >10% above baseline. Renegotiate with supplier — see Price Comparison section below.
 </div>
 {:else if overstock_alert_count[0].flagged_locations > 0}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🟡 <strong>{overstock_alert_count[0].flagged_locations} location(s)</strong> with purchases exceeding usage by >30% — potential overstock or inefficient ordering schedule.
+⚠️ <strong>{overstock_alert_count[0].flagged_locations} location(s)</strong> with purchases exceeding usage by >30% — potential overstock or inefficient ordering schedule.
 </div>
 {:else}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:16px 0;">
@@ -303,7 +303,7 @@ ORDER BY variance_pct DESC
 
 {#if price_alert_count[0].flagged_items > 0}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:8px 0;">
-🔴 <strong>{price_alert_count[0].flagged_items} ingredient(s)</strong> with actual price >10% above baseline — flagged in the table below. Prioritize for supplier renegotiation.
+🚨 <strong>{price_alert_count[0].flagged_items} ingredient(s)</strong> with actual price >10% above baseline — flagged in the table below. Prioritize for supplier renegotiation.
 </div>
 {/if}
 

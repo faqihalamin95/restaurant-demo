@@ -142,7 +142,7 @@ Gunakan **sidebar kiri** (atau ikon menu ☰ di HP) untuk berpindah halaman.
 | Halaman | Pertanyaan yang Dijawab |
 |---|---|
 | 🏠 **Ringkasan** | Gimana kondisi bisnis hari ini secara keseluruhan? |
-| 💰 **Laporan Keuangan** | Berapa net revenue dan margin keuntungan per cabang? |
+| 💵 **Laporan Keuangan** | Berapa net revenue dan margin keuntungan per cabang? |
 | 🏪 **Performa Cabang** | Cabang mana yang tumbuh, stagnan, atau perlu perhatian? |
 | ⏰ **Jam Sibuk** | Kapan pelanggan paling banyak datang? Prediksi besok? |
 | 🍽️ **Performa Menu** | Menu apa yang laris, menurun, atau punya potensi tersembunyi? |

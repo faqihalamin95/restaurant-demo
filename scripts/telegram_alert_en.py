@@ -87,7 +87,7 @@ def format_message(target_date: date, data: dict) -> str:
     total_orders  = 0
 
     for branch_name, revenue, orders, pct_change in data["revenue"]:
-        arrow = "🟢" if pct_change >= 0 else "🔴"
+        arrow = "✅" if pct_change >= 0 else "🚨"
         sign  = "+" if pct_change >= 0 else ""
         lines.append(
             f"{arrow} *{branch_name}*\n"
@@ -100,7 +100,7 @@ def format_message(target_date: date, data: dict) -> str:
     lines += [
         "",
         "━━━━━━━━━━━━━━━━━━━━",
-        f"💰 *Total Revenue: ${total_revenue:,.2f}*",
+        f"💵 *Total Revenue: ${total_revenue:,.2f}*",
         f"🧾 *Total Orders: {total_orders:,}*",
     ]
 
@@ -127,7 +127,7 @@ def format_message(target_date: date, data: dict) -> str:
         ]
         for branch_name, pct_drop in data["alerts"]:
             lines.append(
-                f"   🔴 {branch_name}: {pct_drop}% vs same-day average"
+                f"   🚨 {branch_name}: {pct_drop}% vs same-day average"
             )
         lines.append("   _Please check this location immediately._")
 

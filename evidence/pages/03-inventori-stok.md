@@ -80,7 +80,7 @@ _Ringkasan kumulatif kondisi stok & inventori dalam 30 hari terakhir — patokan
 
 {#if wow_biaya[0].pct_change > 10}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
-🔴 <strong>Biaya pemakaian minggu ini naik {wow_biaya[0].pct_change}%</strong> vs minggu lalu (Rp {wow_biaya[0].biaya_minggu_lalu?.toLocaleString()} → Rp {wow_biaya[0].biaya_minggu_ini?.toLocaleString()}). Cek item mana yang mendorong kenaikan di tabel per kategori di bawah.
+🚨 <strong>Biaya pemakaian minggu ini naik {wow_biaya[0].pct_change}%</strong> vs minggu lalu (Rp {wow_biaya[0].biaya_minggu_lalu?.toLocaleString()} → Rp {wow_biaya[0].biaya_minggu_ini?.toLocaleString()}). Cek item mana yang mendorong kenaikan di tabel per kategori di bawah.
 </div>
 {:else if wow_biaya[0].pct_change < -10}
 <div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
@@ -94,11 +94,11 @@ _Ringkasan kumulatif kondisi stok & inventori dalam 30 hari terakhir — patokan
 
 {#if price_alert_count[0].jumlah_item > 0}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
-🔴 <strong>{price_alert_count[0].jumlah_item} bahan baku</strong> dengan harga beli aktual >10% di atas harga dasar. Segera renegosiasi dengan supplier — detail ada di bagian Perbandingan Harga di bawah.
+🚨 <strong>{price_alert_count[0].jumlah_item} bahan baku</strong> dengan harga beli aktual >10% di atas harga dasar. Segera renegosiasi dengan supplier — detail ada di bagian Perbandingan Harga di bawah.
 </div>
 {:else if overstock_alert_count[0].jumlah_cabang > 0}
 <div style="background: rgba(248,201,0,0.1); border-left: 4px solid #f8c900; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
-🟡 <strong>{overstock_alert_count[0].jumlah_cabang} cabang</strong> dengan total pembelian melebihi pemakaian >30% — potensi stok menumpuk atau jadwal pembelian yang tidak efisien. Cek grafik Pemakaian vs Pembelian di bawah.
+⚠️ <strong>{overstock_alert_count[0].jumlah_cabang} cabang</strong> dengan total pembelian melebihi pemakaian >30% — potensi stok menumpuk atau jadwal pembelian yang tidak efisien. Cek grafik Pemakaian vs Pembelian di bawah.
 </div>
 {:else}
 <div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
@@ -315,7 +315,7 @@ ORDER BY selisih_pct DESC
 
 {#if price_alert_count[0].jumlah_item > 0}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
-🔴 <strong>{price_alert_count[0].jumlah_item} item</strong> dengan harga beli di atas 10% harga dasar — tandai merah di tabel di bawah. Prioritaskan untuk renegosiasi supplier.
+🚨 <strong>{price_alert_count[0].jumlah_item} item</strong> dengan harga beli di atas 10% harga dasar — tandai merah di tabel di bawah. Prioritaskan untuk renegosiasi supplier.
 </div>
 {/if}
 

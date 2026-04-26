@@ -136,19 +136,19 @@ _Data refreshed automatically every morning. Report covers **{tgl[0].day_name}, 
 
 {#each insights as row}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;">
-🔴 <strong>{row.branch_name}</strong> — Revenue down <strong>{row.pct_change}%</strong> vs same-day-of-week average (30 days). Investigate immediately.
+🚨 <strong>{row.branch_name}</strong> — Revenue down <strong>{row.pct_change}%</strong> vs same-day-of-week average (30 days). Investigate immediately.
 </div>
 {/each}
 
 {#if attendance_alerts[0].absent_count >= 3}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;">
-🟡 <strong>{attendance_alerts[0].absent_count} staff absent</strong> yesterday. Verify no shift is understaffed.
+⚠️ <strong>{attendance_alerts[0].absent_count} staff absent</strong> yesterday. Verify no shift is understaffed.
 </div>
 {/if}
 
 {#each menu_alerts as row}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;">
-🟡 <strong>{row.menu_name}</strong> — Sales down <strong>{row.pct_change}%</strong> vs last week. Consider a promotion or menu review.
+⚠️ <strong>{row.menu_name}</strong> — Sales down <strong>{row.pct_change}%</strong> vs last week. Consider a promotion or menu review.
 </div>
 {/each}
 

@@ -100,7 +100,7 @@ ORDER BY avg_pct_change ASC
 <div style="display:flex;flex-direction:column;gap:8px;margin:16px 0;">
 {#each branch_alert_30d as row}
 <div style="background:#fff3f3;border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;">
-🔴 <strong>{row.branch_name}</strong> — Revenue averaged <strong>{row.avg_pct_change}%</strong> vs same-day-of-week benchmark over the last 30 days.
+🚨 <strong>{row.branch_name}</strong> — Revenue averaged <strong>{row.avg_pct_change}%</strong> vs same-day-of-week benchmark over the last 30 days.
 </div>
 {/each}
 </div>

@@ -94,7 +94,7 @@ Most restaurants have regulars — but without data, you don't know who they are
 </div>
 {:else if member_vs_periode_lalu[0].pct_change_aov < -5}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🔴 <strong>Avg order value down {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs the prior 90 days (${member_vs_periode_lalu[0].avg_order_value_prev} → ${member_vs_periode_lalu[0].avg_order_value_90d}). Check for tier shifts or lower-value item mix.
+🚨 <strong>Avg order value down {member_vs_periode_lalu[0].pct_change_aov}%</strong> vs the prior 90 days (${member_vs_periode_lalu[0].avg_order_value_prev} → ${member_vs_periode_lalu[0].avg_order_value_90d}). Check for tier shifts or lower-value item mix.
 </div>
 {:else}
 <div style="background:rgba(100,116,139,0.08);border-left:4px solid #888;padding:12px 16px;border-radius:6px;margin:16px 0;">
@@ -104,7 +104,7 @@ Most restaurants have regulars — but without data, you don't know who they are
 
 {#if churn_count[0].churn_risk_count > 0}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:12px 16px;border-radius:6px;margin:16px 0;">
-🟡 <strong>{churn_count[0].churn_risk_count} members at churn risk</strong> — no transaction in the past 14–30 days (threshold varies by tier).
+⚠️ <strong>{churn_count[0].churn_risk_count} members at churn risk</strong> — no transaction in the past 14–30 days (threshold varies by tier).
 {#if churn_count[0].gold_churn > 0} Includes <strong>{churn_count[0].gold_churn} Gold members</strong> — priority outreach.{/if}
 {#if churn_count[0].silver_churn > 0} And <strong>{churn_count[0].silver_churn} Silver members</strong>.{/if}
 See the full list at the bottom of this page.

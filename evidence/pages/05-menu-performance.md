@@ -113,7 +113,7 @@ _Ringkasan kumulatif performa menu dalam 30 hari terakhir — patokan kondisi op
 <div style="display: flex; flex-direction: column; gap: 8px; margin: 16px 0;">
 {#each menu_alert_declining as row}
 <div style="background: rgba(220,38,38,0.08); border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px;">
-🔴 <strong>{row.menu_name}</strong> — penjualan turun <strong>{row.pct_change}%</strong> vs minggu lalu. Pertimbangkan promo atau evaluasi menu ini — cek dulu apakah penurunan terjadi di semua cabang atau hanya satu cabang sebelum ambil keputusan.
+🚨 <strong>{row.menu_name}</strong> — penjualan turun <strong>{row.pct_change}%</strong> vs minggu lalu. Pertimbangkan promo atau evaluasi menu ini — cek dulu apakah penurunan terjadi di semua cabang atau hanya satu cabang sebelum ambil keputusan.
 </div>
 {/each}
 </div>
@@ -121,7 +121,7 @@ _Ringkasan kumulatif performa menu dalam 30 hari terakhir — patokan kondisi op
 
 {#if menu_alert_rising.length > 0}
 <div style="background: rgba(22,163,74,0.08); border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin: 8px 0;">
-🟢 <strong>{menu_alert_rising[0].menu_name}</strong> — penjualan naik <strong>{menu_alert_rising[0].pct_change}%</strong> vs minggu lalu. Pastikan stok cukup.
+✅ <strong>{menu_alert_rising[0].menu_name}</strong> — penjualan naik <strong>{menu_alert_rising[0].pct_change}%</strong> vs minggu lalu. Pastikan stok cukup.
 </div>
 {/if}
 
