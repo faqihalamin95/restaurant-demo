@@ -89,6 +89,53 @@ FROM restaurant.daily_net_revenue
 WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue)
 ```
 
+```sql fin_sdow_yesterday
+WITH daily_total AS (
+    SELECT order_date, SUM(total_revenue) AS daily_rev
+    FROM restaurant.daily_revenue
+    GROUP BY order_date
+),
+max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue)
+SELECT
+    (SELECT daily_rev FROM daily_total WHERE order_date = (SELECT d FROM max_d)) AS gross_yesterday,
+    ROUND(AVG(daily_rev), 0)                                                      AS sdow_avg,
+    ROUND(
+        ((SELECT daily_rev FROM daily_total WHERE order_date = (SELECT d FROM max_d)) - AVG(daily_rev))
+        / NULLIF(AVG(daily_rev), 0) * 100
+    , 1)                                                                           AS pct_change_sdow
+FROM daily_total, max_d
+WHERE order_date < d
+  AND DAYOFWEEK(order_date) = DAYOFWEEK(d)
+  AND order_date >= d - INTERVAL '30 days'
+```
+
+```sql fin_sdow_branch_yesterday
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue),
+sdow_avg AS (
+    SELECT branch_name,
+        ROUND(AVG(total_revenue), 0) AS sdow_avg
+    FROM restaurant.daily_revenue, max_d
+    WHERE order_date < d
+      AND DAYOFWEEK(order_date) = DAYOFWEEK(d)
+      AND order_date >= d - INTERVAL '30 days'
+    GROUP BY branch_name
+),
+today AS (
+    SELECT branch_name, total_revenue AS gross_yesterday
+    FROM restaurant.daily_revenue, max_d
+    WHERE order_date = d
+)
+SELECT
+    t.branch_name,
+    t.gross_yesterday,
+    s.sdow_avg,
+    ROUND((t.gross_yesterday - s.sdow_avg) / NULLIF(s.sdow_avg, 0) * 100, 1) AS pct_change_sdow
+FROM today t
+LEFT JOIN sdow_avg s ON t.branch_name = s.branch_name
+ORDER BY pct_change_sdow DESC
+```
+
+
 ```sql fin_kpi_7d
 SELECT SUM(gross_revenue) AS gross_revenue, SUM(net_revenue) AS net_revenue,
     ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct
@@ -710,7 +757,7 @@ GROUP BY day_part ORDER BY total_orders DESC LIMIT 1
 
 ```sql peak_kpi_yesterday
 SELECT
-    h.peak_hour || ':00' AS jam_puncak,
+    CAST(h.peak_hour AS INTEGER) || ':00' AS jam_puncak,
     h.day_part AS periode_puncak,
     h.peak_orders,
     ROUND(h.peak_orders * 100.0 / h.total_all, 1) AS pct_jam_puncak,
@@ -743,7 +790,7 @@ CROSS JOIN (
 ```
 ```sql peak_kpi_7d
 SELECT
-    h.peak_hour || ':00' AS jam_puncak,
+    CAST(h.peak_hour AS INTEGER) || ':00' AS jam_puncak,
     h.day_part AS periode_puncak,
     h.peak_orders,
     ROUND(h.peak_orders * 100.0 / h.total_all, 1) AS pct_jam_puncak,
@@ -776,7 +823,7 @@ CROSS JOIN (
 ```
 ```sql peak_kpi_30d
 SELECT
-    h.peak_hour || ':00' AS jam_puncak,
+    CAST(h.peak_hour AS INTEGER) || ':00' AS jam_puncak,
     h.day_part AS periode_puncak,
     h.peak_orders,
     ROUND(h.peak_orders * 100.0 / h.total_all, 1) AS pct_jam_puncak,
@@ -829,16 +876,31 @@ WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.menu_performance) - 
 GROUP BY menu_name ORDER BY SUM(total_qty_sold) DESC LIMIT 1
 ```
 ```sql health_yesterday
--- 1. Keuangan — Net Margin
+-- 1. Keuangan — SDOW Revenue vs Kemarin
 SELECT 'Keuangan' AS section, '💰' AS icon,
-    CASE WHEN m < 10 THEN 'kritis' WHEN m < 15 THEN 'perhatian' ELSE 'sehat' END AS status,
-    CASE WHEN m < 10 THEN 'Net margin ' || m || '%, di bawah ambang kritis 10%'
-         WHEN m < 15 THEN 'Net margin ' || m || '%, mendekati batas waspada 15%'
-         ELSE 'Net margin ' || m || '%, sehat' END AS label,
-    'Net Margin' AS metrik
-FROM (SELECT ROUND(SUM(net_revenue)/NULLIF(SUM(gross_revenue),0)*100,1) AS m
-      FROM restaurant.daily_net_revenue
-      WHERE metric_date = (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue))
+    CASE WHEN p >= -5 THEN 'sehat' WHEN p >= -15 THEN 'perhatian' ELSE 'kritis' END AS status,
+    CASE WHEN p >= -5  THEN 'Revenue kemarin ' || p || '% vs rata-rata hari serupa (30h), normal'
+         WHEN p >= -15 THEN 'Revenue kemarin ' || p || '% vs rata-rata hari serupa, di bawah normal'
+         ELSE               'Revenue kemarin ' || p || '% vs rata-rata hari serupa, drop signifikan' END AS label,
+    'vs Hari Serupa' AS metrik
+FROM (
+    SELECT ROUND(
+        (SUM(CASE WHEN order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
+            THEN total_revenue ELSE 0 END)
+        - AVG(CASE
+            WHEN order_date < (SELECT MAX(order_date) FROM restaurant.daily_revenue)
+            AND DAYOFWEEK(order_date) = DAYOFWEEK((SELECT MAX(order_date) FROM restaurant.daily_revenue))
+            AND order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '30 days'
+            THEN total_revenue END))
+        / NULLIF(AVG(CASE
+            WHEN order_date < (SELECT MAX(order_date) FROM restaurant.daily_revenue)
+            AND DAYOFWEEK(order_date) = DAYOFWEEK((SELECT MAX(order_date) FROM restaurant.daily_revenue))
+            AND order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '30 days'
+            THEN total_revenue END), 0) * 100
+    , 1) AS p
+    FROM restaurant.daily_revenue
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '30 days'
+)
 UNION ALL
 -- 2. Cabang — AOV
 SELECT 'Cabang', '🏪',
@@ -1308,13 +1370,13 @@ _Data diperbarui otomatis setiap hari. Laporan berikut mencakup operasional **{t
 
 ---
 
-<Dropdown name="period" defaultValue="yesterday">
-    <DropdownOption value="yesterday" valueLabel="Kemarin" />
-    <DropdownOption value="7d"        valueLabel="7 Hari Terakhir" />
-    <DropdownOption value="30d"       valueLabel="30 Hari Terakhir" />
-</Dropdown>
+<ButtonGroup name=period>
+  <ButtonGroupItem valueLabel="Kemarin"       value="yesterday" default />
+  <ButtonGroupItem valueLabel="7 Hari"        value="7d" />
+  <ButtonGroupItem valueLabel="30 Hari"       value="30d" />
+</ButtonGroup>
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 
 <div style="margin:24px 0 4px;">
 <div style="font-size:1.55em;font-weight:700;color:var(--color-text-primary);line-height:1.3;margin-bottom:6px;">
@@ -1367,7 +1429,7 @@ Kondisi bisnis <strong>7 hari terakhir</strong> — {health_7d.length} indikator
 
 </div>
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 
 <div style="margin:24px 0 4px;">
 <div style="font-size:1.55em;font-weight:700;color:var(--color-text-primary);line-height:1.3;margin-bottom:6px;">
@@ -1505,7 +1567,7 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={fin_kpi_7d} value="gross_revenue"  title="Gross Revenue (Rp)" fmt="#,##0" />
 <BigValue data={fin_kpi_7d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_7d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
@@ -1601,7 +1663,7 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 
 [→ Laporan Keuangan lengkap](/01-laporan-keuangan)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={fin_kpi_30d} value="gross_revenue"  title="Gross Revenue (Rp)" fmt="#,##0" />
 <BigValue data={fin_kpi_30d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_30d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
@@ -1698,34 +1760,34 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 [→ Laporan Keuangan lengkap](/01-laporan-keuangan)
 
 {:else}
-<BigValue data={fin_kpi_yesterday} value="gross_revenue"  title="Gross Revenue (Rp)" fmt="#,##0" />
-<BigValue data={fin_kpi_yesterday} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
-<BigValue data={fin_kpi_yesterday} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
+<BigValue data={fin_sdow_yesterday} value="gross_yesterday" title="Gross Revenue Kemarin (Rp)" fmt="#,##0" />
+<BigValue data={fin_sdow_yesterday} value="sdow_avg"        title="Rata-rata Hari Serupa (Rp)" fmt="#,##0" />
+<BigValue data={fin_sdow_yesterday} value="pct_change_sdow" title="Selisih vs Hari Serupa (%)" fmt="+0.0;-0.0\%" />
 
 <details>
 <summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
 <div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
 
-💰 **Gross Revenue** — Total penjualan sebelum dikurangi biaya apapun. Ini mengukur skala bisnis: seberapa besar aktivitas penjualan yang terjadi? Berguna untuk membandingkan performa antar periode atau antar cabang.
+💰 **Gross Revenue** — Total penjualan kemarin sebelum dikurangi biaya apapun. Angka mentah yang menjadi dasar perbandingan.
 
-🏦 **Net Revenue** — Yang benar-benar masuk kantong setelah semua biaya operasional dikurangi (gaji, bahan baku, sewa, dll). Ini angka yang paling jujur tentang kondisi bisnis.
+📊 **Rata-rata Hari Serupa (SDOW)** — Rata-rata revenue di hari yang sama (Senin vs Senin, Sabtu vs Sabtu) dalam 30 hari terakhir. Ini baseline yang fair — menghilangkan bias weekday vs weekend sebelum menilai apakah kemarin normal atau tidak.
 
-📊 **Net Margin** — Persentase keuntungan bersih dari total penjualan. Mengukur efisiensi bisnis, bukan sekadar skala. Revenue besar belum tentu bisnis sehat — margin yang mengonfirmasi.
+📈 **Selisih vs Hari Serupa** — Berapa persen revenue kemarin menyimpang dari baseline SDOW. Ini indikator utama: apakah kemarin *abnormal* dibanding biasanya?
 
 </div>
 </details>
 
-{#if fin_kpi_yesterday[0].net_margin_pct >= 15}
+{#if fin_sdow_yesterday[0].pct_change_sdow >= -5}
 <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:10px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;">
-✅ <strong>Margin Sehat — {fin_kpi_yesterday[0].net_margin_pct}%</strong> &nbsp;|&nbsp; Standar industri: 15–20%
+✅ <strong>Normal — {fin_sdow_yesterday[0].pct_change_sdow}% vs hari serupa</strong> &nbsp;|&nbsp; Revenue kemarin dalam rentang wajar
 </div>
-{:else if fin_kpi_yesterday[0].net_margin_pct >= 10}
+{:else if fin_sdow_yesterday[0].pct_change_sdow >= -15}
 <div style="background:rgba(248,201,0,0.1);border-left:4px solid #f8c900;padding:10px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;">
-⚠️ <strong>Margin Waspada — {fin_kpi_yesterday[0].net_margin_pct}%</strong> &nbsp;|&nbsp; Di bawah 15%, cek efisiensi biaya
+⚠️ <strong>Di bawah normal — {fin_sdow_yesterday[0].pct_change_sdow}% vs hari serupa</strong> &nbsp;|&nbsp; Cek apakah ada penyebab spesifik kemarin
 </div>
 {:else}
 <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:10px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;">
-🚨 <strong>Margin Kritis — {fin_kpi_yesterday[0].net_margin_pct}%</strong> &nbsp;|&nbsp; Di bawah 10%, perlu tindakan segera
+🚨 <strong>Drop signifikan — {fin_sdow_yesterday[0].pct_change_sdow}% vs hari serupa</strong> &nbsp;|&nbsp; Investigasi segera — cek cabang mana yang paling terdampak
 </div>
 {/if}
 
@@ -1733,30 +1795,25 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 <summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
 <div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
 
-**📐 Apa itu Net Margin?**
+**📊 Kenapa SDOW, bukan Net Margin?**
 
-Persentase keuntungan bersih dari total penjualan. Kalau margin 15%, artinya dari setiap Rp 100.000 penjualan, Rp 15.000 adalah keuntungan bersih — sisanya habis untuk biaya operasional.
+Net margin harian tidak valid sebagai indikator kesehatan karena biaya tetap (gaji, sewa) dibagi rata setiap hari — hari sepi dengan 50 order dan hari ramai dengan 200 order sama-sama menanggung biaya yang sama. Hasilnya, hari sepi selalu kelihatan "kritis" padahal itu normal.
 
-**Cara hitungnya:**
-> Net Margin = (Net Revenue ÷ Gross Revenue) × 100%
-
-Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
-
-**Kenapa penting?** Omzet besar bukan jaminan bisnis sehat. Bisa saja penjualan tinggi tapi biaya operasional juga tinggi sehingga keuntungan tipis. Margin mengukur **efisiensi nyata** bisnis, bukan sekadar skala.
+SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-minggu sebelumnya — Senin dibanding Senin, Sabtu dibanding Sabtu. Pertanyaannya bukan "apakah margin bagus?" tapi **"apakah kemarin tidak biasa?"**
 
 ---
 
-**🎯 Threshold Margin — Standar Umum F&B**
+**🎯 Threshold SDOW**
 
-| Margin | Artinya |
+| Selisih | Artinya |
 |---|---|
-| di atas 15% | Sehat ✅ |
-| 10–15% | Waspada ⚠️ |
-| di bawah 10% | Kritis 🚨 |
+| di atas -5% | Normal ✅ |
+| -5% sampai -15% | Di bawah normal ⚠️ |
+| di bawah -15% | Drop signifikan 🚨 |
 
-**Catatan:** Angka ini standar umum industri F&B dan bisa berbeda tergantung model bisnis, lokasi, dan struktur biaya masing-masing restoran. Gunakan sebagai acuan awal, bukan patokan mutlak.
+**Buffer -5%** ada karena noise harian wajar — cuaca, insiden kecil, atau variasi acak tidak perlu menimbulkan alarm.
 
-**Kalau margin rendah, cek dulu:** apakah karena revenue yang turun, atau biaya yang naik? Keduanya butuh penanganan berbeda.
+**Untuk analisis profitabilitas** (net margin, struktur biaya), gunakan periode 7 atau 30 hari di halaman Laporan Keuangan — datanya jauh lebih stabil dan bisa diandalkan.
 
 </div>
 </details>
@@ -1765,26 +1822,35 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 <summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
 <div style="padding:12px 0;">
 
-_Margin satu hari bisa sangat fluktuatif — hari sepi pelanggan, biaya tetap (gaji, sewa) tetap berjalan sehingga margin bisa terlihat rendah. Untuk keputusan strategis, lihat tren 7 atau 30 hari._
+_Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di atas normal, negatif berarti di bawah._
 
 <BarChart
-    data={fin_margin_branch_yesterday}
+    data={fin_sdow_branch_yesterday}
     x="branch_name"
-    y="net_margin_pct"
-    title="Net Margin per Cabang — Kemarin (%)"
-    yFmt="0.0\%"
+    y="pct_change_sdow"
+    title="Selisih vs Hari Serupa per Cabang — Kemarin (%)"
+    yFmt="+0.0;-0.0"
     xAxisTitle="Cabang"
-    yAxisTitle="Net Margin (%)"
+    yAxisTitle="Selisih vs SDOW (%)"
 >
-    <ReferenceArea yMin={15} color="green" />
-    <ReferenceArea yMin={10} yMax={15} color="yellow" />
-    <ReferenceArea yMax={10} color="red" />
+    <ReferenceArea yMin={-5}  color="green" />
+    <ReferenceArea yMin={-15} yMax={-5}  color="yellow" />
+    <ReferenceArea yMax={-15} color="red" />
+    <ReferenceLine y={-5}  lineType="dashed" color="green" />
+    <ReferenceLine y={-15} lineType="dashed" color="red" />
 </BarChart>
 <div style="display:flex;gap:16px;font-size:0.82em;color:#555;margin-top:4px;margin-bottom:8px;justify-content:center;">
-    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(22,163,74,0.2);border:1px solid #16a34a;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Sehat (&gt;15%)</span>
-    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(234,179,8,0.2);border:1px solid #ca8a04;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Waspada (10–15%)</span>
-    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Kritis (&lt;10%)</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(22,163,74,0.2);border:1px solid #16a34a;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Normal (&gt;-5%)</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(234,179,8,0.2);border:1px solid #ca8a04;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Di bawah normal (-5% s/d -15%)</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Drop signifikan (&lt;-15%)</span>
 </div>
+
+<DataTable data={fin_sdow_branch_yesterday}>
+    <Column id="branch_name"     title="Cabang"/>
+    <Column id="gross_yesterday" title="Revenue Kemarin (Rp)" fmt="#,##0"/>
+    <Column id="sdow_avg"        title="Rata-rata Hari Serupa (Rp)" fmt="#,##0"/>
+    <Column id="pct_change_sdow" title="Selisih (%)" fmt="+0.0;-0.0" contentType="delta"/>
+</DataTable>
 
 </div>
 </details>
@@ -1803,7 +1869,7 @@ _Margin satu hari bisa sangat fluktuatif — hari sepi pelanggan, biaya tetap (g
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={branch_kpi_7d}  value="branch_name"      title="Cabang Terbaik" />
 <BigValue data={branch_agg_7d}  value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_7d}  value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
@@ -1900,7 +1966,7 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 
 [→ Performa Cabang lengkap](/02-branch-performance)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={branch_kpi_30d} value="branch_name"      title="Cabang Terbaik" />
 <BigValue data={branch_agg_30d} value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_30d} value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
@@ -2108,7 +2174,7 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={menu_top_7d}       value="menu_name"       title="Menu Terlaris" />
 <BigValue data={menu_kpi_agg_7d}   value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_7d}   value="menu_aktif_label" title="Menu Aktif (min. 4 dari 7 hari)" />
@@ -2233,7 +2299,7 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 
 [→ Performa Menu lengkap](/05-menu-performance)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={menu_top_30d}      value="menu_name"       title="Menu Terlaris" />
 <BigValue data={menu_kpi_agg_30d}  value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_30d}  value="menu_aktif_label" title="Menu Aktif (min. 15 dari 30 hari)" />
@@ -2445,7 +2511,7 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={member_kpi_7d} value="member_aktif"     title="Member Aktif"                    fmt="#,##0" />
 <BigValue data={member_kpi_7d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_7d} value="avg_frekuensi"    title="Avg Transaksi per Member (7 Hari)" fmt="0.0" />
@@ -2544,7 +2610,7 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 
 [→ Analisis Member lengkap](/06-member-behavior)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={member_kpi_30d} value="member_aktif"     title="Member Aktif"                    fmt="#,##0" />
 <BigValue data={member_kpi_30d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_30d} value="avg_frekuensi"    title="Avg Transaksi per Member (30 Hari)" fmt="0.0" />
@@ -2732,7 +2798,7 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={att_kpi_7d} value="pct_hadir"      title="Tingkat Kehadiran"    fmt="0.0\%" />
 <BigValue data={att_kpi_7d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_7d} value="shift_tersibuk" title="Shift Tersibuk" />
@@ -2838,7 +2904,7 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 
 [→ Performa Pegawai lengkap](/07-employee-performance)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={att_kpi_30d} value="pct_hadir"      title="Tingkat Kehadiran"     fmt="0.0\%" />
 <BigValue data={att_kpi_30d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_30d} value="shift_tersibuk" title="Shift Tersibuk" />
@@ -3058,7 +3124,7 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={inv_kpi_7d} value="pct_dari_revenue"   title="Biaya Bahan dari Revenue"  fmt="0.0\%" />
 <BigValue data={inv_kpi_7d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_7d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
@@ -3172,7 +3238,7 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 
 [→ Inventori lengkap](/03-inventori-stok)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={inv_kpi_30d} value="pct_dari_revenue"   title="Biaya Bahan dari Revenue"  fmt="0.0\%" />
 <BigValue data={inv_kpi_30d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_30d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
@@ -3408,7 +3474,7 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 
 
-{#if inputs.period.value === '7d'}
+{#if inputs.period === '7d'}
 <BigValue data={peak_kpi_7d} value="jam_puncak"        title="Jam Puncak" />
 <BigValue data={peak_kpi_7d} value="periode_puncak"    title="Periode Puncak" />
 <BigValue data={peak_kpi_7d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
@@ -3483,7 +3549,7 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 
 [→ Analisis Jam Sibuk lengkap](/04-peak-hours)
 
-{:else if inputs.period.value === '30d'}
+{:else if inputs.period === '30d'}
 <BigValue data={peak_kpi_30d} value="jam_puncak"         title="Jam Puncak" />
 <BigValue data={peak_kpi_30d} value="periode_puncak"     title="Periode Puncak" />
 <BigValue data={peak_kpi_30d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
