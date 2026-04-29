@@ -626,7 +626,7 @@ ORDER BY order_date
 </table>
 </div>
 
-_▲▼ deltas compare to the equivalent prior period. Margin color: 🟢 ≥15% · 🟡 10–15% · 🔴 <10%._
+_▲▼ deltas compare to the equivalent prior period. Margin color: 🟢 ≥15% · 🟡 10–15% · 🔴 di bawah 10%._
 
 ---
 
