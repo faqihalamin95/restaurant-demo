@@ -1182,7 +1182,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 .read-table-wrapper {
   max-width: 550px;
   width: 100%;
-  margin: 12px 0;
+  margin: 16px auto;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(128, 128, 128, 0.1);
@@ -1200,7 +1200,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 
 .read-table th {
   padding: 8px 12px;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: var(--color-text-primary);
   background: rgba(128, 128, 128, 0.04);
@@ -1214,7 +1214,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 
 .read-table td {
   padding: 8px 12px;
-  text-align: left;
+  text-align: center;
   color: var(--color-text-secondary);
   border-bottom: 1px solid rgba(128, 128, 128, 0.06);
 }
@@ -1229,11 +1229,12 @@ details.acc-strategic .acc-body { padding: 20px; }
 
 .read-note {
   max-width: 600px;
-  margin: 12px 0 0 0;
+  margin: 12px auto 0;
   font-size: 0.82rem;
   color: var(--color-text-tertiary);
   line-height: 1.5;
   font-style: italic;
+  text-align: center;
 }
 
 /* Custom styling for the premium branch table override */
