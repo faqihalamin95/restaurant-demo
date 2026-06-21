@@ -2131,43 +2131,62 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
 
           <details>
             <summary>💡 Analisis & Langkah Konkret (30 Hari Terakhir)</summary>
-            <div class="acc-body">
-              <div class="acc-grid">
-                <div>
-                  <div class="acc-title-sub">📊 Konteks Analisis</div>
-                  <div class="acc-text-block">
-                    Tiga puluh hari adalah sweet spot untuk owner. Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
-                  </div>
-                  <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+            <div class="acc-body" style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- Card Horizontal Single Konteks Analisis -->
+              <div class="signal-card neutral" style="margin: 0; width: 100%;">
+                <div class="signal-label">📊 Konteks Analisis</div>
+                <div class="signal-title">Tiga puluh hari adalah sweet spot untuk owner.</div>
+                <div class="signal-copy">
+                  Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
+                  <div style="margin-top: 8px; font-size: 0.8rem; color: var(--color-text-secondary);">
                     Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
                   </div>
                 </div>
-                <div>
-                  <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
-                  <div class="acc-alert-list">
+              </div>
+
+              <!-- 3 Cards untuk 3 Komponen Biaya -->
+              <div class="acc-title-sub" style="margin-top: 8px; margin-bottom: 2px;">🎯 Rekomendasi Tindakan per Komponen</div>
+              <div class="recommendations-grid">
+                
+                <!-- Card 1: Bahan -->
+                <div class="acc-alert-item" style="border-left-width: 4px; border-left-style: solid; margin: 0; display: flex; flex-direction: column; justify-content: space-between; {fin_cost_pct[0].bahan_30d > 32 ? 'border-left-color: #dc2626; background: rgba(239, 68, 68, 0.04);' : 'border-left-color: #16a34a; background: rgba(22, 163, 74, 0.04);'}">
+                  <div>
+                    <strong style="display: block; margin-bottom: 4px;">🥩 Biaya Bahan ({fin_cost_pct[0].bahan_30d}% vs maks 32%)</strong>
                     {#if fin_cost_pct[0].bahan_30d > 32}
-                      <div class="acc-alert-item">
-                        <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_30d}% vs maks 32%):</strong> Prioritas pertama: cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.
-                      </div>
-                    {/if}
-                    {#if fin_cost_pct[0].sdm_30d > 22}
-                      <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                        <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_30d}% vs maks 22%):</strong> Cek overtime, keselarasan shift schedule dengan volume transaksi harian.
-                      </div>
-                    {/if}
-                    {#if fin_cost_pct[0].ops_30d > 15}
-                      <div class="acc-alert-item">
-                        <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_30d}% vs maks 15%):</strong> Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.
-                      </div>
-                    {/if}
-                    {#if fin_cost_pct[0].bahan_30d <= 32 && fin_cost_pct[0].sdm_30d <= 22 && fin_cost_pct[0].ops_30d <= 15}
-                      <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
-                        <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target.
-                      </div>
+                      Prioritas pertama: Cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.
+                    {:else}
+                      Batas aman tercapai. Pertahankan efisiensi resep dan pantau stabilitas harga supplier.
                     {/if}
                   </div>
                 </div>
+
+                <!-- Card 2: SDM -->
+                <div class="acc-alert-item" style="border-left-width: 4px; border-left-style: solid; margin: 0; display: flex; flex-direction: column; justify-content: space-between; {fin_cost_pct[0].sdm_30d > 22 ? 'border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.04);' : 'border-left-color: #16a34a; background: rgba(22, 163, 74, 0.04);'}">
+                  <div>
+                    <strong style="display: block; margin-bottom: 4px;">👥 Biaya SDM ({fin_cost_pct[0].sdm_30d}% vs maks 22%)</strong>
+                    {#if fin_cost_pct[0].sdm_30d > 22}
+                      Cek overtime, keselarasan shift schedule dengan volume transaksi harian.
+                    {:else}
+                      Rasio tenaga kerja efisien. Tetap pantau produktivitas per jam kerja.
+                    {/if}
+                  </div>
+                </div>
+
+                <!-- Card 3: Operasional -->
+                <div class="acc-alert-item" style="border-left-width: 4px; border-left-style: solid; margin: 0; display: flex; flex-direction: column; justify-content: space-between; {fin_cost_pct[0].ops_30d > 15 ? 'border-left-color: #dc2626; background: rgba(239, 68, 68, 0.04);' : 'border-left-color: #16a34a; background: rgba(22, 163, 74, 0.04);'}">
+                  <div>
+                    <strong style="display: block; margin-bottom: 4px;">⚙️ Biaya Operasional ({fin_cost_pct[0].ops_30d}% vs maks 15%)</strong>
+                    {#if fin_cost_pct[0].ops_30d > 15}
+                      Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.
+                    {:else}
+                      Beban operasional terkendali. Tetap awasi tagihan utilitas berkala dan overhead operasional.
+                    {/if}
+                  </div>
+                </div>
+
               </div>
+
             </div>
           </details>
         </div>
