@@ -330,13 +330,45 @@ details.acc-strategic .acc-body {
 }
 
 .kpi-card {
-  padding: 17px;
+  padding: 18px 16px;
   border-radius: 18px;
   border: 1.5px solid var(--color-border-tertiary);
   background: var(--color-background-secondary);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01);
   position: relative;
   overflow: hidden;
+  transition: all 0.22s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.trend-indicator {
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.trend-indicator.up {
+  color: #16a34a;
+}
+
+.trend-indicator.down {
+  color: #dc2626;
+}
+
+.trend-indicator.neutral {
+  color: var(--color-text-tertiary);
+}
+
+.kpi-prev {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
 }
 
 .kpi-card.revenue {
@@ -372,7 +404,7 @@ details.acc-strategic .acc-body {
 }
 
 .kpi-value {
-  font-size: 1rem;
+  font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
@@ -381,9 +413,9 @@ details.acc-strategic .acc-body {
 .kpi-meta {
   margin-top: 6px;
   font-size: 0.82rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
+  line-height: 1;
 }
+
 
 /* ── Section card ── */
 .section-card {
@@ -690,7 +722,9 @@ details.acc-strategic .acc-body {
     font-size: 1.6rem;
   }
 
-  .kpi-value,
+  .kpi-value {
+    font-size: 1.25rem;
+  }
   .cost-value {
     font-size: 1.5rem;
   }
@@ -729,6 +763,7 @@ SELECT
         / NULLIF(SUM(CASE WHEN metric_date = d THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_yesterday,
     SUM(CASE WHEN metric_date = d THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_yesterday,
+    
     SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END) AS gross_30d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END) AS net_30d,
     ROUND(
@@ -736,12 +771,15 @@ SELECT
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_30d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_30d,
+    
     SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END) AS gross_prev30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END) AS net_prev30d,
     ROUND(
         SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_prev30d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_prev30d,
+    
     ROUND(
         ROUND(
             SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
@@ -758,6 +796,17 @@ SELECT
         - SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END))
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS pct_change_gross_30d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_net_30d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END), 0) * 100
+    , 1) AS pct_change_biaya_30d,
+    
     SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END) AS gross_90d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END) AS net_90d,
     ROUND(
@@ -765,12 +814,15 @@ SELECT
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_90d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_90d,
+    
     SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END) AS gross_prev90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END) AS net_prev90d,
     ROUND(
         SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_prev90d,
     SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_prev90d,
+    
     ROUND(
         ROUND(
             SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
@@ -786,7 +838,17 @@ SELECT
         (SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END)
         - SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END))
         / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
-    , 1) AS pct_change_gross_90d
+    , 1) AS pct_change_gross_90d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_net_90d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END), 0) * 100
+    , 1) AS pct_change_biaya_90d
 FROM restaurant.daily_net_revenue CROSS JOIN max_d
 ```
 
@@ -845,12 +907,28 @@ SELECT
     SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_mtd,
     ANY_VALUE(DAY(b.bln_akhir)) AS hari_berjalan,
     ANY_VALUE(DAY(LAST_DAY(b.bln_akhir))) AS total_hari_bulan,
+    
     SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END) AS gross_bulan_lalu,
+    SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN net_revenue ELSE 0 END) AS net_bulan_lalu,
     ROUND(
         SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN net_revenue ELSE 0 END)
         / NULLIF(SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END), 0) * 100
     , 1) AS margin_bulan_lalu,
     SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_bulan_lalu,
+    
+    ROUND(
+        (SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN gross_revenue ELSE 0 END) - SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_gross_mtd,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN net_revenue ELSE 0 END) - SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN net_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN net_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_net_mtd,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) - SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END), 0) * 100
+    , 1) AS pct_change_biaya_mtd,
+
     ROUND(
         SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN gross_revenue ELSE 0 END)
         / NULLIF(ANY_VALUE(DAY(b.bln_akhir)), 0) * ANY_VALUE(DAY(LAST_DAY(b.bln_akhir)))
@@ -1120,25 +1198,58 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       <div class="kpi-card revenue">
         <div class="kpi-label">💵 Gross Revenue</div>
         <div class="kpi-value">Rp {fin_kpi_mtd[0].gross_mtd.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">Bulan lalu penuh: Rp {fin_kpi_mtd[0].gross_bulan_lalu.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi_mtd[0].pct_change_gross_mtd > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi_mtd[0].pct_change_gross_mtd}%</span>
+          {:else if fin_kpi_mtd[0].pct_change_gross_mtd < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi_mtd[0].pct_change_gross_mtd)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs bulan lalu penuh: Rp {fin_kpi_mtd[0].gross_bulan_lalu.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card net">
         <div class="kpi-label">💰 Net Revenue</div>
         <div class="kpi-value">Rp {fin_kpi_mtd[0].net_mtd.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">Proyeksi akhir bulan: Rp {fin_kpi_mtd[0].proyeksi_net.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi_mtd[0].pct_change_net_mtd > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi_mtd[0].pct_change_net_mtd}%</span>
+          {:else if fin_kpi_mtd[0].pct_change_net_mtd < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi_mtd[0].pct_change_net_mtd)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs bulan lalu penuh: Rp {fin_kpi_mtd[0].net_bulan_lalu.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card margin">
         <div class="kpi-label">📈 Net Margin</div>
         <div class="kpi-value">{fin_kpi_mtd[0].margin_mtd}%</div>
         <div class="kpi-meta">
-          {fin_kpi_mtd[0].margin_mtd >= fin_kpi_mtd[0].margin_bulan_lalu ? '↑ Naik' : '↓ Turun'}
-          {Math.abs(Math.round((fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu) * 10) / 10)}pp vs {fin_nama_bulan[0].nama_bulan_lalu}.
+          {#if (fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu) > 0}
+            <span class="trend-indicator up">▲ +{(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}pp</span>
+          {:else if (fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu) < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}pp</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0pp</span>
+          {/if}
         </div>
+        <div class="kpi-prev">vs bulan lalu penuh: {fin_kpi_mtd[0].margin_bulan_lalu}%</div>
       </div>
       <div class="kpi-card cost">
         <div class="kpi-label">💸 Total Biaya</div>
         <div class="kpi-value">Rp {fin_kpi_mtd[0].biaya_mtd.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">Bulan lalu penuh: Rp {fin_kpi_mtd[0].biaya_bulan_lalu.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi_mtd[0].pct_change_biaya_mtd > 0}
+            <span class="trend-indicator down">▲ +{fin_kpi_mtd[0].pct_change_biaya_mtd}%</span>
+          {:else if fin_kpi_mtd[0].pct_change_biaya_mtd < 0}
+            <span class="trend-indicator up">▼ {Math.abs(fin_kpi_mtd[0].pct_change_biaya_mtd)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs bulan lalu penuh: Rp {fin_kpi_mtd[0].biaya_bulan_lalu.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
     </div>
 
@@ -1317,22 +1428,58 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       <div class="kpi-card revenue">
         <div class="kpi-label">💵 Gross Revenue</div>
         <div class="kpi-value">Rp {fin_kpi[0].gross_90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">90 hari sebelumnya: Rp {fin_kpi[0].gross_prev90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_gross_90d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].pct_change_gross_90d}%</span>
+          {:else if fin_kpi[0].pct_change_gross_90d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].pct_change_gross_90d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 90 hari sebelumnya: Rp {fin_kpi[0].gross_prev90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card net">
         <div class="kpi-label">💰 Net Revenue</div>
         <div class="kpi-value">Rp {fin_kpi[0].net_90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">Melihat hasil bersih dari pertumbuhan volume dalam 3 bulan.</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_net_90d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].pct_change_net_90d}%</span>
+          {:else if fin_kpi[0].pct_change_net_90d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].pct_change_net_90d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 90 hari sebelumnya: Rp {fin_kpi[0].net_prev90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card margin">
         <div class="kpi-label">📈 Net Margin</div>
         <div class="kpi-value">{fin_kpi[0].margin_90d}%</div>
-        <div class="kpi-meta">{fin_kpi[0].delta_margin_90d > 0 ? '↑ Naik' : '↓ Turun'} {Math.abs(fin_kpi[0].delta_margin_90d)}pp vs 90 hari sebelumnya.</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].delta_margin_90d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_90d}pp</span>
+          {:else if fin_kpi[0].delta_margin_90d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_90d)}pp</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0pp</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 90 hari sebelumnya: {fin_kpi[0].margin_prev90d}%</div>
       </div>
       <div class="kpi-card cost">
         <div class="kpi-label">💸 Total Biaya</div>
         <div class="kpi-value">Rp {fin_kpi[0].biaya_90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">90 hari sebelumnya: Rp {fin_kpi[0].biaya_prev90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_biaya_90d > 0}
+            <span class="trend-indicator down">▲ +{fin_kpi[0].pct_change_biaya_90d}%</span>
+          {:else if fin_kpi[0].pct_change_biaya_90d < 0}
+            <span class="trend-indicator up">▼ {Math.abs(fin_kpi[0].pct_change_biaya_90d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 90 hari sebelumnya: Rp {fin_kpi[0].biaya_prev90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
     </div>
 
@@ -1493,22 +1640,58 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       <div class="kpi-card revenue">
         <div class="kpi-label">💵 Gross Revenue</div>
         <div class="kpi-value">Rp {fin_kpi[0].gross_30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">30 hari sebelumnya: Rp {fin_kpi[0].gross_prev30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_gross_30d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].pct_change_gross_30d}%</span>
+          {:else if fin_kpi[0].pct_change_gross_30d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].pct_change_gross_30d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 30 hari sebelumnya: Rp {fin_kpi[0].gross_prev30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card net">
         <div class="kpi-label">💰 Net Revenue</div>
         <div class="kpi-value">Rp {fin_kpi[0].net_30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">Nilai ini paling dekat dengan uang yang benar-benar tersisa setelah biaya inti.</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_net_30d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].pct_change_net_30d}%</span>
+          {:else if fin_kpi[0].pct_change_net_30d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].pct_change_net_30d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 30 hari sebelumnya: Rp {fin_kpi[0].net_prev30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
       <div class="kpi-card margin">
         <div class="kpi-label">📈 Net Margin</div>
         <div class="kpi-value">{fin_kpi[0].margin_30d}%</div>
-        <div class="kpi-meta">{fin_kpi[0].delta_margin_30d > 0 ? '↑ Naik' : '↓ Turun'} {Math.abs(fin_kpi[0].delta_margin_30d)}pp vs 30 hari sebelumnya.</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].delta_margin_30d > 0}
+            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_30d}pp</span>
+          {:else if fin_kpi[0].delta_margin_30d < 0}
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_30d)}pp</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0pp</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 30 hari sebelumnya: {fin_kpi[0].margin_prev30d}%</div>
       </div>
       <div class="kpi-card cost">
         <div class="kpi-label">💸 Total Biaya</div>
         <div class="kpi-value">Rp {fin_kpi[0].biaya_30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
-        <div class="kpi-meta">30 hari sebelumnya: Rp {fin_kpi[0].biaya_prev30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
+        <div class="kpi-meta">
+          {#if fin_kpi[0].pct_change_biaya_30d > 0}
+            <span class="trend-indicator down">▲ +{fin_kpi[0].pct_change_biaya_30d}%</span>
+          {:else if fin_kpi[0].pct_change_biaya_30d < 0}
+            <span class="trend-indicator up">▼ {Math.abs(fin_kpi[0].pct_change_biaya_30d)}%</span>
+          {:else}
+            <span class="trend-indicator neutral">0.0%</span>
+          {/if}
+        </div>
+        <div class="kpi-prev">vs 30 hari sebelumnya: Rp {fin_kpi[0].biaya_prev30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
       </div>
     </div>
 
