@@ -1425,17 +1425,9 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             <div class="hero-side-note">Cakupan ini cocok untuk menangkap pola biaya yang sudah berulang, bukan anomali beberapa hari.</div>
           </div>
           <div class="hero-side-card">
-            <div class="hero-side-label">📊 Perubahan Revenue</div>
-            <div class="hero-side-value" style="display: flex; align-items: center; gap: 4px; margin-top: 2px;">
-              {#if fin_kpi[0].pct_change_gross_90d > 0}
-                <span class="trend-indicator up" style="font-size: 1.15rem;">▲ +{fin_kpi[0].pct_change_gross_90d}%</span>
-              {:else if fin_kpi[0].pct_change_gross_90d < 0}
-                <span class="trend-indicator down" style="font-size: 1.15rem;">▼ {Math.abs(fin_kpi[0].pct_change_gross_90d)}%</span>
-              {:else}
-                <span class="trend-indicator neutral" style="font-size: 1.15rem;">0.0%</span>
-              {/if}
-            </div>
-            <div class="hero-side-note" style="margin-top: 4px;">Margin berubah {fin_kpi[0].delta_margin_90d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_90d}pp vs 90 hari sebelumnya.</div>
+            <div class="hero-side-label">💵 Rata-rata Harian</div>
+            <div class="hero-side-value" style="font-size: 1.15rem; font-weight: 800;">Rp {Math.round(fin_kpi[0].gross_90d / 90).toLocaleString('id-ID', { maximumFractionDigits: 0 })} / hari</div>
+            <div class="hero-side-note" style="margin-top: 4px;">Total penjualan terkumpul: Rp {fin_kpi[0].gross_90d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
           </div>
         </div>
       </div>
@@ -1645,17 +1637,9 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             <div class="hero-side-note">Ini window paling stabil untuk keputusan operasional: cukup panjang untuk melihat pola, cukup dekat untuk bereaksi.</div>
           </div>
           <div class="hero-side-card">
-            <div class="hero-side-label">📊 Pertumbuhan Revenue</div>
-            <div class="hero-side-value" style="display: flex; align-items: center; gap: 4px; margin-top: 2px;">
-              {#if fin_kpi[0].pct_change_gross_30d > 0}
-                <span class="trend-indicator up" style="font-size: 1.15rem;">▲ +{fin_kpi[0].pct_change_gross_30d}%</span>
-              {:else if fin_kpi[0].pct_change_gross_30d < 0}
-                <span class="trend-indicator down" style="font-size: 1.15rem;">▼ {Math.abs(fin_kpi[0].pct_change_gross_30d)}%</span>
-              {:else}
-                <span class="trend-indicator neutral" style="font-size: 1.15rem;">0.0%</span>
-              {/if}
-            </div>
-            <div class="hero-side-note" style="margin-top: 4px;">Margin berubah {fin_kpi[0].delta_margin_30d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_30d}pp vs 30 hari sebelumnya.</div>
+            <div class="hero-side-label">💵 Rata-rata Harian</div>
+            <div class="hero-side-value" style="font-size: 1.15rem; font-weight: 800;">Rp {Math.round(fin_kpi[0].gross_30d / 30).toLocaleString('id-ID', { maximumFractionDigits: 0 })} / hari</div>
+            <div class="hero-side-note" style="margin-top: 4px;">Total penjualan terkumpul: Rp {fin_kpi[0].gross_30d.toLocaleString('id-ID', { maximumFractionDigits: 0 })}</div>
           </div>
         </div>
       </div>
