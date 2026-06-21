@@ -1152,6 +1152,19 @@ details.acc-strategic .acc-body { padding: 20px; }
   font-weight: 700;
   color: var(--color-text-primary);
 }
+.read-concept-header h4,
+.read-threshold-header h4 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: 1.2;
+}
+.read-concept-header span,
+.read-threshold-header span {
+  font-size: 1.25em;
+  line-height: 1;
+}
 
 .read-concept-desc {
   margin: 0;
