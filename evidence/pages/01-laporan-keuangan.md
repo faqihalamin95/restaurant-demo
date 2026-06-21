@@ -2,56 +2,994 @@
 title: Laporan Keuangan
 ---
 
+<style>
+.over-container {
+  display: none !important;
+}
+
+details {
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  border-radius: 12px;
+  margin: 10px 0;
+  overflow: hidden;
+  background: rgba(255,255,255,0.55);
+}
+
+details > summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  background: rgba(128, 128, 128, 0.04);
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] > summary {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.14);
+}
+
+.acc-body {
+  padding: 16px;
+  font-size: 0.9em;
+  line-height: 1.75;
+}
+
+/* ── Strategic accordion ── */
+details.acc-strategic {
+  border-radius: 20px;
+  border: 1.5px solid rgba(99, 102, 241, 0.18);
+  background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03));
+  overflow: hidden;
+}
+
+details.acc-strategic > summary {
+  padding: 18px 20px;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+details.acc-strategic > summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+details.acc-strategic[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+details.acc-strategic[open] > summary {
+  border-bottom: 1.5px solid rgba(99,102,241,0.14);
+}
+
+details.acc-strategic .acc-body {
+  padding: 20px;
+}
+
+/* ── Page layout ── */
+.finance-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.page-intro {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  max-width: 70ch;
+}
+
+/* ── Period strip ── */
+.period-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.period-pill {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.period-pill.sehat {
+  border-color: rgba(22, 163, 74, 0.28);
+  background: linear-gradient(135deg, rgba(22,163,74,0.09) 0%, rgba(16,185,129,0.05) 100%);
+}
+
+.period-pill.waspada {
+  border-color: rgba(245, 158, 11, 0.32);
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(251,191,36,0.05) 100%);
+}
+
+.period-pill.kritis {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: linear-gradient(135deg, rgba(239,68,68,0.09) 0%, rgba(220,38,38,0.05) 100%);
+}
+
+.period-pill-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+
+.period-pill-value {
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.pill-badge.sehat { background: rgba(22,163,74,0.15); color: #15803d; }
+.pill-badge.waspada { background: rgba(245,158,11,0.18); color: #b45309; }
+.pill-badge.kritis { background: rgba(239,68,68,0.15); color: #b91c1c; }
+
+.period-pill-copy {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+/* ── Hero ── */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 18px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  background:
+    radial-gradient(circle at top right, rgba(69, 161, 191, 0.18), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 40%),
+    linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(194, 65, 12, 0.04)),
+    var(--color-background-secondary);
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-title {
+  margin: 0 0 10px;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--color-text-primary);
+}
+
+.hero-copy {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  max-width: 62ch;
+}
+
+.hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hero-side-card {
+  padding: 14px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.72);
+}
+
+.hero-side-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.hero-side-value {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.hero-side-note {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* ── KPI grid ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kpi-card {
+  padding: 17px;
+  border-radius: 18px;
+  border: 1.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card.revenue {
+  border-color: rgba(37,99,235,0.18);
+  background: linear-gradient(145deg, rgba(37,99,235,0.06), rgba(99,102,241,0.03));
+}
+
+.kpi-card.net {
+  border-color: rgba(16,185,129,0.22);
+  background: linear-gradient(145deg, rgba(16,185,129,0.07), rgba(22,163,74,0.03));
+}
+
+.kpi-card.margin {
+  border-color: rgba(245,158,11,0.22);
+  background: linear-gradient(145deg, rgba(245,158,11,0.07), rgba(251,191,36,0.03));
+}
+
+.kpi-card.cost {
+  border-color: rgba(239,68,68,0.18);
+  background: linear-gradient(145deg, rgba(239,68,68,0.06), rgba(220,38,38,0.02));
+}
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.kpi-value {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.kpi-meta {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* ── Section card ── */
+.section-card {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.section-head.tight {
+  margin-bottom: 10px;
+}
+
+.section-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.section-copy {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 70ch;
+}
+
+/* ── Signal grid ── */
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.signal-card {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.signal-card.safe {
+  border-color: rgba(22, 163, 74, 0.25);
+  background: linear-gradient(135deg, rgba(22,163,74,0.08), rgba(16,185,129,0.03));
+}
+
+.signal-card.warn {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, rgba(245,158,11,0.09), rgba(251,191,36,0.03));
+}
+
+.signal-card.critical {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: linear-gradient(135deg, rgba(239,68,68,0.09), rgba(220,38,38,0.03));
+}
+
+.signal-card.neutral {
+  border-color: rgba(99, 102, 241, 0.2);
+  background: linear-gradient(135deg, rgba(99,102,241,0.07), rgba(139,92,246,0.03));
+}
+
+.signal-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.signal-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.signal-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* ── Cost grid ── */
+.cost-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cost-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.6));
+}
+
+.cost-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cost-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.cost-target {
+  margin-top: 3px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.progress-track {
+  position: relative;
+  margin-top: 12px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progress-target {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: rgba(0,0,0,0.22);
+}
+
+.progress-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+}
+
+.cost-note {
+  margin-top: 10px;
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+/* ── Mini grid ── */
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mini-card {
+  padding: 14px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.6);
+}
+
+.mini-value {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.mini-note {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+/* ── Chart insight box ── */
+.chart-insight {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(99,102,241,0.15);
+  background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.03));
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.chart-insight strong {
+  color: var(--color-text-primary);
+}
+
+/* ── Inline link ── */
+.inline-link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.inline-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Strategic section wrapper ── */
+.strategic-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.strategic-header {
+  padding: 0 2px;
+  margin-bottom: 4px;
+}
+
+.strategic-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.strategic-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.strategic-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .hero,
+  .kpi-grid,
+  .period-strip,
+  .cost-grid,
+  .mini-grid,
+  .signal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .hero,
+  .kpi-grid,
+  .period-strip,
+  .cost-grid,
+  .mini-grid,
+  .signal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .kpi-value,
+  .cost-value {
+    font-size: 1.5rem;
+  }
+}
+</style>
+
 ```sql fin_dates
-SELECT * FROM restaurant.fin_dates
+SELECT
+    strftime('%d %b %Y', MAX(metric_date))                      AS tgl_akhir,
+    strftime('%d %b %Y', MAX(metric_date) - INTERVAL '6 days')  AS tgl_7d_awal,
+    strftime('%d %b %Y', MAX(metric_date) - INTERVAL '29 days') AS tgl_30d_awal,
+    strftime('%d %b %Y', MAX(metric_date) - INTERVAL '89 days') AS tgl_90d_awal,
+    DAY(MAX(metric_date)) || ' ' ||
+    CASE MONTH(MAX(metric_date))
+        WHEN 1 THEN 'Januari' WHEN 2 THEN 'Februari' WHEN 3 THEN 'Maret'
+        WHEN 4 THEN 'April'   WHEN 5 THEN 'Mei'      WHEN 6 THEN 'Juni'
+        WHEN 7 THEN 'Juli'    WHEN 8 THEN 'Agustus'  WHEN 9 THEN 'September'
+        WHEN 10 THEN 'Oktober' WHEN 11 THEN 'November' WHEN 12 THEN 'Desember'
+    END || ' ' || YEAR(MAX(metric_date))                        AS tgl_display,
+    CASE DAYNAME(MAX(metric_date))
+        WHEN 'Monday' THEN 'Senin' WHEN 'Tuesday' THEN 'Selasa'
+        WHEN 'Wednesday' THEN 'Rabu' WHEN 'Thursday' THEN 'Kamis'
+        WHEN 'Friday' THEN 'Jumat' WHEN 'Saturday' THEN 'Sabtu'
+        WHEN 'Sunday' THEN 'Minggu'
+    END                                                         AS nama_hari
+FROM restaurant.daily_net_revenue
 ```
 
 ```sql fin_kpi
-SELECT * FROM restaurant.fin_kpi
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue)
+SELECT
+    SUM(CASE WHEN metric_date = d THEN gross_revenue ELSE 0 END) AS gross_yesterday,
+    SUM(CASE WHEN metric_date = d THEN net_revenue ELSE 0 END) AS net_yesterday,
+    ROUND(
+        SUM(CASE WHEN metric_date = d THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date = d THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_yesterday,
+    SUM(CASE WHEN metric_date = d THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_yesterday,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END) AS gross_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END) AS net_30d,
+    ROUND(
+        SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END) AS gross_prev30d,
+    ROUND(
+        SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_prev30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_prev30d,
+    ROUND(
+        ROUND(
+            SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
+            / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
+        , 1)
+        -
+        ROUND(
+            SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN net_revenue ELSE 0 END)
+            / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
+        , 1)
+    , 1) AS delta_margin_30d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_gross_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END) AS gross_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END) AS net_90d,
+    ROUND(
+        SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END) AS gross_prev90d,
+    ROUND(
+        SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_prev90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_prev90d,
+    ROUND(
+        ROUND(
+            SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
+            / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
+        , 1)
+        -
+        ROUND(
+            SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN net_revenue ELSE 0 END)
+            / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
+        , 1)
+    , 1) AS delta_margin_90d,
+    ROUND(
+        (SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END)
+        - SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END))
+        / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS pct_change_gross_90d
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
 ```
 
 ```sql fin_cost_pct
-SELECT * FROM restaurant.fin_cost_pct
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue),
+periods AS (
+    SELECT
+        d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_p30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_p30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '59 days' AND metric_date < d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_p30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_p90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_p90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '179 days' AND metric_date < d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_p90d
+    FROM restaurant.daily_net_revenue CROSS JOIN max_d
+    GROUP BY d
+)
+SELECT
+    bahan_30d, sdm_30d, ops_30d,
+    bahan_p30d, sdm_p30d, ops_p30d,
+    ROUND(bahan_30d - bahan_p30d, 1) AS delta_bahan_30d,
+    ROUND(sdm_30d - sdm_p30d, 1) AS delta_sdm_30d,
+    ROUND(ops_30d - ops_p30d, 1) AS delta_ops_30d,
+    bahan_90d, sdm_90d, ops_90d,
+    bahan_p90d, sdm_p90d, ops_p90d,
+    ROUND(bahan_90d - bahan_p90d, 1) AS delta_bahan_90d,
+    ROUND(sdm_90d - sdm_p90d, 1) AS delta_sdm_90d,
+    ROUND(ops_90d - ops_p90d, 1) AS delta_ops_90d
+FROM periods
 ```
 
 ```sql fin_kpi_mtd
-SELECT * FROM restaurant.fin_kpi_mtd
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue),
+bulan_ini AS (
+    SELECT DATE_TRUNC('month', d) AS bln_awal, d AS bln_akhir FROM max_d
+),
+bulan_lalu AS (
+    SELECT
+        DATE_TRUNC('month', d - INTERVAL '1 month') AS bln_awal,
+        LAST_DAY(d - INTERVAL '1 month') AS bln_akhir
+    FROM max_d
+)
+SELECT
+    SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN gross_revenue ELSE 0 END) AS gross_mtd,
+    SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN net_revenue ELSE 0 END) AS net_mtd,
+    ROUND(
+        SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_mtd,
+    SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_mtd,
+    ANY_VALUE(DAY(b.bln_akhir)) AS hari_berjalan,
+    ANY_VALUE(DAY(LAST_DAY(b.bln_akhir))) AS total_hari_bulan,
+    SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END) AS gross_bulan_lalu,
+    ROUND(
+        SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN net_revenue ELSE 0 END)
+        / NULLIF(SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN gross_revenue ELSE 0 END), 0) * 100
+    , 1) AS margin_bulan_lalu,
+    SUM(CASE WHEN metric_date >= l.bln_awal AND metric_date <= l.bln_akhir THEN inventory_usage_cost + labor_total_cost + operational_total_cost ELSE 0 END) AS biaya_bulan_lalu,
+    ROUND(
+        SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN gross_revenue ELSE 0 END)
+        / NULLIF(ANY_VALUE(DAY(b.bln_akhir)), 0) * ANY_VALUE(DAY(LAST_DAY(b.bln_akhir)))
+    , 0) AS proyeksi_gross,
+    ROUND(
+        SUM(CASE WHEN metric_date >= b.bln_awal AND metric_date <= b.bln_akhir THEN net_revenue ELSE 0 END)
+        / NULLIF(ANY_VALUE(DAY(b.bln_akhir)), 0) * ANY_VALUE(DAY(LAST_DAY(b.bln_akhir)))
+    , 0) AS proyeksi_net
+FROM restaurant.daily_net_revenue
+CROSS JOIN bulan_ini b
+CROSS JOIN bulan_lalu l
 ```
 
 ```sql fin_cost_mtd
-SELECT * FROM restaurant.fin_cost_mtd
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue),
+bulan_ini AS (SELECT DATE_TRUNC('month', d) AS awal, d AS akhir FROM max_d),
+bulan_lalu AS (
+    SELECT DATE_TRUNC('month', d - INTERVAL '1 month') AS awal,
+           LAST_DAY(d - INTERVAL '1 month') AS akhir FROM max_d
+)
+SELECT
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_mtd,
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_mtd,
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_mtd,
+    ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_lalu,
+    ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_lalu,
+    ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_lalu,
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1)
+    - ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS delta_bahan,
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1)
+    - ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS delta_sdm,
+    ROUND(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= b.awal AND metric_date <= b.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1)
+    - ROUND(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= l.awal AND metric_date <= l.akhir THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS delta_ops
+FROM restaurant.daily_net_revenue
+CROSS JOIN bulan_ini b
+CROSS JOIN bulan_lalu l
 ```
 
 ```sql fin_margin_daily_mtd
-SELECT * FROM restaurant.fin_margin_daily_mtd
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue)
+SELECT
+    metric_date,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= DATE_TRUNC('month', d)
+GROUP BY metric_date
+ORDER BY metric_date
 ```
 
 ```sql fin_nama_bulan
-SELECT * FROM restaurant.fin_nama_bulan
+SELECT
+    CASE MONTH(DATE_TRUNC('month', MAX(metric_date)))
+        WHEN 1 THEN 'Januari' WHEN 2 THEN 'Februari' WHEN 3 THEN 'Maret'
+        WHEN 4 THEN 'April'   WHEN 5 THEN 'Mei'      WHEN 6 THEN 'Juni'
+        WHEN 7 THEN 'Juli'    WHEN 8 THEN 'Agustus'  WHEN 9 THEN 'September'
+        WHEN 10 THEN 'Oktober' WHEN 11 THEN 'November' WHEN 12 THEN 'Desember'
+    END AS nama_bulan,
+    CASE MONTH(DATE_TRUNC('month', MAX(metric_date)) - INTERVAL '1 month')
+        WHEN 1 THEN 'Januari' WHEN 2 THEN 'Februari' WHEN 3 THEN 'Maret'
+        WHEN 4 THEN 'April'   WHEN 5 THEN 'Mei'      WHEN 6 THEN 'Juni'
+        WHEN 7 THEN 'Juli'    WHEN 8 THEN 'Agustus'  WHEN 9 THEN 'September'
+        WHEN 10 THEN 'Oktober' WHEN 11 THEN 'November' WHEN 12 THEN 'Desember'
+    END AS nama_bulan_lalu
+FROM restaurant.daily_net_revenue
 ```
 
 ```sql fin_margin_daily_30d
-SELECT * FROM restaurant.fin_margin_daily_30d
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue)
+SELECT
+    metric_date,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= d - INTERVAL '29 days'
+GROUP BY metric_date
+ORDER BY metric_date
 ```
 
 ```sql fin_margin_daily_90d
-SELECT * FROM restaurant.fin_margin_daily_90d
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue)
+SELECT
+    metric_date,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= d - INTERVAL '89 days'
+GROUP BY metric_date
+ORDER BY metric_date
 ```
 
 ```sql fin_quarter
-SELECT * FROM restaurant.fin_quarter
+SELECT * FROM (
+    SELECT
+        YEAR(metric_date) AS tahun,
+        CEIL(MONTH(metric_date) / 3.0) AS qnum,
+        CAST(YEAR(metric_date) AS VARCHAR) || ' Q' || CAST(CAST(CEIL(MONTH(metric_date) / 3.0) AS INTEGER) AS VARCHAR) AS quarter_label,
+        YEAR(metric_date) * 10 + CEIL(MONTH(metric_date) / 3.0) AS qsort,
+        SUM(gross_revenue) AS gross,
+        SUM(net_revenue) AS net,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct,
+        SUM(inventory_usage_cost + labor_total_cost + operational_total_cost) AS total_biaya,
+        ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS bahan_pct,
+        ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS sdm_pct,
+        ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ops_pct
+    FROM restaurant.daily_net_revenue
+    GROUP BY 1, 2, 3, 4
+    ORDER BY qsort DESC  -- ambil 8 terbaru
+    LIMIT 8
+) ORDER BY qsort ASC    -- lalu urutkan untuk chart
 ```
 
 ```sql fin_quarter_comparison
-SELECT * FROM restaurant.fin_quarter_comparison
+WITH fin_quarter AS (
+    SELECT
+        YEAR(metric_date) AS tahun,
+        CEIL(MONTH(metric_date) / 3.0) AS qnum,
+        CAST(YEAR(metric_date) AS VARCHAR) || ' Q' || CAST(CAST(CEIL(MONTH(metric_date) / 3.0) AS INTEGER) AS VARCHAR) AS quarter_label,
+        YEAR(metric_date) * 10 + CEIL(MONTH(metric_date) / 3.0) AS qsort,
+        SUM(gross_revenue) AS gross,
+        SUM(net_revenue) AS net,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct,
+        SUM(inventory_usage_cost + labor_total_cost + operational_total_cost) AS total_biaya,
+        ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS bahan_pct,
+        ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS sdm_pct,
+        ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ops_pct
+    FROM restaurant.daily_net_revenue
+    GROUP BY 1, 2, 3, 4
+)
+SELECT
+    quarter_label, gross, net, margin_pct, total_biaya, bahan_pct, sdm_pct, ops_pct,
+    LAG(net) OVER (ORDER BY qsort) AS net_prev_q,
+    LAG(margin_pct) OVER (ORDER BY qsort) AS margin_prev_q,
+    ROUND(margin_pct - LAG(margin_pct) OVER (ORDER BY qsort), 1) AS delta_margin_q,
+    ROUND((net - LAG(net) OVER (ORDER BY qsort)) / NULLIF(LAG(net) OVER (ORDER BY qsort), 0) * 100, 1) AS pct_change_net_q
+FROM fin_quarter
+ORDER BY qsort DESC
 ```
 
 ```sql fin_yoy
-SELECT * FROM restaurant.fin_yoy
+SELECT
+    YEAR(metric_date) AS tahun,
+    SUM(gross_revenue) AS gross,
+    SUM(net_revenue) AS net,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct,
+    SUM(inventory_usage_cost + labor_total_cost + operational_total_cost) AS total_biaya,
+    ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS bahan_pct,
+    ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS sdm_pct,
+    ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ops_pct
+FROM restaurant.daily_net_revenue
+GROUP BY 1
+ORDER BY 1 DESC
 ```
 
 ```sql fin_operational_overview
-SELECT * FROM restaurant.fin_operational_overview
+WITH max_d AS (SELECT MAX(metric_date)::DATE AS d FROM restaurant.daily_net_revenue),
+mtd AS (
+    SELECT
+        ROUND(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN net_revenue ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS margin_mtd,
+        ROUND(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_mtd,
+        ROUND(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_mtd,
+        ROUND(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= DATE_TRUNC('month', d) AND metric_date <= d THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_mtd
+    FROM restaurant.daily_net_revenue CROSS JOIN max_d
+),
+rolling AS (
+    SELECT
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN net_revenue ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS margin_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_30d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN net_revenue ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS margin_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS bahan_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN labor_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS sdm_90d,
+        ROUND(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN operational_total_cost ELSE 0 END) / NULLIF(SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue ELSE 0 END), 0) * 100, 1) AS ops_90d
+    FROM restaurant.daily_net_revenue CROSS JOIN max_d
+)
+SELECT
+    CASE WHEN m.margin_mtd >= 15 THEN 'Sehat' WHEN m.margin_mtd >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_mtd,
+    CASE
+        WHEN m.bahan_mtd <= 32 AND m.sdm_mtd <= 22 AND m.ops_mtd <= 15 THEN 'Semua biaya dalam batas'
+        WHEN m.bahan_mtd - 32 >= m.sdm_mtd - 22 AND m.bahan_mtd - 32 >= m.ops_mtd - 15 THEN 'Biaya bahan'
+        WHEN m.sdm_mtd - 22 >= m.ops_mtd - 15 THEN 'Biaya SDM'
+        ELSE 'Biaya operasional'
+    END AS fokus_mtd,
+    CASE
+        WHEN m.bahan_mtd <= 32 AND m.sdm_mtd <= 22 AND m.ops_mtd <= 15 THEN 0
+        WHEN m.bahan_mtd - 32 >= m.sdm_mtd - 22 AND m.bahan_mtd - 32 >= m.ops_mtd - 15 THEN ROUND(m.bahan_mtd - 32, 1)
+        WHEN m.sdm_mtd - 22 >= m.ops_mtd - 15 THEN ROUND(m.sdm_mtd - 22, 1)
+        ELSE ROUND(m.ops_mtd - 15, 1)
+    END AS fokus_gap_mtd,
+    CASE WHEN r.margin_30d >= 15 THEN 'Sehat' WHEN r.margin_30d >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_30d,
+    CASE
+        WHEN r.bahan_30d <= 32 AND r.sdm_30d <= 22 AND r.ops_30d <= 15 THEN 'Semua biaya dalam batas'
+        WHEN r.bahan_30d - 32 >= r.sdm_30d - 22 AND r.bahan_30d - 32 >= r.ops_30d - 15 THEN 'Biaya bahan'
+        WHEN r.sdm_30d - 22 >= r.ops_30d - 15 THEN 'Biaya SDM'
+        ELSE 'Biaya operasional'
+    END AS fokus_30d,
+    CASE
+        WHEN r.bahan_30d <= 32 AND r.sdm_30d <= 22 AND r.ops_30d <= 15 THEN 0
+        WHEN r.bahan_30d - 32 >= r.sdm_30d - 22 AND r.bahan_30d - 32 >= r.ops_30d - 15 THEN ROUND(r.bahan_30d - 32, 1)
+        WHEN r.sdm_30d - 22 >= r.ops_30d - 15 THEN ROUND(r.sdm_30d - 22, 1)
+        ELSE ROUND(r.ops_30d - 15, 1)
+    END AS fokus_gap_30d,
+    CASE WHEN r.margin_90d >= 15 THEN 'Sehat' WHEN r.margin_90d >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_90d,
+    CASE
+        WHEN r.bahan_90d <= 32 AND r.sdm_90d <= 22 AND r.ops_90d <= 15 THEN 'Semua biaya dalam batas'
+        WHEN r.bahan_90d - 32 >= r.sdm_90d - 22 AND r.bahan_90d - 32 >= r.ops_90d - 15 THEN 'Biaya bahan'
+        WHEN r.sdm_90d - 22 >= r.ops_90d - 15 THEN 'Biaya SDM'
+        ELSE 'Biaya operasional'
+    END AS fokus_90d,
+    CASE
+        WHEN r.bahan_90d <= 32 AND r.sdm_90d <= 22 AND r.ops_90d <= 15 THEN 0
+        WHEN r.bahan_90d - 32 >= r.sdm_90d - 22 AND r.bahan_90d - 32 >= r.ops_90d - 15 THEN ROUND(r.bahan_90d - 32, 1)
+        WHEN r.sdm_90d - 22 >= r.ops_90d - 15 THEN ROUND(r.sdm_90d - 22, 1)
+        ELSE ROUND(r.ops_90d - 15, 1)
+    END AS fokus_gap_90d
+FROM mtd m
+CROSS JOIN rolling r
 ```
 
 _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam satu halaman._
