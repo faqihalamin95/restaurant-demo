@@ -404,7 +404,7 @@ details.acc-strategic .acc-body {
 }
 
 .kpi-value {
-  font-size: 1.45rem;
+  font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
@@ -723,7 +723,7 @@ details.acc-strategic .acc-body {
   }
 
   .kpi-value {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
   }
   .cost-value {
     font-size: 1.5rem;
