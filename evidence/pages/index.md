@@ -2047,12 +2047,26 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 
 _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan lokasi, kualitas staf, atau manajemen. Cabang terbawah bukan berarti bermasalah — perlu dilihat tren-nya dulu sebelum mengambil kesimpulan._
 
-<DataTable data={branch_kpi_7d}>
-    <Column id="branch_name"    title="Cabang"/>
-    <Column id="total_orders"   title="Order"             fmt="#,##0"/>
-    <Column id="avg_order_value" title="AOV (Rp)"         fmt="#,##0"/>
-    <Column id="total_revenue"  title="Gross Revenue (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Cabang</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">AOV (Rp)</th>
+            <th class="markdown">Gross Revenue (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each branch_kpi_7d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.branch_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_order_value !== undefined && row.avg_order_value !== null ? row.avg_order_value.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2163,12 +2177,26 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 
 _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang bersifat struktural atau hanya fluktuasi biasa. Perhatikan apakah urutan cabang berubah dari minggu ke minggu._
 
-<DataTable data={branch_kpi_30d}>
-    <Column id="branch_name"    title="Cabang"/>
-    <Column id="total_orders"   title="Order"             fmt="#,##0"/>
-    <Column id="avg_order_value" title="AOV (Rp)"         fmt="#,##0"/>
-    <Column id="total_revenue"  title="Gross Revenue (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Cabang</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">AOV (Rp)</th>
+            <th class="markdown">Gross Revenue (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each branch_kpi_30d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.branch_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_order_value !== undefined && row.avg_order_value !== null ? row.avg_order_value.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2279,14 +2307,32 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 
 _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saja. Kolom "Rata-rata Hari Serupa" menunjukkan baseline hari yang sama di minggu-minggu sebelumnya._
 
-<DataTable data={branch_kpi_yesterday}>
-    <Column id="branch_name"              title="Cabang"/>
-    <Column id="total_orders"             title="Order"                  fmt="#,##0"/>
-    <Column id="avg_order_value"          title="AOV (Rp)"               fmt="#,##0"/>
-    <Column id="total_revenue"            title="Gross Revenue (Rp)"     fmt="#,##0"/>
-    <Column id="revenue_sdow_avg"         title="Rata-rata Hari Serupa"  fmt="#,##0"/>
-    <Column id="pct_change_vs_sdow_avg"   title="Selisih %"              fmt="+0.0%;-0.0%" contentType="delta"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Cabang</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">AOV (Rp)</th>
+            <th class="markdown">Gross Revenue (Rp)</th>
+            <th class="markdown">Rata-rata Hari Serupa</th>
+            <th class="markdown">Selisih %</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each branch_kpi_yesterday || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.branch_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_order_value !== undefined && row.avg_order_value !== null ? row.avg_order_value.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.revenue_sdow_avg !== undefined && row.revenue_sdow_avg !== null ? row.revenue_sdow_avg.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown" style="font-weight: 600; color: {row.pct_change_vs_sdow_avg >= -5 ? '#16a34a' : row.pct_change_vs_sdow_avg >= -15 ? '#ca8a04' : '#dc2626'}">
+                {row.pct_change_vs_sdow_avg !== undefined && row.pct_change_vs_sdow_avg !== null ? (row.pct_change_vs_sdow_avg > 0 ? '+' : '') + row.pct_change_vs_sdow_avg.toFixed(1) + '% ' + (row.pct_change_vs_sdow_avg >= 0 ? '▲' : '▼') : '0.0%'}
+            </td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2437,12 +2483,26 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(59,130,246,0.2);border:1px solid #3b82f6;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Pekerja Keras (kanan bawah)</span>
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Lemah (kiri bawah)</span>
 </div>
-<DataTable data={menu_engineering_7d}>
-    <Column id="menu_name"     title="Menu"/>
-    <Column id="klasifikasi"   title="Kategori"/>
-    <Column id="total_qty"     title="Qty Terjual"  fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Menu</th>
+            <th class="markdown">Kategori</th>
+            <th class="markdown">Qty Terjual</th>
+            <th class="markdown">Revenue (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each menu_engineering_7d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500; text-align: left;">{row.menu_name || ''}</td>
+            <td class="markdown">{row.klasifikasi || ''}</td>
+            <td class="markdown">{row.total_qty !== undefined && row.total_qty !== null ? row.total_qty.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2581,12 +2641,26 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(59,130,246,0.2);border:1px solid #3b82f6;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Pekerja Keras (kanan bawah)</span>
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Lemah (kiri bawah)</span>
 </div>
-<DataTable data={menu_engineering_30d}>
-    <Column id="menu_name"     title="Menu"/>
-    <Column id="klasifikasi"   title="Kategori"/>
-    <Column id="total_qty"     title="Qty Terjual"  fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Menu</th>
+            <th class="markdown">Kategori</th>
+            <th class="markdown">Qty Terjual</th>
+            <th class="markdown">Revenue (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each menu_engineering_30d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500; text-align: left;">{row.menu_name || ''}</td>
+            <td class="markdown">{row.klasifikasi || ''}</td>
+            <td class="markdown">{row.total_qty !== undefined && row.total_qty !== null ? row.total_qty.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2805,12 +2879,26 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 
 <BarChart data={member_tier_7d} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — 7 Hari" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
-<DataTable data={member_tier_7d}>
-    <Column id="tier"          title="Tier"/>
-    <Column id="total_member"  title="Jumlah Member"       fmt="#,##0"/>
-    <Column id="total_belanja" title="Total Belanja (Rp)"  fmt="#,##0"/>
-    <Column id="avg_frekuensi" title="Avg Transaksi/Member" fmt="0.0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Tier</th>
+            <th class="markdown">Jumlah Member</th>
+            <th class="markdown">Total Belanja (Rp)</th>
+            <th class="markdown">Avg Transaksi/Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each member_tier_7d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.tier || ''}</td>
+            <td class="markdown">{row.total_member !== undefined && row.total_member !== null ? row.total_member.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_belanja !== undefined && row.total_belanja !== null ? row.total_belanja.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_frekuensi !== undefined && row.avg_frekuensi !== null ? row.avg_frekuensi.toFixed(1) : '0.0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -2923,12 +3011,26 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 
 <BarChart data={member_tier_30d} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — 30 Hari" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
-<DataTable data={member_tier_30d}>
-    <Column id="tier"          title="Tier"/>
-    <Column id="total_member"  title="Jumlah Member"        fmt="#,##0"/>
-    <Column id="total_belanja" title="Total Belanja (Rp)"   fmt="#,##0"/>
-    <Column id="avg_frekuensi" title="Avg Transaksi/Member" fmt="0.0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Tier</th>
+            <th class="markdown">Jumlah Member</th>
+            <th class="markdown">Total Belanja (Rp)</th>
+            <th class="markdown">Avg Transaksi/Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each member_tier_30d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.tier || ''}</td>
+            <td class="markdown">{row.total_member !== undefined && row.total_member !== null ? row.total_member.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_belanja !== undefined && row.total_belanja !== null ? row.total_belanja.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_frekuensi !== undefined && row.avg_frekuensi !== null ? row.avg_frekuensi.toFixed(1) : '0.0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -3019,12 +3121,26 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 
 <BarChart data={member_tier_yesterday} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — Kemarin" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
-<DataTable data={member_tier_yesterday}>
-    <Column id="tier"          title="Tier"/>
-    <Column id="total_member"  title="Jumlah Member"        fmt="#,##0"/>
-    <Column id="total_belanja" title="Total Belanja (Rp)"   fmt="#,##0"/>
-    <Column id="avg_frekuensi" title="Avg Transaksi/Member" fmt="0.0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Tier</th>
+            <th class="markdown">Jumlah Member</th>
+            <th class="markdown">Total Belanja (Rp)</th>
+            <th class="markdown">Avg Transaksi/Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each member_tier_yesterday || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.tier || ''}</td>
+            <td class="markdown">{row.total_member !== undefined && row.total_member !== null ? row.total_member.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_belanja !== undefined && row.total_belanja !== null ? row.total_belanja.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_frekuensi !== undefined && row.avg_frekuensi !== null ? row.avg_frekuensi.toFixed(1) : '0.0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -3156,12 +3272,26 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 
 <BarChart data={shift_kpi_7d} x="shift_name" y="total_revenue" title="Revenue per Shift — 7 Hari (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
-<DataTable data={shift_kpi_7d}>
-    <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Order"          fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)"   fmt="#,##0"/>
-    <Column id="avg_ticket"    title="Avg Ticket (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Shift</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">Revenue (Rp)</th>
+            <th class="markdown">Avg Ticket (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each shift_kpi_7d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.shift_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_ticket !== undefined && row.avg_ticket !== null ? row.avg_ticket.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -3281,12 +3411,26 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 
 <BarChart data={shift_kpi_30d} x="shift_name" y="total_revenue" title="Revenue per Shift — 30 Hari (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
-<DataTable data={shift_kpi_30d}>
-    <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Order"          fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)"   fmt="#,##0"/>
-    <Column id="avg_ticket"    title="Avg Ticket (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Shift</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">Revenue (Rp)</th>
+            <th class="markdown">Avg Ticket (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each shift_kpi_30d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.shift_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_ticket !== undefined && row.avg_ticket !== null ? row.avg_ticket.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -3402,12 +3546,26 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 
 <BarChart data={shift_kpi_yesterday} x="shift_name" y="total_revenue" title="Revenue per Shift — Kemarin (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
-<DataTable data={shift_kpi_yesterday}>
-    <Column id="shift_name"    title="Shift"/>
-    <Column id="total_orders"  title="Order"          fmt="#,##0"/>
-    <Column id="total_revenue" title="Revenue (Rp)"   fmt="#,##0"/>
-    <Column id="avg_ticket"    title="Avg Ticket (Rp)" fmt="#,##0"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Shift</th>
+            <th class="markdown">Order</th>
+            <th class="markdown">Revenue (Rp)</th>
+            <th class="markdown">Avg Ticket (Rp)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each shift_kpi_yesterday || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.shift_name || ''}</td>
+            <td class="markdown">{row.total_orders !== undefined && row.total_orders !== null ? row.total_orders.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.total_revenue !== undefined && row.total_revenue !== null ? row.total_revenue.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.avg_ticket !== undefined && row.avg_ticket !== null ? row.avg_ticket.toLocaleString('id-ID') : '0'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 </div>
 </details>
@@ -3544,13 +3702,29 @@ _Kategori dengan biaya tertinggi minggu ini: **{inv_kpi_7d[0].kategori_tertinggi
 
 <BarChart data={inv_cat_7d} x="category" y={["biaya_pakai","biaya_beli"]} type="grouped" title="Pemakaian vs Pembelian per Kategori — 7 Hari (Rp)" yFmt="#,##0" xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
-<DataTable data={inv_item_7d} title="Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi">
-    <Column id="item_name"   title="Item"/>
-    <Column id="category"    title="Kategori"/>
-    <Column id="biaya_pakai" title="Biaya Pakai (Rp)" fmt="#,##0"/>
-    <Column id="biaya_beli"  title="Biaya Beli (Rp)"  fmt="#,##0"/>
-    <Column id="rasio"       title="Rasio Beli/Pakai"  fmt="0.00"/>
-</DataTable>
+<div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Item</th>
+            <th class="markdown">Kategori</th>
+            <th class="markdown">Biaya Pakai (Rp)</th>
+            <th class="markdown">Biaya Beli (Rp)</th>
+            <th class="markdown">Rasio Beli/Pakai</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each inv_item_7d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500; text-align: left;">{row.item_name || ''}</td>
+            <td class="markdown">{row.category || ''}</td>
+            <td class="markdown">{row.biaya_pakai !== undefined && row.biaya_pakai !== null ? row.biaya_pakai.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.biaya_beli !== undefined && row.biaya_beli !== null ? row.biaya_beli.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.rasio !== undefined && row.rasio !== null ? row.rasio.toFixed(2) : '0.00'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian. Item dengan rasio tinggi adalah kandidat pertama untuk dikurangi volume pembeliannya._
 
@@ -3677,13 +3851,29 @@ _Kategori dengan biaya tertinggi bulan ini: **{inv_kpi_30d[0].kategori_tertinggi
 
 <BarChart data={inv_cat_30d} x="category" y={["biaya_pakai","biaya_beli"]} type="grouped" title="Pemakaian vs Pembelian per Kategori — 30 Hari (Rp)" yFmt="#,##0" xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
-<DataTable data={inv_item_30d} title="Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi">
-    <Column id="item_name"   title="Item"/>
-    <Column id="category"    title="Kategori"/>
-    <Column id="biaya_pakai" title="Biaya Pakai (Rp)" fmt="#,##0"/>
-    <Column id="biaya_beli"  title="Biaya Beli (Rp)"  fmt="#,##0"/>
-    <Column id="rasio"       title="Rasio Beli/Pakai"  fmt="0.00"/>
-</DataTable>
+<div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Item</th>
+            <th class="markdown">Kategori</th>
+            <th class="markdown">Biaya Pakai (Rp)</th>
+            <th class="markdown">Biaya Beli (Rp)</th>
+            <th class="markdown">Rasio Beli/Pakai</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each inv_item_30d || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500; text-align: left;">{row.item_name || ''}</td>
+            <td class="markdown">{row.category || ''}</td>
+            <td class="markdown">{row.biaya_pakai !== undefined && row.biaya_pakai !== null ? row.biaya_pakai.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.biaya_beli !== undefined && row.biaya_beli !== null ? row.biaya_beli.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.rasio !== undefined && row.rasio !== null ? row.rasio.toFixed(2) : '0.00'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian. Kalau item yang sama konsisten di posisi teratas selama sebulan, jadwal pembeliannya perlu dievaluasi._
 
@@ -3806,13 +3996,29 @@ _Biaya bahan harian bisa fluktuatif tergantung jadwal pembelian. Hari pembelian 
 
 <BarChart data={inv_cat_yesterday} x="category" y="biaya_pakai" title="Biaya Bahan per Kategori — Kemarin (Rp)" yFmt="#,##0" colorPalette={['#8f3d56']} xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
-<DataTable data={inv_item_yesterday} title="Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi">
-    <Column id="item_name"   title="Item"/>
-    <Column id="category"    title="Kategori"/>
-    <Column id="biaya_pakai" title="Biaya Pakai (Rp)" fmt="#,##0"/>
-    <Column id="biaya_beli"  title="Biaya Beli (Rp)"  fmt="#,##0"/>
-    <Column id="rasio"       title="Rasio Beli/Pakai"  fmt="0.00"/>
-</DataTable>
+<div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Item</th>
+            <th class="markdown">Kategori</th>
+            <th class="markdown">Biaya Pakai (Rp)</th>
+            <th class="markdown">Biaya Beli (Rp)</th>
+            <th class="markdown">Rasio Beli/Pakai</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each inv_item_yesterday || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500; text-align: left;">{row.item_name || ''}</td>
+            <td class="markdown">{row.category || ''}</td>
+            <td class="markdown">{row.biaya_pakai !== undefined && row.biaya_pakai !== null ? row.biaya_pakai.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.biaya_beli !== undefined && row.biaya_beli !== null ? row.biaya_beli.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.rasio !== undefined && row.rasio !== null ? row.rasio.toFixed(2) : '0.00'}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian kemarin. Untuk data harian, item tanpa pembelian akan muncul dengan rasio 0._
 
