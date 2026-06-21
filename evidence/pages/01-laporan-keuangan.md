@@ -1187,8 +1187,17 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           </div>
           <div class="hero-side-card">
             <div class="hero-side-label">🔮 Proyeksi Pace Saat Ini</div>
-            <div class="hero-side-value">Rp {(fin_kpi_mtd[0].proyeksi_gross / 1000000).toFixed(1)}jt gross</div>
-            <div class="hero-side-note">Net revenue terproyeksi Rp {(fin_kpi_mtd[0].proyeksi_net / 1000000).toFixed(1)}jt. Proyeksi ini linear, cukup untuk baca arah, bukan angka final.</div>
+            <div class="hero-side-value" style="font-size: 1.15rem; font-weight: 800;">Rp {(fin_kpi_mtd[0].proyeksi_gross / 1000000).toFixed(1)}jt gross</div>
+            <div class="hero-side-note" style="margin-bottom: 6px;">Net revenue terproyeksi Rp {(fin_kpi_mtd[0].proyeksi_net / 1000000).toFixed(1)}jt.</div>
+            <div class="progress-track" style="margin-bottom: 4px;">
+              <div class="progress-fill" style="width:{(fin_kpi_mtd[0].hari_berjalan / fin_kpi_mtd[0].total_hari_bulan * 100).toFixed(1)}%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+            </div>
+            <div class="progress-scale">
+              <span>0%</span>
+              <span>Hari {fin_kpi_mtd[0].hari_berjalan}</span>
+              <span>{fin_kpi_mtd[0].total_hari_bulan} hari</span>
+            </div>
+            <div class="hero-side-note" style="margin-top: 6px;">Proyeksi ini linear, cukup untuk baca arah, bukan angka final.</div>
           </div>
         </div>
       </div>
@@ -1417,8 +1426,16 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           </div>
           <div class="hero-side-card">
             <div class="hero-side-label">📊 Perubahan Revenue</div>
-            <div class="hero-side-value">{fin_kpi[0].pct_change_gross_90d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_90d}%</div>
-            <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_90d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_90d}pp vs 90 hari sebelumnya.</div>
+            <div class="hero-side-value" style="display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+              {#if fin_kpi[0].pct_change_gross_90d > 0}
+                <span class="trend-indicator up" style="font-size: 1.15rem;">▲ +{fin_kpi[0].pct_change_gross_90d}%</span>
+              {:else if fin_kpi[0].pct_change_gross_90d < 0}
+                <span class="trend-indicator down" style="font-size: 1.15rem;">▼ {Math.abs(fin_kpi[0].pct_change_gross_90d)}%</span>
+              {:else}
+                <span class="trend-indicator neutral" style="font-size: 1.15rem;">0.0%</span>
+              {/if}
+            </div>
+            <div class="hero-side-note" style="margin-top: 4px;">Margin berubah {fin_kpi[0].delta_margin_90d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_90d}pp vs 90 hari sebelumnya.</div>
           </div>
         </div>
       </div>
@@ -1629,8 +1646,16 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           </div>
           <div class="hero-side-card">
             <div class="hero-side-label">📊 Pertumbuhan Revenue</div>
-            <div class="hero-side-value">{fin_kpi[0].pct_change_gross_30d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_30d}%</div>
-            <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_30d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_30d}pp vs 30 hari sebelumnya.</div>
+            <div class="hero-side-value" style="display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+              {#if fin_kpi[0].pct_change_gross_30d > 0}
+                <span class="trend-indicator up" style="font-size: 1.15rem;">▲ +{fin_kpi[0].pct_change_gross_30d}%</span>
+              {:else if fin_kpi[0].pct_change_gross_30d < 0}
+                <span class="trend-indicator down" style="font-size: 1.15rem;">▼ {Math.abs(fin_kpi[0].pct_change_gross_30d)}%</span>
+              {:else}
+                <span class="trend-indicator neutral" style="font-size: 1.15rem;">0.0%</span>
+              {/if}
+            </div>
+            <div class="hero-side-note" style="margin-top: 4px;">Margin berubah {fin_kpi[0].delta_margin_30d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_30d}pp vs 30 hari sebelumnya.</div>
           </div>
         </div>
       </div>
