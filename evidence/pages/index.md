@@ -1912,14 +1912,7 @@ Net margin harian tidak valid sebagai indikator kesehatan karena biaya tetap (ga
 
 SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-minggu sebelumnya — Senin dibanding Senin, Sabtu dibanding Sabtu. Pertanyaannya bukan "apakah margin bagus?" tapi
 
-</div>
-</div>
-
-<div class="read-concept">
-<h4 class="read-concept-header"><span>"</span> apakah kemarin tidak biasa?"</h4>
-<div class="read-concept-desc">
-
-
+**"apakah kemarin tidak biasa?"**
 
 </div>
 </div>
