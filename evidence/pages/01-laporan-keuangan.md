@@ -479,6 +479,12 @@ details.acc-strategic .acc-body {
   border-radius: 16px;
   border: 1px solid var(--color-border-tertiary);
   background: var(--color-background-secondary);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.signal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .signal-card.safe {
