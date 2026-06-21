@@ -604,8 +604,11 @@ details.acc-strategic .acc-body {
 .cost-note {
   margin-top: 10px;
   font-size: 0.83rem;
-  line-height: 1.65;
+  line-height: 1.4;
   color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* ── Mini grid ── */
@@ -1438,7 +1441,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_bahan > 0 ? '+' : ''}{fin_cost_mtd[0].delta_bahan}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_mtd[0].delta_bahan > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_bahan}pp</span>
+                    {:else if fin_cost_mtd[0].delta_bahan < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_bahan}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">👥 Biaya SDM</div>
@@ -1449,7 +1463,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_sdm > 0 ? '+' : ''}{fin_cost_mtd[0].delta_sdm}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_mtd[0].delta_sdm > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_sdm}pp</span>
+                    {:else if fin_cost_mtd[0].delta_sdm < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_sdm}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">⚙️ Biaya Operasional</div>
@@ -1460,7 +1485,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_ops > 0 ? '+' : ''}{fin_cost_mtd[0].delta_ops}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_mtd[0].delta_ops > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_ops}pp</span>
+                    {:else if fin_cost_mtd[0].delta_ops < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_ops}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1699,7 +1735,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_bahan_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_90d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_bahan_90d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_90d}pp</span>
+                    {:else if fin_cost_pct[0].delta_bahan_90d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_90d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">👥 Biaya SDM</div>
@@ -1710,7 +1757,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_sdm_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_90d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_sdm_90d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_90d}pp</span>
+                    {:else if fin_cost_pct[0].delta_sdm_90d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_90d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">⚙️ Biaya Operasional</div>
@@ -1721,7 +1779,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_ops_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_90d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_ops_90d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_90d}pp</span>
+                    {:else if fin_cost_pct[0].delta_ops_90d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_90d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1960,7 +2029,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_bahan_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_30d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_bahan_30d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_30d}pp</span>
+                    {:else if fin_cost_pct[0].delta_bahan_30d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_30d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">👥 Biaya SDM</div>
@@ -1971,7 +2051,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_sdm_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_30d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_sdm_30d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_30d}pp</span>
+                    {:else if fin_cost_pct[0].delta_sdm_30d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_30d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
+                </div>
               </div>
               <div class="cost-card">
                 <div class="cost-label">⚙️ Biaya Operasional</div>
@@ -1982,7 +2073,18 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                   <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
                 <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_ops_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_30d}pp.</div>
+                <div class="cost-note">
+                  <div>
+                    {#if fin_cost_pct[0].delta_ops_30d > 0}
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_30d}pp</span>
+                    {:else if fin_cost_pct[0].delta_ops_30d < 0}
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_30d}pp</span>
+                    {:else}
+                      <span class="trend-indicator neutral">0.0pp</span>
+                    {/if}
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
+                </div>
               </div>
             </div>
           </div>
