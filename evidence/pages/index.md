@@ -1572,9 +1572,9 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 <BigValue data={fin_kpi_7d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_7d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 💰 **Gross Revenue** — Total penjualan sebelum dikurangi biaya apapun. Ini mengukur skala bisnis: seberapa besar aktivitas penjualan yang terjadi? Berguna untuk membandingkan performa antar periode atau antar cabang.
 
@@ -1599,9 +1599,9 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📐 Apa itu Net Margin?**
 
@@ -1631,9 +1631,9 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar industri restoran 15–20%. Di bawah 10% sangat rentan terhadap kenaikan biaya atau penurunan traffic._
 
@@ -1668,9 +1668,9 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 <BigValue data={fin_kpi_30d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_30d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 💰 **Gross Revenue** — Total penjualan sebelum dikurangi biaya apapun. Ini mengukur skala bisnis: seberapa besar aktivitas penjualan yang terjadi? Berguna untuk membandingkan performa antar periode atau antar cabang.
 
@@ -1695,9 +1695,9 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📐 Apa itu Net Margin?**
 
@@ -1727,9 +1727,9 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari memberikan gambaran struktural yang lebih akurat dibanding satu hari yang bisa fluktuatif._
 
@@ -1764,9 +1764,9 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 <BigValue data={fin_sdow_yesterday} value="sdow_avg"        title="Rata-rata Hari Serupa (Rp)" fmt="#,##0" />
 <BigValue data={fin_sdow_yesterday} value="pct_change_sdow" title="Selisih vs Hari Serupa (%)" fmt="+0.0;-0.0\%" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 💰 **Gross Revenue** — Total penjualan kemarin sebelum dikurangi biaya apapun. Angka mentah yang menjadi dasar perbandingan.
 
@@ -1791,9 +1791,9 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📊 Kenapa SDOW, bukan Net Margin?**
 
@@ -1818,9 +1818,9 @@ SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-mi
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di atas normal, negatif berarti di bawah._
 
@@ -1874,9 +1874,9 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
 <BigValue data={branch_agg_7d}  value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_7d}  value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
 
@@ -1915,9 +1915,9 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🎯 Target AOV — Rp 50.000**
 
@@ -1948,9 +1948,9 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan lokasi, kualitas staf, atau manajemen. Cabang terbawah bukan berarti bermasalah — perlu dilihat tren-nya dulu sebelum mengambil kesimpulan._
 
@@ -1971,9 +1971,9 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 <BigValue data={branch_agg_30d} value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_30d} value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
 
@@ -2012,9 +2012,9 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🎯 Target AOV — Rp 50.000**
 
@@ -2045,9 +2045,9 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang bersifat struktural atau hanya fluktuasi biasa. Perhatikan apakah urutan cabang berubah dari minggu ke minggu._
 
@@ -2068,9 +2068,9 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
 <BigValue data={branch_agg_yesterday} value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_yesterday} value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
 
@@ -2109,9 +2109,9 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🎯 Target AOV — Rp 50.000**
 
@@ -2142,9 +2142,9 @@ Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saja. Kolom "Rata-rata Hari Serupa" menunjukkan baseline hari yang sama di minggu-minggu sebelumnya._
 
@@ -2179,9 +2179,9 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 <BigValue data={menu_kpi_agg_7d}   value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_7d}   value="menu_aktif_label" title="Menu Aktif (min. 4 dari 7 hari)" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🥇 **Menu Terlaris** — Menu dengan revenue tertinggi dalam periode ini. Ini tulang punggung bisnis — jaga kualitas, konsistensi, dan stoknya.
 
@@ -2220,9 +2220,9 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **✅ Menu Aktif — threshold 4 dari 7 hari**
 
@@ -2258,9 +2258,9 @@ Scatter plot di bawah membagi semua menu ke dalam 4 kuadran berdasarkan volume (
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Menu Misteri punya potensi revenue tinggi tapi belum tergali — kandidat untuk dipromosikan lebih aktif._
 
@@ -2304,9 +2304,9 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 <BigValue data={menu_kpi_agg_30d}  value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_30d}  value="menu_aktif_label" title="Menu Aktif (min. 15 dari 30 hari)" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🥇 **Menu Terlaris** — Menu dengan revenue tertinggi dalam periode ini. Ini tulang punggung bisnis — jaga kualitas, konsistensi, dan stoknya.
 
@@ -2345,9 +2345,9 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **✅ Menu Aktif — threshold 15 dari 30 hari**
 
@@ -2383,9 +2383,9 @@ Scatter plot di bawah membagi semua menu ke dalam 4 kuadran berdasarkan volume (
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang masuk kuadran "Lemah" secara konsisten selama sebulan perlu dievaluasi serius — reformulasi, promo, atau hapus dari menu._
 
@@ -2429,9 +2429,9 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
 <BigValue data={menu_kpi_agg_yesterday} value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_yesterday} value="menu_aktif_label" title="Menu Terjual Kemarin" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🥇 **Menu Terlaris** — Menu dengan revenue tertinggi kemarin. Urutan menu harian bisa berubah antara hari kerja dan weekend — untuk pola yang lebih konsisten, lihat data 7 atau 30 hari.
 
@@ -2456,9 +2456,9 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📊 Kontribusi Revenue**
 
@@ -2479,9 +2479,9 @@ Scatter plot tidak ditampilkan untuk data harian karena satu hari terlalu sediki
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk keputusan menu engineering, gunakan data 7 atau 30 hari._
 
@@ -2516,9 +2516,9 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 <BigValue data={member_kpi_7d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_7d} value="avg_frekuensi"    title="Avg Transaksi per Member (7 Hari)" fmt="0.0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 👥 **Member Aktif** — Jumlah member yang benar-benar bertransaksi dalam 7 hari terakhir. Bukan total member terdaftar — yang penting adalah yang aktif belanja, bukan yang hanya punya kartu.
 
@@ -2557,9 +2557,9 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📦 Kontribusi Order Member**
 
@@ -2590,9 +2590,9 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 7 hari. Ini ukuran
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — prioritaskan retensi mereka. Perhatikan tier mana yang punya frekuensi kembali paling tinggi._
 
@@ -2615,9 +2615,9 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 <BigValue data={member_kpi_30d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_30d} value="avg_frekuensi"    title="Avg Transaksi per Member (30 Hari)" fmt="0.0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 👥 **Member Aktif** — Jumlah member yang benar-benar bertransaksi dalam 30 hari terakhir. Data sebulan cukup untuk melihat pola loyalitas yang lebih konsisten dibanding data harian.
 
@@ -2656,9 +2656,9 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📦 Kontribusi Order Member**
 
@@ -2689,9 +2689,9 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 30 hari. Loyalitas
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. Mendatangkan pelanggan baru 5–7× lebih mahal dari mempertahankan yang ada — fokus pada retensi tier Gold terlebih dahulu._
 
@@ -2714,9 +2714,9 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 <BigValue data={member_kpi_yesterday} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_yesterday} value="avg_frekuensi"    title="Transaksi per Member (Kemarin)"   fmt="0.0" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 👥 **Member Aktif** — Jumlah member yang bertransaksi kemarin. Data harian bisa fluktuatif — untuk pola loyalitas yang lebih akurat, lihat data 7 atau 30 hari.
 
@@ -2741,9 +2741,9 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📦 Kontribusi Order Member**
 
@@ -2766,9 +2766,9 @@ Untuk data harian angka ini hampir selalu mendekati 1 karena seorang member jara
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuensi kembali per tier yang lebih bermakna, lihat data 7 atau 30 hari._
 
@@ -2803,9 +2803,9 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 <BigValue data={att_kpi_7d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_7d} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 ✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir dari total yang dijadwalkan. Lebih bermakna dari angka absolut karena langsung kelihatan seberapa "penuh" operasional berjalan tanpa perlu tahu jumlah total pegawai.
 
@@ -2844,9 +2844,9 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **✅ Tingkat Kehadiran**
 
@@ -2879,9 +2879,9 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Keterlambatan di shift
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke kualitas pelayanan. Perhatikan apakah absensi terkonsentrasi di satu cabang tertentu — itu lebih berbahaya daripada tersebar merata._
 
@@ -2909,9 +2909,9 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 <BigValue data={att_kpi_30d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_30d} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 ✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir dari total yang dijadwalkan. Data 30 hari cukup untuk melihat apakah pola absensi bersifat struktural atau hanya insidental.
 
@@ -2950,9 +2950,9 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **✅ Tingkat Kehadiran**
 
@@ -2985,9 +2985,9 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Pegawai dengan keterla
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktural. Perhatikan apakah ada cabang yang konsisten di bawah threshold kehadiran dari minggu ke minggu._
 
@@ -3015,9 +3015,9 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 <BigValue data={att_kpi_yesterday} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_yesterday} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 ✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir kemarin. Data harian berguna untuk respon cepat — kalau hari ini banyak yang absent, owner bisa langsung antisipasi sebelum jam buka.
 
@@ -3056,9 +3056,9 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **✅ Tingkat Kehadiran**
 
@@ -3087,9 +3087,9 @@ Persentase dari pegawai yang hadir tapi datang terlambat kemarin. Untuk pola yan
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang di hari yang sama setiap minggu, itu indikasi masalah jadwal atau motivasi yang perlu ditangani._
 
@@ -3129,9 +3129,9 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 <BigValue data={inv_kpi_7d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_7d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan yang habis untuk bahan baku. Ini salah satu cost driver terbesar di restoran — standar industri 28–32%. Kalau angka ini naik tanpa diikuti kenaikan revenue, margin langsung tergerus.
 
@@ -3178,9 +3178,9 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📊 % Biaya Bahan dari Revenue**
 
@@ -3213,9 +3213,9 @@ Perbandingan total pembelian bahan terhadap total pemakaian. Rasio 1.0 berarti b
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Kategori dengan biaya tertinggi minggu ini: **{inv_kpi_7d[0].kategori_tertinggi}**. Perhatikan tren harga per kategori — kenaikan konsisten adalah sinyal untuk renegosiasi supplier, bukan sekadar fluktuasi._
 
@@ -3243,9 +3243,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={inv_kpi_30d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_30d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan yang habis untuk bahan baku. Data 30 hari memberikan gambaran struktural yang lebih akurat — lebih bisa diandalkan untuk keputusan renegosiasi supplier.
 
@@ -3292,9 +3292,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📊 % Biaya Bahan dari Revenue**
 
@@ -3327,9 +3327,9 @@ Data 30 hari memberikan rasio yang lebih representatif karena efek hari pembelia
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Kategori dengan biaya tertinggi bulan ini: **{inv_kpi_30d[0].kategori_tertinggi}**. Tren 30 hari cukup untuk membedakan kenaikan harga struktural dari fluktuasi sesaat — dasar yang lebih solid untuk renegosiasi supplier._
 
@@ -3357,9 +3357,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={inv_kpi_yesterday} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_yesterday} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan kemarin yang habis untuk bahan baku. Data harian bisa sangat fluktuatif — hari pembelian stok besar akan terlihat lebih tinggi dari biasanya.
 
@@ -3406,9 +3406,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **📊 % Biaya Bahan dari Revenue**
 
@@ -3439,9 +3439,9 @@ Untuk data harian, rasio ini bisa 0 di hari tanpa pembelian dan sangat tinggi di
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Biaya bahan harian bisa fluktuatif tergantung jadwal pembelian. Hari pembelian besar akan terlihat lebih tinggi — lihat 7 atau 30 hari untuk pola yang lebih stabil._
 
@@ -3479,9 +3479,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={peak_kpi_7d} value="periode_puncak"    title="Periode Puncak" />
 <BigValue data={peak_kpi_7d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🕐 **Jam Puncak** — Jam dengan volume order tertinggi dalam 7 hari terakhir. Ini jam paling kritis secara operasional — kekurangan staf 1 jam di sini dampaknya jauh lebih besar dari 3 jam di jam sepi.
 
@@ -3506,9 +3506,9 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🕐 Konsentrasi Order di Jam Puncak**
 
@@ -3534,9 +3534,9 @@ Jenis order terbanyak di jam puncak menentukan kebutuhan operasional yang berbed
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebih besar dari 3 jam di jam sepi. Pastikan shift yang cover jam puncak selalu diisi pegawai berpengalaman._
 
@@ -3554,9 +3554,9 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 <BigValue data={peak_kpi_30d} value="periode_puncak"     title="Periode Puncak" />
 <BigValue data={peak_kpi_30d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🕐 **Jam Puncak** — Jam dengan volume order tertinggi dalam 30 hari terakhir. Data sebulan lebih representatif untuk penjadwalan staf jangka panjang karena sudah mencakup variasi hari kerja dan weekend.
 
@@ -3581,9 +3581,9 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🕐 Konsentrasi Order di Jam Puncak**
 
@@ -3609,9 +3609,9 @@ Jenis order terbanyak di jam puncak selama 30 hari — dasar yang solid untuk ke
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada jam yang konsisten sepi, pertimbangkan untuk memindahkan staf ke jam puncak daripada menambah headcount._
 
@@ -3629,9 +3629,9 @@ _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada ja
 <BigValue data={peak_kpi_yesterday} value="periode_puncak"     title="Periode Puncak" />
 <BigValue data={peak_kpi_yesterday} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Kenapa KPI ini?</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="context-acc">
+<summary>Kenapa KPI ini?</summary>
+<div class="acc-body">
 
 🕐 **Jam Puncak** — Jam dengan volume order tertinggi kemarin. Berguna untuk evaluasi apakah distribusi staf kemarin sudah optimal di jam-jam kritis.
 
@@ -3656,9 +3656,9 @@ _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada ja
 </div>
 {/if}
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Cara membaca angka ini</summary>
-<div style="padding:12px 16px;background:rgba(0,0,0,0.02);border-radius:6px;margin:4px 0 12px 0;font-size:0.9em;line-height:1.7;">
+<details class="guide-acc">
+<summary>Cara membaca angka ini</summary>
+<div class="acc-body">
 
 **🕐 Konsentrasi Order di Jam Puncak**
 
@@ -3684,9 +3684,9 @@ Jenis order terbanyak di jam puncak kemarin. Kalau polanya konsisten, ini bisa j
 </div>
 </details>
 
-<details>
-<summary style="cursor:pointer;padding:8px 0;font-weight:600;list-style:none;">▶ Lihat detail & chart</summary>
-<div style="padding:12px 0;">
+<details class="acc-strategic">
+<summary>Lihat detail & chart</summary>
+<div class="acc-body">
 
 _Data jam sibuk kemarin berguna untuk evaluasi apakah staf sudah terdistribusi dengan baik di jam-jam kritis. Bandingkan dengan pola 7 atau 30 hari untuk melihat apakah kemarin tipikal atau tidak._
 
