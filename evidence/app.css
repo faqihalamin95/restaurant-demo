@@ -2708,3 +2708,13 @@ details.acc-strategic .acc-body { padding: 20px; }
     grid-template-columns: 1fr;
   }
 }
+
+/* 2f. Chart Background Override */
+.chart-container,
+.chart,
+.chart > div,
+.chart canvas,
+.chart svg {
+  background: transparent !important;
+  background-color: transparent !important;
+}

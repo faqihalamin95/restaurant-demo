@@ -1677,7 +1677,7 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar industri restoran 15–20%. Di bawah 10% sangat rentan terhadap kenaikan biaya atau penurunan traffic._
@@ -1818,7 +1818,7 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari memberikan gambaran struktural yang lebih akurat dibanding satu hari yang bisa fluktuatif._
@@ -1956,7 +1956,7 @@ SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-mi
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di atas normal, negatif berarti di bawah._
@@ -2143,7 +2143,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan lokasi, kualitas staf, atau manajemen. Cabang terbawah bukan berarti bermasalah — perlu dilihat tren-nya dulu sebelum mengambil kesimpulan._
@@ -2294,7 +2294,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang bersifat struktural atau hanya fluktuasi biasa. Perhatikan apakah urutan cabang berubah dari minggu ke minggu._
@@ -2445,7 +2445,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saja. Kolom "Rata-rata Hari Serupa" menunjukkan baseline hari yang sama di minggu-minggu sebelumnya._
@@ -2620,7 +2620,7 @@ Menu dianggap aktif kalau terjual minimal 4 hari dalam seminggu (di atas 50% har
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Menu Misteri punya potensi revenue tinggi tapi belum tergali — kandidat untuk dipromosikan lebih aktif._
@@ -2800,7 +2800,7 @@ Menu dianggap aktif kalau terjual minimal 15 hari dalam sebulan (di atas 50% har
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang masuk kuadran "Lemah" secara konsisten selama sebulan perlu dievaluasi serius — reformulasi, promo, atau hapus dari menu._
@@ -2950,7 +2950,7 @@ Scatter plot tidak ditampilkan untuk data harian karena satu hari terlalu sediki
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk keputusan menu engineering, gunakan data 7 atau 30 hari._
@@ -3096,7 +3096,7 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 7 hari. Ini ukuran
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — prioritaskan retensi mereka. Perhatikan tier mana yang punya frekuensi kembali paling tinggi._
@@ -3244,7 +3244,7 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 30 hari. Loyalitas
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. Mendatangkan pelanggan baru 5–7× lebih mahal dari mempertahankan yang ada — fokus pada retensi tier Gold terlebih dahulu._
@@ -3378,7 +3378,7 @@ Untuk data harian angka ini hampir selalu mendekati 1 karena seorang member jara
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuensi kembali per tier yang lebih bermakna, lihat data 7 atau 30 hari._
@@ -3540,7 +3540,7 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Keterlambatan di shift
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke kualitas pelayanan. Perhatikan apakah absensi terkonsentrasi di satu cabang tertentu — itu lebih berbahaya daripada tersebar merata._
@@ -3695,7 +3695,7 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Pegawai dengan keterla
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktural. Perhatikan apakah ada cabang yang konsisten di bawah threshold kehadiran dari minggu ke minggu._
@@ -3848,7 +3848,7 @@ Persentase dari pegawai yang hadir tapi datang terlambat kemarin. Untuk pola yan
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang di hari yang sama setiap minggu, itu indikasi masalah jadwal atau motivasi yang perlu ditangani._
@@ -4029,7 +4029,7 @@ Perbandingan total pembelian bahan terhadap total pemakaian. Rasio 1.0 berarti b
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Kategori dengan biaya tertinggi minggu ini: **{inv_kpi_7d[0].kategori_tertinggi}**. Perhatikan tren harga per kategori — kenaikan konsisten adalah sinyal untuk renegosiasi supplier, bukan sekadar fluktuasi._
@@ -4200,7 +4200,7 @@ Data 30 hari memberikan rasio yang lebih representatif karena efek hari pembelia
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Kategori dengan biaya tertinggi bulan ini: **{inv_kpi_30d[0].kategori_tertinggi}**. Tren 30 hari cukup untuk membedakan kenaikan harga struktural dari fluktuasi sesaat — dasar yang lebih solid untuk renegosiasi supplier._
@@ -4371,7 +4371,7 @@ Untuk data harian, rasio ini bisa 0 di hari tanpa pembelian dan sangat tinggi di
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Biaya bahan harian bisa fluktuatif tergantung jadwal pembelian. Hari pembelian besar akan terlihat lebih tinggi — lihat 7 atau 30 hari untuk pola yang lebih stabil._
@@ -4525,7 +4525,7 @@ Jenis order terbanyak di jam puncak menentukan kebutuhan operasional yang berbed
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebih besar dari 3 jam di jam sepi. Pastikan shift yang cover jam puncak selalu diisi pegawai berpengalaman._
@@ -4643,7 +4643,7 @@ Jenis order terbanyak di jam puncak selama 30 hari — dasar yang solid untuk ke
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada jam yang konsisten sepi, pertimbangkan untuk memindahkan staf ke jam puncak daripada menambah headcount._
@@ -4761,7 +4761,7 @@ Jenis order terbanyak di jam puncak kemarin. Kalau polanya konsisten, ini bisa j
 </details>
 
 <details class="acc-strategic">
-<summary>Lihat detail & chart</summary>
+<summary>📈 Lihat detail & chart</summary>
 <div class="acc-body">
 
 _Data jam sibuk kemarin berguna untuk evaluasi apakah staf sudah terdistribusi dengan baik di jam-jam kritis. Bandingkan dengan pola 7 atau 30 hari untuk melihat apakah kemarin tipikal atau tidak._
