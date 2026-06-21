@@ -1621,10 +1621,7 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📐</span> Apa itu Net Margin?</h4>
 <div class="read-concept-desc">
@@ -1640,11 +1637,10 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Margin — Standar Umum F&B</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -1677,7 +1673,6 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -1767,10 +1762,7 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📐</span> Apa itu Net Margin?</h4>
 <div class="read-concept-desc">
@@ -1786,11 +1778,10 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Margin — Standar Umum F&B</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -1823,7 +1814,6 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -1913,10 +1903,7 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📊</span> Kenapa SDOW, bukan Net Margin?</h4>
 <div class="read-concept-desc">
@@ -1936,11 +1923,10 @@ SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-mi
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold SDOW</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -1973,7 +1959,6 @@ SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-mi
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2113,10 +2098,7 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
 <div class="read-concept-desc">
@@ -2130,11 +2112,10 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2165,7 +2146,6 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2269,10 +2249,7 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
 <div class="read-concept-desc">
@@ -2286,11 +2263,10 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2321,7 +2297,6 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2425,10 +2400,7 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
 <div class="read-concept-desc">
@@ -2442,11 +2414,10 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2477,7 +2448,6 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2599,10 +2569,7 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>✅</span> Menu Aktif — threshold 4 dari 7 hari</h4>
 <div class="read-concept-desc">
@@ -2613,11 +2580,10 @@ Menu dianggap aktif kalau terjual minimal 4 hari dalam seminggu (di atas 50% har
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Peta Menu Engineering — 4 Kuadran</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2657,7 +2623,6 @@ Menu dianggap aktif kalau terjual minimal 4 hari dalam seminggu (di atas 50% har
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2784,10 +2749,7 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>✅</span> Menu Aktif — threshold 15 dari 30 hari</h4>
 <div class="read-concept-desc">
@@ -2798,11 +2760,10 @@ Menu dianggap aktif kalau terjual minimal 15 hari dalam sebulan (di atas 50% har
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Peta Menu Engineering — 4 Kuadran</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2842,7 +2803,6 @@ Menu dianggap aktif kalau terjual minimal 15 hari dalam sebulan (di atas 50% har
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -2955,10 +2915,7 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🗺️</span> Peta Menu Engineering</h4>
 <div class="read-concept-desc">
@@ -2967,11 +2924,10 @@ Scatter plot tidak ditampilkan untuk data harian karena satu hari terlalu sediki
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Kontribusi Revenue</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -2997,7 +2953,6 @@ Scatter plot tidak ditampilkan untuk data harian karena satu hari terlalu sediki
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3101,10 +3056,7 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🔁</span> Avg Transaksi per Member</h4>
 <div class="read-concept-desc">
@@ -3113,11 +3065,10 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 7 hari. Ini ukuran
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Avg Transaksi per Member</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3148,7 +3099,6 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 7 hari. Ini ukuran
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3254,10 +3204,7 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🔁</span> Avg Transaksi per Member</h4>
 <div class="read-concept-desc">
@@ -3266,11 +3213,10 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 30 hari. Loyalitas
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Avg Transaksi per Member</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3301,7 +3247,6 @@ Rata-rata berapa kali seorang member aktif bertransaksi dalam 30 hari. Loyalitas
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3393,10 +3338,7 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>🔁</span> Transaksi per Member</h4>
 <div class="read-concept-desc">
@@ -3405,11 +3347,10 @@ Untuk data harian angka ini hampir selalu mendekati 1 karena seorang member jara
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Kontribusi Order Member</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3440,7 +3381,6 @@ Untuk data harian angka ini hampir selalu mendekati 1 karena seorang member jara
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3558,10 +3498,7 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
 <div class="read-concept-desc">
@@ -3570,11 +3507,10 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Keterlambatan di shift
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3607,7 +3543,6 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Keterlambatan di shift
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3718,10 +3653,7 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
 <div class="read-concept-desc">
@@ -3730,11 +3662,10 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Pegawai dengan keterla
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3767,7 +3698,6 @@ Persentase dari pegawai yang hadir tapi datang terlambat. Pegawai dengan keterla
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -3878,10 +3808,7 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
 <div class="read-concept-desc">
@@ -3890,11 +3817,10 @@ Persentase dari pegawai yang hadir tapi datang terlambat kemarin. Untuk pola yan
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -3925,7 +3851,6 @@ Persentase dari pegawai yang hadir tapi datang terlambat kemarin. Untuk pola yan
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4056,10 +3981,7 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
 <div class="read-concept-desc">
@@ -4068,11 +3990,10 @@ Perbandingan total pembelian bahan terhadap total pemakaian. Rasio 1.0 berarti b
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4111,7 +4032,6 @@ Perbandingan total pembelian bahan terhadap total pemakaian. Rasio 1.0 berarti b
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4232,10 +4152,7 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
 <div class="read-concept-desc">
@@ -4244,11 +4161,10 @@ Data 30 hari memberikan rasio yang lebih representatif karena efek hari pembelia
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4287,7 +4203,6 @@ Data 30 hari memberikan rasio yang lebih representatif karena efek hari pembelia
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4408,10 +4323,7 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
 <div class="read-concept-desc">
@@ -4420,11 +4332,10 @@ Untuk data harian, rasio ini bisa 0 di hari tanpa pembelian dan sangat tinggi di
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4463,7 +4374,6 @@ Untuk data harian, rasio ini bisa 0 di hari tanpa pembelian dan sangat tinggi di
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4572,10 +4482,7 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
 <div class="read-concept-desc">
@@ -4587,11 +4494,10 @@ Jenis order terbanyak di jam puncak menentukan kebutuhan operasional yang berbed
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4622,7 +4528,6 @@ Jenis order terbanyak di jam puncak menentukan kebutuhan operasional yang berbed
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4695,10 +4600,7 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
 <div class="read-concept-desc">
@@ -4710,11 +4612,10 @@ Jenis order terbanyak di jam puncak selama 30 hari — dasar yang solid untuk ke
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4745,7 +4646,6 @@ Jenis order terbanyak di jam puncak selama 30 hari — dasar yang solid untuk ke
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
@@ -4818,10 +4718,7 @@ _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada ja
 <details class="read-acc">
 <summary>💡 Cara membaca angka ini</summary>
 <div class="read-body">
-<div class="read-grid">
 
-<!-- Left Column: Penjelasan Konsep -->
-<div class="read-left-col">
 <div class="read-concept">
 <h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
 <div class="read-concept-desc">
@@ -4833,11 +4730,10 @@ Jenis order terbanyak di jam puncak kemarin. Kalau polanya konsisten, ini bisa j
 
 </div>
 </div>
-</div>
 
-<div class="read-right-col">
-<div>
+<div class="read-threshold-sec">
 <h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<div class="read-table-wrapper">
 <table class="read-table">
 <thead>
 <tr>
@@ -4868,7 +4764,6 @@ Jenis order terbanyak di jam puncak kemarin. Kalau polanya konsisten, ini bisa j
 </div>
 </div>
 
-</div>
 </div>
 </details>
 
