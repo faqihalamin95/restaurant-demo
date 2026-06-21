@@ -230,9 +230,20 @@ details.acc-strategic .acc-body {
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 1;
-  color: var(--color-text-primary);
   margin-top: 8px;
   margin-bottom: 12px;
+}
+
+.hero-main-card.status-sehat .hero-stat-number {
+  color: #15803d;
+}
+
+.hero-main-card.status-waspada .hero-stat-number {
+  color: #b45309;
+}
+
+.hero-main-card.status-kritis .hero-stat-number {
+  color: #b91c1c;
 }
 
 .hero-subtitle {
@@ -1064,13 +1075,6 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             Margin sudah kritis di bulan {fin_nama_bulan[0].nama_bulan}.
           {/if}
         </div>
-        <div class="hero-copy">
-          {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
-            Sampai hari ke-{fin_kpi_mtd[0].hari_berjalan}, semua komponen biaya masih berada dalam rentang normal. Fokus utamanya menjaga pace revenue dan memastikan margin sehat ini bertahan sampai tutup bulan.
-          {:else}
-            Tekanan terbesar datang dari <strong>{fin_operational_overview[0].fokus_mtd?.toLowerCase()}</strong>, sekitar <strong>{fin_operational_overview[0].fokus_gap_mtd}pp</strong> di atas batas normal. Ini belum otomatis membuat bulan gagal, tapi cukup jelas untuk dijadikan prioritas sekarang.
-          {/if}
-        </div>
       </div>
       <div class="hero-side">
         <div class="hero-side-card">
@@ -1266,13 +1270,6 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             Margin sudah kritis secara struktural.
           {/if}
         </div>
-        <div class="hero-copy">
-          {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
-            Dalam 90 hari terakhir, struktur biaya relatif masih terkendali. Yang perlu dibaca sekarang adalah apakah pertumbuhan revenue benar-benar menghasilkan efisiensi, bukan sekadar volume yang lebih besar.
-          {:else}
-            Dalam horizon 90 hari, tekanan utama datang dari <strong>{fin_operational_overview[0].fokus_90d?.toLowerCase()}</strong>, sekitar <strong>{fin_operational_overview[0].fokus_gap_90d}pp</strong> di atas batas normal. Karena ini sudah berlangsung lebih lama, sinyalnya lebih dekat ke isu struktural daripada noise operasional.
-          {/if}
-        </div>
       </div>
       <div class="hero-side">
         <div class="hero-side-card">
@@ -1445,13 +1442,6 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             Margin sudah masuk zona waspada dalam 30 hari.
           {:else}
             Margin sudah kritis secara operasional.
-          {/if}
-        </div>
-        <div class="hero-copy">
-          {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
-            Seluruh komponen biaya masih berada dalam batas normal. Artinya persoalan utama bukan struktur biaya, tetapi menjaga momentum revenue dan kualitas eksekusi agar margin tidak melemah di periode berikutnya.
-          {:else}
-            Tekanan terbesar datang dari <strong>{fin_operational_overview[0].fokus_30d?.toLowerCase()}</strong>, sekitar <strong>{fin_operational_overview[0].fokus_gap_30d}pp</strong> di atas batas normal. Ini cukup jelas untuk dijadikan prioritas manajerial sekarang.
           {/if}
         </div>
       </div>
