@@ -2213,16 +2213,36 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           {/each}
         </div>
 
-        <DataTable data={fin_quarter_comparison}>
-          <Column id="quarter_label" title="Quarter"/>
-          <Column id="gross" title="Gross Revenue (Rp)" fmt="#,##0"/>
-          <Column id="net" title="Net Revenue (Rp)" fmt="#,##0"/>
-          <Column id="margin_pct" title="Net Margin (%)" fmt="0.0\%"/>
-          <Column id="delta_margin_q" title="vs Quarter Lalu (pp)" fmt="+0.0;-0.0" contentType="delta"/>
-          <Column id="bahan_pct" title="Bahan (%)" fmt="0.0\%"/>
-          <Column id="sdm_pct" title="SDM (%)" fmt="0.0\%"/>
-          <Column id="ops_pct" title="Ops (%)" fmt="0.0\%"/>
-        </DataTable>
+        <table class="markdown">
+          <thead>
+            <tr>
+              <th class="markdown">Quarter</th>
+              <th class="markdown" style="text-align: right;">Gross Revenue (Rp)</th>
+              <th class="markdown" style="text-align: right;">Net Revenue (Rp)</th>
+              <th class="markdown" style="text-align: right;">Net Margin (%)</th>
+              <th class="markdown" style="text-align: right;">vs Quarter Lalu</th>
+              <th class="markdown" style="text-align: right;">Bahan (%)</th>
+              <th class="markdown" style="text-align: right;">SDM (%)</th>
+              <th class="markdown" style="text-align: right;">Ops (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each fin_quarter_comparison || [] as row}
+            <tr>
+              <td class="markdown" style="font-weight: 500;">{row.quarter_label || ''}</td>
+              <td class="markdown" style="text-align: right;">{row.gross !== undefined && row.gross !== null ? row.gross.toLocaleString('id-ID') : '0'}</td>
+              <td class="markdown" style="text-align: right;">{row.net !== undefined && row.net !== null ? row.net.toLocaleString('id-ID') : '0'}</td>
+              <td class="markdown" style="text-align: right; font-weight: 600;">{row.margin_pct !== undefined && row.margin_pct !== null ? row.margin_pct.toFixed(1) + '%' : '0.0%'}</td>
+              <td class="markdown" style="text-align: right; font-weight: 600; color: {row.delta_margin_q > 0 ? '#16a34a' : row.delta_margin_q < 0 ? '#dc2626' : 'var(--color-text-tertiary)'}">
+                {row.delta_margin_q !== undefined && row.delta_margin_q !== null ? (row.delta_margin_q > 0 ? '+' : '') + row.delta_margin_q.toFixed(1) + 'pp ' + (row.delta_margin_q > 0 ? '▲' : row.delta_margin_q < 0 ? '▼' : '') : '—'}
+              </td>
+              <td class="markdown" style="text-align: right;">{row.bahan_pct !== undefined && row.bahan_pct !== null ? row.bahan_pct.toFixed(1) + '%' : '0.0%'}</td>
+              <td class="markdown" style="text-align: right;">{row.sdm_pct !== undefined && row.sdm_pct !== null ? row.sdm_pct.toFixed(1) + '%' : '0.0%'}</td>
+              <td class="markdown" style="text-align: right;">{row.ops_pct !== undefined && row.ops_pct !== null ? row.ops_pct.toFixed(1) + '%' : '0.0%'}</td>
+            </tr>
+            {/each}
+          </tbody>
+        </table>
 
         <div style="margin-top:18px;">
           <LineChart
@@ -2288,15 +2308,32 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
         {/if}
 
         <div style="margin-bottom:16px;">
-          <DataTable data={fin_yoy}>
-            <Column id="tahun" title="Tahun"/>
-            <Column id="gross" title="Gross Revenue (Rp)" fmt="#,##0"/>
-            <Column id="net" title="Net Revenue (Rp)" fmt="#,##0"/>
-            <Column id="margin_pct" title="Net Margin (%)" fmt="0.0\%"/>
-            <Column id="bahan_pct" title="Bahan (%)" fmt="0.0\%"/>
-            <Column id="sdm_pct" title="SDM (%)" fmt="0.0\%"/>
-            <Column id="ops_pct" title="Ops (%)" fmt="0.0\%"/>
-          </DataTable>
+          <table class="markdown">
+            <thead>
+              <tr>
+                <th class="markdown">Tahun</th>
+                <th class="markdown" style="text-align: right;">Gross Revenue (Rp)</th>
+                <th class="markdown" style="text-align: right;">Net Revenue (Rp)</th>
+                <th class="markdown" style="text-align: right;">Net Margin (%)</th>
+                <th class="markdown" style="text-align: right;">Bahan (%)</th>
+                <th class="markdown" style="text-align: right;">SDM (%)</th>
+                <th class="markdown" style="text-align: right;">Ops (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {#each fin_yoy || [] as row}
+              <tr>
+                <td class="markdown" style="font-weight: 500;">{row.tahun || ''}</td>
+                <td class="markdown" style="text-align: right;">{row.gross !== undefined && row.gross !== null ? row.gross.toLocaleString('id-ID') : '0'}</td>
+                <td class="markdown" style="text-align: right;">{row.net !== undefined && row.net !== null ? row.net.toLocaleString('id-ID') : '0'}</td>
+                <td class="markdown" style="text-align: right; font-weight: 600;">{row.margin_pct !== undefined && row.margin_pct !== null ? row.margin_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right;">{row.bahan_pct !== undefined && row.bahan_pct !== null ? row.bahan_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right;">{row.sdm_pct !== undefined && row.sdm_pct !== null ? row.sdm_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right;">{row.ops_pct !== undefined && row.ops_pct !== null ? row.ops_pct.toFixed(1) + '%' : '0.0%'}</td>
+              </tr>
+              {/each}
+            </tbody>
+          </table>
         </div>
 
         <LineChart
