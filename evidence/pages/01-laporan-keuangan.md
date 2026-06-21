@@ -784,6 +784,47 @@ details.acc-strategic .acc-body {
     gap: 16px;
   }
 }
+
+/* ── Diagnostics section wrapper ── */
+.diagnostics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.diagnostics-header {
+  padding: 0 2px;
+  margin-bottom: 2px;
+}
+
+.diagnostics-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.diagnostics-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.diagnostics-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+  margin: 0;
+}
 </style>
 
 ```sql fin_dates
@@ -1317,159 +1358,173 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       </div>
     </div>
 
-    <div class="signal-grid">
-      <div class="signal-card {fin_kpi_mtd[0].margin_mtd >= 15 ? 'safe' : fin_kpi_mtd[0].margin_mtd >= 10 ? 'warn' : 'critical'}">
-        <div class="signal-label">
-          {fin_kpi_mtd[0].margin_mtd >= 15 ? '✅' : fin_kpi_mtd[0].margin_mtd >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
-        </div>
-        <div class="signal-title">
-          {#if fin_kpi_mtd[0].margin_mtd >= 15}
-            Margin bulan berjalan masih berada di zona sehat.
-          {:else if fin_kpi_mtd[0].margin_mtd >= 10}
-            Revenue masih cukup menahan margin agar tidak jatuh lebih dalam.
-          {:else}
-            Sinyal sehat sangat tipis, perlu recovery cepat.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_kpi_mtd[0].margin_mtd >= 15}
-            Artinya bisnis masih menyisakan ruang laba yang sehat. Fokusnya bukan cari pertumbuhan baru dulu, tapi jaga supaya komponen biaya tidak merayap naik di sisa bulan.
-          {:else if fin_operational_overview[0].fokus_mtd !== 'Semua biaya dalam batas'}
-            Walau masih tertekan, bulan ini belum sepenuhnya lepas kendali. Masih ada waktu untuk menekan komponen yang paling boros sebelum tutup buku.
-          {:else}
-            Revenue belum runtuh, tapi struktur biaya sekarang terlalu berat untuk level penjualan saat ini.
-          {/if}
-        </div>
+    <!-- Outer Diagnostics Container -->
+    <div class="diagnostics-stack">
+      <div class="diagnostics-header">
+        <div class="diagnostics-eyebrow">🔬 Operasional & Diagnostik</div>
+        <h2 class="diagnostics-title">Bedah performa & detail biaya</h2>
+        <p class="diagnostics-copy">Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin.</p>
       </div>
-      <div class="signal-card {fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
-        <div class="signal-label">
-          {fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
-        </div>
-        <div class="signal-title">
-          {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
-            Belum ada komponen yang melewati target.
-          {:else}
-            {fin_operational_overview[0].fokus_mtd} jadi pressure point utama.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
-            Risiko terbesar justru ada di konsistensi pace. Pastikan sisa hari bulan ini tidak diisi diskon, waste, atau lembur berlebih yang menggerus margin.
-          {:else}
-            Selisih sekitar {fin_operational_overview[0].fokus_gap_mtd}pp di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
-          {/if}
-        </div>
-      </div>
-    </div>
 
-    <div class="section-card">
-      <div class="section-head">
-        <div>
-          <div class="section-eyebrow">💸 Breakdown Biaya</div>
-          <h3 class="section-title">Bedah komponen biaya bulan berjalan</h3>
-          <p class="section-copy">Dari setiap Rp100 gross revenue bulan {fin_nama_bulan[0].nama_bulan}, berapa yang habis untuk bahan, SDM, dan operasional.</p>
-        </div>
-      </div>
-      <div class="cost-grid">
-        <div class="cost-card">
-          <div class="cost-label">🥩 Biaya Bahan</div>
-          <div class="cost-value" style="color:{fin_cost_mtd[0].bahan_mtd > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_mtd[0].bahan_mtd}%</div>
-          <div class="cost-target">🎯 Target normal maks 32%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].bahan_mtd / 40 * 100, 100)}%; background:{fin_cost_mtd[0].bahan_mtd > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-          <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_bahan > 0 ? '+' : ''}{fin_cost_mtd[0].delta_bahan}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">👥 Biaya SDM</div>
-          <div class="cost-value" style="color:{fin_cost_mtd[0].sdm_mtd > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_mtd[0].sdm_mtd}%</div>
-          <div class="cost-target">🎯 Target normal maks 22%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].sdm_mtd / 30 * 100, 100)}%; background:{fin_cost_mtd[0].sdm_mtd > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-          <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_sdm > 0 ? '+' : ''}{fin_cost_mtd[0].delta_sdm}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">⚙️ Biaya Operasional</div>
-          <div class="cost-value" style="color:{fin_cost_mtd[0].ops_mtd > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_mtd[0].ops_mtd}%</div>
-          <div class="cost-target">🎯 Target normal maks 15%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].ops_mtd / 25 * 100, 100)}%; background:{fin_cost_mtd[0].ops_mtd > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-          <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_ops > 0 ? '+' : ''}{fin_cost_mtd[0].delta_ops}pp.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-head tight">
-        <div>
-          <div class="section-eyebrow">📈 Tren Margin</div>
-          <h3 class="section-title">Apakah bulan ini membaik atau hanya bertahan?</h3>
-          <p class="section-copy">Chart ini dipakai untuk melihat apakah margin harian konsisten, atau sehat hanya karena beberapa hari yang sangat kuat.</p>
-        </div>
-      </div>
-      <LineChart
-        data={fin_margin_daily_mtd}
-        x="metric_date"
-        y="margin_pct"
-        title="Net Margin Harian MTD (%)"
-        yFmt="0.0\%"
-        xAxisTitle="Tanggal"
-        yAxisTitle="Net Margin (%)"
-      >
-        <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
-        <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
-      </LineChart>
-    </div>
-
-    <details>
-      <summary>💡 Analisis & Langkah Konkret (Bulan Ini)</summary>
-      <div class="acc-body">
-        <div class="acc-grid">
-          <div>
-            <div class="acc-title-sub">📊 Konteks Analisis</div>
-            <div class="acc-text-block">
-              Net margin bulan berjalan paling berguna sebagai radar cepat. Ia belum seadil 30 hari, tapi cukup tajam untuk mendeteksi pressure lebih awal. Kalau margin masih sehat sementara satu komponen biaya sudah naik, itu sinyal untuk bertindak sebelum masalah menjadi hasil akhir bulan.
+      <details class="acc-strategic" open>
+        <summary>📊 Detail Analisis Operasional & Tren</summary>
+        <div class="acc-body" style="padding: 20px 16px 16px 16px; display: flex; flex-direction: column; gap: 24px;">
+          <div class="signal-grid">
+            <div class="signal-card {fin_kpi_mtd[0].margin_mtd >= 15 ? 'safe' : fin_kpi_mtd[0].margin_mtd >= 10 ? 'warn' : 'critical'}">
+              <div class="signal-label">
+                {fin_kpi_mtd[0].margin_mtd >= 15 ? '✅' : fin_kpi_mtd[0].margin_mtd >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
+              </div>
+              <div class="signal-title">
+                {#if fin_kpi_mtd[0].margin_mtd >= 15}
+                  Margin bulan berjalan masih berada di zona sehat.
+                {:else if fin_kpi_mtd[0].margin_mtd >= 10}
+                  Revenue masih cukup menahan margin agar tidak jatuh lebih dalam.
+                {:else}
+                  Sinyal sehat sangat tipis, perlu recovery cepat.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_kpi_mtd[0].margin_mtd >= 15}
+                  Artinya bisnis masih menyisakan ruang laba yang sehat. Fokusnya bukan cari pertumbuhan baru dulu, tapi jaga supaya komponen biaya tidak merayap naik di sisa bulan.
+                {:else if fin_operational_overview[0].fokus_mtd !== 'Semua biaya dalam batas'}
+                  Walau masih tertekan, bulan ini belum sepenuhnya lepas kendali. Masih ada waktu untuk menekan komponen yang paling boros sebelum tutup buku.
+                {:else}
+                  Revenue belum runtuh, tapi struktur biaya sekarang terlalu berat untuk level penjualan saat ini.
+                {/if}
+              </div>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
-              Untuk mendalami performa per lokasi, gunakan menu <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Fokus halaman laporan ini adalah konsolidasi finansial utama.
+            <div class="signal-card {fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
+              <div class="signal-label">
+                {fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
+              </div>
+              <div class="signal-title">
+                {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
+                  Belum ada komponen yang melewati target.
+                {:else}
+                  {fin_operational_overview[0].fokus_mtd} jadi pressure point utama.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
+                  Risiko terbesar justru ada di konsistensi pace. Pastikan sisa hari bulan ini tidak diisi diskon, waste, atau lembur berlebih yang menggerus margin.
+                {:else}
+                  Selisih sekitar {fin_operational_overview[0].fokus_gap_mtd}pp di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
+                {/if}
+              </div>
             </div>
           </div>
-          <div>
-            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
-            <div class="acc-alert-list">
-              {#if fin_cost_mtd[0].bahan_mtd > 32}
-                <div class="acc-alert-item">
-                  <strong>🥩 Bahan di atas target ({fin_cost_mtd[0].bahan_mtd}% vs maks 32%):</strong> Cek item yang paling banyak mendorong COGS, pola pembelian besar di awal bulan, dan waste yang tidak tertutup kenaikan revenue.
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <div class="section-eyebrow">💸 Breakdown Biaya</div>
+                <h3 class="section-title">Bedah komponen biaya bulan berjalan</h3>
+                <p class="section-copy">Dari setiap Rp100 gross revenue bulan {fin_nama_bulan[0].nama_bulan}, berapa yang habis untuk bahan, SDM, dan operasional.</p>
+              </div>
+            </div>
+            <div class="cost-grid">
+              <div class="cost-card">
+                <div class="cost-label">🥩 Biaya Bahan</div>
+                <div class="cost-value" style="color:{fin_cost_mtd[0].bahan_mtd > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_mtd[0].bahan_mtd}%</div>
+                <div class="cost-target">🎯 Target normal maks 32%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].bahan_mtd / 40 * 100, 100)}%; background:{fin_cost_mtd[0].bahan_mtd > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_mtd[0].sdm_mtd > 22}
-                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                  <strong>👥 SDM di atas target ({fin_cost_mtd[0].sdm_mtd}% vs maks 22%):</strong> Lihat distribusi shift, lembur, dan apakah revenue harian cukup padat untuk menutup biaya tenaga kerja sekarang.
+                <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
+                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_bahan > 0 ? '+' : ''}{fin_cost_mtd[0].delta_bahan}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">👥 Biaya SDM</div>
+                <div class="cost-value" style="color:{fin_cost_mtd[0].sdm_mtd > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_mtd[0].sdm_mtd}%</div>
+                <div class="cost-target">🎯 Target normal maks 22%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].sdm_mtd / 30 * 100, 100)}%; background:{fin_cost_mtd[0].sdm_mtd > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_mtd[0].ops_mtd > 15}
-                <div class="acc-alert-item">
-                  <strong>⚙️ Operasional di atas target ({fin_cost_mtd[0].ops_mtd}% vs maks 15%):</strong> Biasanya lebih lambat berubah, jadi periksa beban fixed cost, promosi yang tidak efisien, atau hari-hari revenue lemah yang memperbesar rasio biaya.
+                <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
+                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_sdm > 0 ? '+' : ''}{fin_cost_mtd[0].delta_sdm}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">⚙️ Biaya Operasional</div>
+                <div class="cost-value" style="color:{fin_cost_mtd[0].ops_mtd > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_mtd[0].ops_mtd}%</div>
+                <div class="cost-target">🎯 Target normal maks 15%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_mtd[0].ops_mtd / 25 * 100, 100)}%; background:{fin_cost_mtd[0].ops_mtd > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_mtd[0].bahan_mtd <= 32 && fin_cost_mtd[0].sdm_mtd <= 22 && fin_cost_mtd[0].ops_mtd <= 15}
-                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
-                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target. Fokus terbaik sekarang adalah menjaga disiplin diskon, menjaga pace transaksi, dan memastikan penutupan bulan tidak rusak oleh beberapa hari buruk di akhir periode.
-                </div>
-              {/if}
+                <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
+                <div class="cost-note">Perubahan vs {fin_nama_bulan[0].nama_bulan_lalu}: {fin_cost_mtd[0].delta_ops > 0 ? '+' : ''}{fin_cost_mtd[0].delta_ops}pp.</div>
+              </div>
             </div>
           </div>
+
+          <div class="section-card">
+            <div class="section-head tight">
+              <div>
+                <div class="section-eyebrow">📈 Tren Margin</div>
+                <h3 class="section-title">Apakah bulan ini membaik atau hanya bertahan?</h3>
+                <p class="section-copy">Chart ini dipakai untuk melihat apakah margin harian konsisten, atau sehat hanya karena beberapa hari yang sangat kuat.</p>
+              </div>
+            </div>
+            <LineChart
+              data={fin_margin_daily_mtd}
+              x="metric_date"
+              y="margin_pct"
+              title="Net Margin Harian MTD (%)"
+              yFmt="0.0\%"
+              xAxisTitle="Tanggal"
+              yAxisTitle="Net Margin (%)"
+            >
+              <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
+              <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
+            </LineChart>
+          </div>
+
+          <details>
+            <summary>💡 Analisis & Langkah Konkret (Bulan Ini)</summary>
+            <div class="acc-body">
+              <div class="acc-grid">
+                <div>
+                  <div class="acc-title-sub">📊 Konteks Analisis</div>
+                  <div class="acc-text-block">
+                    Net margin bulan berjalan paling berguna sebagai radar cepat. Ia belum seadil 30 hari, tapi cukup tajam untuk mendeteksi pressure lebih awal. Kalau margin masih sehat sementara satu komponen biaya sudah naik, itu sinyal untuk bertindak sebelum masalah menjadi hasil akhir bulan.
+                  </div>
+                  <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    Untuk mendalami performa per lokasi, gunakan menu <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Fokus halaman laporan ini adalah konsolidasi finansial utama.
+                  </div>
+                </div>
+                <div>
+                  <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+                  <div class="acc-alert-list">
+                    {#if fin_cost_mtd[0].bahan_mtd > 32}
+                      <div class="acc-alert-item">
+                        <strong>🥩 Bahan di atas target ({fin_cost_mtd[0].bahan_mtd}% vs maks 32%):</strong> Cek item yang paling banyak mendorong COGS, pola pembelian besar di awal bulan, dan waste yang tidak tertutup kenaikan revenue.
+                      </div>
+                    {/if}
+                    {#if fin_cost_mtd[0].sdm_mtd > 22}
+                      <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                        <strong>👥 SDM di atas target ({fin_cost_mtd[0].sdm_mtd}% vs maks 22%):</strong> Lihat distribusi shift, lembur, dan apakah revenue harian cukup padat untuk menutup biaya tenaga kerja sekarang.
+                      </div>
+                    {/if}
+                    {#if fin_cost_mtd[0].ops_mtd > 15}
+                      <div class="acc-alert-item">
+                        <strong>⚙️ Operasional di atas target ({fin_cost_mtd[0].ops_mtd}% vs maks 15%):</strong> Biasanya lebih lambat berubah, jadi periksa beban fixed cost, promosi yang tidak efisien, atau hari-hari revenue lemah yang memperbesar rasio biaya.
+                      </div>
+                    {/if}
+                    {#if fin_cost_mtd[0].bahan_mtd <= 32 && fin_cost_mtd[0].sdm_mtd <= 22 && fin_cost_mtd[0].ops_mtd <= 15}
+                      <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                        <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target. Fokus terbaik sekarang adalah menjaga disiplin diskon, menjaga pace transaksi, dan memastikan penutupan bulan tidak rusak oleh beberapa hari buruk di akhir periode.
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
-      </div>
-    </details>
+      </details>
+    </div>
 
   <!-- ══════════════════════════════════════════
        90D VIEW
@@ -1564,159 +1619,173 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       </div>
     </div>
 
-    <div class="signal-grid">
-      <div class="signal-card {fin_kpi[0].margin_90d >= 15 ? 'safe' : fin_kpi[0].margin_90d >= 10 ? 'warn' : 'critical'}">
-        <div class="signal-label">
-          {fin_kpi[0].margin_90d >= 15 ? '✅' : fin_kpi[0].margin_90d >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
-        </div>
-        <div class="signal-title">
-          {#if fin_kpi[0].margin_90d >= 15 && fin_kpi[0].delta_margin_90d >= 0}
-            Margin sehat dan tidak menunjukkan erosi struktural.
-          {:else if fin_kpi[0].margin_90d >= 15}
-            Margin masih sehat, tapi kualitas efisiensinya mulai melunak.
-          {:else}
-            Masalahnya bukan lagi hari buruk, tapi pola 3 bulan.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_kpi[0].margin_90d >= 15 && fin_kpi[0].delta_margin_90d >= 0}
-            Ini pertanda bisnis tidak hanya menjual lebih banyak, tetapi juga masih menyisakan laba yang sehat setelah menutup seluruh biaya utama.
-          {:else if fin_kpi[0].margin_90d >= 15}
-            Revenue masih kuat, namun margin belum naik seiring volume. Artinya ada biaya yang tumbuh lebih cepat daripada omset.
-          {:else}
-            Horizon 90 hari memberi bukti yang lebih tebal. Perlu pembenahan model biaya, bukan hanya reaksi mingguan.
-          {/if}
-        </div>
+    <!-- Outer Diagnostics Container -->
+    <div class="diagnostics-stack">
+      <div class="diagnostics-header">
+        <div class="diagnostics-eyebrow">🔬 Operasional & Diagnostik</div>
+        <h2 class="diagnostics-title">Bedah performa & detail biaya</h2>
+        <p class="diagnostics-copy">Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin.</p>
       </div>
-      <div class="signal-card {fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
-        <div class="signal-label">
-          {fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
-        </div>
-        <div class="signal-title">
-          {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
-            Tidak ada komponen yang konsisten melewati target.
-          {:else}
-            {fin_operational_overview[0].fokus_90d} paling banyak menekan margin 90 hari.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
-            Risiko utama ada di sustainability: apakah revenue growth ke depan masih cukup untuk menjaga margin, terutama saat masuk periode musiman yang lebih lemah.
-          {:else}
-            Karena pressure ini bertahan hingga 3 bulan, ada kemungkinan penyebabnya bersifat sistemik: supplier, pricing, staffing mix, atau beban operasional tetap yang terlalu besar.
-          {/if}
-        </div>
-      </div>
-    </div>
 
-    <div class="section-card">
-      <div class="section-head">
-        <div>
-          <div class="section-eyebrow">💸 Breakdown Biaya</div>
-          <h3 class="section-title">Biaya 90 hari: mana yang paling menggerus margin?</h3>
-          <p class="section-copy">Gunakan view ini untuk membaca masalah yang sudah cukup berulang untuk dianggap struktural.</p>
-        </div>
-      </div>
-      <div class="cost-grid">
-        <div class="cost-card">
-          <div class="cost-label">🥩 Biaya Bahan</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].bahan_90d > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].bahan_90d}%</div>
-          <div class="cost-target">🎯 Target normal maks 32%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].bahan_90d / 40 * 100, 100)}%; background:{fin_cost_pct[0].bahan_90d > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-          <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_bahan_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_90d}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">👥 Biaya SDM</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].sdm_90d > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_pct[0].sdm_90d}%</div>
-          <div class="cost-target">🎯 Target normal maks 22%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].sdm_90d / 30 * 100, 100)}%; background:{fin_cost_pct[0].sdm_90d > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-          <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_sdm_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_90d}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">⚙️ Biaya Operasional</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].ops_90d > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].ops_90d}%</div>
-          <div class="cost-target">🎯 Target normal maks 15%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].ops_90d / 25 * 100, 100)}%; background:{fin_cost_pct[0].ops_90d > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-          <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_ops_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_90d}pp.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-head tight">
-        <div>
-          <div class="section-eyebrow">📈 Tren Margin</div>
-          <h3 class="section-title">Tren margin harian 90 hari</h3>
-          <p class="section-copy">Semakin sering garis margin menyentuh area di bawah 15%, semakin besar kemungkinan tekanan biaya bukan sekadar kejadian sesaat.</p>
-        </div>
-      </div>
-      <LineChart
-        data={fin_margin_daily_90d}
-        x="metric_date"
-        y="margin_pct"
-        title="Net Margin Harian 90 Hari (%)"
-        yFmt="0.0\%"
-        xAxisTitle="Tanggal"
-        yAxisTitle="Net Margin (%)"
-      >
-        <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
-        <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
-      </LineChart>
-    </div>
-
-    <details>
-      <summary>💡 Analisis & Langkah Konkret (90 Hari)</summary>
-      <div class="acc-body">
-        <div class="acc-grid">
-          <div>
-            <div class="acc-title-sub">📊 Konteks Analisis</div>
-            <div class="acc-text-block">
-              View 90 hari berguna saat kamu ingin memisahkan noise dari pola. Kalau margin sehat di 30 hari tapi melemah di 90 hari, itu biasanya tanda revenue baru saja membaik namun pondasi biayanya belum benar-benar pulih.
+      <details class="acc-strategic" open>
+        <summary>📊 Detail Analisis Operasional & Tren</summary>
+        <div class="acc-body" style="padding: 20px 16px 16px 16px; display: flex; flex-direction: column; gap: 24px;">
+          <div class="signal-grid">
+            <div class="signal-card {fin_kpi[0].margin_90d >= 15 ? 'safe' : fin_kpi[0].margin_90d >= 10 ? 'warn' : 'critical'}">
+              <div class="signal-label">
+                {fin_kpi[0].margin_90d >= 15 ? '✅' : fin_kpi[0].margin_90d >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
+              </div>
+              <div class="signal-title">
+                {#if fin_kpi[0].margin_90d >= 15 && fin_kpi[0].delta_margin_90d >= 0}
+                  Margin sehat dan tidak menunjukkan erosi struktural.
+                {:else if fin_kpi[0].margin_90d >= 15}
+                  Margin masih sehat, tapi kualitas efisiensinya mulai melunak.
+                {:else}
+                  Masalahnya bukan lagi hari buruk, tapi pola 3 bulan.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_kpi[0].margin_90d >= 15 && fin_kpi[0].delta_margin_90d >= 0}
+                  Ini pertanda bisnis tidak hanya menjual lebih banyak, tetapi juga masih menyisakan laba yang sehat setelah menutup seluruh biaya utama.
+                {:else if fin_kpi[0].margin_90d >= 15}
+                  Revenue masih kuat, namun margin belum naik seiring volume. Artinya ada biaya yang tumbuh lebih cepat daripada omset.
+                {:else}
+                  Horizon 90 hari memberi bukti yang lebih tebal. Perlu pembenahan model biaya, bukan hanya reaksi mingguan.
+                {/if}
+              </div>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
-              Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+            <div class="signal-card {fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
+              <div class="signal-label">
+                {fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
+              </div>
+              <div class="signal-title">
+                {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
+                  Tidak ada komponen yang konsisten melewati target.
+                {:else}
+                  {fin_operational_overview[0].fokus_90d} paling banyak menekan margin 90 hari.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
+                  Risiko utama ada di sustainability: apakah revenue growth ke depan masih cukup untuk menjaga margin, terutama saat masuk periode musiman yang lebih lemah.
+                {:else}
+                  Karena pressure ini bertahan hingga 3 bulan, ada kemungkinan penyebabnya bersifat sistemik: supplier, pricing, staffing mix, atau beban operasional tetap yang terlalu besar.
+                {/if}
+              </div>
             </div>
           </div>
-          <div>
-            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
-            <div class="acc-alert-list">
-              {#if fin_cost_pct[0].bahan_90d > 32}
-                <div class="acc-alert-item">
-                  <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_90d}% vs maks 32%):</strong> Analisis vendor supplier utama, cari kontrak jangka panjang untuk item volume tinggi, dan batasi waste bahan baku.
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <div class="section-eyebrow">💸 Breakdown Biaya</div>
+                <h3 class="section-title">Biaya 90 hari: mana yang paling menggerus margin?</h3>
+                <p class="section-copy">Gunakan view ini untuk membaca masalah yang sudah cukup berulang untuk dianggap struktural.</p>
+              </div>
+            </div>
+            <div class="cost-grid">
+              <div class="cost-card">
+                <div class="cost-label">🥩 Biaya Bahan</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].bahan_90d > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].bahan_90d}%</div>
+                <div class="cost-target">🎯 Target normal maks 32%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].bahan_90d / 40 * 100, 100)}%; background:{fin_cost_pct[0].bahan_90d > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].sdm_90d > 22}
-                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                  <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_90d}% vs maks 22%):</strong> Tinjau produktivitas shift bulanan, pastikan rasio jam lembur dalam kendali, dan sesuaikan kapasitas tim dengan tren penjualan.
+                <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
+                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_bahan_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_90d}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">👥 Biaya SDM</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].sdm_90d > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_pct[0].sdm_90d}%</div>
+                <div class="cost-target">🎯 Target normal maks 22%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].sdm_90d / 30 * 100, 100)}%; background:{fin_cost_pct[0].sdm_90d > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].ops_90d > 15}
-                <div class="acc-alert-item">
-                  <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_90d}% vs maks 15%):</strong> Evaluasi biaya sewa utilitas rutin, optimalkan pengeluaran promosi, dan pastikan biaya pemeliharaan berkala berjalan efisien.
+                <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
+                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_sdm_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_90d}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">⚙️ Biaya Operasional</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].ops_90d > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].ops_90d}%</div>
+                <div class="cost-target">🎯 Target normal maks 15%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].ops_90d / 25 * 100, 100)}%; background:{fin_cost_pct[0].ops_90d > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].bahan_90d <= 32 && fin_cost_pct[0].sdm_90d <= 22 && fin_cost_pct[0].ops_90d <= 15}
-                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
-                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target selama 90 hari terakhir.
-                </div>
-              {/if}
+                <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
+                <div class="cost-note">Perubahan vs 90 hari sebelumnya: {fin_cost_pct[0].delta_ops_90d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_90d}pp.</div>
+              </div>
             </div>
           </div>
+
+          <div class="section-card">
+            <div class="section-head tight">
+              <div>
+                <div class="section-eyebrow">📈 Tren Margin</div>
+                <h3 class="section-title">Tren margin harian 90 hari</h3>
+                <p class="section-copy">Semakin sering garis margin menyentuh area di bawah 15%, semakin besar kemungkinan tekanan biaya bukan sekadar kejadian sesaat.</p>
+              </div>
+            </div>
+            <LineChart
+              data={fin_margin_daily_90d}
+              x="metric_date"
+              y="margin_pct"
+              title="Net Margin Harian 90 Hari (%)"
+              yFmt="0.0\%"
+              xAxisTitle="Tanggal"
+              yAxisTitle="Net Margin (%)"
+            >
+              <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
+              <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
+            </LineChart>
+          </div>
+
+          <details>
+            <summary>💡 Analisis & Langkah Konkret (90 Hari)</summary>
+            <div class="acc-body">
+              <div class="acc-grid">
+                <div>
+                  <div class="acc-title-sub">📊 Konteks Analisis</div>
+                  <div class="acc-text-block">
+                    View 90 hari berguna saat kamu ingin memisahkan noise dari pola. Kalau margin sehat di 30 hari tapi melemah di 90 hari, itu biasanya tanda revenue baru saja membaik namun pondasi biayanya belum benar-benar pulih.
+                  </div>
+                  <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+                  </div>
+                </div>
+                <div>
+                  <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+                  <div class="acc-alert-list">
+                    {#if fin_cost_pct[0].bahan_90d > 32}
+                      <div class="acc-alert-item">
+                        <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_90d}% vs maks 32%):</strong> Analisis vendor supplier utama, cari kontrak jangka panjang untuk item volume tinggi, dan batasi waste bahan baku.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].sdm_90d > 22}
+                      <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                        <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_90d}% vs maks 22%):</strong> Tinjau produktivitas shift bulanan, pastikan rasio jam lembur dalam kendali, dan sesuaikan kapasitas tim dengan tren penjualan.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].ops_90d > 15}
+                      <div class="acc-alert-item">
+                        <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_90d}% vs maks 15%):</strong> Evaluasi biaya sewa utilitas rutin, optimalkan pengeluaran promosi, and pastikan biaya pemeliharaan berkala berjalan efisien.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].bahan_90d <= 32 && fin_cost_pct[0].sdm_90d <= 22 && fin_cost_pct[0].ops_90d <= 15}
+                      <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                        <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target selama 90 hari terakhir.
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
-      </div>
-    </details>
+      </details>
+    </div>
 
   <!-- ══════════════════════════════════════════
        30D VIEW (default)
@@ -1811,163 +1880,173 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
       </div>
     </div>
 
-    <div class="signal-grid">
-      <div class="signal-card {fin_kpi[0].margin_30d >= 15 ? 'safe' : fin_kpi[0].margin_30d >= 10 ? 'warn' : 'critical'}">
-        <div class="signal-label">
-          {fin_kpi[0].margin_30d >= 15 ? '✅' : fin_kpi[0].margin_30d >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
-        </div>
-        <div class="signal-title">
-          {#if fin_kpi[0].margin_30d >= 15 && fin_kpi[0].delta_margin_30d >= 0}
-            Basis operasional 30 hari masih sehat dan membaik.
-          {:else if fin_kpi[0].margin_30d >= 15}
-            Margin masih sehat, tetapi kualitas efisiensi belum menguat.
-          {:else if fin_kpi[0].margin_30d >= 10}
-            Revenue masih cukup menjaga bisnis tetap keluar dari zona kritis.
-          {:else}
-            Sinyal sehat utama hanya tersisa di volume, bukan efisiensi.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_kpi[0].margin_30d >= 15 && fin_kpi[0].delta_margin_30d >= 0}
-            Ini kondisi yang paling enak untuk owner: bukan cuma hasilnya sehat, tapi arah perbaikannya juga benar. Tugas berikutnya menjaga disiplin biaya supaya tidak balik turun.
-          {:else if fin_kpi[0].margin_30d >= 15}
-            Bisnis masih nyaman secara hasil, tetapi revenue growth belum otomatis diikuti struktur biaya yang lebih efisien.
-          {:else if fin_kpi[0].margin_30d >= 10}
-            Masih ada ruang untuk pemulihan, tapi pressure point harus segera dibereskan agar margin tidak menembus bawah 10%.
-          {:else}
-            Ketika 30 hari sudah kritis, masalahnya bukan noise harian. Ini sudah cukup untuk memicu evaluasi menyeluruh.
-          {/if}
-        </div>
+    <!-- Outer Diagnostics Container -->
+    <div class="diagnostics-stack">
+      <div class="diagnostics-header">
+        <div class="diagnostics-eyebrow">🔬 Operasional & Diagnostik</div>
+        <h2 class="diagnostics-title">Bedah performa & detail biaya</h2>
+        <p class="diagnostics-copy">Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin.</p>
       </div>
-      <div class="signal-card {fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
-        <div class="signal-label">
-          {fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
-        </div>
-        <div class="signal-title">
-          {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
-            Belum ada komponen biaya yang benar-benar melampaui target.
-          {:else}
-            {fin_operational_overview[0].fokus_30d} jadi sumber tekanan paling jelas.
-          {/if}
-        </div>
-        <div class="signal-copy">
-          {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
-            Ini berarti tekanan margin lebih mungkin datang dari campuran penjualan, diskon, atau kualitas transaksi. Struktur biaya belum memberi alarm merah.
-          {:else}
-            Selisih sekitar {fin_operational_overview[0].fokus_gap_30d}pp di atas batas normal sudah cukup untuk menjelaskan kenapa margin tidak naik setajam yang diharapkan.
-          {/if}
-        </div>
-      </div>
-    </div>
 
-    <div class="section-card">
-      <div class="section-head">
-        <div>
-          <div class="section-eyebrow">💸 Breakdown Biaya</div>
-          <h3 class="section-title">Dari setiap Rp100 omzet, berapa yang habis di tiap pos?</h3>
-          <p class="section-copy">Ini inti halaman keuangan: cari komponen mana yang paling merusak efisiensi, lalu tindak di situ dulu.</p>
-        </div>
-      </div>
-      <div class="cost-grid">
-        <div class="cost-card">
-          <div class="cost-label">🥩 Biaya Bahan</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].bahan_30d > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].bahan_30d}%</div>
-          <div class="cost-target">🎯 Target normal maks 32%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].bahan_30d / 40 * 100, 100)}%; background:{fin_cost_pct[0].bahan_30d > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
-          <div class="cost-note">Perubahan vs periode pembanding: {fin_cost_pct[0].delta_bahan_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_30d}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">👥 Biaya SDM</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].sdm_30d > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_pct[0].sdm_30d}%</div>
-          <div class="cost-target">🎯 Target normal maks 22%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].sdm_30d / 30 * 100, 100)}%; background:{fin_cost_pct[0].sdm_30d > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
-          <div class="cost-note">Perubahan vs periode pembanding: {fin_cost_pct[0].delta_sdm_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_30d}pp.</div>
-        </div>
-        <div class="cost-card">
-          <div class="cost-label">⚙️ Biaya Operasional</div>
-          <div class="cost-value" style="color:{fin_cost_pct[0].ops_30d > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].ops_30d}%</div>
-          <div class="cost-target">🎯 Target normal maks 15%</div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].ops_30d / 25 * 100, 100)}%; background:{fin_cost_pct[0].ops_30d > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-            <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
-          </div>
-          <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
-          <div class="cost-note">Perubahan vs periode pembanding: {fin_cost_pct[0].delta_ops_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_30d}pp.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-head tight">
-        <div>
-          <div class="section-eyebrow">📈 Tren Margin</div>
-          <h3 class="section-title">Tren margin 30 hari: stabil sehat atau mulai retak?</h3>
-          <p class="section-copy">Bila garis margin sering turun ke bawah 15%, biasanya satu komponen biaya sudah lebih cepat naik daripada kemampuan revenue menutupinya.</p>
-        </div>
-      </div>
-      <LineChart
-        data={fin_margin_daily_30d}
-        x="metric_date"
-        y="margin_pct"
-        title="Net Margin Harian 30 Hari (%)"
-        yFmt="0.0\%"
-        xAxisTitle="Tanggal"
-        yAxisTitle="Net Margin (%)"
-      >
-        <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
-        <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
-      </LineChart>
-    </div>
-
-    <details>
-      <summary>💡 Analisis & Langkah Konkret (30 Hari)</summary>
-      <div class="acc-body">
-        <div class="acc-grid">
-          <div>
-            <div class="acc-title-sub">📊 Konteks Analisis</div>
-            <div class="acc-text-block">
-              Tiga puluh hari adalah sweet spot untuk owner. Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
+      <details class="acc-strategic" open>
+        <summary>📊 Detail Analisis Operasional & Tren</summary>
+        <div class="acc-body" style="padding: 20px 16px 16px 16px; display: flex; flex-direction: column; gap: 24px;">
+          <div class="signal-grid">
+            <div class="signal-card {fin_kpi[0].margin_30d >= 15 ? 'safe' : fin_kpi[0].margin_30d >= 10 ? 'warn' : 'critical'}">
+              <div class="signal-label">
+                {fin_kpi[0].margin_30d >= 15 ? '✅' : fin_kpi[0].margin_30d >= 10 ? '⚠️' : '🚨'} Apa Yang Sehat
+              </div>
+              <div class="signal-title">
+                {#if fin_kpi[0].margin_30d >= 15}
+                  Margin operasional 30 hari terakhir dalam kondisi aman.
+                {:else if fin_kpi[0].margin_30d >= 10}
+                  Revenue masih cukup menahan margin agar tidak jatuh lebih dalam.
+                {:else}
+                  Tekanan margin sudah sangat tinggi, perlu intervensi biaya segera.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_kpi[0].margin_30d >= 15}
+                  Artinya bisnis masih menyisakan ruang laba yang sehat. Fokusnya bukan cari pertumbuhan baru dulu, tapi jaga supaya komponen biaya tidak merayap naik.
+                {:else if fin_operational_overview[0].fokus_30d !== 'Semua biaya dalam batas'}
+                  Walau masih tertekan, bulan ini belum sepenuhnya lepas kendali. Masih ada waktu untuk menekan komponen yang paling boros sebelum tutup buku.
+                {:else}
+                  Revenue belum runtuh, tapi struktur biaya sekarang terlalu berat untuk level penjualan saat ini.
+                {/if}
+              </div>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
-              Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+            <div class="signal-card {fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas' ? 'neutral' : 'warn'}">
+              <div class="signal-label">
+                {fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas' ? '💡' : '🎯'} Yang Perlu Perhatian
+              </div>
+              <div class="signal-title">
+                {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
+                  Belum ada komponen biaya utama yang melewati target.
+                {:else}
+                  {fin_operational_overview[0].fokus_30d} jadi pressure point utama.
+                {/if}
+              </div>
+              <div class="signal-copy">
+                {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
+                  Risiko terbesar justru ada di konsistensi pace. Pastikan sisa hari bulan ini tidak diisi diskon, waste, atau lembur berlebih yang menggerus margin.
+                {:else}
+                  Selisih sekitar {fin_operational_overview[0].fokus_gap_30d}pp di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
+                {/if}
+              </div>
             </div>
           </div>
-          <div>
-            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
-            <div class="acc-alert-list">
-              {#if fin_cost_pct[0].bahan_30d > 32}
-                <div class="acc-alert-item">
-                  <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_30d}% vs maks 32%):</strong> Prioritas pertama: cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <div class="section-eyebrow">💸 Breakdown Biaya</div>
+                <h3 class="section-title">Bedah komponen biaya 30 hari terakhir</h3>
+                <p class="section-copy">Dari setiap Rp100 gross revenue 30 hari terakhir, berapa yang habis untuk bahan, SDM, dan operasional.</p>
+              </div>
+            </div>
+            <div class="cost-grid">
+              <div class="cost-card">
+                <div class="cost-label">🥩 Biaya Bahan</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].bahan_30d > 32 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].bahan_30d}%</div>
+                <div class="cost-target">🎯 Target normal maks 32%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].bahan_30d / 40 * 100, 100)}%; background:{fin_cost_pct[0].bahan_30d > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{32 / 40 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].sdm_30d > 22}
-                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                  <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_30d}% vs maks 22%):</strong> Lihat apakah jam kerja dan level staffing sebanding dengan kepadatan transaksi di minggu-minggu lemah.
+                <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
+                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_bahan_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_bahan_30d}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">👥 Biaya SDM</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].sdm_30d > 22 ? '#f59e0b' : '#16a34a'};">{fin_cost_pct[0].sdm_30d}%</div>
+                <div class="cost-target">🎯 Target normal maks 22%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].sdm_30d / 30 * 100, 100)}%; background:{fin_cost_pct[0].sdm_30d > 22 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{22 / 30 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].ops_30d > 15}
-                <div class="acc-alert-item">
-                  <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_30d}% vs maks 15%):</strong> Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.
+                <div class="progress-scale"><span>0%</span><span>22%</span><span>30%</span></div>
+                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_sdm_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_sdm_30d}pp.</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-label">⚙️ Biaya Operasional</div>
+                <div class="cost-value" style="color:{fin_cost_pct[0].ops_30d > 15 ? '#dc2626' : '#16a34a'};">{fin_cost_pct[0].ops_30d}%</div>
+                <div class="cost-target">🎯 Target normal maks 15%</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:{Math.min(fin_cost_pct[0].ops_30d / 25 * 100, 100)}%; background:{fin_cost_pct[0].ops_30d > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
+                  <div class="progress-target" style="left:{15 / 25 * 100}%;"></div>
                 </div>
-              {/if}
-              {#if fin_cost_pct[0].bahan_30d <= 32 && fin_cost_pct[0].sdm_30d <= 22 && fin_cost_pct[0].ops_30d <= 15}
-                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
-                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target.
-                </div>
-              {/if}
+                <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
+                <div class="cost-note">Perubahan vs 30 hari sebelumnya: {fin_cost_pct[0].delta_ops_30d > 0 ? '+' : ''}{fin_cost_pct[0].delta_ops_30d}pp.</div>
+              </div>
             </div>
           </div>
+
+          <div class="section-card">
+            <div class="section-head tight">
+              <div>
+                <div class="section-eyebrow">📈 Tren Margin</div>
+                <h3 class="section-title">Apakah bulan ini membaik atau hanya bertahan?</h3>
+                <p class="section-copy">Chart ini dipakai untuk melihat apakah margin harian konsisten, atau sehat hanya karena beberapa hari yang sangat kuat.</p>
+              </div>
+            </div>
+            <LineChart
+              data={fin_margin_daily_30d}
+              x="metric_date"
+              y="margin_pct"
+              title="Net Margin Harian 30 Hari (%)"
+              yFmt="0.0\%"
+              xAxisTitle="Tanggal"
+              yAxisTitle="Net Margin (%)"
+            >
+              <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
+              <ReferenceLine y={10} label="Kritis 10%" lineType="dashed" color="red" />
+            </LineChart>
+          </div>
+
+          <details>
+            <summary>💡 Analisis & Langkah Konkret (30 Hari Terakhir)</summary>
+            <div class="acc-body">
+              <div class="acc-grid">
+                <div>
+                  <div class="acc-title-sub">📊 Konteks Analisis</div>
+                  <div class="acc-text-block">
+                    Tiga puluh hari adalah sweet spot untuk owner. Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
+                  </div>
+                  <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+                  </div>
+                </div>
+                <div>
+                  <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+                  <div class="acc-alert-list">
+                    {#if fin_cost_pct[0].bahan_30d > 32}
+                      <div class="acc-alert-item">
+                        <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_30d}% vs maks 32%):</strong> Prioritas pertama: cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].sdm_30d > 22}
+                      <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                        <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_30d}% vs maks 22%):</strong> Cek overtime, keselarasan shift schedule dengan volume transaksi harian.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].ops_30d > 15}
+                      <div class="acc-alert-item">
+                        <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_30d}% vs maks 15%):</strong> Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.
+                      </div>
+                    {/if}
+                    {#if fin_cost_pct[0].bahan_30d <= 32 && fin_cost_pct[0].sdm_30d <= 22 && fin_cost_pct[0].ops_30d <= 15}
+                      <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                        <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target.
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
-      </div>
-    </details>
+      </details>
+    </div>
   {/if}
 
   <!-- ══════════════════════════════════════════
