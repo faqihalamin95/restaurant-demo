@@ -1902,12 +1902,29 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Drop signifikan (&lt;-15%)</span>
 </div>
 
-<DataTable data={fin_sdow_branch_yesterday}>
-    <Column id="branch_name"     title="Cabang"/>
-    <Column id="gross_yesterday" title="Revenue Kemarin (Rp)" fmt="#,##0"/>
-    <Column id="sdow_avg"        title="Rata-rata Hari Serupa (Rp)" fmt="#,##0"/>
-    <Column id="pct_change_sdow" title="Selisih (%)" fmt="+0.0;-0.0" contentType="delta"/>
-</DataTable>
+<table class="markdown">
+    <thead>
+        <tr>
+            <th class="markdown">Cabang</th>
+            <th class="markdown">Revenue Kemarin (Rp)</th>
+            <th class="markdown">Rata-rata Hari Serupa (Rp)</th>
+            <th class="markdown">Selisih (%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each fin_sdow_branch_yesterday || [] as row}
+        <tr>
+            <td class="markdown" style="font-weight: 500;">{row.branch_name || ''}</td>
+            <td class="markdown">{row.gross_yesterday !== undefined && row.gross_yesterday !== null ? row.gross_yesterday.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown">{row.sdow_avg !== undefined && row.sdow_avg !== null ? row.sdow_avg.toLocaleString('id-ID') : '0'}</td>
+            <td class="markdown" style="font-weight: 600; color: {row.pct_change_sdow >= -5 ? '#16a34a' : row.pct_change_sdow >= -15 ? '#ca8a04' : '#dc2626'}">
+                {row.pct_change_sdow !== undefined && row.pct_change_sdow !== null ? (row.pct_change_sdow > 0 ? '+' : '') + row.pct_change_sdow + '% ' + (row.pct_change_sdow >= 0 ? '▲' : '▼') : '0.0%'}
+            </td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
+
 
 </div>
 </details>
