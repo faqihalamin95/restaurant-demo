@@ -1360,11 +1360,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
         <div class="kpi-value">{fin_kpi_mtd[0].margin_mtd}%</div>
         <div class="kpi-meta">
           {#if (fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu) > 0}
-            <span class="trend-indicator up">▲ +{(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}pp</span>
+            <span class="trend-indicator up">▲ +{(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}%</span>
           {:else if (fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu) < 0}
-            <span class="trend-indicator down">▼ {Math.abs(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}pp</span>
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi_mtd[0].margin_mtd - fin_kpi_mtd[0].margin_bulan_lalu).toFixed(1)}%</span>
           {:else}
-            <span class="trend-indicator neutral">0.0pp</span>
+            <span class="trend-indicator neutral">0.0%</span>
           {/if}
         </div>
         <div class="kpi-prev">vs bulan lalu penuh: {fin_kpi_mtd[0].margin_bulan_lalu}%</div>
@@ -1435,7 +1435,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
                   Risiko terbesar justru ada di konsistensi pace. Pastikan sisa hari bulan ini tidak diisi diskon, waste, atau lembur berlebih yang menggerus margin.
                 {:else}
-                  Selisih sekitar {fin_operational_overview[0].fokus_gap_mtd}pp di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
+                  Selisih sekitar {fin_operational_overview[0].fokus_gap_mtd}% di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
                 {/if}
               </div>
             </div>
@@ -1462,11 +1462,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_mtd[0].delta_bahan > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_bahan}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_bahan}%</span>
                     {:else if fin_cost_mtd[0].delta_bahan < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_bahan}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_bahan}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
@@ -1484,11 +1484,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_mtd[0].delta_sdm > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_sdm}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_sdm}%</span>
                     {:else if fin_cost_mtd[0].delta_sdm < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_sdm}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_sdm}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
@@ -1506,11 +1506,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_mtd[0].delta_ops > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_ops}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_mtd[0].delta_ops}%</span>
                     {:else if fin_cost_mtd[0].delta_ops < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_ops}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_mtd[0].delta_ops}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs {fin_nama_bulan[0].nama_bulan_lalu}</div>
@@ -1654,11 +1654,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
         <div class="kpi-value">{fin_kpi[0].margin_90d}%</div>
         <div class="kpi-meta">
           {#if fin_kpi[0].delta_margin_90d > 0}
-            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_90d}pp</span>
+            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_90d}%</span>
           {:else if fin_kpi[0].delta_margin_90d < 0}
-            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_90d)}pp</span>
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_90d)}%</span>
           {:else}
-            <span class="trend-indicator neutral">0.0pp</span>
+            <span class="trend-indicator neutral">0.0%</span>
           {/if}
         </div>
         <div class="kpi-prev">vs 90 hari sebelumnya: {fin_kpi[0].margin_prev90d}%</div>
@@ -1756,11 +1756,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_bahan_90d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_90d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_90d}%</span>
                     {:else if fin_cost_pct[0].delta_bahan_90d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_90d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_90d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
@@ -1778,11 +1778,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_sdm_90d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_90d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_90d}%</span>
                     {:else if fin_cost_pct[0].delta_sdm_90d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_90d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_90d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
@@ -1800,11 +1800,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_ops_90d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_90d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_90d}%</span>
                     {:else if fin_cost_pct[0].delta_ops_90d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_90d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_90d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 90 hari sebelumnya</div>
@@ -1948,11 +1948,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
         <div class="kpi-value">{fin_kpi[0].margin_30d}%</div>
         <div class="kpi-meta">
           {#if fin_kpi[0].delta_margin_30d > 0}
-            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_30d}pp</span>
+            <span class="trend-indicator up">▲ +{fin_kpi[0].delta_margin_30d}%</span>
           {:else if fin_kpi[0].delta_margin_30d < 0}
-            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_30d)}pp</span>
+            <span class="trend-indicator down">▼ {Math.abs(fin_kpi[0].delta_margin_30d)}%</span>
           {:else}
-            <span class="trend-indicator neutral">0.0pp</span>
+            <span class="trend-indicator neutral">0.0%</span>
           {/if}
         </div>
         <div class="kpi-prev">vs 30 hari sebelumnya: {fin_kpi[0].margin_prev30d}%</div>
@@ -2023,7 +2023,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
                   Risiko terbesar justru ada di konsistensi pace. Pastikan sisa hari bulan ini tidak diisi diskon, waste, atau lembur berlebih yang menggerus margin.
                 {:else}
-                  Selisih sekitar {fin_operational_overview[0].fokus_gap_30d}pp di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
+                  Selisih sekitar {fin_operational_overview[0].fokus_gap_30d}% di atas ambang normal sudah cukup untuk mengubah hasil akhir bulan kalau dibiarkan berlanjut beberapa hari lagi.
                 {/if}
               </div>
             </div>
@@ -2050,11 +2050,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_bahan_30d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_30d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_bahan_30d}%</span>
                     {:else if fin_cost_pct[0].delta_bahan_30d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_30d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_bahan_30d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
@@ -2072,11 +2072,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_sdm_30d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_30d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_sdm_30d}%</span>
                     {:else if fin_cost_pct[0].delta_sdm_30d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_30d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_sdm_30d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
@@ -2094,11 +2094,11 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="cost-note">
                   <div>
                     {#if fin_cost_pct[0].delta_ops_30d > 0}
-                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_30d}pp</span>
+                      <span class="trend-indicator down">▲ +{fin_cost_pct[0].delta_ops_30d}%</span>
                     {:else if fin_cost_pct[0].delta_ops_30d < 0}
-                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_30d}pp</span>
+                      <span class="trend-indicator up">▼ {fin_cost_pct[0].delta_ops_30d}%</span>
                     {:else}
-                      <span class="trend-indicator neutral">0.0pp</span>
+                      <span class="trend-indicator neutral">0.0%</span>
                     {/if}
                   </div>
                   <div style="font-size: 0.78rem; color: var(--color-text-secondary);">vs 30 hari sebelumnya</div>
@@ -2198,7 +2198,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
             <div class="signal-title">{q.quarter_label} mencatat margin {q.margin_pct}%.</div>
             <div class="signal-copy">
               {#if q.delta_margin_q !== null}
-                Margin bergerak {q.delta_margin_q > 0 ? 'naik' : 'turun'} {Math.abs(q.delta_margin_q)}pp dibanding quarter sebelumnya.
+                Margin bergerak {q.delta_margin_q > 0 ? 'naik' : 'turun'} {Math.abs(q.delta_margin_q)}% dibanding quarter sebelumnya.
               {/if}
               {#if q.margin_pct >= 15}
                 Ini memberi sinyal bahwa kualitas laba di level kuartal masih sehat.
@@ -2253,7 +2253,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <td class="markdown" style="text-align: right;">{row.net !== undefined && row.net !== null ? row.net.toLocaleString('id-ID') : '0'}</td>
                 <td class="markdown" style="text-align: right; font-weight: 600;">{row.margin_pct !== undefined && row.margin_pct !== null ? row.margin_pct.toFixed(1) + '%' : '0.0%'}</td>
                 <td class="markdown" style="text-align: right; font-weight: 600; color: {row.delta_margin_q > 0 ? '#16a34a' : row.delta_margin_q < 0 ? '#dc2626' : 'var(--color-text-tertiary)'}">
-                  {row.delta_margin_q !== undefined && row.delta_margin_q !== null ? (row.delta_margin_q > 0 ? '+' : '') + row.delta_margin_q.toFixed(1) + 'pp ' + (row.delta_margin_q > 0 ? '▲' : row.delta_margin_q < 0 ? '▼' : '') : '—'}
+                  {row.delta_margin_q !== undefined && row.delta_margin_q !== null ? (row.delta_margin_q > 0 ? '+' : '') + row.delta_margin_q.toFixed(1) + '% ' + (row.delta_margin_q > 0 ? '▲' : row.delta_margin_q < 0 ? '▼' : '') : '—'}
                 </td>
                 <td class="markdown" style="text-align: right;">{row.bahan_pct !== undefined && row.bahan_pct !== null ? row.bahan_pct.toFixed(1) + '%' : '0.0%'}</td>
                 <td class="markdown" style="text-align: right;">{row.sdm_pct !== undefined && row.sdm_pct !== null ? row.sdm_pct.toFixed(1) + '%' : '0.0%'}</td>
@@ -2315,9 +2315,9 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
                 <div class="signal-title">Margin {yr.tahun}: {yr.margin_pct}%.</div>
                 <div class="signal-copy">
                   {#if yr.margin_pct > yr_prev.margin_pct}
-                    Naik {Math.round((yr.margin_pct - yr_prev.margin_pct) * 10) / 10}pp dibanding {yr_prev.tahun}. Ini tanda baik bahwa perbaikan tidak hanya musiman, tetapi mulai terasa di level fundamental.
+                    Naik {Math.round((yr.margin_pct - yr_prev.margin_pct) * 10) / 10}% dibanding {yr_prev.tahun}. Ini tanda baik bahwa perbaikan tidak hanya musiman, tetapi mulai terasa di level fundamental.
                   {:else if yr.margin_pct < yr_prev.margin_pct}
-                    Turun {Math.round((yr_prev.margin_pct - yr.margin_pct) * 10) / 10}pp dibanding {yr_prev.tahun}. Artinya pertumbuhan belum otomatis membuat bisnis lebih efisien.
+                    Turun {Math.round((yr_prev.margin_pct - yr.margin_pct) * 10) / 10}% dibanding {yr_prev.tahun}. Artinya pertumbuhan belum otomatis membuat bisnis lebih efisien.
                   {:else}
                     Margin setara dengan {yr_prev.tahun}. Stabil, tetapi belum menunjukkan pergeseran kualitas laba.
                   {/if}
