@@ -1002,61 +1002,9 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
 
 {#if fin_operational_overview.length > 0}
 <div class="finance-page">
-  <div class="page-intro">
-    Halaman ini meneruskan ringkasan dari beranda: pertama jawab apakah bisnis sehat, lalu tunjukkan komponen biaya mana yang paling menekan margin. Analisis cabang tetap dipisah di halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a> supaya fokus finansial di sini tetap rapat.
-  </div>
 
-  <!-- ── Period strip ── -->
-  <div class="period-strip">
-    <div class="period-pill {fin_operational_overview[0].status_mtd === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_mtd === 'Waspada' ? 'waspada' : 'kritis'}">
-      <div class="period-pill-label">📅 Bulan Ini</div>
-      <div class="period-pill-value">
-        <span class="pill-badge {fin_operational_overview[0].status_mtd === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_mtd === 'Waspada' ? 'waspada' : 'kritis'}">
-          {fin_operational_overview[0].status_mtd === 'Sehat' ? '✅' : fin_operational_overview[0].status_mtd === 'Waspada' ? '⚠️' : '🚨'} {fin_operational_overview[0].status_mtd}
-        </span>
-        {fin_kpi_mtd[0].margin_mtd}%
-      </div>
-      <div class="period-pill-copy">
-        {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
-          🟢 Struktur biaya sementara masih terkendali.
-        {:else}
-          🔴 Tekanan utama: {fin_operational_overview[0].fokus_mtd?.toLowerCase()}.
-        {/if}
-      </div>
-    </div>
-    <div class="period-pill {fin_operational_overview[0].status_30d === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_30d === 'Waspada' ? 'waspada' : 'kritis'}">
-      <div class="period-pill-label">📊 30 Hari</div>
-      <div class="period-pill-value">
-        <span class="pill-badge {fin_operational_overview[0].status_30d === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_30d === 'Waspada' ? 'waspada' : 'kritis'}">
-          {fin_operational_overview[0].status_30d === 'Sehat' ? '✅' : fin_operational_overview[0].status_30d === 'Waspada' ? '⚠️' : '🚨'} {fin_operational_overview[0].status_30d}
-        </span>
-        {fin_kpi[0].margin_30d}%
-      </div>
-      <div class="period-pill-copy">
-        {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
-          🟢 Basis operasional paling stabil saat ini.
-        {:else}
-          🔴 Tekanan utama: {fin_operational_overview[0].fokus_30d?.toLowerCase()}.
-        {/if}
-      </div>
-    </div>
-    <div class="period-pill {fin_operational_overview[0].status_90d === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_90d === 'Waspada' ? 'waspada' : 'kritis'}">
-      <div class="period-pill-label">🔭 90 Hari</div>
-      <div class="period-pill-value">
-        <span class="pill-badge {fin_operational_overview[0].status_90d === 'Sehat' ? 'sehat' : fin_operational_overview[0].status_90d === 'Waspada' ? 'waspada' : 'kritis'}">
-          {fin_operational_overview[0].status_90d === 'Sehat' ? '✅' : fin_operational_overview[0].status_90d === 'Waspada' ? '⚠️' : '🚨'} {fin_operational_overview[0].status_90d}
-        </span>
-        {fin_kpi[0].margin_90d}%
-      </div>
-      <div class="period-pill-copy">
-        {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
-          🟢 Cocok untuk baca tren yang lebih struktural.
-        {:else}
-          🔴 Tekanan utama: {fin_operational_overview[0].fokus_90d?.toLowerCase()}.
-        {/if}
-      </div>
-    </div>
-  </div>
+
+
 
   <!-- ══════════════════════════════════════════
        MTD VIEW
