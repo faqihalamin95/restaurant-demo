@@ -208,6 +208,9 @@ details.acc-strategic .acc-body {
   border: 1.5px solid transparent;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-main-card.status-sehat {
@@ -251,7 +254,7 @@ details.acc-strategic .acc-body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .hero-copy {
