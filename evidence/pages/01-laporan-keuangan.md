@@ -202,6 +202,61 @@ details.acc-strategic .acc-body {
   color: var(--color-text-primary);
 }
 
+.hero-stat-container {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.hero-stat-number {
+  font-size: 3.8rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.hero-stat-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1.5px solid transparent;
+  transform: translateY(-4px);
+}
+
+.hero-stat-status-badge.status-sehat {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.28);
+}
+
+.hero-stat-status-badge.status-waspada {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.hero-stat-status-badge.status-kritis {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.28);
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
 .hero-copy {
   margin: 0;
   font-size: 0.95rem;
@@ -1013,13 +1068,26 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     <div class="hero">
       <div>
         <div class="hero-eyebrow">💰 Laporan Keuangan · Bulan Berjalan</div>
+        
+        <div class="hero-stat-container">
+          <div class="hero-stat-number">{fin_kpi_mtd[0].margin_mtd}%</div>
+          {#if fin_kpi_mtd[0].margin_mtd >= 15}
+            <div class="hero-stat-status-badge status-sehat">Sehat ✅</div>
+          {:else if fin_kpi_mtd[0].margin_mtd >= 10}
+            <div class="hero-stat-status-badge status-waspada">Waspada ⚠️</div>
+          {:else}
+            <div class="hero-stat-status-badge status-kritis">Kritis 🚨</div>
+          {/if}
+        </div>
+
         {#if fin_kpi_mtd[0].margin_mtd >= 15}
-          <h2 class="hero-title">Margin {fin_kpi_mtd[0].margin_mtd}% masih sehat di bulan {fin_nama_bulan[0].nama_bulan}. 🎉</h2>
+          <div class="hero-subtitle">Margin masih sehat di bulan {fin_nama_bulan[0].nama_bulan}. 🎉</div>
         {:else if fin_kpi_mtd[0].margin_mtd >= 10}
-          <h2 class="hero-title">Margin {fin_kpi_mtd[0].margin_mtd}% masuk zona waspada bulan {fin_nama_bulan[0].nama_bulan}. ⚠️</h2>
+          <div class="hero-subtitle">Margin masuk zona waspada bulan {fin_nama_bulan[0].nama_bulan}. ⚠️</div>
         {:else}
-          <h2 class="hero-title">Margin {fin_kpi_mtd[0].margin_mtd}% sudah kritis di bulan {fin_nama_bulan[0].nama_bulan}. 🚨</h2>
+          <div class="hero-subtitle">Margin sudah kritis di bulan {fin_nama_bulan[0].nama_bulan}. 🚨</div>
         {/if}
+
         <div class="hero-copy">
           {#if fin_operational_overview[0].fokus_mtd === 'Semua biaya dalam batas'}
             Sampai hari ke-{fin_kpi_mtd[0].hari_berjalan}, semua komponen biaya masih berada dalam rentang normal. Fokus utamanya menjaga pace revenue dan memastikan margin sehat ini bertahan sampai tutup bulan.
@@ -1212,13 +1280,26 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     <div class="hero">
       <div>
         <div class="hero-eyebrow">🔭 Laporan Keuangan · 90 Hari Terakhir</div>
+
+        <div class="hero-stat-container">
+          <div class="hero-stat-number">{fin_kpi[0].margin_90d}%</div>
+          {#if fin_kpi[0].margin_90d >= 15}
+            <div class="hero-stat-status-badge status-sehat">Sehat ✅</div>
+          {:else if fin_kpi[0].margin_90d >= 10}
+            <div class="hero-stat-status-badge status-waspada">Waspada ⚠️</div>
+          {:else}
+            <div class="hero-stat-status-badge status-kritis">Kritis 🚨</div>
+          {/if}
+        </div>
+
         {#if fin_kpi[0].margin_90d >= 15}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_90d}% masih sehat untuk horizon 3 bulan. ✅</h2>
+          <div class="hero-subtitle">Margin masih sehat untuk horizon 3 bulan. ✅</div>
         {:else if fin_kpi[0].margin_90d >= 10}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_90d}% menunjukkan tekanan struktural ringan. ⚠️</h2>
+          <div class="hero-subtitle">Margin menunjukkan tekanan struktural ringan. ⚠️</div>
         {:else}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_90d}% sudah kritis secara struktural. 🚨</h2>
+          <div class="hero-subtitle">Margin sudah kritis secara struktural. 🚨</div>
         {/if}
+
         <div class="hero-copy">
           {#if fin_operational_overview[0].fokus_90d === 'Semua biaya dalam batas'}
             Dalam 90 hari terakhir, struktur biaya relatif masih terkendali. Yang perlu dibaca sekarang adalah apakah pertumbuhan revenue benar-benar menghasilkan efisiensi, bukan sekadar volume yang lebih besar.
@@ -1390,13 +1471,26 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     <div class="hero">
       <div>
         <div class="hero-eyebrow">📊 Laporan Keuangan · 30 Hari Terakhir</div>
+
+        <div class="hero-stat-container">
+          <div class="hero-stat-number">{fin_kpi[0].margin_30d}%</div>
+          {#if fin_kpi[0].margin_30d >= 15}
+            <div class="hero-stat-status-badge status-sehat">Sehat ✅</div>
+          {:else if fin_kpi[0].margin_30d >= 10}
+            <div class="hero-stat-status-badge status-waspada">Waspada ⚠️</div>
+          {:else}
+            <div class="hero-stat-status-badge status-kritis">Kritis 🚨</div>
+          {/if}
+        </div>
+
         {#if fin_kpi[0].margin_30d >= 15}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_30d}% masih sehat untuk basis operasional utama. ✅</h2>
+          <div class="hero-subtitle">Margin masih sehat untuk basis operasional utama. ✅</div>
         {:else if fin_kpi[0].margin_30d >= 10}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_30d}% sudah masuk zona waspada dalam 30 hari. ⚠️</h2>
+          <div class="hero-subtitle">Margin sudah masuk zona waspada dalam 30 hari. ⚠️</div>
         {:else}
-          <h2 class="hero-title">Margin {fin_kpi[0].margin_30d}% sudah kritis secara operasional. 🚨</h2>
+          <div class="hero-subtitle">Margin sudah kritis secara operasional. 🚨</div>
         {/if}
+
         <div class="hero-copy">
           {#if fin_operational_overview[0].fokus_30d === 'Semua biaya dalam batas'}
             Seluruh komponen biaya masih berada dalam batas normal. Artinya persoalan utama bukan struktur biaya, tetapi menjaga momentum revenue dan kualitas eksekusi agar margin tidak melemah di periode berikutnya.
