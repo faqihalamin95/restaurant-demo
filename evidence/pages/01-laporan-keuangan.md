@@ -1193,8 +1193,8 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
               <div class="progress-fill" style="width:{(fin_kpi_mtd[0].hari_berjalan / fin_kpi_mtd[0].total_hari_bulan * 100).toFixed(1)}%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
             </div>
             <div class="progress-scale">
-              <span>0%</span>
-              <span>Hari {fin_kpi_mtd[0].hari_berjalan}</span>
+              <span>0 hari</span>
+              <span>{fin_kpi_mtd[0].hari_berjalan} hari</span>
               <span>{fin_kpi_mtd[0].total_hari_bulan} hari</span>
             </div>
             <div class="hero-side-note" style="margin-top: 6px;">Proyeksi ini linear, cukup untuk baca arah, bukan angka final.</div>
