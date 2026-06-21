@@ -834,6 +834,24 @@ details.acc-strategic .acc-body {
   max-width: 68ch;
   margin: 0;
 }
+
+.table-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  margin: 14px 0;
+  border-radius: 8px;
+}
+
+.table-scroll-container table {
+  width: 100%;
+  min-width: 760px;
+}
+
+.table-scroll-container th,
+.table-scroll-container td {
+  white-space: nowrap;
+}
 </style>
 
 ```sql fin_dates
@@ -2213,36 +2231,38 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           {/each}
         </div>
 
-        <table class="markdown">
-          <thead>
-            <tr>
-              <th class="markdown">Quarter</th>
-              <th class="markdown" style="text-align: right;">Gross Revenue (Rp)</th>
-              <th class="markdown" style="text-align: right;">Net Revenue (Rp)</th>
-              <th class="markdown" style="text-align: right;">Net Margin (%)</th>
-              <th class="markdown" style="text-align: right;">vs Quarter Lalu</th>
-              <th class="markdown" style="text-align: right;">Bahan (%)</th>
-              <th class="markdown" style="text-align: right;">SDM (%)</th>
-              <th class="markdown" style="text-align: right;">Ops (%)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each fin_quarter_comparison || [] as row}
-            <tr>
-              <td class="markdown" style="font-weight: 500;">{row.quarter_label || ''}</td>
-              <td class="markdown" style="text-align: right;">{row.gross !== undefined && row.gross !== null ? row.gross.toLocaleString('id-ID') : '0'}</td>
-              <td class="markdown" style="text-align: right;">{row.net !== undefined && row.net !== null ? row.net.toLocaleString('id-ID') : '0'}</td>
-              <td class="markdown" style="text-align: right; font-weight: 600;">{row.margin_pct !== undefined && row.margin_pct !== null ? row.margin_pct.toFixed(1) + '%' : '0.0%'}</td>
-              <td class="markdown" style="text-align: right; font-weight: 600; color: {row.delta_margin_q > 0 ? '#16a34a' : row.delta_margin_q < 0 ? '#dc2626' : 'var(--color-text-tertiary)'}">
-                {row.delta_margin_q !== undefined && row.delta_margin_q !== null ? (row.delta_margin_q > 0 ? '+' : '') + row.delta_margin_q.toFixed(1) + 'pp ' + (row.delta_margin_q > 0 ? '▲' : row.delta_margin_q < 0 ? '▼' : '') : '—'}
-              </td>
-              <td class="markdown" style="text-align: right;">{row.bahan_pct !== undefined && row.bahan_pct !== null ? row.bahan_pct.toFixed(1) + '%' : '0.0%'}</td>
-              <td class="markdown" style="text-align: right;">{row.sdm_pct !== undefined && row.sdm_pct !== null ? row.sdm_pct.toFixed(1) + '%' : '0.0%'}</td>
-              <td class="markdown" style="text-align: right;">{row.ops_pct !== undefined && row.ops_pct !== null ? row.ops_pct.toFixed(1) + '%' : '0.0%'}</td>
-            </tr>
-            {/each}
-          </tbody>
-        </table>
+        <div class="table-scroll-container">
+          <table class="markdown">
+            <thead>
+              <tr>
+                <th class="markdown">Quarter</th>
+                <th class="markdown" style="text-align: right;">Gross Revenue (Rp)</th>
+                <th class="markdown" style="text-align: right;">Net Revenue (Rp)</th>
+                <th class="markdown" style="text-align: right;">Net Margin (%)</th>
+                <th class="markdown" style="text-align: right;">vs Quarter Lalu</th>
+                <th class="markdown" style="text-align: right;">Bahan (%)</th>
+                <th class="markdown" style="text-align: right;">SDM (%)</th>
+                <th class="markdown" style="text-align: right;">Ops (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {#each fin_quarter_comparison || [] as row}
+              <tr>
+                <td class="markdown" style="font-weight: 500;">{row.quarter_label || ''}</td>
+                <td class="markdown" style="text-align: right;">{row.gross !== undefined && row.gross !== null ? row.gross.toLocaleString('id-ID') : '0'}</td>
+                <td class="markdown" style="text-align: right;">{row.net !== undefined && row.net !== null ? row.net.toLocaleString('id-ID') : '0'}</td>
+                <td class="markdown" style="text-align: right; font-weight: 600;">{row.margin_pct !== undefined && row.margin_pct !== null ? row.margin_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right; font-weight: 600; color: {row.delta_margin_q > 0 ? '#16a34a' : row.delta_margin_q < 0 ? '#dc2626' : 'var(--color-text-tertiary)'}">
+                  {row.delta_margin_q !== undefined && row.delta_margin_q !== null ? (row.delta_margin_q > 0 ? '+' : '') + row.delta_margin_q.toFixed(1) + 'pp ' + (row.delta_margin_q > 0 ? '▲' : row.delta_margin_q < 0 ? '▼' : '') : '—'}
+                </td>
+                <td class="markdown" style="text-align: right;">{row.bahan_pct !== undefined && row.bahan_pct !== null ? row.bahan_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right;">{row.sdm_pct !== undefined && row.sdm_pct !== null ? row.sdm_pct.toFixed(1) + '%' : '0.0%'}</td>
+                <td class="markdown" style="text-align: right;">{row.ops_pct !== undefined && row.ops_pct !== null ? row.ops_pct.toFixed(1) + '%' : '0.0%'}</td>
+              </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
 
         <div style="margin-top:18px;">
           <LineChart
@@ -2307,7 +2327,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
           {/each}
         {/if}
 
-        <div style="margin-bottom:16px;">
+        <div class="table-scroll-container">
           <table class="markdown">
             <thead>
               <tr>
