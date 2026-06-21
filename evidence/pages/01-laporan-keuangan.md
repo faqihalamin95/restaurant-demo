@@ -729,6 +729,61 @@ details.acc-strategic .acc-body {
     font-size: 1.5rem;
   }
 }
+
+/* ── Combined Accordion Layout ── */
+.acc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.acc-title-sub {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.acc-text-block {
+  background: var(--color-background-primary);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.acc-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acc-alert-item {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 4px solid #dc2626;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.acc-alert-item strong {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+  .acc-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
 </style>
 
 ```sql fin_dates
@@ -1375,27 +1430,44 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     </div>
 
     <details>
-      <summary>💡 Kenapa status bulan ini muncul</summary>
+      <summary>💡 Analisis & Langkah Konkret (Bulan Ini)</summary>
       <div class="acc-body">
-        Net margin bulan berjalan paling berguna sebagai radar cepat. Ia belum seadil 30 hari, tapi cukup tajam untuk mendeteksi pressure lebih awal. Kalau margin masih sehat sementara satu komponen biaya sudah naik, itu sinyal untuk bertindak sebelum masalah menjadi hasil akhir bulan.
-      </div>
-    </details>
-
-    <details>
-      <summary>🔧 Langkah konkret yang layak dicek sekarang</summary>
-      <div class="acc-body">
-        {#if fin_cost_mtd[0].bahan_mtd > 32}
-          <p><strong>🥩 Bahan di atas target.</strong> Cek item yang paling banyak mendorong COGS, pola pembelian besar di awal bulan, dan waste yang tidak tertutup kenaikan revenue.</p>
-        {/if}
-        {#if fin_cost_mtd[0].sdm_mtd > 22}
-          <p><strong>👥 SDM di atas target.</strong> Lihat distribusi shift, lembur, dan apakah revenue harian cukup padat untuk menutup biaya tenaga kerja sekarang.</p>
-        {/if}
-        {#if fin_cost_mtd[0].ops_mtd > 15}
-          <p><strong>⚙️ Operasional di atas target.</strong> Biasanya lebih lambat berubah, jadi periksa beban fixed cost, promosi yang tidak efisien, atau hari-hari revenue lemah yang memperbesar rasio biaya.</p>
-        {/if}
-        {#if fin_cost_mtd[0].bahan_mtd <= 32 && fin_cost_mtd[0].sdm_mtd <= 22 && fin_cost_mtd[0].ops_mtd <= 15}
-          ✅ Tidak ada komponen yang melewati target. Fokus terbaik sekarang adalah menjaga disiplin diskon, menjaga pace transaksi, dan memastikan penutupan bulan tidak rusak oleh beberapa hari buruk di akhir periode.
-        {/if}
+        <div class="acc-grid">
+          <div>
+            <div class="acc-title-sub">📊 Konteks Analisis</div>
+            <div class="acc-text-block">
+              Net margin bulan berjalan paling berguna sebagai radar cepat. Ia belum seadil 30 hari, tapi cukup tajam untuk mendeteksi pressure lebih awal. Kalau margin masih sehat sementara satu komponen biaya sudah naik, itu sinyal untuk bertindak sebelum masalah menjadi hasil akhir bulan.
+            </div>
+            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+              Untuk mendalami performa per lokasi, gunakan menu <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Fokus halaman laporan ini adalah konsolidasi finansial utama.
+            </div>
+          </div>
+          <div>
+            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+            <div class="acc-alert-list">
+              {#if fin_cost_mtd[0].bahan_mtd > 32}
+                <div class="acc-alert-item">
+                  <strong>🥩 Bahan di atas target ({fin_cost_mtd[0].bahan_mtd}% vs maks 32%):</strong> Cek item yang paling banyak mendorong COGS, pola pembelian besar di awal bulan, dan waste yang tidak tertutup kenaikan revenue.
+                </div>
+              {/if}
+              {#if fin_cost_mtd[0].sdm_mtd > 22}
+                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                  <strong>👥 SDM di atas target ({fin_cost_mtd[0].sdm_mtd}% vs maks 22%):</strong> Lihat distribusi shift, lembur, dan apakah revenue harian cukup padat untuk menutup biaya tenaga kerja sekarang.
+                </div>
+              {/if}
+              {#if fin_cost_mtd[0].ops_mtd > 15}
+                <div class="acc-alert-item">
+                  <strong>⚙️ Operasional di atas target ({fin_cost_mtd[0].ops_mtd}% vs maks 15%):</strong> Biasanya lebih lambat berubah, jadi periksa beban fixed cost, promosi yang tidak efisien, atau hari-hari revenue lemah yang memperbesar rasio biaya.
+                </div>
+              {/if}
+              {#if fin_cost_mtd[0].bahan_mtd <= 32 && fin_cost_mtd[0].sdm_mtd <= 22 && fin_cost_mtd[0].ops_mtd <= 15}
+                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target. Fokus terbaik sekarang adalah menjaga disiplin diskon, menjaga pace transaksi, dan memastikan penutupan bulan tidak rusak oleh beberapa hari buruk di akhir periode.
+                </div>
+              {/if}
+            </div>
+          </div>
+        </div>
       </div>
     </details>
 
@@ -1605,9 +1677,44 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     </div>
 
     <details>
-      <summary>💡 Kenapa view 90 hari penting</summary>
+      <summary>💡 Analisis & Langkah Konkret (90 Hari)</summary>
       <div class="acc-body">
-        View 90 hari berguna saat kamu ingin memisahkan noise dari pola. Kalau margin sehat di 30 hari tapi melemah di 90 hari, itu biasanya tanda revenue baru saja membaik namun pondasi biayanya belum benar-benar pulih.
+        <div class="acc-grid">
+          <div>
+            <div class="acc-title-sub">📊 Konteks Analisis</div>
+            <div class="acc-text-block">
+              View 90 hari berguna saat kamu ingin memisahkan noise dari pola. Kalau margin sehat di 30 hari tapi melemah di 90 hari, itu biasanya tanda revenue baru saja membaik namun pondasi biayanya belum benar-benar pulih.
+            </div>
+            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+              Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+            </div>
+          </div>
+          <div>
+            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+            <div class="acc-alert-list">
+              {#if fin_cost_pct[0].bahan_90d > 32}
+                <div class="acc-alert-item">
+                  <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_90d}% vs maks 32%):</strong> Analisis vendor supplier utama, cari kontrak jangka panjang untuk item volume tinggi, dan batasi waste bahan baku.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].sdm_90d > 22}
+                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                  <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_90d}% vs maks 22%):</strong> Tinjau produktivitas shift bulanan, pastikan rasio jam lembur dalam kendali, dan sesuaikan kapasitas tim dengan tren penjualan.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].ops_90d > 15}
+                <div class="acc-alert-item">
+                  <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_90d}% vs maks 15%):</strong> Evaluasi biaya sewa utilitas rutin, optimalkan pengeluaran promosi, dan pastikan biaya pemeliharaan berkala berjalan efisien.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].bahan_90d <= 32 && fin_cost_pct[0].sdm_90d <= 22 && fin_cost_pct[0].ops_90d <= 15}
+                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target selama 90 hari terakhir.
+                </div>
+              {/if}
+            </div>
+          </div>
+        </div>
       </div>
     </details>
 
@@ -1821,25 +1928,44 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     </div>
 
     <details>
-      <summary>💡 Kenapa 30 hari jadi default view</summary>
+      <summary>💡 Analisis & Langkah Konkret (30 Hari)</summary>
       <div class="acc-body">
-        Tiga puluh hari adalah sweet spot untuk owner. Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
-      </div>
-    </details>
-
-    <details>
-      <summary>🔧 Langkah konkret yang paling masuk akal dari view 30 hari</summary>
-      <div class="acc-body">
-        {#if fin_cost_pct[0].bahan_30d > 32}
-          <p><strong>🥩 Bahan di atas target.</strong> Prioritas pertama: cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.</p>
-        {/if}
-        {#if fin_cost_pct[0].sdm_30d > 22}
-          <p><strong>👥 SDM di atas target.</strong> Lihat apakah jam kerja dan level staffing sebanding dengan kepadatan transaksi di minggu-minggu lemah.</p>
-        {/if}
-        {#if fin_cost_pct[0].ops_30d > 15}
-          <p><strong>⚙️ Operasional di atas target.</strong> Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.</p>
-        {/if}
-        Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+        <div class="acc-grid">
+          <div>
+            <div class="acc-title-sub">📊 Konteks Analisis</div>
+            <div class="acc-text-block">
+              Tiga puluh hari adalah sweet spot untuk owner. Ia cukup panjang untuk mengurangi bias hari tertentu, tapi masih cukup dekat untuk mengarahkan tindakan operasional seperti pembelian, penjadwalan staf, pricing, dan promo.
+            </div>
+            <div style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">
+              Untuk melihat variasi antar cabang, buka halaman <a class="inline-link" href="/02-branch-performance">Performa Cabang</a>. Di halaman keuangan ini fokusnya tetap menjaga kesehatan margin total bisnis.
+            </div>
+          </div>
+          <div>
+            <div class="acc-title-sub">🎯 Rekomendasi Tindakan</div>
+            <div class="acc-alert-list">
+              {#if fin_cost_pct[0].bahan_30d > 32}
+                <div class="acc-alert-item">
+                  <strong>🥩 Bahan di atas target ({fin_cost_pct[0].bahan_30d}% vs maks 32%):</strong> Prioritas pertama: cek item yang paling mendorong COGS, waste, dan pricing menu yang margin-nya tipis.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].sdm_30d > 22}
+                <div class="acc-alert-item" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                  <strong>👥 SDM di atas target ({fin_cost_pct[0].sdm_30d}% vs maks 22%):</strong> Lihat apakah jam kerja dan level staffing sebanding dengan kepadatan transaksi di minggu-minggu lemah.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].ops_30d > 15}
+                <div class="acc-alert-item">
+                  <strong>⚙️ Operasional di atas target ({fin_cost_pct[0].ops_30d}% vs maks 15%):</strong> Ini sering berarti fixed cost terlalu berat untuk skala penjualan saat ini atau ada biaya rutin yang tidak lagi efisien.
+                </div>
+              {/if}
+              {#if fin_cost_pct[0].bahan_30d <= 32 && fin_cost_pct[0].sdm_30d <= 22 && fin_cost_pct[0].ops_30d <= 15}
+                <div class="acc-alert-item" style="border-left-color: #16a34a; background: rgba(22, 163, 74, 0.05);">
+                  <strong>✅ Aman:</strong> Tidak ada komponen yang melewati target.
+                </div>
+              {/if}
+            </div>
+          </div>
+        </div>
       </div>
     </details>
   {/if}
