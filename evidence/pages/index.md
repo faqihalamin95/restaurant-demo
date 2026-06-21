@@ -1618,11 +1618,16 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📐 Apa itu Net Margin?**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📐</span> Apa itu Net Margin?</h4>
+<div class="read-concept-desc">
 
 Persentase keuntungan bersih dari total penjualan. Kalau margin 15%, artinya dari setiap Rp 100.000 penjualan, Rp 15.000 adalah keuntungan bersih — sisanya habis untuk biaya operasional.
 
@@ -1633,20 +1638,46 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 
 **Kenapa penting?** Omzet besar bukan jaminan bisnis sehat. Bisa saja penjualan tinggi tapi biaya operasional juga tinggi sehingga keuntungan tipis. Margin mengukur **efisiensi nyata** bisnis, bukan sekadar skala.
 
----
+</div>
+</div>
+</div>
 
-**🎯 Threshold Margin — Standar Umum F&B**
-
-| Margin | Artinya |
-|---|---|
-| di atas 15% | Sehat ✅ |
-| 10–15% | Waspada ⚠️ |
-| di bawah 10% | Kritis 🚨 |
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Margin — Standar Umum F&B</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Margin</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas 15%</td>
+<td>Sehat ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">10–15%</td>
+<td>Waspada ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 10%</td>
+<td>Kritis 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Angka ini standar umum industri F&B dan bisa berbeda tergantung model bisnis, lokasi, dan struktur biaya masing-masing restoran. Gunakan sebagai acuan awal, bukan patokan mutlak.
 
 **Kalau margin rendah, cek dulu:** apakah karena revenue yang turun, atau biaya yang naik? Keduanya butuh penanganan berbeda.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -1733,11 +1764,16 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📐 Apa itu Net Margin?**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📐</span> Apa itu Net Margin?</h4>
+<div class="read-concept-desc">
 
 Persentase keuntungan bersih dari total penjualan. Kalau margin 15%, artinya dari setiap Rp 100.000 penjualan, Rp 15.000 adalah keuntungan bersih — sisanya habis untuk biaya operasional.
 
@@ -1748,20 +1784,46 @@ Contoh: Gross Rp 50 juta, Net Rp 8 juta → margin 16%
 
 **Kenapa penting?** Omzet besar bukan jaminan bisnis sehat. Bisa saja penjualan tinggi tapi biaya operasional juga tinggi sehingga keuntungan tipis. Margin mengukur **efisiensi nyata** bisnis, bukan sekadar skala.
 
----
+</div>
+</div>
+</div>
 
-**🎯 Threshold Margin — Standar Umum F&B**
-
-| Margin | Artinya |
-|---|---|
-| di atas 15% | Sehat ✅ |
-| 10–15% | Waspada ⚠️ |
-| di bawah 10% | Kritis 🚨 |
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Margin — Standar Umum F&B</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Margin</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas 15%</td>
+<td>Sehat ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">10–15%</td>
+<td>Waspada ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 10%</td>
+<td>Kritis 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Angka ini standar umum industri F&B dan bisa berbeda tergantung model bisnis, lokasi, dan struktur biaya masing-masing restoran. Gunakan sebagai acuan awal, bukan patokan mutlak.
 
 **Kalau margin rendah, cek dulu:** apakah karena revenue yang turun, atau biaya yang naik? Keduanya butuh penanganan berbeda.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -1848,30 +1910,70 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📊 Kenapa SDOW, bukan Net Margin?**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📊</span> Kenapa SDOW, bukan Net Margin?</h4>
+<div class="read-concept-desc">
 
 Net margin harian tidak valid sebagai indikator kesehatan karena biaya tetap (gaji, sewa) dibagi rata setiap hari — hari sepi dengan 50 order dan hari ramai dengan 200 order sama-sama menanggung biaya yang sama. Hasilnya, hari sepi selalu kelihatan "kritis" padahal itu normal.
 
-SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-minggu sebelumnya — Senin dibanding Senin, Sabtu dibanding Sabtu. Pertanyaannya bukan "apakah margin bagus?" tapi **"apakah kemarin tidak biasa?"**
+SDOW (Same Day of Week) membandingkan kemarin dengan hari yang sama di minggu-minggu sebelumnya — Senin dibanding Senin, Sabtu dibanding Sabtu. Pertanyaannya bukan "apakah margin bagus?" tapi
 
----
+</div>
+</div>
 
-**🎯 Threshold SDOW**
+<div class="read-concept">
+<h4 class="read-concept-header"><span>"</span> apakah kemarin tidak biasa?"</h4>
+<div class="read-concept-desc">
 
-| Selisih | Artinya |
-|---|---|
-| di atas -5% | Normal ✅ |
-| -5% sampai -15% | Di bawah normal ⚠️ |
-| di bawah -15% | Drop signifikan 🚨 |
+
+
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold SDOW</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Selisih</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas -5%</td>
+<td>Normal ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">-5% sampai -15%</td>
+<td>Di bawah normal ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah -15%</td>
+<td>Drop signifikan 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Buffer -5%** ada karena noise harian wajar — cuaca, insiden kecil, atau variasi acak tidak perlu menimbulkan alarm.
 
 **Untuk analisis profitabilitas** (net margin, struktur biaya), gunakan periode 7 atau 30 hari di halaman Laporan Keuangan — datanya jauh lebih stabil dan bisa diandalkan.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2008,11 +2110,16 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🎯 Target AOV — Rp 50.000**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
+<div class="read-concept-desc">
 
 Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan struktur menu restoran ini:
 - Menu utama berkisar Rp 25.000–40.000
@@ -2021,23 +2128,44 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 **Apa yang bisa dilakukan?** Bundling menu, rekomendasi aktif dari kasir, atau penempatan item add-on yang lebih strategis di daftar menu.
 
----
+</div>
+</div>
+</div>
 
-**📊 Gap Antar Cabang**
-
-Gap dihitung dengan rumus sederhana:
-**(Revenue tertinggi − Revenue terendah) ÷ Revenue terendah × 100%**
-
-Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
-
-| Gap | Artinya |
-|---|---|
-| di bawah 50% | Semua cabang berjalan seimbang ✅ |
-| 50–100% | Cabang bawah perlu perhatian ⚠️ |
-| di atas 100% | Cabang bawah jauh tertinggal 🚨 |
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Gap</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 50%</td>
+<td>Semua cabang berjalan seimbang ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">50–100%</td>
+<td>Cabang bawah perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 100%</td>
+<td>Cabang bawah jauh tertinggal 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Penting:** Gap besar bukan otomatis masalah — bisa karena lokasi memang berbeda potensinya. Yang perlu diwaspadai adalah kalau gap **membesar dari waktu ke waktu**, artinya cabang bawah semakin tertinggal secara struktural.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2138,11 +2266,16 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🎯 Target AOV — Rp 50.000**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
+<div class="read-concept-desc">
 
 Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan struktur menu restoran ini:
 - Menu utama berkisar Rp 25.000–40.000
@@ -2151,23 +2284,44 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 **Apa yang bisa dilakukan?** Bundling menu, rekomendasi aktif dari kasir, atau penempatan item add-on yang lebih strategis di daftar menu.
 
----
+</div>
+</div>
+</div>
 
-**📊 Gap Antar Cabang**
-
-Gap dihitung dengan rumus sederhana:
-**(Revenue tertinggi − Revenue terendah) ÷ Revenue terendah × 100%**
-
-Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
-
-| Gap | Artinya |
-|---|---|
-| di bawah 50% | Semua cabang berjalan seimbang ✅ |
-| 50–100% | Cabang bawah perlu perhatian ⚠️ |
-| di atas 100% | Cabang bawah jauh tertinggal 🚨 |
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Gap</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 50%</td>
+<td>Semua cabang berjalan seimbang ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">50–100%</td>
+<td>Cabang bawah perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 100%</td>
+<td>Cabang bawah jauh tertinggal 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Penting:** Gap besar bukan otomatis masalah — bisa karena lokasi memang berbeda potensinya. Yang perlu diwaspadai adalah kalau gap **membesar dari waktu ke waktu**, artinya cabang bawah semakin tertinggal secara struktural.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2268,11 +2422,16 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🎯 Target AOV — Rp 50.000**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🎯</span> Target AOV — Rp 50.000</h4>
+<div class="read-concept-desc">
 
 Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan struktur menu restoran ini:
 - Menu utama berkisar Rp 25.000–40.000
@@ -2281,23 +2440,44 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 **Apa yang bisa dilakukan?** Bundling menu, rekomendasi aktif dari kasir, atau penempatan item add-on yang lebih strategis di daftar menu.
 
----
+</div>
+</div>
+</div>
 
-**📊 Gap Antar Cabang**
-
-Gap dihitung dengan rumus sederhana:
-**(Revenue tertinggi − Revenue terendah) ÷ Revenue terendah × 100%**
-
-Contoh: cabang terbaik Rp 10 juta, cabang terburuk Rp 5 juta → gap = 100%
-
-| Gap | Artinya |
-|---|---|
-| di bawah 50% | Semua cabang berjalan seimbang ✅ |
-| 50–100% | Cabang bawah perlu perhatian ⚠️ |
-| di atas 100% | Cabang bawah jauh tertinggal 🚨 |
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Gap Antar Cabang</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Gap</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 50%</td>
+<td>Semua cabang berjalan seimbang ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">50–100%</td>
+<td>Cabang bawah perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 100%</td>
+<td>Cabang bawah jauh tertinggal 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Penting:** Gap besar bukan otomatis masalah — bisa karena lokasi memang berbeda potensinya. Yang perlu diwaspadai adalah kalau gap **membesar dari waktu ke waktu**, artinya cabang bawah semakin tertinggal secara struktural.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2416,41 +2596,68 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**✅ Menu Aktif — threshold 4 dari 7 hari**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>✅</span> Menu Aktif — threshold 4 dari 7 hari</h4>
+<div class="read-concept-desc">
 
 Menu dianggap aktif kalau terjual minimal 4 hari dalam seminggu (di atas 50% hari operasional). Menu yang hanya terjual 1–2 hari seminggu dianggap tidak konsisten — bisa karena tidak populer, stok sering habis, atau tidak dipromosikan.
 
 **Apa yang bisa dilakukan?** Menu tidak aktif bukan berarti langsung dihapus — cek dulu apakah ada kendala stok atau visibilitas di daftar menu sebelum memutuskan.
 
----
+</div>
+</div>
+</div>
 
-**📊 Kontribusi Revenue**
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Peta Menu Engineering — 4 Kuadran</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Kuadran</th>
+<th>Volume</th>
+<th>Revenue</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">Primadona</td>
+<td>Tinggi</td>
+<td>Tinggi</td>
+<td>Tulang punggung bisnis — jaga kualitasnya</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Misteri</td>
+<td>Rendah</td>
+<td>Tinggi</td>
+<td>Potensi besar tapi jarang dipesan — perlu dipromosikan</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Pekerja Keras</td>
+<td>Tinggi</td>
+<td>Rendah</td>
+<td>Laku keras tapi margin tipis — evaluasi harga</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Lemah</td>
+<td>Rendah</td>
+<td>Rendah</td>
+<td>Kandidat untuk dievaluasi atau dihapus</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
-Persentase revenue menu terlaris dari total revenue semua menu. Makin tinggi angkanya, makin berisiko bisnis bergantung pada satu menu saja.
-
-| Kontribusi | Artinya |
-|---|---|
-| di bawah 30% | Distribusi sehat ✅ |
-| 30–50% | Mulai bergantung ⚠️ |
-| di atas 50% | Ketergantungan tinggi 🚨 |
-
----
-
-**🗺️ Peta Menu Engineering — 4 Kuadran**
-
-Scatter plot di bawah membagi semua menu ke dalam 4 kuadran berdasarkan volume (qty terjual) dan revenue. Garis putus-putus adalah nilai median masing-masing:
-
-| Kuadran | Volume | Revenue | Artinya |
-|---|---|---|---|
-| Primadona | Tinggi | Tinggi | Tulang punggung bisnis — jaga kualitasnya |
-| Misteri | Rendah | Tinggi | Potensi besar tapi jarang dipesan — perlu dipromosikan |
-| Pekerja Keras | Tinggi | Rendah | Laku keras tapi margin tipis — evaluasi harga |
-| Lemah | Rendah | Rendah | Kandidat untuk dievaluasi atau dihapus |
-
+</div>
 </div>
 </details>
 
@@ -2574,41 +2781,68 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**✅ Menu Aktif — threshold 15 dari 30 hari**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>✅</span> Menu Aktif — threshold 15 dari 30 hari</h4>
+<div class="read-concept-desc">
 
 Menu dianggap aktif kalau terjual minimal 15 hari dalam sebulan (di atas 50% hari operasional). Data 30 hari cukup untuk menyimpulkan apakah ketidakaktifan menu bersifat struktural atau hanya sesaat.
 
 **Apa yang bisa dilakukan?** Menu tidak aktif bukan berarti langsung dihapus — cek dulu apakah ada kendala stok atau visibilitas di daftar menu sebelum memutuskan.
 
----
+</div>
+</div>
+</div>
 
-**📊 Kontribusi Revenue**
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Peta Menu Engineering — 4 Kuadran</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Kuadran</th>
+<th>Volume</th>
+<th>Revenue</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">Primadona</td>
+<td>Tinggi</td>
+<td>Tinggi</td>
+<td>Tulang punggung bisnis — jaga kualitasnya</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Misteri</td>
+<td>Rendah</td>
+<td>Tinggi</td>
+<td>Potensi besar tapi jarang dipesan — perlu dipromosikan</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Pekerja Keras</td>
+<td>Tinggi</td>
+<td>Rendah</td>
+<td>Laku keras tapi margin tipis — evaluasi harga</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">Lemah</td>
+<td>Rendah</td>
+<td>Rendah</td>
+<td>Kandidat untuk dievaluasi atau dihapus</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
-Persentase revenue menu terlaris dari total revenue semua menu. Makin tinggi angkanya, makin berisiko bisnis bergantung pada satu menu saja.
-
-| Kontribusi | Artinya |
-|---|---|
-| di bawah 30% | Distribusi sehat ✅ |
-| 30–50% | Mulai bergantung ⚠️ |
-| di atas 50% | Ketergantungan tinggi 🚨 |
-
----
-
-**🗺️ Peta Menu Engineering — 4 Kuadran**
-
-Scatter plot di bawah membagi semua menu ke dalam 4 kuadran berdasarkan volume (qty terjual) dan revenue. Garis putus-putus adalah nilai median masing-masing:
-
-| Kuadran | Volume | Revenue | Artinya |
-|---|---|---|---|
-| Primadona | Tinggi | Tinggi | Tulang punggung bisnis — jaga kualitasnya |
-| Misteri | Rendah | Tinggi | Potensi besar tapi jarang dipesan — perlu dipromosikan |
-| Pekerja Keras | Tinggi | Rendah | Laku keras tapi margin tipis — evaluasi harga |
-| Lemah | Rendah | Rendah | Kandidat untuk dievaluasi atau dihapus |
-
+</div>
 </div>
 </details>
 
@@ -2718,26 +2952,52 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📊 Kontribusi Revenue**
-
-Persentase revenue menu terlaris dari total revenue semua menu kemarin. Data satu hari bisa sangat fluktuatif — angka ini lebih bermakna kalau dibandingkan dengan tren 7 atau 30 hari.
-
-| Kontribusi | Artinya |
-|---|---|
-| di bawah 30% | Distribusi sehat ✅ |
-| 30–50% | Mulai bergantung ⚠️ |
-| di atas 50% | Ketergantungan tinggi 🚨 |
-
----
-
-**🗺️ Peta Menu Engineering**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🗺️</span> Peta Menu Engineering</h4>
+<div class="read-concept-desc">
 
 Scatter plot tidak ditampilkan untuk data harian karena satu hari terlalu sedikit untuk menyimpulkan posisi menu. Gunakan period 7 atau 30 hari untuk melihat menu engineering yang akurat.
 
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Kontribusi Revenue</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Kontribusi</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 30%</td>
+<td>Distribusi sehat ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">30–50%</td>
+<td>Mulai bergantung ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 50%</td>
+<td>Ketergantungan tinggi 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2838,36 +3098,57 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📦 Kontribusi Order Member**
-
-Persentase order dari member dibanding total order semua pelanggan. Makin tinggi, makin besar peran program loyalitas dalam menopang volume bisnis.
-
-| Kontribusi | Artinya |
-|---|---|
-| di atas 40% | Program loyalitas berjalan baik ✅ |
-| 20–40% | Potensi belum dimanfaatkan ⚠️ |
-| di bawah 20% | Member kurang aktif 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal dan bersifat fleksibel — disarankan dikalibrasi ulang setelah 3–6 bulan data terkumpul.
-
----
-
-**🔁 Avg Transaksi per Member**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🔁</span> Avg Transaksi per Member</h4>
+<div class="read-concept-desc">
 
 Rata-rata berapa kali seorang member aktif bertransaksi dalam 7 hari. Ini ukuran loyalitas yang lebih jujur dibanding AOV — pelanggan yang beli Rp 50rb tapi kembali 5x seminggu jauh lebih valuable dari yang sekali beli Rp 200rb lalu tidak pernah kembali.
 
-| Frekuensi | Artinya |
-|---|---|
-| di atas 3x | Member sangat loyal ✅ |
-| 1–3x | Frekuensi normal ⚠️ |
-| di bawah 1x | Member hampir tidak kembali 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Avg Transaksi per Member</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Frekuensi</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas 3x</td>
+<td>Member sangat loyal ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">1–3x</td>
+<td>Frekuensi normal ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 1x</td>
+<td>Member hampir tidak kembali 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Threshold ini adalah acuan awal — angka ideal bervariasi tergantung jenis restoran (casual dining vs fine dining frekuensinya berbeda). Disarankan dikalibrasi setelah 3–6 bulan data terkumpul.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -2970,36 +3251,57 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📦 Kontribusi Order Member**
-
-Persentase order dari member dibanding total order semua pelanggan. Makin tinggi, makin besar peran program loyalitas dalam menopang volume bisnis.
-
-| Kontribusi | Artinya |
-|---|---|
-| di atas 40% | Program loyalitas berjalan baik ✅ |
-| 20–40% | Potensi belum dimanfaatkan ⚠️ |
-| di bawah 20% | Member kurang aktif 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal dan bersifat fleksibel — disarankan dikalibrasi ulang setelah 3–6 bulan data terkumpul.
-
----
-
-**🔁 Avg Transaksi per Member**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🔁</span> Avg Transaksi per Member</h4>
+<div class="read-concept-desc">
 
 Rata-rata berapa kali seorang member aktif bertransaksi dalam 30 hari. Loyalitas sejati diukur dari frekuensi kembali, bukan dari nilai sekali beli.
 
-| Frekuensi | Artinya |
-|---|---|
-| di atas 10x | Member sangat loyal ✅ |
-| 4–10x | Frekuensi normal ⚠️ |
-| di bawah 4x | Member jarang kembali 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Avg Transaksi per Member</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Frekuensi</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas 10x</td>
+<td>Member sangat loyal ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">4–10x</td>
+<td>Frekuensi normal ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 4x</td>
+<td>Member jarang kembali 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Threshold ini adalah acuan awal — angka ideal bervariasi tergantung jenis restoran. Disarankan dikalibrasi setelah 3–6 bulan data terkumpul.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3088,28 +3390,57 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📦 Kontribusi Order Member**
-
-Persentase order dari member dibanding total order semua pelanggan kemarin. Data harian bisa sangat fluktuatif — gunakan sebagai sinyal awal, bukan kesimpulan.
-
-| Kontribusi | Artinya |
-|---|---|
-| di atas 40% | Program loyalitas berjalan baik ✅ |
-| 20–40% | Potensi belum dimanfaatkan ⚠️ |
-| di bawah 20% | Member kurang aktif 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal dan bersifat fleksibel — disarankan dikalibrasi ulang setelah 3–6 bulan data terkumpul.
-
----
-
-**🔁 Transaksi per Member**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>🔁</span> Transaksi per Member</h4>
+<div class="read-concept-desc">
 
 Untuk data harian angka ini hampir selalu mendekati 1 karena seorang member jarang bertransaksi lebih dari sekali dalam sehari. Gunakan period 7 atau 30 hari untuk analisis frekuensi yang lebih bermakna.
 
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Kontribusi Order Member</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Kontribusi</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di atas 40%</td>
+<td>Program loyalitas berjalan baik ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">20–40%</td>
+<td>Potensi belum dimanfaatkan ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 20%</td>
+<td>Member kurang aktif 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
+
+**Catatan:** Threshold ini adalah acuan awal dan bersifat fleksibel — disarankan dikalibrasi ulang setelah 3–6 bulan data terkumpul.
+
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3224,38 +3555,59 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**✅ Tingkat Kehadiran**
-
-Persentase pegawai yang hadir (termasuk yang terlambat) dari total yang dijadwalkan masuk. Pegawai yang cuti atau izin tidak dihitung sebagai absent.
-
-| Kehadiran | Artinya |
-|---|---|
-| di atas 95% | Operasional aman ✅ |
-| 85–95% | Mulai perlu perhatian ⚠️ |
-| di bawah 85% | Risiko kualitas servis tinggi 🚨 |
-
-**Catatan:** Threshold ini adalah acuan umum dan dapat disesuaikan dengan kondisi masing-masing restoran — restoran dengan staf minimal lebih sensitif terhadap absensi dibanding yang punya cadangan staf.
-
----
-
-**⏰ Tingkat Keterlambatan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
+<div class="read-concept-desc">
 
 Persentase dari pegawai yang hadir tapi datang terlambat. Keterlambatan di shift pagi paling berdampak karena jam buka adalah periode kritis — pelanggan pertama menentukan kesan awal.
 
-| Keterlambatan | Artinya |
-|---|---|
-| di bawah 10% | Disiplin baik ✅ |
-| 10–20% | Perlu perhatian ⚠️ |
-| di atas 20% | Masalah disiplin serius 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Keterlambatan</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 10%</td>
+<td>Disiplin baik ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">10–20%</td>
+<td>Perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Masalah disiplin serius 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Yang perlu dicek:** apakah keterlambatan terkonsentrasi di satu shift atau cabang tertentu? Keterlambatan yang tersebar merata berbeda penanganannya dengan yang terkonsentrasi di satu titik.
 
 **Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan kebijakan masing-masing restoran.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3363,38 +3715,59 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**✅ Tingkat Kehadiran**
-
-Persentase pegawai yang hadir dari total yang dijadwalkan. Data 30 hari cukup untuk membedakan absensi struktural (selalu berulang) vs insidental (hanya sesekali).
-
-| Kehadiran | Artinya |
-|---|---|
-| di atas 95% | Operasional aman ✅ |
-| 85–95% | Mulai perlu perhatian ⚠️ |
-| di bawah 85% | Risiko kualitas servis tinggi 🚨 |
-
-**Catatan:** Threshold ini adalah acuan umum dan dapat disesuaikan — restoran dengan staf minimal lebih sensitif terhadap absensi dibanding yang punya cadangan staf.
-
----
-
-**⏰ Tingkat Keterlambatan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
+<div class="read-concept-desc">
 
 Persentase dari pegawai yang hadir tapi datang terlambat. Pegawai dengan keterlambatan lebih dari 4 kali dalam sebulan perlu pendekatan personal.
 
-| Keterlambatan | Artinya |
-|---|---|
-| di bawah 10% | Disiplin baik ✅ |
-| 10–20% | Perlu perhatian ⚠️ |
-| di atas 20% | Masalah disiplin serius 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Keterlambatan</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 10%</td>
+<td>Disiplin baik ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">10–20%</td>
+<td>Perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Masalah disiplin serius 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Yang perlu dicek:** apakah keterlambatan terkonsentrasi di satu shift atau cabang tertentu? Keterlambatan yang tersebar merata berbeda penanganannya dengan yang terkonsentrasi di satu titik.
 
 **Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan kebijakan masing-masing restoran.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3502,34 +3875,57 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**✅ Tingkat Kehadiran**
-
-Persentase pegawai yang hadir kemarin dari total yang dijadwalkan. Data satu hari bisa fluktuatif — satu kejadian insidental (sakit mendadak, kecelakaan) bisa langsung turunkan angka ini. Gunakan sebagai sinyal awal, bukan kesimpulan.
-
-| Kehadiran | Artinya |
-|---|---|
-| di atas 95% | Operasional aman ✅ |
-| 85–95% | Mulai perlu perhatian ⚠️ |
-| di bawah 85% | Risiko kualitas servis tinggi 🚨 |
-
----
-
-**⏰ Tingkat Keterlambatan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⏰</span> Tingkat Keterlambatan</h4>
+<div class="read-concept-desc">
 
 Persentase dari pegawai yang hadir tapi datang terlambat kemarin. Untuk pola yang lebih bermakna, lihat data 7 atau 30 hari — keterlambatan satu hari bisa karena faktor eksternal seperti macet atau cuaca.
 
-| Keterlambatan | Artinya |
-|---|---|
-| di bawah 10% | Disiplin baik ✅ |
-| 10–20% | Perlu perhatian ⚠️ |
-| di atas 20% | Masalah disiplin serius 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Tingkat Keterlambatan</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Keterlambatan</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 10%</td>
+<td>Disiplin baik ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">10–20%</td>
+<td>Perlu perhatian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Masalah disiplin serius 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Semua threshold di atas adalah acuan awal yang dapat disesuaikan dengan kebijakan masing-masing restoran.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3657,38 +4053,65 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📊 % Biaya Bahan dari Revenue**
-
-Dari setiap Rp 100.000 penjualan, berapa yang habis untuk bahan baku? Standar industri restoran 28–32% — di atas itu biasanya disebabkan kenaikan harga supplier, pemborosan bahan, atau porsi tidak konsisten.
-
-| % Biaya Bahan | Artinya |
-|---|---|
-| di bawah 32% | Normal, efisien ✅ |
-| 32–38% | Waspada, cek penyebab ⚠️ |
-| di atas 38% | Tinggi, perlu tindakan 🚨 |
-
-**Catatan:** Threshold 28–32% adalah standar umum industri F&B. Restoran fine dining bisa lebih tinggi karena kualitas bahan, sementara restoran fast food bisa lebih rendah karena volume tinggi. Dapat disesuaikan per restoran.
-
----
-
-**⚖️ Rasio Beli vs Pakai**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
+<div class="read-concept-desc">
 
 Perbandingan total pembelian bahan terhadap total pemakaian. Rasio 1.0 berarti beli sama dengan pakai — ideal untuk meminimalkan stok menumpuk atau terkuras.
 
-| Rasio | Artinya |
-|---|---|
-| 0 | Tidak ada pembelian hari ini ⚠️ |
-| di bawah 0.9 | Pembelian kurang, stok terkuras ⚠️ |
-| 0.9–1.2 | Seimbang, pembelian proporsional ✅ |
-| 1.2–1.5 | Pembelian mulai berlebih ⚠️ |
-| di atas 1.5 | Over-purchasing, risiko pemborosan 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Rasio</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">0</td>
+<td>Tidak ada pembelian hari ini ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 0.9</td>
+<td>Pembelian kurang, stok terkuras ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">0.9–1.2</td>
+<td>Seimbang, pembelian proporsional ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">1.2–1.5</td>
+<td>Pembelian mulai berlebih ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 1.5</td>
+<td>Over-purchasing, risiko pemborosan 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Threshold ini adalah acuan awal — restoran yang beli stok mingguan akan punya rasio lebih tinggi di hari pembelian. Lihat tren 30 hari untuk gambaran yang lebih akurat.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3806,38 +4229,65 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📊 % Biaya Bahan dari Revenue**
-
-Dari setiap Rp 100.000 penjualan, berapa yang habis untuk bahan baku? Data 30 hari cukup stabil untuk dijadikan dasar keputusan renegosiasi supplier atau evaluasi porsi.
-
-| % Biaya Bahan | Artinya |
-|---|---|
-| di bawah 32% | Normal, efisien ✅ |
-| 32–38% | Waspada, cek penyebab ⚠️ |
-| di atas 38% | Tinggi, perlu tindakan 🚨 |
-
-**Catatan:** Threshold 28–32% adalah standar umum industri F&B dan dapat disesuaikan dengan model bisnis masing-masing restoran.
-
----
-
-**⚖️ Rasio Beli vs Pakai**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
+<div class="read-concept-desc">
 
 Data 30 hari memberikan rasio yang lebih representatif karena efek hari pembelian besar sudah ter-average. Kalau rasio konsisten di bawah 0.9 atau di atas 1.5 selama sebulan, ada masalah struktural di manajemen pembelian.
 
-| Rasio | Artinya |
-|---|---|
-| 0 | Tidak ada pembelian ⚠️ |
-| di bawah 0.9 | Pembelian kurang, stok terkuras ⚠️ |
-| 0.9–1.2 | Seimbang, pembelian proporsional ✅ |
-| 1.2–1.5 | Pembelian mulai berlebih ⚠️ |
-| di atas 1.5 | Over-purchasing, risiko pemborosan 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Rasio</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">0</td>
+<td>Tidak ada pembelian ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 0.9</td>
+<td>Pembelian kurang, stok terkuras ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">0.9–1.2</td>
+<td>Seimbang, pembelian proporsional ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">1.2–1.5</td>
+<td>Pembelian mulai berlebih ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 1.5</td>
+<td>Over-purchasing, risiko pemborosan 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan pola pembelian masing-masing restoran.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -3955,36 +4405,65 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**📊 % Biaya Bahan dari Revenue**
-
-Data harian bisa sangat fluktuatif — hari pembelian stok mingguan akan terlihat jauh lebih tinggi dari hari biasa. Gunakan sebagai sinyal awal, konfirmasi dengan tren 7 atau 30 hari.
-
-| % Biaya Bahan | Artinya |
-|---|---|
-| di bawah 32% | Normal, efisien ✅ |
-| 32–38% | Waspada, cek penyebab ⚠️ |
-| di atas 38% | Tinggi, perlu tindakan 🚨 |
-
----
-
-**⚖️ Rasio Beli vs Pakai**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>⚖️</span> Rasio Beli vs Pakai</h4>
+<div class="read-concept-desc">
 
 Untuk data harian, rasio ini bisa 0 di hari tanpa pembelian dan sangat tinggi di hari pembelian besar. Lihat tren 7 atau 30 hari untuk rasio yang lebih representatif.
 
-| Rasio | Artinya |
-|---|---|
-| 0 | Tidak ada pembelian hari ini ⚠️ |
-| di bawah 0.9 | Pembelian kurang, stok terkuras ⚠️ |
-| 0.9–1.2 | Seimbang ✅ |
-| 1.2–1.5 | Pembelian mulai berlebih ⚠️ |
-| di atas 1.5 | Over-purchasing 🚨 |
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Rasio Beli vs Pakai</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>Rasio</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">0</td>
+<td>Tidak ada pembelian hari ini ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di bawah 0.9</td>
+<td>Pembelian kurang, stok terkuras ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">0.9–1.2</td>
+<td>Seimbang ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">1.2–1.5</td>
+<td>Pembelian mulai berlebih ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 1.5</td>
+<td>Over-purchasing 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
 
 **Catatan:** Semua threshold di atas adalah acuan awal yang dapat disesuaikan dengan pola pembelian masing-masing restoran.
 
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -4090,31 +4569,60 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🕐 Konsentrasi Order di Jam Puncak**
-
-Persentase order yang terjadi di satu jam tersibuk dibanding total order harian. Makin tinggi angkanya, makin terkonsentrasi bisnis di satu titik waktu — ini meningkatkan risiko operasional kalau jam itu ada masalah staf atau stok.
-
-| % Order di Jam Puncak | Artinya |
-|---|---|
-| di bawah 12% | Terdistribusi merata ✅ |
-| 12–20% | Cukup terkonsentrasi ⚠️ |
-| di atas 20% | Sangat terkonsentrasi 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal — restoran dengan jam makan siang yang sangat ramai wajar punya konsentrasi tinggi. Yang penting adalah memastikan kesiapan staf dan stok di jam tersebut.
-
----
-
-**📦 Order Type Dominan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
+<div class="read-concept-desc">
 
 Jenis order terbanyak di jam puncak menentukan kebutuhan operasional yang berbeda:
 - **Dine In** → prioritaskan pramusaji dan kapasitas meja
 - **Takeaway** → prioritaskan kasir dan kecepatan penyajian
 - **Delivery** → prioritaskan packer dan koordinasi dengan kurir
 
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>% Order di Jam Puncak</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 12%</td>
+<td>Terdistribusi merata ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">12–20%</td>
+<td>Cukup terkonsentrasi ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Sangat terkonsentrasi 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
+
+**Catatan:** Threshold ini adalah acuan awal — restoran dengan jam makan siang yang sangat ramai wajar punya konsentrasi tinggi. Yang penting adalah memastikan kesiapan staf dan stok di jam tersebut.
+
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -4184,31 +4692,60 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🕐 Konsentrasi Order di Jam Puncak**
-
-Persentase order yang terjadi di satu jam tersibuk dibanding total order. Data 30 hari memberikan gambaran yang lebih stabil untuk dijadikan dasar keputusan penjadwalan staf jangka panjang.
-
-| % Order di Jam Puncak | Artinya |
-|---|---|
-| di bawah 12% | Terdistribusi merata ✅ |
-| 12–20% | Cukup terkonsentrasi ⚠️ |
-| di atas 20% | Sangat terkonsentrasi 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan karakteristik masing-masing restoran.
-
----
-
-**📦 Order Type Dominan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
+<div class="read-concept-desc">
 
 Jenis order terbanyak di jam puncak selama 30 hari — dasar yang solid untuk keputusan alokasi staf:
 - **Dine In** → prioritaskan pramusaji dan kapasitas meja
 - **Takeaway** → prioritaskan kasir dan kecepatan penyajian
 - **Delivery** → prioritaskan packer dan koordinasi dengan kurir
 
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>% Order di Jam Puncak</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 12%</td>
+<td>Terdistribusi merata ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">12–20%</td>
+<td>Cukup terkonsentrasi ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Sangat terkonsentrasi 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
+
+**Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan karakteristik masing-masing restoran.
+
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
@@ -4278,31 +4815,60 @@ _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada ja
 </div>
 {/if}
 
-<details class="guide-acc">
-<summary>Cara membaca angka ini</summary>
-<div class="acc-body">
+<details class="read-acc">
+<summary>💡 Cara membaca angka ini</summary>
+<div class="read-body">
+<div class="read-grid">
 
-**🕐 Konsentrasi Order di Jam Puncak**
-
-Persentase order yang terjadi di satu jam tersibuk kemarin. Data harian bisa berfluktuasi — gunakan sebagai evaluasi kemarin, bukan acuan penjadwalan jangka panjang.
-
-| % Order di Jam Puncak | Artinya |
-|---|---|
-| di bawah 12% | Terdistribusi merata ✅ |
-| 12–20% | Cukup terkonsentrasi ⚠️ |
-| di atas 20% | Sangat terkonsentrasi 🚨 |
-
-**Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan karakteristik masing-masing restoran.
-
----
-
-**📦 Order Type Dominan**
+<!-- Left Column: Penjelasan Konsep -->
+<div class="read-left-col">
+<div class="read-concept">
+<h4 class="read-concept-header"><span>📦</span> Order Type Dominan</h4>
+<div class="read-concept-desc">
 
 Jenis order terbanyak di jam puncak kemarin. Kalau polanya konsisten, ini bisa jadi acuan untuk kesiapan operasional hari ini:
 - **Dine In** → pastikan meja dan pramusaji siap
 - **Takeaway** → pastikan kasir dan packaging siap
 - **Delivery** → pastikan koordinasi kurir sudah terkonfirmasi
 
+</div>
+</div>
+</div>
+
+<div class="read-right-col">
+<div>
+<h4 class="read-threshold-header"><span>🎯</span> Threshold Konsentrasi Order di Jam Puncak</h4>
+<table class="read-table">
+<thead>
+<tr>
+<th>% Order di Jam Puncak</th>
+<th>Artinya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: 500;">di bawah 12%</td>
+<td>Terdistribusi merata ✅</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">12–20%</td>
+<td>Cukup terkonsentrasi ⚠️</td>
+</tr>
+<tr>
+<td style="font-weight: 500;">di atas 20%</td>
+<td>Sangat terkonsentrasi 🚨</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="read-note">
+
+**Catatan:** Threshold ini adalah acuan awal yang dapat disesuaikan dengan karakteristik masing-masing restoran.
+
+</div>
+</div>
+
+</div>
 </div>
 </details>
 
