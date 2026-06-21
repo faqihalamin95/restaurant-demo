@@ -1572,16 +1572,35 @@ Performa kemarin stabil dibanding rata-rata hari {tgl[0].nama_hari}. Cabang terb
 <BigValue data={fin_kpi_7d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_7d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-💰 **Gross Revenue** — Total penjualan sebelum dikurangi biaya apapun. Ini mengukur skala bisnis: seberapa besar aktivitas penjualan yang terjadi? Berguna untuk membandingkan performa antar periode atau antar cabang.
-
-🏦 **Net Revenue** — Yang benar-benar masuk kantong setelah semua biaya operasional dikurangi (gaji, bahan baku, sewa, dll). Ini angka yang paling jujur tentang kondisi bisnis.
-
-📊 **Net Margin** — Persentase keuntungan bersih dari total penjualan. Mengukur efisiensi bisnis, bukan sekadar skala. Revenue besar belum tentu bisnis sehat — margin yang mengonfirmasi.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">💰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Gross Revenue</div>
+    <h4 class="guide-card-title">Skala Bisnis</h4>
+    <p class="guide-card-desc">Total penjualan sebelum dikurangi biaya apapun. Mengukur seberapa besar aktivitas penjualan — dasar perbandingan antar periode dan antar cabang.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🏦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Net Revenue</div>
+    <h4 class="guide-card-title">Profit Aktual</h4>
+    <p class="guide-card-desc">Yang benar-benar masuk kantong setelah semua biaya operasional dikurangi (gaji, bahan baku, sewa, dll). Angka paling jujur tentang kondisi bisnis.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Net Margin</div>
+    <h4 class="guide-card-title">Efisiensi Bisnis</h4>
+    <p class="guide-card-desc">Persentase keuntungan bersih dari total penjualan. Revenue besar belum tentu bisnis sehat — margin yang mengonfirmasi.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -1668,16 +1687,35 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Standar indu
 <BigValue data={fin_kpi_30d} value="net_revenue"    title="Net Revenue (Rp)"   fmt="#,##0" />
 <BigValue data={fin_kpi_30d} value="net_margin_pct" title="Net Margin"         fmt="0.0\%" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-💰 **Gross Revenue** — Total penjualan sebelum dikurangi biaya apapun. Ini mengukur skala bisnis: seberapa besar aktivitas penjualan yang terjadi? Berguna untuk membandingkan performa antar periode atau antar cabang.
-
-🏦 **Net Revenue** — Yang benar-benar masuk kantong setelah semua biaya operasional dikurangi (gaji, bahan baku, sewa, dll). Ini angka yang paling jujur tentang kondisi bisnis.
-
-📊 **Net Margin** — Persentase keuntungan bersih dari total penjualan. Mengukur efisiensi bisnis, bukan sekadar skala. Revenue besar belum tentu bisnis sehat — margin yang mengonfirmasi.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">💰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Gross Revenue</div>
+    <h4 class="guide-card-title">Skala Bisnis</h4>
+    <p class="guide-card-desc">Total penjualan sebelum dikurangi biaya apapun. Mengukur seberapa besar aktivitas penjualan — dasar perbandingan antar periode dan antar cabang.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🏦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Net Revenue</div>
+    <h4 class="guide-card-title">Profit Aktual</h4>
+    <p class="guide-card-desc">Yang benar-benar masuk kantong setelah semua biaya operasional dikurangi (gaji, bahan baku, sewa, dll). Angka paling jujur tentang kondisi bisnis.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Net Margin</div>
+    <h4 class="guide-card-title">Efisiensi Bisnis</h4>
+    <p class="guide-card-desc">Persentase keuntungan bersih dari total penjualan. Revenue besar belum tentu bisnis sehat — margin yang mengonfirmasi.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -1764,16 +1802,35 @@ _Net margin adalah keuntungan bersih setelah semua biaya dikurangi. Data 30 hari
 <BigValue data={fin_sdow_yesterday} value="sdow_avg"        title="Rata-rata Hari Serupa (Rp)" fmt="#,##0" />
 <BigValue data={fin_sdow_yesterday} value="pct_change_sdow" title="Selisih vs Hari Serupa (%)" fmt="+0.0;-0.0\%" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-💰 **Gross Revenue** — Total penjualan kemarin sebelum dikurangi biaya apapun. Angka mentah yang menjadi dasar perbandingan.
-
-📊 **Rata-rata Hari Serupa (SDOW)** — Rata-rata revenue di hari yang sama (Senin vs Senin, Sabtu vs Sabtu) dalam 30 hari terakhir. Ini baseline yang fair — menghilangkan bias weekday vs weekend sebelum menilai apakah kemarin normal atau tidak.
-
-📈 **Selisih vs Hari Serupa** — Berapa persen revenue kemarin menyimpang dari baseline SDOW. Ini indikator utama: apakah kemarin *abnormal* dibanding biasanya?
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">💰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Gross Revenue</div>
+    <h4 class="guide-card-title">Angka Dasar</h4>
+    <p class="guide-card-desc">Total penjualan kemarin sebelum dikurangi biaya apapun. Angka mentah yang menjadi dasar perbandingan.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Rata-rata SDOW</div>
+    <h4 class="guide-card-title">Baseline Fair</h4>
+    <p class="guide-card-desc">Rata-rata revenue di hari yang sama (Senin vs Senin, Sabtu vs Sabtu) dalam 30 hari terakhir. Menghilangkan bias weekday vs weekend.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📈</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Selisih</div>
+    <h4 class="guide-card-title">Indikator Utama</h4>
+    <p class="guide-card-desc">Berapa persen revenue kemarin menyimpang dari baseline SDOW. Indikator utama: apakah kemarin <em>abnormal</em> dibanding biasanya?</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -1874,16 +1931,35 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
 <BigValue data={branch_agg_7d}  value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_7d}  value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
-
-🧾 **Total Orders** — Seberapa ramai bisnis secara keseluruhan? Angka ini mengukur volume aktivitas, terlepas dari harga. Berguna untuk membedakan apakah penurunan revenue karena sepi pengunjung atau karena pelanggan belanja lebih sedikit.
-
-💳 **AOV (Avg Order Value)** — Seberapa besar nilai tiap transaksi? Ini mengukur kualitas kunjungan, bukan hanya jumlahnya. AOV rendah bisa berarti pelanggan hanya beli satu item — ada peluang upselling yang belum dimanfaatkan.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🏆</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Cabang Terbaik</div>
+    <h4 class="guide-card-title">Acuan Performa</h4>
+    <p class="guide-card-desc">Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🧾</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Total Orders</div>
+    <h4 class="guide-card-title">Volume Aktivitas</h4>
+    <p class="guide-card-desc">Mengukur volume aktivitas terlepas dari harga. Membedakan apakah penurunan revenue karena sepi pengunjung atau pelanggan belanja lebih sedikit.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">💳</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">AOV</div>
+    <h4 class="guide-card-title">Kualitas Transaksi</h4>
+    <p class="guide-card-desc">Seberapa besar nilai tiap transaksi? Mengukur kualitas kunjungan. AOV rendah bisa berarti ada peluang upselling yang belum dimanfaatkan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -1971,16 +2047,35 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
 <BigValue data={branch_agg_30d} value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_30d} value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
-
-🧾 **Total Orders** — Seberapa ramai bisnis secara keseluruhan? Angka ini mengukur volume aktivitas, terlepas dari harga. Berguna untuk membedakan apakah penurunan revenue karena sepi pengunjung atau karena pelanggan belanja lebih sedikit.
-
-💳 **AOV (Avg Order Value)** — Seberapa besar nilai tiap transaksi? Ini mengukur kualitas kunjungan, bukan hanya jumlahnya. AOV rendah bisa berarti pelanggan hanya beli satu item — ada peluang upselling yang belum dimanfaatkan.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🏆</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Cabang Terbaik</div>
+    <h4 class="guide-card-title">Acuan Performa</h4>
+    <p class="guide-card-desc">Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🧾</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Total Orders</div>
+    <h4 class="guide-card-title">Volume Aktivitas</h4>
+    <p class="guide-card-desc">Mengukur volume aktivitas terlepas dari harga. Membedakan apakah penurunan revenue karena sepi pengunjung atau pelanggan belanja lebih sedikit.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">💳</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">AOV</div>
+    <h4 class="guide-card-title">Kualitas Transaksi</h4>
+    <p class="guide-card-desc">Seberapa besar nilai tiap transaksi? Mengukur kualitas kunjungan. AOV rendah bisa berarti ada peluang upselling yang belum dimanfaatkan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2068,16 +2163,35 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
 <BigValue data={branch_agg_yesterday} value="total_orders_all"  title="Total Orders (Semua Cabang)" fmt="#,##0" />
 <BigValue data={branch_agg_yesterday} value="aov_avg"           title="AOV (Semua Cabang)" fmt="#,##0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🏆 **Cabang Terbaik** — Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?
-
-🧾 **Total Orders** — Seberapa ramai bisnis secara keseluruhan? Angka ini mengukur volume aktivitas, terlepas dari harga. Berguna untuk membedakan apakah penurunan revenue karena sepi pengunjung atau karena pelanggan belanja lebih sedikit.
-
-💳 **AOV (Avg Order Value)** — Seberapa besar nilai tiap transaksi? Ini mengukur kualitas kunjungan, bukan hanya jumlahnya. AOV rendah bisa berarti pelanggan hanya beli satu item — ada peluang upselling yang belum dimanfaatkan.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🏆</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Cabang Terbaik</div>
+    <h4 class="guide-card-title">Acuan Performa</h4>
+    <p class="guide-card-desc">Siapa yang jadi acuan performa? Bukan untuk dipuji, tapi untuk dipelajari: apa yang mereka lakukan berbeda dari cabang lain?</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🧾</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Total Orders</div>
+    <h4 class="guide-card-title">Volume Aktivitas</h4>
+    <p class="guide-card-desc">Mengukur volume aktivitas terlepas dari harga. Membedakan apakah penurunan revenue karena sepi pengunjung atau pelanggan belanja lebih sedikit.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">💳</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">AOV</div>
+    <h4 class="guide-card-title">Kualitas Transaksi</h4>
+    <p class="guide-card-desc">Seberapa besar nilai tiap transaksi? Mengukur kualitas kunjungan. AOV rendah bisa berarti ada peluang upselling yang belum dimanfaatkan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2179,16 +2293,35 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
 <BigValue data={menu_kpi_agg_7d}   value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_7d}   value="menu_aktif_label" title="Menu Aktif (min. 4 dari 7 hari)" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🥇 **Menu Terlaris** — Menu dengan revenue tertinggi dalam periode ini. Ini tulang punggung bisnis — jaga kualitas, konsistensi, dan stoknya.
-
-📊 **Kontribusi Revenue** — Berapa persen revenue total yang disumbang menu terlaris? Angka ini mengukur ketergantungan bisnis pada satu menu. Makin tinggi, makin berisiko kalau menu itu bermasalah.
-
-✅ **Menu Aktif** — Jumlah menu yang terjual minimal 4 dari 7 hari. Menu yang jarang laku menghabiskan slot menu, membebani stok, dan membingungkan pelanggan. Menu aktif yang sedikit bisa jadi sinyal menu terlalu gemuk.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🥇</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Terlaris</div>
+    <h4 class="guide-card-title">Tulang Punggung</h4>
+    <p class="guide-card-desc">Menu dengan revenue tertinggi. Jaga kualitas, konsistensi, dan stoknya — ini tulang punggung bisnis.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Revenue</div>
+    <h4 class="guide-card-title">Tingkat Ketergantungan</h4>
+    <p class="guide-card-desc">Berapa persen revenue total dari menu terlaris? Makin tinggi, makin berisiko kalau menu itu bermasalah.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Aktif</div>
+    <h4 class="guide-card-title">Konsistensi Penjualan</h4>
+    <p class="guide-card-desc">Menu yang terjual minimal 4 dari 7 hari. Menu jarang laku menghabiskan slot, membebani stok, dan membingungkan pelanggan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2304,16 +2437,35 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
 <BigValue data={menu_kpi_agg_30d}  value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_30d}  value="menu_aktif_label" title="Menu Aktif (min. 15 dari 30 hari)" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🥇 **Menu Terlaris** — Menu dengan revenue tertinggi dalam periode ini. Ini tulang punggung bisnis — jaga kualitas, konsistensi, dan stoknya.
-
-📊 **Kontribusi Revenue** — Berapa persen revenue total yang disumbang menu terlaris? Angka ini mengukur ketergantungan bisnis pada satu menu. Makin tinggi, makin berisiko kalau menu itu bermasalah.
-
-✅ **Menu Aktif** — Jumlah menu yang terjual minimal 15 dari 30 hari. Data 30 hari cukup untuk melihat apakah ketidakaktifan menu bersifat struktural atau hanya fluktuasi sesaat.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🥇</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Terlaris</div>
+    <h4 class="guide-card-title">Tulang Punggung</h4>
+    <p class="guide-card-desc">Menu dengan revenue tertinggi. Jaga kualitas, konsistensi, dan stoknya — ini tulang punggung bisnis.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Revenue</div>
+    <h4 class="guide-card-title">Tingkat Ketergantungan</h4>
+    <p class="guide-card-desc">Berapa persen revenue total dari menu terlaris? Makin tinggi, makin berisiko kalau menu itu bermasalah.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Aktif</div>
+    <h4 class="guide-card-title">Konsistensi Struktural</h4>
+    <p class="guide-card-desc">Menu yang terjual minimal 15 dari 30 hari. Data sebulan cukup untuk melihat apakah ketidakaktifan bersifat struktural.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2429,16 +2581,35 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
 <BigValue data={menu_kpi_agg_yesterday} value="kontribusi_pct"  title="Kontribusi Revenue Menu Terlaris" fmt="0.0\%" />
 <BigValue data={menu_kpi_agg_yesterday} value="menu_aktif_label" title="Menu Terjual Kemarin" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🥇 **Menu Terlaris** — Menu dengan revenue tertinggi kemarin. Urutan menu harian bisa berubah antara hari kerja dan weekend — untuk pola yang lebih konsisten, lihat data 7 atau 30 hari.
-
-📊 **Kontribusi Revenue** — Berapa persen revenue total yang disumbang menu terlaris kemarin? Angka ini mengukur ketergantungan bisnis pada satu menu di hari itu.
-
-✅ **Menu Terjual** — Berapa menu yang berhasil terjual kemarin dari total menu yang tersedia. Menu yang tidak terjual sama sekali dalam sehari bisa karena stok habis, tidak tampil di POS, atau memang tidak diminati.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🥇</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Terlaris</div>
+    <h4 class="guide-card-title">Harian Fluktuatif</h4>
+    <p class="guide-card-desc">Menu dengan revenue tertinggi kemarin. Urutan harian bisa berubah — untuk pola konsisten, lihat data 7 atau 30 hari.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Revenue</div>
+    <h4 class="guide-card-title">Ketergantungan Harian</h4>
+    <p class="guide-card-desc">Berapa persen revenue total dari menu terlaris kemarin? Mengukur ketergantungan bisnis pada satu menu di hari itu.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Menu Terjual</div>
+    <h4 class="guide-card-title">Cakupan Harian</h4>
+    <p class="guide-card-desc">Berapa menu yang terjual kemarin dari total yang tersedia. Tidak terjual bisa karena stok habis, tidak di POS, atau tidak diminati.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2516,16 +2687,35 @@ _Urutan menu harian bisa berubah signifikan antara hari kerja dan weekend. Untuk
 <BigValue data={member_kpi_7d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_7d} value="avg_frekuensi"    title="Avg Transaksi per Member (7 Hari)" fmt="0.0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-👥 **Member Aktif** — Jumlah member yang benar-benar bertransaksi dalam 7 hari terakhir. Bukan total member terdaftar — yang penting adalah yang aktif belanja, bukan yang hanya punya kartu.
-
-📦 **Kontribusi Order Member** — Berapa persen dari total order yang berasal dari member? Mengukur seberapa besar peran program loyalitas terhadap volume bisnis secara keseluruhan.
-
-🔁 **Avg Transaksi per Member** — Rata-rata berapa kali seorang member kembali bertransaksi dalam 7 hari. Ini mengukur loyalitas yang sesungguhnya — bukan seberapa besar sekali beli, tapi seberapa sering mereka kembali.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">👥</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Member Aktif</div>
+    <h4 class="guide-card-title">Loyalitas Aktual</h4>
+    <p class="guide-card-desc">Jumlah member yang benar-benar bertransaksi dalam 7 hari. Yang penting adalah yang aktif belanja, bukan yang hanya punya kartu.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Order</div>
+    <h4 class="guide-card-title">Peran Program</h4>
+    <p class="guide-card-desc">Berapa persen dari total order yang berasal dari member? Mengukur seberapa besar peran program loyalitas terhadap volume bisnis.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🔁</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Avg Transaksi</div>
+    <h4 class="guide-card-title">Frekuensi Kembali</h4>
+    <p class="guide-card-desc">Rata-rata berapa kali seorang member kembali bertransaksi dalam 7 hari. Mengukur loyalitas sesungguhnya — seberapa sering mereka kembali.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2615,16 +2805,35 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 <BigValue data={member_kpi_30d} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_30d} value="avg_frekuensi"    title="Avg Transaksi per Member (30 Hari)" fmt="0.0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-👥 **Member Aktif** — Jumlah member yang benar-benar bertransaksi dalam 30 hari terakhir. Data sebulan cukup untuk melihat pola loyalitas yang lebih konsisten dibanding data harian.
-
-📦 **Kontribusi Order Member** — Berapa persen dari total order yang berasal dari member? Data 30 hari memberikan gambaran struktural yang lebih akurat tentang peran program loyalitas.
-
-🔁 **Avg Transaksi per Member** — Rata-rata berapa kali seorang member kembali bertransaksi dalam 30 hari. Data sebulan cukup untuk melihat apakah pola kembali member bersifat konsisten atau hanya sesaat.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">👥</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Member Aktif</div>
+    <h4 class="guide-card-title">Pola Loyalitas</h4>
+    <p class="guide-card-desc">Jumlah member yang bertransaksi dalam 30 hari. Data sebulan cukup untuk melihat pola loyalitas yang lebih konsisten.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Order</div>
+    <h4 class="guide-card-title">Peran Struktural</h4>
+    <p class="guide-card-desc">Berapa persen total order dari member? Data 30 hari memberikan gambaran struktural yang lebih akurat tentang peran program loyalitas.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🔁</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Avg Transaksi</div>
+    <h4 class="guide-card-title">Konsistensi Kembali</h4>
+    <p class="guide-card-desc">Rata-rata berapa kali member kembali bertransaksi dalam 30 hari. Cukup untuk melihat apakah pola kembali bersifat konsisten atau sesaat.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2714,16 +2923,35 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 <BigValue data={member_kpi_yesterday} value="pct_order_member" title="Kontribusi Order dari Member (%)" fmt="0.0\%" />
 <BigValue data={member_kpi_yesterday} value="avg_frekuensi"    title="Transaksi per Member (Kemarin)"   fmt="0.0" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-👥 **Member Aktif** — Jumlah member yang bertransaksi kemarin. Data harian bisa fluktuatif — untuk pola loyalitas yang lebih akurat, lihat data 7 atau 30 hari.
-
-📦 **Kontribusi Order Member** — Berapa persen dari total order kemarin yang berasal dari member? Angka harian bisa sangat bervariasi tergantung hari dalam seminggu.
-
-🔁 **Transaksi per Member** — Rata-rata berapa kali seorang member bertransaksi kemarin. Untuk data harian angka ini hampir selalu 1 — lebih bermakna dilihat di period 7 atau 30 hari.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">👥</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Member Aktif</div>
+    <h4 class="guide-card-title">Snapshot Harian</h4>
+    <p class="guide-card-desc">Jumlah member yang bertransaksi kemarin. Data harian bisa fluktuatif — untuk pola loyalitas lebih akurat, lihat data 7 atau 30 hari.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kontribusi Order</div>
+    <h4 class="guide-card-title">Kontribusi Harian</h4>
+    <p class="guide-card-desc">Berapa persen total order kemarin dari member? Angka harian bisa bervariasi tergantung hari dalam seminggu.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🔁</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Transaksi</div>
+    <h4 class="guide-card-title">Frekuensi Harian</h4>
+    <p class="guide-card-desc">Rata-rata berapa kali member bertransaksi kemarin. Untuk data harian hampir selalu 1 — lebih bermakna di period 7 atau 30 hari.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2803,16 +3031,35 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 <BigValue data={att_kpi_7d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_7d} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir dari total yang dijadwalkan. Lebih bermakna dari angka absolut karena langsung kelihatan seberapa "penuh" operasional berjalan tanpa perlu tahu jumlah total pegawai.
-
-⏰ **Tingkat Keterlambatan** — Persentase dari yang hadir tapi datang terlambat. Keterlambatan berdampak langsung ke kualitas servis di jam-jam awal buka — terutama di shift pagi yang biasanya paling sibuk.
-
-📊 **Shift Tersibuk** — Shift dengan revenue tertinggi dalam periode ini. Ini shift yang paling kritis dijaga kualitas dan jumlah staf-nya — kalau banyak yang absent atau terlambat di shift ini, dampaknya langsung ke revenue.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kehadiran</div>
+    <h4 class="guide-card-title">Kapasitas Operasional</h4>
+    <p class="guide-card-desc">Persentase pegawai yang hadir dari total yang dijadwalkan. Langsung kelihatan seberapa "penuh" operasional berjalan.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⏰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Keterlambatan</div>
+    <h4 class="guide-card-title">Kualitas Servis</h4>
+    <p class="guide-card-desc">Persentase yang hadir tapi terlambat. Berdampak langsung ke kualitas servis di jam-jam awal buka — terutama shift pagi.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Shift Tersibuk</div>
+    <h4 class="guide-card-title">Titik Kritis</h4>
+    <p class="guide-card-desc">Shift dengan revenue tertinggi. Paling kritis dijaga kualitas dan jumlah staf-nya — kalau absent di sini, dampaknya langsung ke revenue.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -2909,16 +3156,35 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 <BigValue data={att_kpi_30d} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_30d} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir dari total yang dijadwalkan. Data 30 hari cukup untuk melihat apakah pola absensi bersifat struktural atau hanya insidental.
-
-⏰ **Tingkat Keterlambatan** — Persentase dari yang hadir tapi datang terlambat. Pola 30 hari lebih bisa diandalkan untuk identifikasi masalah disiplin yang perlu penanganan personal.
-
-📊 **Shift Tersibuk** — Shift dengan revenue tertinggi dalam 30 hari. Shift ini adalah yang paling kritis dijaga kualitas dan jumlah staf-nya secara konsisten.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kehadiran</div>
+    <h4 class="guide-card-title">Pola Struktural</h4>
+    <p class="guide-card-desc">Persentase hadir dari total dijadwalkan. Data 30 hari cukup untuk melihat apakah pola absensi bersifat struktural atau insidental.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⏰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Keterlambatan</div>
+    <h4 class="guide-card-title">Masalah Disiplin</h4>
+    <p class="guide-card-desc">Persentase hadir tapi terlambat. Pola 30 hari lebih bisa diandalkan untuk identifikasi masalah disiplin yang perlu penanganan personal.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Shift Tersibuk</div>
+    <h4 class="guide-card-title">Prioritas Konsisten</h4>
+    <p class="guide-card-desc">Shift dengan revenue tertinggi dalam 30 hari. Paling kritis dijaga kualitas dan jumlah staf-nya secara konsisten.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3015,16 +3281,35 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 <BigValue data={att_kpi_yesterday} value="pct_terlambat"  title="Tingkat Keterlambatan" fmt="0.0\%" />
 <BigValue data={att_kpi_yesterday} value="shift_tersibuk" title="Shift Tersibuk" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-✅ **Tingkat Kehadiran** — Persentase pegawai yang hadir kemarin. Data harian berguna untuk respon cepat — kalau hari ini banyak yang absent, owner bisa langsung antisipasi sebelum jam buka.
-
-⏰ **Tingkat Keterlambatan** — Persentase dari yang hadir tapi datang terlambat kemarin. Untuk pola yang lebih bermakna, lihat data 7 atau 30 hari.
-
-📊 **Shift Tersibuk** — Shift dengan revenue tertinggi kemarin. Informasi ini membantu owner memastikan staf terbaik ditempatkan di shift yang paling kritis.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">✅</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kehadiran</div>
+    <h4 class="guide-card-title">Respon Cepat</h4>
+    <p class="guide-card-desc">Persentase hadir kemarin. Data harian untuk respon cepat — kalau banyak absent, owner bisa langsung antisipasi sebelum jam buka.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⏰</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Keterlambatan</div>
+    <h4 class="guide-card-title">Evaluasi Harian</h4>
+    <p class="guide-card-desc">Persentase hadir tapi terlambat kemarin. Untuk pola yang lebih bermakna, lihat data 7 atau 30 hari.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Shift Tersibuk</div>
+    <h4 class="guide-card-title">Fokus Hari Ini</h4>
+    <p class="guide-card-desc">Shift dengan revenue tertinggi kemarin. Memastikan staf terbaik ditempatkan di shift yang paling kritis.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3129,16 +3414,35 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 <BigValue data={inv_kpi_7d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_7d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan yang habis untuk bahan baku. Ini salah satu cost driver terbesar di restoran — standar industri 28–32%. Kalau angka ini naik tanpa diikuti kenaikan revenue, margin langsung tergerus.
-
-⚖️ **Rasio Beli vs Pakai** — Perbandingan antara total pembelian bahan dan total pemakaian dalam periode. Rasio ideal mendekati 1.0 — beli sesuai kebutuhan pakai. Di bawah 0.9 artinya stok lama terkuras, di atas 1.5 artinya over-purchasing.
-
-🏷️ **Kategori Biaya Tertinggi** — Kategori bahan yang paling banyak makan biaya minggu ini. Bukan alert benar/salah — hanya informasi untuk tahu di mana perhatian perlu difokuskan kalau biaya mulai naik.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Food Cost</div>
+    <h4 class="guide-card-title">Cost Driver Utama</h4>
+    <p class="guide-card-desc">Berapa persen penjualan yang habis untuk bahan baku. Standar industri <strong>28–32%</strong>. Naik tanpa diikuti revenue? Margin langsung tergerus.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⚖️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Rasio Beli/Pakai</div>
+    <h4 class="guide-card-title">Efisiensi Stok</h4>
+    <p class="guide-card-desc">Perbandingan pembelian vs pemakaian. Ideal mendekati <strong>1.0</strong>. Di bawah 0.9 stok terkuras, di atas 1.5 over-purchasing.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🏷️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kategori Tertinggi</div>
+    <h4 class="guide-card-title">Fokus Perhatian</h4>
+    <p class="guide-card-desc">Kategori bahan yang paling banyak makan biaya minggu ini. Informasi untuk tahu di mana perhatian perlu difokuskan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3243,16 +3547,35 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={inv_kpi_30d} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_30d} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan yang habis untuk bahan baku. Data 30 hari memberikan gambaran struktural yang lebih akurat — lebih bisa diandalkan untuk keputusan renegosiasi supplier.
-
-⚖️ **Rasio Beli vs Pakai** — Perbandingan antara total pembelian bahan dan total pemakaian dalam sebulan. Rasio 30 hari lebih stabil dari harian karena efek hari pembelian sudah ter-average. Di bawah 0.9 artinya stok lama terkuras, di atas 1.5 artinya over-purchasing.
-
-🏷️ **Kategori Biaya Tertinggi** — Kategori bahan yang paling banyak makan biaya dalam sebulan. Informasi untuk fokus evaluasi kalau biaya mulai naik.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Food Cost</div>
+    <h4 class="guide-card-title">Gambaran Struktural</h4>
+    <p class="guide-card-desc">Berapa persen penjualan yang habis untuk bahan baku. Data 30 hari lebih akurat — dasar keputusan renegosiasi supplier.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⚖️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Rasio Beli/Pakai</div>
+    <h4 class="guide-card-title">Stabilitas Stok</h4>
+    <p class="guide-card-desc">Pembelian vs pemakaian sebulan. Rasio 30 hari lebih stabil karena efek hari pembelian sudah ter-average. Ideal mendekati <strong>1.0</strong>.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🏷️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kategori Tertinggi</div>
+    <h4 class="guide-card-title">Fokus Evaluasi</h4>
+    <p class="guide-card-desc">Kategori bahan yang paling banyak makan biaya dalam sebulan. Informasi untuk fokus evaluasi kalau biaya mulai naik.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3357,16 +3680,35 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={inv_kpi_yesterday} value="rasio_beli_pakai"   title="Rasio Beli vs Pakai"        fmt="0.00" />
 <BigValue data={inv_kpi_yesterday} value="kategori_tertinggi" title="Kategori Biaya Tertinggi" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-📊 **% Biaya Bahan dari Revenue** — Berapa persen dari setiap rupiah penjualan kemarin yang habis untuk bahan baku. Data harian bisa sangat fluktuatif — hari pembelian stok besar akan terlihat lebih tinggi dari biasanya.
-
-⚖️ **Rasio Beli vs Pakai** — Perbandingan pembelian vs pemakaian kemarin. Untuk data harian rasio ini bisa 0 di hari tanpa pembelian — lebih bermakna dilihat di period 7 atau 30 hari.
-
-🏷️ **Kategori Biaya Tertinggi** — Kategori bahan yang paling banyak makan biaya kemarin. Informasi untuk tahu di mana fokus perhatian hari ini.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">📊</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Food Cost</div>
+    <h4 class="guide-card-title">Data Fluktuatif</h4>
+    <p class="guide-card-desc">Berapa persen penjualan kemarin untuk bahan baku. Data harian bisa sangat fluktuatif — hari pembelian besar terlihat lebih tinggi.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">⚖️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Rasio Beli/Pakai</div>
+    <h4 class="guide-card-title">Snapshot Harian</h4>
+    <p class="guide-card-desc">Pembelian vs pemakaian kemarin. Bisa 0 di hari tanpa pembelian — lebih bermakna di period 7 atau 30 hari.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">🏷️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Kategori Tertinggi</div>
+    <h4 class="guide-card-title">Fokus Hari Ini</h4>
+    <p class="guide-card-desc">Kategori bahan yang paling banyak makan biaya kemarin. Informasi untuk tahu di mana fokus perhatian hari ini.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3479,16 +3821,35 @@ _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi terat
 <BigValue data={peak_kpi_7d} value="periode_puncak"    title="Periode Puncak" />
 <BigValue data={peak_kpi_7d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🕐 **Jam Puncak** — Jam dengan volume order tertinggi dalam 7 hari terakhir. Ini jam paling kritis secara operasional — kekurangan staf 1 jam di sini dampaknya jauh lebih besar dari 3 jam di jam sepi.
-
-🍽️ **Periode Puncak** — Konteks waktu jam puncak (Pagi, Makan Siang, Sore, Makan Malam, Larut Malam). Membantu owner langsung paham ritme bisnis tanpa perlu menginterpretasi angka jam.
-
-📦 **Order Type Dominan** — Jenis order terbanyak di jam puncak. Menentukan kebutuhan staf yang berbeda — Dine In butuh lebih banyak pramusaji, Takeaway butuh kasir cepat, Delivery butuh packer dan koordinator kurir.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🕐</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Jam Puncak</div>
+    <h4 class="guide-card-title">Titik Kritis</h4>
+    <p class="guide-card-desc">Jam dengan volume order tertinggi. Kekurangan staf 1 jam di sini dampaknya jauh lebih besar dari 3 jam di jam sepi.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🍽️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Periode Puncak</div>
+    <h4 class="guide-card-title">Konteks Waktu</h4>
+    <p class="guide-card-desc">Konteks waktu jam puncak (Pagi, Siang, Sore, Malam). Membantu owner langsung paham ritme bisnis tanpa interpretasi angka.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Order Type</div>
+    <h4 class="guide-card-title">Kebutuhan Staf</h4>
+    <p class="guide-card-desc">Jenis order terbanyak di jam puncak. Dine In butuh pramusaji, Takeaway butuh kasir cepat, Delivery butuh packer.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3554,16 +3915,35 @@ _Jam puncak adalah momen kritis — kekurangan staf 1 jam di sini dampaknya lebi
 <BigValue data={peak_kpi_30d} value="periode_puncak"     title="Periode Puncak" />
 <BigValue data={peak_kpi_30d} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🕐 **Jam Puncak** — Jam dengan volume order tertinggi dalam 30 hari terakhir. Data sebulan lebih representatif untuk penjadwalan staf jangka panjang karena sudah mencakup variasi hari kerja dan weekend.
-
-🍽️ **Periode Puncak** — Konteks waktu jam puncak. Data 30 hari memberikan gambaran yang lebih stabil tentang ritme bisnis dibanding data harian yang bisa berfluktuasi.
-
-📦 **Order Type Dominan** — Jenis order terbanyak di jam puncak selama sebulan. Dasar yang solid untuk keputusan alokasi staf dan jenis pelatihan yang diprioritaskan.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🕐</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Jam Puncak</div>
+    <h4 class="guide-card-title">Penjadwalan Staf</h4>
+    <p class="guide-card-desc">Jam dengan volume order tertinggi 30 hari. Lebih representatif untuk penjadwalan staf jangka panjang — sudah mencakup variasi hari kerja dan weekend.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🍽️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Periode Puncak</div>
+    <h4 class="guide-card-title">Ritme Bisnis</h4>
+    <p class="guide-card-desc">Konteks waktu jam puncak. Data 30 hari memberikan gambaran lebih stabil tentang ritme bisnis dibanding data harian.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Order Type</div>
+    <h4 class="guide-card-title">Alokasi Staf</h4>
+    <p class="guide-card-desc">Jenis order terbanyak di jam puncak sebulan. Dasar solid untuk keputusan alokasi staf dan jenis pelatihan yang diprioritaskan.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
@@ -3629,16 +4009,35 @@ _Pola jam sibuk 30 hari adalah dasar penjadwalan staf yang efisien. Kalau ada ja
 <BigValue data={peak_kpi_yesterday} value="periode_puncak"     title="Periode Puncak" />
 <BigValue data={peak_kpi_yesterday} value="order_type_dominan" title="Order Type Dominan di Jam Puncak" />
 
-<details class="context-acc">
-<summary>Kenapa KPI ini?</summary>
-<div class="acc-body">
-
-🕐 **Jam Puncak** — Jam dengan volume order tertinggi kemarin. Berguna untuk evaluasi apakah distribusi staf kemarin sudah optimal di jam-jam kritis.
-
-🍽️ **Periode Puncak** — Konteks waktu jam puncak kemarin. Data harian bisa berbeda signifikan antara hari kerja dan weekend — untuk pola yang lebih stabil, lihat data 7 atau 30 hari.
-
-📦 **Order Type Dominan** — Jenis order terbanyak di jam puncak kemarin. Informasi untuk evaluasi kesiapan operasional hari ini kalau polanya serupa.
-
+<details class="guide-acc">
+<summary>💡 Kenapa KPI ini?</summary>
+<div class="guide-body">
+<div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+<div class="guide-card blue">
+  <div class="guide-card-icon">🕐</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Jam Puncak</div>
+    <h4 class="guide-card-title">Evaluasi Kemarin</h4>
+    <p class="guide-card-desc">Jam dengan volume order tertinggi kemarin. Evaluasi apakah distribusi staf kemarin sudah optimal di jam-jam kritis.</p>
+  </div>
+</div>
+<div class="guide-card orange">
+  <div class="guide-card-icon">🍽️</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Periode Puncak</div>
+    <h4 class="guide-card-title">Ritme Harian</h4>
+    <p class="guide-card-desc">Konteks waktu jam puncak kemarin. Data harian bisa berbeda signifikan — untuk pola stabil, lihat data 7 atau 30 hari.</p>
+  </div>
+</div>
+<div class="guide-card teal">
+  <div class="guide-card-icon">📦</div>
+  <div class="guide-card-content">
+    <div class="guide-card-label">Order Type</div>
+    <h4 class="guide-card-title">Kesiapan Hari Ini</h4>
+    <p class="guide-card-desc">Jenis order terbanyak di jam puncak kemarin. Evaluasi kesiapan operasional hari ini kalau polanya serupa.</p>
+  </div>
+</div>
+</div>
 </div>
 </details>
 
