@@ -169,9 +169,9 @@ details.acc-strategic .acc-body {
 
 /* ── Hero ── */
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   padding: 24px;
   border-radius: 22px;
   border: 1px solid rgba(37, 99, 235, 0.12);
@@ -180,6 +180,13 @@ details.acc-strategic .acc-body {
     radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 40%),
     linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(194, 65, 12, 0.04)),
     var(--color-background-secondary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 18px;
 }
 
 .hero-eyebrow {
@@ -188,7 +195,6 @@ details.acc-strategic .acc-body {
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--color-text-tertiary);
-  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -203,7 +209,7 @@ details.acc-strategic .acc-body {
 }
 
 .hero-main-card {
-  padding: 22px;
+  padding: 24px;
   border-radius: 16px;
   border: 1.5px solid transparent;
   display: flex;
@@ -211,6 +217,13 @@ details.acc-strategic .acc-body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.hero-main-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05), 0 2px 5px rgba(0, 0, 0, 0.03);
 }
 
 .hero-main-card.status-sehat {
@@ -276,6 +289,14 @@ details.acc-strategic .acc-body {
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
   background: rgba(255,255,255,0.72);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01);
+}
+
+.hero-side-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .hero-side-label {
@@ -1066,29 +1087,31 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
   ══════════════════════════════════════════ -->
   {#if inputs.period === 'mtd'}
     <div class="hero">
-      <div class="hero-main-card {fin_kpi_mtd[0].margin_mtd >= 15 ? 'status-sehat' : fin_kpi_mtd[0].margin_mtd >= 10 ? 'status-waspada' : 'status-kritis'}">
-        <div class="hero-eyebrow">💰 Laporan Keuangan · Bulan Berjalan</div>
-        <div class="hero-stat-number">{fin_kpi_mtd[0].margin_mtd}%</div>
-        <div class="hero-subtitle">
-          {#if fin_kpi_mtd[0].margin_mtd >= 15}
-            Margin masih sehat di bulan {fin_nama_bulan[0].nama_bulan}.
-          {:else if fin_kpi_mtd[0].margin_mtd >= 10}
-            Margin masuk zona waspada bulan {fin_nama_bulan[0].nama_bulan}.
-          {:else}
-            Margin sudah kritis di bulan {fin_nama_bulan[0].nama_bulan}.
-          {/if}
+      <div class="hero-eyebrow">💰 Laporan Keuangan · Bulan Berjalan</div>
+      <div class="hero-grid">
+        <div class="hero-main-card {fin_kpi_mtd[0].margin_mtd >= 15 ? 'status-sehat' : fin_kpi_mtd[0].margin_mtd >= 10 ? 'status-waspada' : 'status-kritis'}">
+          <div class="hero-stat-number">{fin_kpi_mtd[0].margin_mtd}%</div>
+          <div class="hero-subtitle">
+            {#if fin_kpi_mtd[0].margin_mtd >= 15}
+              Margin masih sehat di bulan {fin_nama_bulan[0].nama_bulan}.
+            {:else if fin_kpi_mtd[0].margin_mtd >= 10}
+              Margin masuk zona waspada bulan {fin_nama_bulan[0].nama_bulan}.
+            {:else}
+              Margin sudah kritis di bulan {fin_nama_bulan[0].nama_bulan}.
+            {/if}
+          </div>
         </div>
-      </div>
-      <div class="hero-side">
-        <div class="hero-side-card">
-          <div class="hero-side-label">📅 Periode Aktif</div>
-          <div class="hero-side-value">{fin_nama_bulan[0].nama_bulan} · {fin_kpi_mtd[0].hari_berjalan}/{fin_kpi_mtd[0].total_hari_bulan} hari</div>
-          <div class="hero-side-note">Masih ada {fin_kpi_mtd[0].total_hari_bulan - fin_kpi_mtd[0].hari_berjalan} hari tersisa untuk mengubah arah margin bulan ini.</div>
-        </div>
-        <div class="hero-side-card">
-          <div class="hero-side-label">🔮 Proyeksi Pace Saat Ini</div>
-          <div class="hero-side-value">Rp {(fin_kpi_mtd[0].proyeksi_gross / 1000000).toFixed(1)}jt gross</div>
-          <div class="hero-side-note">Net revenue terproyeksi Rp {(fin_kpi_mtd[0].proyeksi_net / 1000000).toFixed(1)}jt. Proyeksi ini linear, cukup untuk baca arah, bukan angka final.</div>
+        <div class="hero-side">
+          <div class="hero-side-card">
+            <div class="hero-side-label">📅 Periode Aktif</div>
+            <div class="hero-side-value">{fin_nama_bulan[0].nama_bulan} · {fin_kpi_mtd[0].hari_berjalan}/{fin_kpi_mtd[0].total_hari_bulan} hari</div>
+            <div class="hero-side-note">Masih ada {fin_kpi_mtd[0].total_hari_bulan - fin_kpi_mtd[0].hari_berjalan} hari tersisa untuk mengubah arah margin bulan ini.</div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-side-label">🔮 Proyeksi Pace Saat Ini</div>
+            <div class="hero-side-value">Rp {(fin_kpi_mtd[0].proyeksi_gross / 1000000).toFixed(1)}jt gross</div>
+            <div class="hero-side-note">Net revenue terproyeksi Rp {(fin_kpi_mtd[0].proyeksi_net / 1000000).toFixed(1)}jt. Proyeksi ini linear, cukup untuk baca arah, bukan angka final.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1261,29 +1284,31 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
   ══════════════════════════════════════════ -->
   {:else if inputs.period === '90d'}
     <div class="hero">
-      <div class="hero-main-card {fin_kpi[0].margin_90d >= 15 ? 'status-sehat' : fin_kpi[0].margin_90d >= 10 ? 'status-waspada' : 'status-kritis'}">
-        <div class="hero-eyebrow">🔭 Laporan Keuangan · 90 Hari Terakhir</div>
-        <div class="hero-stat-number">{fin_kpi[0].margin_90d}%</div>
-        <div class="hero-subtitle">
-          {#if fin_kpi[0].margin_90d >= 15}
-            Margin masih sehat untuk horizon 3 bulan.
-          {:else if fin_kpi[0].margin_90d >= 10}
-            Margin menunjukkan tekanan struktural ringan.
-          {:else}
-            Margin sudah kritis secara struktural.
-          {/if}
+      <div class="hero-eyebrow">🔭 Laporan Keuangan · 90 Hari Terakhir</div>
+      <div class="hero-grid">
+        <div class="hero-main-card {fin_kpi[0].margin_90d >= 15 ? 'status-sehat' : fin_kpi[0].margin_90d >= 10 ? 'status-waspada' : 'status-kritis'}">
+          <div class="hero-stat-number">{fin_kpi[0].margin_90d}%</div>
+          <div class="hero-subtitle">
+            {#if fin_kpi[0].margin_90d >= 15}
+              Margin masih sehat untuk horizon 3 bulan.
+            {:else if fin_kpi[0].margin_90d >= 10}
+              Margin menunjukkan tekanan struktural ringan.
+            {:else}
+              Margin sudah kritis secara struktural.
+            {/if}
+          </div>
         </div>
-      </div>
-      <div class="hero-side">
-        <div class="hero-side-card">
-          <div class="hero-side-label">📅 Periode Aktif</div>
-          <div class="hero-side-value">{fin_dates[0].tgl_90d_awal} - {fin_dates[0].tgl_akhir}</div>
-          <div class="hero-side-note">Cakupan ini cocok untuk menangkap pola biaya yang sudah berulang, bukan anomali beberapa hari.</div>
-        </div>
-        <div class="hero-side-card">
-          <div class="hero-side-label">📊 Perubahan Revenue</div>
-          <div class="hero-side-value">{fin_kpi[0].pct_change_gross_90d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_90d}%</div>
-          <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_90d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_90d}pp vs 90 hari sebelumnya.</div>
+        <div class="hero-side">
+          <div class="hero-side-card">
+            <div class="hero-side-label">📅 Periode Aktif</div>
+            <div class="hero-side-value">{fin_dates[0].tgl_90d_awal} - {fin_dates[0].tgl_akhir}</div>
+            <div class="hero-side-note">Cakupan ini cocok untuk menangkap pola biaya yang sudah berulang, bukan anomali beberapa hari.</div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-side-label">📊 Perubahan Revenue</div>
+            <div class="hero-side-value">{fin_kpi[0].pct_change_gross_90d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_90d}%</div>
+            <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_90d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_90d}pp vs 90 hari sebelumnya.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1435,29 +1460,31 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
   ══════════════════════════════════════════ -->
   {:else}
     <div class="hero">
-      <div class="hero-main-card {fin_kpi[0].margin_30d >= 15 ? 'status-sehat' : fin_kpi[0].margin_30d >= 10 ? 'status-waspada' : 'status-kritis'}">
-        <div class="hero-eyebrow">📊 Laporan Keuangan · 30 Hari Terakhir</div>
-        <div class="hero-stat-number">{fin_kpi[0].margin_30d}%</div>
-        <div class="hero-subtitle">
-          {#if fin_kpi[0].margin_30d >= 15}
-            Margin masih sehat untuk basis operasional utama.
-          {:else if fin_kpi[0].margin_30d >= 10}
-            Margin sudah masuk zona waspada dalam 30 hari.
-          {:else}
-            Margin sudah kritis secara operasional.
-          {/if}
+      <div class="hero-eyebrow">📊 Laporan Keuangan · 30 Hari Terakhir</div>
+      <div class="hero-grid">
+        <div class="hero-main-card {fin_kpi[0].margin_30d >= 15 ? 'status-sehat' : fin_kpi[0].margin_30d >= 10 ? 'status-waspada' : 'status-kritis'}">
+          <div class="hero-stat-number">{fin_kpi[0].margin_30d}%</div>
+          <div class="hero-subtitle">
+            {#if fin_kpi[0].margin_30d >= 15}
+              Margin masih sehat untuk basis operasional utama.
+            {:else if fin_kpi[0].margin_30d >= 10}
+              Margin sudah masuk zona waspada dalam 30 hari.
+            {:else}
+              Margin sudah kritis secara operasional.
+            {/if}
+          </div>
         </div>
-      </div>
-      <div class="hero-side">
-        <div class="hero-side-card">
-          <div class="hero-side-label">📅 Periode Aktif</div>
-          <div class="hero-side-value">{fin_dates[0].tgl_30d_awal} - {fin_dates[0].tgl_akhir}</div>
-          <div class="hero-side-note">Ini window paling stabil untuk keputusan operasional: cukup panjang untuk melihat pola, cukup dekat untuk bereaksi.</div>
-        </div>
-        <div class="hero-side-card">
-          <div class="hero-side-label">📊 Pertumbuhan Revenue</div>
-          <div class="hero-side-value">{fin_kpi[0].pct_change_gross_30d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_30d}%</div>
-          <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_30d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_30d}pp vs 30 hari sebelumnya.</div>
+        <div class="hero-side">
+          <div class="hero-side-card">
+            <div class="hero-side-label">📅 Periode Aktif</div>
+            <div class="hero-side-value">{fin_dates[0].tgl_30d_awal} - {fin_dates[0].tgl_akhir}</div>
+            <div class="hero-side-note">Ini window paling stabil untuk keputusan operasional: cukup panjang untuk melihat pola, cukup dekat untuk bereaksi.</div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-side-label">📊 Pertumbuhan Revenue</div>
+            <div class="hero-side-value">{fin_kpi[0].pct_change_gross_30d > 0 ? '+' : ''}{fin_kpi[0].pct_change_gross_30d}%</div>
+            <div class="hero-side-note">Margin berubah {fin_kpi[0].delta_margin_30d > 0 ? '+' : ''}{fin_kpi[0].delta_margin_30d}pp vs 30 hari sebelumnya.</div>
+          </div>
         </div>
       </div>
     </div>
