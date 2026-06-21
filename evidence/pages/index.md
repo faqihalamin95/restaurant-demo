@@ -2,6 +2,28 @@
 title: Wekadata — Ringkasan Performa Bisnis
 ---
 
+<style>
+.table-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  margin: 14px 0;
+  border-radius: 8px;
+}
+
+.table-scroll-container table {
+  width: 100%;
+  min-width: 650px;
+}
+
+.table-scroll-container th,
+.table-scroll-container td {
+  white-space: nowrap;
+}
+</style>
+
+
+
 ```sql tgl
 SELECT
     DAY(MAX(order_date)) || ' ' ||
@@ -1982,6 +2004,7 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Drop signifikan (&lt;-15%)</span>
 </div>
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2004,6 +2027,7 @@ _Selisih revenue kemarin vs rata-rata hari serupa per cabang. Positif berarti di
         {/each}
     </tbody>
 </table>
+</div>
 
 
 </div>
@@ -2148,6 +2172,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan lokasi, kualitas staf, atau manajemen. Cabang terbawah bukan berarti bermasalah — perlu dilihat tren-nya dulu sebelum mengambil kesimpulan._
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2168,6 +2193,7 @@ _Selisih revenue antar cabang yang konsisten bisa mengindikasikan perbedaan loka
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -2299,6 +2325,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang bersifat struktural atau hanya fluktuasi biasa. Perhatikan apakah urutan cabang berubah dari minggu ke minggu._
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2319,6 +2346,7 @@ _30 hari adalah periode yang cukup untuk melihat apakah perbedaan antar cabang b
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -2450,6 +2478,7 @@ Angka ini bukan standar industri nasional, tapi threshold yang wajar berdasarkan
 
 _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saja. Kolom "Rata-rata Hari Serupa" menunjukkan baseline hari yang sama di minggu-minggu sebelumnya._
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2476,6 +2505,7 @@ _Data satu hari bisa fluktuatif — jangan langsung simpulkan dari satu hari saj
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -2648,6 +2678,7 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(59,130,246,0.2);border:1px solid #3b82f6;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Pekerja Keras (kanan bawah)</span>
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Lemah (kiri bawah)</span>
 </div>
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2668,6 +2699,7 @@ _Menu Primadona adalah tulang punggung bisnis — jaga kualitas dan stoknya. Men
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -2828,6 +2860,7 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(59,130,246,0.2);border:1px solid #3b82f6;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Pekerja Keras (kanan bawah)</span>
     <span><span style="display:inline-block;width:12px;height:12px;background:rgba(220,38,38,0.15);border:1px solid #dc2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Lemah (kiri bawah)</span>
 </div>
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -2848,6 +2881,7 @@ _Data 30 hari memberikan gambaran menu engineering yang lebih akurat. Menu yang 
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3103,6 +3137,7 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
 
 <BarChart data={member_tier_7d} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — 7 Hari" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3123,6 +3158,7 @@ _Member Gold berkontribusi besar pada revenue meski jumlahnya sedikit — priori
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3251,6 +3287,7 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
 
 <BarChart data={member_tier_30d} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — 30 Hari" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3271,6 +3308,7 @@ _Data 30 hari memperlihatkan pola frekuensi kembali per tier yang lebih stabil. 
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3385,6 +3423,7 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
 
 <BarChart data={member_tier_yesterday} x="tier" y="avg_frekuensi" title="Avg Transaksi per Member per Tier — Kemarin" yFmt="0.0" colorPalette={['#f4b548']} xAxisTitle="Tier" yAxisTitle="Avg Transaksi" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3405,6 +3444,7 @@ _Data member harian menunjukkan siapa yang aktif kemarin. Untuk analisis frekuen
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3552,6 +3592,7 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
 
 <BarChart data={shift_kpi_7d} x="shift_name" y="total_revenue" title="Revenue per Shift — 7 Hari (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3572,6 +3613,7 @@ _Tingkat absensi di atas 15% dalam seminggu perlu perhatian sebelum berdampak ke
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3707,6 +3749,7 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
 
 <BarChart data={shift_kpi_30d} x="shift_name" y="total_revenue" title="Revenue per Shift — 30 Hari (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3727,6 +3770,7 @@ _Pola absensi 30 hari lebih bisa diandalkan untuk identifikasi masalah struktura
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -3860,6 +3904,7 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
 
 <BarChart data={shift_kpi_yesterday} x="shift_name" y="total_revenue" title="Revenue per Shift — Kemarin (Rp)" yFmt="#,##0" colorPalette={['#85c7c6']} xAxisTitle="Shift" yAxisTitle="Revenue (Rp)" />
 
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -3880,6 +3925,7 @@ _Satu hari absensi tinggi bisa karena faktor insidental. Kalau pola ini berulang
         {/each}
     </tbody>
 </table>
+</div>
 
 </div>
 </details>
@@ -4039,6 +4085,7 @@ _Kategori dengan biaya tertinggi minggu ini: **{inv_kpi_7d[0].kategori_tertinggi
 <BarChart data={inv_cat_7d} x="category" y={["biaya_pakai","biaya_beli"]} type="grouped" title="Pemakaian vs Pembelian per Kategori — 7 Hari (Rp)" yFmt="#,##0" xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
 <div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -4061,6 +4108,7 @@ _Kategori dengan biaya tertinggi minggu ini: **{inv_kpi_7d[0].kategori_tertinggi
         {/each}
     </tbody>
 </table>
+</div>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian. Item dengan rasio tinggi adalah kandidat pertama untuk dikurangi volume pembeliannya._
 
@@ -4210,6 +4258,7 @@ _Kategori dengan biaya tertinggi bulan ini: **{inv_kpi_30d[0].kategori_tertinggi
 <BarChart data={inv_cat_30d} x="category" y={["biaya_pakai","biaya_beli"]} type="grouped" title="Pemakaian vs Pembelian per Kategori — 30 Hari (Rp)" yFmt="#,##0" xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
 <div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -4232,6 +4281,7 @@ _Kategori dengan biaya tertinggi bulan ini: **{inv_kpi_30d[0].kategori_tertinggi
         {/each}
     </tbody>
 </table>
+</div>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian. Kalau item yang sama konsisten di posisi teratas selama sebulan, jadwal pembeliannya perlu dievaluasi._
 
@@ -4379,6 +4429,7 @@ _Biaya bahan harian bisa fluktuatif tergantung jadwal pembelian. Hari pembelian 
 <BarChart data={inv_cat_yesterday} x="category" y="biaya_pakai" title="Biaya Bahan per Kategori — Kemarin (Rp)" yFmt="#,##0" colorPalette={['#8f3d56']} xAxisTitle="Kategori" yAxisTitle="Biaya (Rp)" />
 
 <div style="font-weight: 600; margin: 12px 0 6px; font-size: 0.95em;">Detail Item — Diurutkan Rasio Beli/Pakai Tertinggi</div>
+<div class="table-scroll-container">
 <table class="markdown">
     <thead>
         <tr>
@@ -4401,6 +4452,7 @@ _Biaya bahan harian bisa fluktuatif tergantung jadwal pembelian. Hari pembelian 
         {/each}
     </tbody>
 </table>
+</div>
 
 _Tabel diurutkan berdasarkan rasio beli/pakai tertinggi — item di posisi teratas adalah yang pembeliannya paling jauh melebihi pemakaian kemarin. Untuk data harian, item tanpa pembelian akan muncul dengan rasio 0._
 
