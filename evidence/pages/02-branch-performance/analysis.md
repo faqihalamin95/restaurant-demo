@@ -3,6 +3,66 @@ title: Performa Cabang
 sidebar_link: false
 ---
 
+<script>
+  import DiagnosticsHeader from '$lib/DiagnosticsHeader.svelte';
+  import SectionHeader from '$lib/SectionHeader.svelte';
+  import SectionCard from '$lib/SectionCard.svelte';
+</script>
+
+<style>
+/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
+:global(aside a[href="/02-branch-performance"]),
+:global(#mobileScrollable a[href="/02-branch-performance"]) {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.06)) !important;
+  color: #0f766e !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  border-left: 3px solid #0d9488 !important;
+  padding-left: 12px !important;
+}
+
+:global([data-theme='dark'] aside a[href="/02-branch-performance"]),
+:global([data-theme='dark'] #mobileScrollable a[href="/02-branch-performance"]) {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(45, 212, 191, 0.08)) !important;
+  color: #2dd4bf !important;
+  border-left-color: #14b8a6 !important;
+}
+
+.warning-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(251, 191, 36, 0.04));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+.warning-banner-title {
+  margin: 0 0 6px 0;
+  color: #b45309;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.warning-banner-desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+:global([data-theme='dark']) .warning-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 191, 36, 0.05));
+  border-color: rgba(245, 158, 11, 0.4);
+}
+:global([data-theme='dark']) .warning-banner-title {
+  color: #fbbf24;
+}
+</style>
+
 ```sql branch_aov_order_monthly
 SELECT * FROM restaurant.branch_analysis_branch_aov_order_monthly
 ```
@@ -43,10 +103,10 @@ SELECT * FROM restaurant.branch_analysis_branch_concentration
 <div class="branch-analysis-body">
 
   <!-- Hero Banner -->
-  <div class="hero-banner">
-    <div class="hero-banner-eyebrow">🔭 ANALISIS DEKOMPOSISI &amp; STRUKTURAL</div>
-    <h3 class="hero-banner-title">Analisis Lanjutan Performa Cabang</h3>
-    <p class="hero-banner-desc">Analisis makro dan mikro komprehensif mengenai penggerak omzet bulanan, perbandingan riil nominal revenue akibat inflasi, serta pemetaan stabilitas pendapatan harian cabang.</p>
+  <div style="margin-bottom: 24px;">
+    <div class="subpage-hero-eyebrow">🔭 ANALISIS DEKOMPOSISI &amp; STRUKTURAL</div>
+    <h1 class="subpage-hero-title">Analisis Lanjutan Performa Cabang</h1>
+    <p class="subpage-hero-copy">Analisis makro dan mikro komprehensif mengenai penggerak omzet bulanan, perbandingan riil nominal revenue akibat inflasi, serta pemetaan stabilitas pendapatan harian cabang.</p>
   </div>
 
   <!-- Tab Navigation -->
@@ -95,46 +155,51 @@ SELECT * FROM restaurant.branch_analysis_branch_concentration
 </details>
 
   <!-- Global Incomplete Month Warning -->
-  <details class="guide-acc"  open>
-  <summary>💡 Informasi Penting: Data Bulan Berjalan Dikecualikan</summary>
-<div class="guide-body">
-      Guna menghindari kesimpulan yang salah (misleading), data pada bulan berjalan yang belum selesai/lengkap sengaja <strong>tidak ditampilkan</strong> pada grafik bulanan di halaman ini. Evaluasi bulanan hanya membandingkan bulan-bulan operasional yang telah selesai secara penuh (30 atau 31 hari penuh).
+  <div class="warning-banner">
+    <div style="font-size: 1.5rem; line-height: 1.1;">📢</div>
+    <div>
+      <h4 class="warning-banner-title">Informasi Penting: Data Bulan Berjalan Dikecualikan</h4>
+      <p class="warning-banner-desc">
+        Guna menghindari kesimpulan yang salah (misleading), data pada bulan berjalan yang belum selesai/lengkap sengaja <strong>tidak ditampilkan</strong> pada grafik bulanan di halaman ini. Evaluasi bulanan hanya membandingkan bulan-bulan operasional yang telah selesai secara penuh (30 atau 31 hari penuh).
+      </p>
     </div>
-</details>
+  </div>
 
   <!-- Executive Summary Cards -->
-  <div class="stats-cards-grid">
+  <div class="period-strip" style="margin-bottom: 24px;">
     {#if branch_wow.length > 0}
-      <div class="stats-card growth">
-        <span class="stats-card-label">🚀 Momentum Terbaik (WoW)</span>
-        <span class="stats-card-title">{branch_wow[0].branch_name} ({branch_wow[0].pct_change >= 0 ? '+' : ''}{branch_wow[0].pct_change}%)</span>
-        <span class="stats-card-desc">Pertumbuhan WoW terkuat. Cabang terlemah minggu ini adalah {branch_wow[branch_wow.length - 1].branch_name} ({branch_wow[branch_wow.length - 1].pct_change}%).</span>
+      <div class="period-pill sehat">
+        <div class="period-pill-label">🚀 Momentum Terbaik (WoW)</div>
+        <div class="period-pill-value">{branch_wow[0].branch_name} ({branch_wow[0].pct_change >= 0 ? '+' : ''}{branch_wow[0].pct_change}%)</div>
+        <div class="period-pill-copy">Pertumbuhan WoW terkuat. Cabang terlemah minggu ini adalah {branch_wow[branch_wow.length - 1].branch_name} ({branch_wow[branch_wow.length - 1].pct_change}%).</div>
       </div>
     {/if}
 
     {#if profitability_period_compare.length > 0}
-      <div class="stats-card profit">
-        <span class="stats-card-label">⚠️ Margin Terlemah (30H)</span>
-        <span class="stats-card-title">{profitability_period_compare[0].branch_name} ({profitability_period_compare[0].margin_30d}%)</span>
-        <span class="stats-card-desc">Margin laba terendah 30 hari terakhir. Perhatikan jika margin 30H jauh di bawah margin historisnya ({profitability_period_compare[0].margin_historical}%).</span>
+      <div class="period-pill kritis">
+        <div class="period-pill-label">⚠️ Margin Terlemah (30H)</div>
+        <div class="period-pill-value">{profitability_period_compare[0].branch_name} ({profitability_period_compare[0].margin_30d}%)</div>
+        <div class="period-pill-copy">Margin laba terendah 30 hari terakhir. Perhatikan jika margin 30H jauh di bawah margin historisnya ({profitability_period_compare[0].margin_historical}%).</div>
       </div>
     {/if}
 
     {#if branch_concentration.length > 0}
-      <div class="stats-card strategy">
-        <span class="stats-card-label">💎 Cabang Dominan (30H)</span>
-        <span class="stats-card-title">{branch_concentration[0].top_branch_30d} ({branch_concentration[0].top_share_30d}%)</span>
-        <span class="stats-card-desc">Memegang kontribusi terbesar dari total revenue 30H. Disusul oleh {branch_concentration[0].second_branch_30d} ({branch_concentration[0].second_share_30d}%).</span>
+      <div class="period-pill waspada">
+        <div class="period-pill-label">💎 Cabang Dominan (30H)</div>
+        <div class="period-pill-value">{branch_concentration[0].top_branch_30d} ({branch_concentration[0].top_share_30d}%)</div>
+        <div class="period-pill-copy">Memegang kontribusi terbesar dari total revenue 30H. Disusul oleh {branch_concentration[0].second_branch_30d} ({branch_concentration[0].second_share_30d}%).</div>
       </div>
     {/if}
   </div>
 
   <!-- Panel 1: Driver Omzet Bulanan (Orders vs AOV) -->
-  <div class="panel-card">
-    <h3 class="panel-title">👥 Tren Driver Omzet: Analisis Bulanan Trafik vs. Nilai Belanja</h3>
-    <p class="panel-desc">Menampilkan tren pergerakan volume order dan rata-rata AOV secara bulanan untuk mengidentifikasi apakah performa didorong oleh peningkatan volume kunjungan pelanggan atau kenaikan rata-rata nilai transaksi.</p>
+  <DiagnosticsHeader 
+    eyebrow="👥 Tren Driver Omzet"
+    title="Apakah Omzet Naik Karena Pelanggan Bertambah atau Cuma Karena Harga Naik?"
+    description="Menampilkan tren pergerakan volume order dan rata-rata AOV secara bulanan untuk mengidentifikasi apakah performa didorong oleh peningkatan volume kunjungan pelanggan atau kenaikan rata-rata nilai transaksi."
+  />
 
-    <div class="double-charts-grid">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-bottom: 24px;">
       <div>
         <LineChart data={branch_aov_order_monthly} x="order_month" y="total_orders" series="branch_name" title="Tren Volume Order Bulanan per Cabang" yFmt="#,##0" xAxisTitle="Bulan" yAxisTitle="Jumlah Order" />
         <div class="chart-insight-bar">
@@ -149,62 +214,63 @@ SELECT * FROM restaurant.branch_analysis_branch_concentration
       </div>
     </div>
 
-    <!-- Mini Interpretation Accordion -->
-    <details class="guide-acc" >
-  <summary>💡 Panduan Interpretasi Grafik Driver Omzet</summary>
-<div class="guide-body">
-        
-      <div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💵</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">GRAFIK ORDER NAIK + GRAFIK AOV NAIK:</div>
-            <h4 class="guide-card-title">Grafik Order Naik + Grafik AOV Naik:</h4>
-            <p class="guide-card-desc">Grafik Order Naik + Grafik AOV Naik: Kondisi prima. Cabang sukses mendatangkan pelanggan baru sekaligus meningkatkan nilai belanja per transaksi (bundling/upsell berhasil).</p>
-          </div>
-        </div>
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💵</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">GRAFIK ORDER TURUN + GRAFIK AOV NAIK:</div>
-            <h4 class="guide-card-title">Grafik Order Turun + Grafik AOV Naik:</h4>
-            <p class="guide-card-desc">Grafik Order Turun + Grafik AOV Naik: Alarm bahaya. Pelanggan mulai berkurang, namun omzet diselamatkan karena kenaikan harga menu atau pelanggan membeli produk mahal. Perlu audit kepuasan pelanggan.</p>
-          </div>
-        </div>
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💵</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">GRAFIK ORDER NAIK + GRAFIK AOV TURUN:</div>
-            <h4 class="guide-card-title">Grafik Order Naik + Grafik AOV Turun:</h4>
-            <p class="guide-card-desc">Grafik Order Naik + Grafik AOV Turun: Promosi mendatangkan massa, tetapi mereka hanya memesan menu murah/diskonan. Upaya upselling staf outlet perlu dievaluasi.</p>
-          </div>
-        </div>
-      </div>
-
-      </div>
-</details>
-
-    <details class="acc-strategic" open>
-      <summary>📈 Tabel Driver Pertumbuhan Bulanan (MoM) Cabang</summary>
+    <details class="acc-strategic">
+      <summary>💡 Insight &amp; Diagnostik Driver Omzet</summary>
       <div class="acc-body">
-        <div class="table-container">
-          <DataTable data={latest_growth_driver} search=true>
-            <Column id="branch_name" title="Cabang"/>
-            <Column id="revenue_growth_pct" title="Pertumbuhan Revenue" fmt="+0.0;-0.0" contentType="delta"/>
-            <Column id="order_growth_pct" title="Pertumbuhan Order" fmt="+0.0;-0.0" contentType="delta"/>
-            <Column id="aov_growth_pct" title="Pertumbuhan AOV" fmt="+0.0;-0.0" contentType="delta"/>
-          </DataTable>
+        {#if latest_growth_driver && latest_growth_driver.length > 0}
+        {@const topRev = [...latest_growth_driver].sort((a,b) => b.revenue_growth_pct - a.revenue_growth_pct)[0]}
+        {@const topOrder = [...latest_growth_driver].sort((a,b) => b.order_growth_pct - a.order_growth_pct)[0]}
+        {@const topAov = [...latest_growth_driver].sort((a,b) => b.aov_growth_pct - a.aov_growth_pct)[0]}
+        
+        <div class="signal-card {topRev.revenue_growth_pct >= 0 ? 'safe' : 'critical'}" style="margin-bottom:16px;">
+          <div class="signal-label">
+            {topRev.revenue_growth_pct >= 0 ? '✅' : '🚨'} Performa Cabang Terbaik
+          </div>
+          <div class="signal-title">{topRev.branch_name} memimpin dengan pertumbuhan revenue {topRev.revenue_growth_pct > 0 ? '+' : ''}{topRev.revenue_growth_pct}%.</div>
+          <div class="signal-copy">
+            Berasal dari pertumbuhan order {topOrder.order_growth_pct > 0 ? '+' : ''}{topOrder.order_growth_pct}% dan AOV {topAov.aov_growth_pct > 0 ? '+' : ''}{topAov.aov_growth_pct}%.
+          </div>
         </div>
+
+        <div class="mini-grid" style="margin-bottom:16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">📈 Top Revenue Growth</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">{topRev.revenue_growth_pct}%</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Dicapai oleh {topRev.branch_name}.</div>
+          </div>
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">🛒 Top Order Growth</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">{topOrder.order_growth_pct}%</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Dicapai oleh {topOrder.branch_name}.</div>
+          </div>
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">💳 Top AOV Growth</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">{topAov.aov_growth_pct}%</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Dicapai oleh {topAov.branch_name}.</div>
+          </div>
+        </div>
+        {/if}
       </div>
     </details>
-  </div>
+
+    <div class="table-container" style="margin-top: 16px; margin-bottom: 32px;">
+      <h4 style="margin-bottom: 12px; font-weight: 700; font-size: 1rem;">Tabel Driver Pertumbuhan Bulanan (MoM) Cabang</h4>
+      <DataTable data={latest_growth_driver} search=true>
+        <Column id="branch_name" title="Cabang"/>
+        <Column id="revenue_growth_pct" title="Pertumbuhan Revenue" fmt="+0.0;-0.0" contentType="delta"/>
+        <Column id="order_growth_pct" title="Pertumbuhan Order" fmt="+0.0;-0.0" contentType="delta"/>
+        <Column id="aov_growth_pct" title="Pertumbuhan AOV" fmt="+0.0;-0.0" contentType="delta"/>
+      </DataTable>
+    </div>
 
   <!-- Panel 2: Nominal vs Real Revenue in Rupiah -->
-  <div class="panel-card">
-    <h3 class="panel-title">📊 Dampak Makro: Nilai Omzet Nominal vs. Nilai Riil (Rupiah Loss)</h3>
-    <p class="panel-desc">Menghitung seberapa besar nilai pendapatan operasional Anda terkikis oleh inflasi operasional bulanan (deflator benchmark 0.3% per bulan) sejak awal periode data.</p>
+  <DiagnosticsHeader 
+    eyebrow="📊 Dampak Makro"
+    title="Apakah Profit Kita Nyata, Atau Diam-diam Dimakan Inflasi?"
+    description="Menghitung seberapa besar nilai pendapatan operasional Anda terkikis oleh inflasi operasional bulanan (deflator benchmark 0.3% per bulan) sejak awal periode data."
+  />
 
-    <div class="double-charts-grid">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-bottom: 24px;">
       <div>
         <LineChart data={portfolio_inflation_adjusted} x="order_month" y={["nominal_revenue","real_revenue"]} title="Total Revenue Portofolio: Nominal vs. Riil (Seluruh Cabang)" yFmt="#,##0" xAxisTitle="Bulan" yAxisTitle="Revenue (Rp)" />
         <div class="chart-insight-bar">
@@ -219,102 +285,104 @@ SELECT * FROM restaurant.branch_analysis_branch_concentration
       </div>
     </div>
 
-    <!-- Mini Interpretation Accordion -->
-    <details class="guide-acc" >
-  <summary>💡 Panduan Interpretasi Grafik Erosi Inflasi</summary>
-<div class="guide-body">
-        
-      <div class="guide-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💡</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">GARIS NOMINAL DAN RIIL SALING MENJAUH:</div>
-            <h4 class="guide-card-title">Garis Nominal dan Riil Saling Menjauh:</h4>
-            <p class="guide-card-desc">Garis Nominal dan Riil Saling Menjauh: Dampak kenaikan inflasi biaya operasional sedang agresif menggerus profit bisnis. Omzet tampak naik di kasir, tetapi daya beli riil uang Anda menyusut.</p>
-          </div>
-        </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">💡</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">GARIS RIIL MENURUN TAJAM:</div>
-            <h4 class="guide-card-title">Garis Riil Menurun Tajam:</h4>
-            <p class="guide-card-desc">Garis Riil Menurun Tajam: Sinyal kuat untuk segera melakukan negosiasi ulang kontrak dengan supplier bahan baku utama atau meninjau harga jual (*repricing*) demi melindungi keuntungan riil.</p>
-          </div>
-        </div>
-      </div>
-
-      </div>
-</details>
-
-    <details class="acc-strategic" open>
-      <summary>📈 Tabel Histori Laba Tergerus Inflasi per Cabang</summary>
+    <details class="acc-strategic">
+      <summary>💡 Insight &amp; Diagnostik Inflasi</summary>
       <div class="acc-body">
-        <div class="table-container">
-          <DataTable data={monthly_inflation_adjusted} search=true>
-            <Column id="branch_name" title="Cabang"/>
-            <Column id="order_month" title="Bulan" fmt="yyyy-mm"/>
-            <Column id="nominal_revenue" title="Revenue Nominal (Rp)" fmt="#,##0"/>
-            <Column id="real_revenue" title="Revenue Riil (Rp)" fmt="#,##0"/>
-            <Column id="inflation_loss" title="Nilai Tergerus Inflasi (Rp)" fmt="#,##0"/>
-          </DataTable>
+        {#if monthly_inflation_adjusted && monthly_inflation_adjusted.length > 0}
+        {@const maxLossBranch = [...monthly_inflation_adjusted].sort((a,b) => b.inflation_loss - a.inflation_loss)[0]}
+        
+        <div class="signal-card {maxLossBranch.inflation_loss > 0 ? 'warn' : 'safe'}" style="margin-bottom:16px;">
+          <div class="signal-label">
+            {maxLossBranch.inflation_loss > 0 ? '⚠️' : '✅'} Cabang Paling Terdampak
+          </div>
+          <div class="signal-title">{maxLossBranch.branch_name} mencatat erosi terbesar akibat inflasi.</div>
+          <div class="signal-copy">
+            Jika garis Nominal dan Riil semakin menjauh, dampak inflasi biaya sedang menggerus profitabilitas cabang ini dengan agresif meskipun pendapatan di atas kertas terlihat tumbuh.
+          </div>
         </div>
+
+        <div class="mini-grid" style="margin-bottom:16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">🔻 Kerugian Inflasi Maksimal</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; color: #dc2626;">Rp {maxLossBranch.inflation_loss.toLocaleString('id-ID')}</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Dialami oleh {maxLossBranch.branch_name} pada {maxLossBranch.order_month}.</div>
+          </div>
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">💡 Aksi Lanjutan</div>
+            <div class="mini-value" style="font-size: 1.05rem; font-weight: 800; margin-bottom: 4px;">Evaluasi Harga (Repricing)</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Sinyal kuat untuk segera menegosiasi ulang supplier bahan.</div>
+          </div>
+        </div>
+        {/if}
       </div>
     </details>
-  </div>
+
+    <div class="table-container" style="margin-top: 16px; margin-bottom: 32px;">
+      <h4 style="margin-bottom: 12px; font-weight: 700; font-size: 1rem;">Histori Laba Tergerus Inflasi per Cabang</h4>
+      <DataTable data={monthly_inflation_adjusted} search=true>
+        <Column id="branch_name" title="Cabang"/>
+        <Column id="order_month" title="Bulan" fmt="yyyy-mm"/>
+        <Column id="nominal_revenue" title="Revenue Nominal (Rp)" fmt="#,##0"/>
+        <Column id="real_revenue" title="Revenue Riil (Rp)" fmt="#,##0"/>
+        <Column id="inflation_loss" title="Nilai Tergerus Inflasi (Rp)" fmt="#,##0"/>
+      </DataTable>
+    </div>
 
   <!-- Panel 3: Min vs Avg vs Max Daily Revenue -->
-  <div class="panel-card">
-    <h3 class="panel-title">🧭 Konsistensi Harian: Rentang Fluktuasi Pendapatan Harian (Min vs. Rata-rata vs. Max)</h3>
-    <p class="panel-desc">Menunjukkan batas terendah harian, rata-rata harian, dan batas tertinggi harian pendapatan kas harian selama 30 hari terakhir. Digunakan untuk melihat stabilitas pendapatan tanpa kebingungan rumus statistik.</p>
+  <DiagnosticsHeader 
+    eyebrow="🧭 Konsistensi Harian"
+    title="Seburuk Apa Fluktuasi Kas Harian Kita? (Stres Tes Operasional)"
+    description="Menunjukkan batas terendah harian, rata-rata harian, dan batas tertinggi harian pendapatan kas harian selama 30 hari terakhir. Digunakan untuk melihat stabilitas pendapatan harian."
+  />
 
     <BarChart data={branch_min_max_daily} x="branch_name" y={["min_daily_revenue","avg_daily_revenue","max_daily_revenue"]} type="grouped" title="Rentang Fluktuasi Pendapatan Harian per Cabang (30H)" yFmt="#,##0" xAxisTitle="Cabang" yAxisTitle="Revenue (Rp)" />
     <div class="chart-insight-bar">
       📌 <strong>Cara Membaca Rentang:</strong> Cabang dengan rentang batang yang <strong>rapat/sempit</strong> mengindikasikan tingkat pendapatan harian yang stabil dan konsisten. Cabang dengan rentang batang yang <strong>sangat renggang/lebar</strong> memiliki fluktuasi harian yang ekstrem dan berisiko tinggi.
     </div>
 
-    <!-- Mini Interpretation Accordion -->
-    <details class="guide-acc" >
-  <summary>💡 Panduan Interpretasi Grafik Rentang Harian</summary>
-<div class="guide-body">
-        
-      <div class="guide-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💡</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">RENTANG BATANG MIN DAN MAX RAPAT:</div>
-            <h4 class="guide-card-title">Rentang Batang Min dan Max Rapat:</h4>
-            <p class="guide-card-desc">Rentang Batang Min dan Max Rapat: Cabang memiliki kas harian sangat stabil. Memudahkan alokasi penjadwalan staf dan meminimalkan risiko bahan baku basi/terbuang.</p>
-          </div>
-        </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">💡</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">RENTANG BATANG MIN DAN MAX SANGAT LEBAR:</div>
-            <h4 class="guide-card-title">Rentang Batang Min dan Max Sangat Lebar:</h4>
-            <p class="guide-card-desc">Rentang Batang Min dan Max Sangat Lebar: Fluktuasi ekstrem. Ada risiko kekurangan stok saat puncak keramaian mendadak, atau pemborosan jam kerja pegawai saat toko sepi secara tiba-tiba.</p>
-          </div>
-        </div>
-      </div>
-
-      </div>
-</details>
-
-    <details class="acc-strategic" open>
-      <summary>📈 Tabel Audit Fluktuasi Kas &amp; Rentang Harian Cabang</summary>
+    <details class="acc-strategic">
+      <summary>💡 Insight &amp; Diagnostik Fluktuasi Harian</summary>
       <div class="acc-body">
-        <div class="table-container">
-          <DataTable data={branch_min_max_daily} search=true>
-            <Column id="branch_name" title="Cabang"/>
-            <Column id="min_daily_revenue" title="Pendapatan Terendah (Rp)" fmt="#,##0"/>
-            <Column id="avg_daily_revenue" title="Pendapatan Rata-rata (Rp)" fmt="#,##0"/>
-            <Column id="max_daily_revenue" title="Pendapatan Tertinggi (Rp)" fmt="#,##0"/>
-            <Column id="daily_range_revenue" title="Rentang Harian (Rp)" fmt="#,##0"/>
-            <Column id="fluctuation_pct" title="Rasio Fluktuasi (%)" fmt="0.0\%"/>
-          </DataTable>
+        {#if branch_min_max_daily && branch_min_max_daily.length > 0}
+        {@const maxFluct = [...branch_min_max_daily].sort((a,b) => b.fluctuation_pct - a.fluctuation_pct)[0]}
+        
+        <div class="signal-card {maxFluct.fluctuation_pct >= 2.0 ? 'critical' : maxFluct.fluctuation_pct >= 1.0 ? 'warn' : 'safe'}" style="margin-bottom:16px;">
+          <div class="signal-label">
+            {maxFluct.fluctuation_pct >= 2.0 ? '🚨' : maxFluct.fluctuation_pct >= 1.0 ? '⚠️' : '✅'} Peringatan Fluktuasi Ekstrem
+          </div>
+          <div class="signal-title">Cabang {maxFluct.branch_name} sangat tidak stabil dengan fluktuasi mencapai {(maxFluct.fluctuation_pct * 100).toFixed(1)}%.</div>
+          <div class="signal-copy">
+            Rentang batas terendah dan tertinggi yang terlampau lebar mengakibatkan beban manajemen staf (staffing) dan manajemen stok bahan menjadi sangat rawan *waste* (kebocoran).
+          </div>
         </div>
+
+        <div class="mini-grid" style="margin-bottom:16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">📊 Stabilitas Terburuk</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; color: #dc2626;">Cabang {maxFluct.branch_name}</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Rasio fluktuasi {(maxFluct.fluctuation_pct * 100).toFixed(1)}%. Risiko staffing tinggi.</div>
+          </div>
+          <div class="mini-card" style="padding: 16px; border-radius: 12px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary);">
+            <div class="kpi-label" style="font-size: 10px; font-weight: 700; color: var(--color-text-tertiary); margin-bottom: 8px;">📉 Kerugian Fluktuasi</div>
+            <div class="mini-value" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; color: #dc2626;">Rp {maxFluct.daily_range_revenue.toLocaleString('id-ID')}</div>
+            <div class="mini-note" style="font-size: 0.75rem; color: var(--color-text-secondary);">Beda hari tersepi dan teramai mencapai sejauh ini.</div>
+          </div>
+        </div>
+        {/if}
       </div>
     </details>
-  </div>
+
+    <div class="table-container" style="margin-top: 16px; margin-bottom: 32px;">
+      <h4 style="margin-bottom: 12px; font-weight: 700; font-size: 1rem;">Tabel Audit Fluktuasi Kas &amp; Rentang Harian Cabang</h4>
+      <DataTable data={branch_min_max_daily} search=true>
+        <Column id="branch_name" title="Cabang"/>
+        <Column id="min_daily_revenue" title="Pendapatan Terendah (Rp)" fmt="#,##0"/>
+        <Column id="avg_daily_revenue" title="Pendapatan Rata-rata (Rp)" fmt="#,##0"/>
+        <Column id="max_daily_revenue" title="Pendapatan Tertinggi (Rp)" fmt="#,##0"/>
+        <Column id="daily_range_revenue" title="Rentang Harian (Rp)" fmt="#,##0"/>
+        <Column id="fluctuation_pct" title="Rasio Fluktuasi (%)" fmt="0.0\%"/>
+      </DataTable>
+    </div>
 
 </div>
 

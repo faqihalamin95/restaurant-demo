@@ -3,6 +3,31 @@ title: Performa Cabang
 sidebar_link: false
 ---
 
+<script>
+  import DiagnosticsHeader from '$lib/DiagnosticsHeader.svelte';
+  import SectionHeader from '$lib/SectionHeader.svelte';
+  import SectionCard from '$lib/SectionCard.svelte';
+</script>
+
+<style>
+/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
+:global(aside a[href="/02-branch-performance"]),
+:global(#mobileScrollable a[href="/02-branch-performance"]) {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.06)) !important;
+  color: #0f766e !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  border-left: 3px solid #0d9488 !important;
+  padding-left: 12px !important;
+}
+
+:global([data-theme='dark'] aside a[href="/02-branch-performance"]),
+:global([data-theme='dark'] #mobileScrollable a[href="/02-branch-performance"]) {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(45, 212, 191, 0.08)) !important;
+  color: #2dd4bf !important;
+  border-left-color: #14b8a6 !important;
+}
+</style>
 
 ```sql branch_list
 SELECT * FROM restaurant.branch_deepdive_branch_list
@@ -156,20 +181,17 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 
 <div class="branch-page">
 
-<div class="branch-selector-card">
-    <div class="branch-selector-head">
-      <div>
-        <div class="section-eyebrow">🏪 Pilih Cabang</div>
-        <h3 class="branch-selector-title">Deep Dive per Cabang</h3>
-        <p class="branch-selector-copy">Pilih cabang tertentu untuk menganalisis tren margin harian, breakdown pos biaya operasional, dan sebaran jenis pesanan secara mendalam.</p>
-      </div>
-    </div>
+<SectionCard 
+  eyebrow="🏪 Pilih Cabang" 
+  title="Deep Dive per Cabang" 
+  description="Pilih cabang tertentu untuk menganalisis tren margin harian, breakdown pos biaya operasional, dan sebaran jenis pesanan secara mendalam."
+>
     <ButtonGroup name=focus_branch>
       {#each branch_list as branch, i}
         <ButtonGroupItem value={branch.branch_name} valueLabel={branch.branch_name} default={i === 0} />
       {/each}
     </ButtonGroup>
-  </div>
+</SectionCard>
 
   {#if activeScorecard && activeScorecard.rev_30d !== null && activeCostPeriods && activeCostPeriods.gross_30d !== null}
 
@@ -218,17 +240,17 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 </details>
 
     <!-- ── Section: Multi-Horizon Operational Metrics ── -->
-    <div style="margin-top: 24px; margin-bottom: 14px;">
-      <div class="section-eyebrow">⏱️ Horizon Waktu & Kinerja Operasional</div>
-      <h3 class="section-title">Ringkasan Kinerja Multi-Horizon (Langkah Waktu)</h3>
-      <p class="section-copy">Metrik operasional penting dari kinerja harian jangka sangat pendek hingga jangka menengah 90 hari untuk mendeteksi anomali secara dini.</p>
-    </div>
+    <SectionHeader 
+      eyebrow="⏱️ Horizon Waktu &amp; Kinerja Operasional"
+      title="Ringkasan Kinerja Multi-Horizon (Langkah Waktu)"
+      description="Metrik operasional penting dari kinerja harian jangka sangat pendek hingga jangka menengah 90 hari untuk mendeteksi anomali secara dini."
+    />
 
     <!-- ── 5-Horizon Period Strip ── -->
     {@const yesterdaySdowPct = activeScorecard ? (activeScorecard.rev_sdow_yesterday > 0 ? (activeScorecard.rev_yesterday - activeScorecard.rev_sdow_yesterday) / activeScorecard.rev_sdow_yesterday * 100 : 0) : 0}
     {@const yesterdayStatus = yesterdaySdowPct >= -5 ? 'sehat' : yesterdaySdowPct >= -15 ? 'waspada' : 'kritis'}
 
-    <div class="period-strip-top" style="margin-top: 10px; margin-bottom: 12px;">
+    <div class="period-strip" style="margin-top: 10px; margin-bottom: 12px; grid-template-columns: repeat(2, minmax(0, 1fr));">
       <!-- Kemarin -->
       <div class="period-pill {yesterdayStatus}">
         <div class="period-pill-label">📅 Kemarin ({branch_dates[0].tgl_akhir})</div>
@@ -268,7 +290,7 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
       </div>
     </div>
 
-    <div class="period-strip-bottom" style="margin-bottom: 16px;">
+    <div class="period-strip" style="margin-bottom: 16px;">
       <!-- 7 Hari -->
       <div class="period-pill {activeScorecard.margin_7d >= 15 ? 'sehat' : activeScorecard.margin_7d >= 10 ? 'waspada' : 'kritis'}">
         <div class="period-pill-label">⚡ 7 Hari Terakhir</div>
@@ -319,11 +341,18 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
     </div>
 
     <!-- Accordion Section -->
-    <div class="strategic-stack" style="margin-top: 16px;">
       
-      <!-- ACCORDION 1: 30 Hari vs 90 Hari -->
-      <details class="acc-strategic" open>
-        <summary>📈 Analisis Tren Terkini (30 Hari vs 90 Hari)</summary>
+      <!-- SECTION: Operasional & Diagnostik -->
+      <DiagnosticsHeader 
+        marginTop="24px"
+        eyebrow="🔬 Operasional &amp; Diagnostik"
+        title="Bedah performa &amp; detail biaya"
+        description="Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin."
+      />
+        
+        <!-- ACCORDION 1: 30 Hari vs 90 Hari -->
+        <details class="acc-strategic" open>
+          <summary>📊 Detail Analisis Operasional &amp; Tren</summary>
         <div class="acc-body">
           <div style="margin-bottom: 16px;">
             {#if activeScorecard.margin_30d > activeScorecard.margin_90d}
@@ -341,6 +370,7 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
             {/if}
           </div>
 
+          <!-- Side-by-side comparison table -->
           <!-- Side-by-side comparison table -->
           <div style="overflow-x: auto; margin-bottom: 20px;">
             <table style="width:100%; border-collapse:collapse; font-size:0.88rem; text-align:left; border: 1px solid var(--color-border-tertiary); border-radius: 8px;">
@@ -458,9 +488,16 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
         </div>
       </details>
 
-      <!-- ACCORDION 2: Evaluasi Jangka Menengah (Kuartal QoQ) -->
-      <details class="acc-strategic">
-        <summary>📈 Evaluasi Jangka Menengah (Kuartal QoQ)</summary>
+      <!-- SECTION: Perspektif Strategis -->
+      <DiagnosticsHeader 
+        eyebrow="🔭 Perspektif Strategis"
+        title="Baca pola jangka panjang"
+        description="Dua lens di bawah ini dirancang untuk pertanyaan yang lebih besar: apakah ada pola musiman yang perlu diantisipasi, dan apakah bisnis benar-benar membaik secara fundamental dari tahun ke tahun?"
+      />
+
+        <!-- ACCORDION 2: Evaluasi Jangka Menengah (Kuartal QoQ) -->
+        <details class="acc-strategic">
+          <summary>📊 Quarter Report &middot; Baca Fenomena Musiman</summary>
         <div class="acc-body">
           <div style="margin-bottom: 20px;">
             <BarChart 
@@ -475,12 +512,30 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
               sort=false
             />
           </div>
-          <DataTable data={branch_quarterly_report.filter(row => row.branch_name === selectedBranch)} rows=8>
-            <Column id="quarter_name" title="Kuartal"/>
-            <Column id="gross_revenue" title="Omzet (Gross)" fmt="Rp #,##0"/>
-            <Column id="net_revenue" title="Laba Bersih" fmt="Rp #,##0"/>
-            <Column id="net_margin_pct" title="Margin Bersih" fmt="0.0\%"/>
-          </DataTable>
+          <div class="table-scroll-container">
+            <table class="markdown">
+              <thead>
+                <tr>
+                  <th class="markdown" style="text-align: left;">Kuartal</th>
+                  <th class="markdown" style="text-align: right;">Omzet Gross (Rp)</th>
+                  <th class="markdown" style="text-align: right;">Laba Bersih (Rp)</th>
+                  <th class="markdown" style="text-align: right;">Margin Bersih</th>
+                </tr>
+              </thead>
+              <tbody>
+                {#each branch_quarterly_report.filter(row => row.branch_name === selectedBranch) || [] as row}
+                <tr>
+                  <td class="markdown" style="text-align: left; font-weight: 600;">{row.quarter_name}</td>
+                  <td class="markdown" style="text-align: right;">{row.gross_revenue !== undefined && row.gross_revenue !== null ? row.gross_revenue.toLocaleString('id-ID') : '0'}</td>
+                  <td class="markdown" style="text-align: right;">{row.net_revenue !== undefined && row.net_revenue !== null ? row.net_revenue.toLocaleString('id-ID', {maximumFractionDigits: 0}) : '0'}</td>
+                  <td class="markdown" style="text-align: right; font-weight: 600; color:{row.net_margin_pct >= 15 ? '#16a34a' : row.net_margin_pct >= 10 ? '#ca8a04' : '#dc2626'}">
+                    {row.net_margin_pct !== undefined && row.net_margin_pct !== null ? row.net_margin_pct.toFixed(1) + '%' : '0.0%'}
+                  </td>
+                </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
           <div class="chart-insight" style="margin-top: 12px;">
             📌 <strong>Analisis Kuartalan:</strong> Membantu mengidentifikasi faktor musiman (seasonality) dan stabilitas laba bersih per kuartal secara konsisten.
           </div>
@@ -525,26 +580,20 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
         </div>
       </details>
 
-    </div>
-
   {:else}
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-eyebrow">⚠️ Deep Dive Belum Tersedia</div>
-        <h3 class="section-title">Cabang ini belum punya data cukup untuk diagnosis detail</h3>
-        <p class="section-copy">Pilih cabang lain atau cek apakah data revenue, net revenue, dan biaya untuk cabang ini sudah masuk lengkap pada horizon 30 sampai 90 hari.</p>
-      </div>
-    </div>
+    <SectionCard 
+      eyebrow="⚠️ Deep Dive Belum Tersedia"
+      title="Cabang ini belum punya data cukup untuk diagnosis detail"
+      description="Pilih cabang lain atau cek apakah data revenue, net revenue, dan biaya untuk cabang ini sudah masuk lengkap pada horizon 30 sampai 90 hari."
+    />
   {/if}
 
 </div>
 
 {:else}
-<div class="section-card">
-  <div class="section-head">
-    <div class="section-eyebrow">⚠️ Data Belum Siap</div>
-    <h3 class="section-title">Data deep dive belum siap</h3>
-    <p class="section-copy">Kueri <code>branch_list</code> atau <code>branch_dates</code> belum menghasilkan baris data.</p>
-  </div>
-</div>
+<SectionCard 
+  eyebrow="⚠️ Data Belum Siap"
+  title="Data deep dive belum siap"
+  description="Kueri <code>branch_list</code> atau <code>branch_dates</code> belum menghasilkan baris data."
+/>
 {/if}

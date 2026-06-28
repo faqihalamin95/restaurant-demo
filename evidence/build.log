@@ -1,0 +1,43 @@
+
+> wekadata@0.0.1 build
+> evidence build
+
+[ERROR]:  Internal Error | /03-inventori-stok/stok-aktual {
+  url: 'http://sveltekit-prerender/03-inventori-stok/stok-aktual/',
+  status: 500
+}
+[ERROR]:  Internal Error | /03-inventori-stok/stok-aktual {
+  url: 'http://sveltekit-prerender/03-inventori-stok/stok-aktual/',
+  status: 500
+}
+[ERROR]:  Internal Error | /03-inventori-stok/stok-aktual {
+  url: 'http://sveltekit-prerender/03-inventori-stok/stok-aktual/',
+  status: 500
+}
+
+node:internal/event_target:1105
+  process.nextTick(() => { throw err; });
+                           ^
+Error: 500 /03-inventori-stok/stok-aktual/ (linked from /03-inventori-stok/stok-aktual)
+To suppress or handle this error, implement `handleHttpError` in https://svelte.dev/docs/kit/configuration#prerender
+    at file:///home/faqih/projects/restaurant-demo/evidence/node_modules/@sveltejs/kit/src/core/config/options.js:203:13
+    at file:///home/faqih/projects/restaurant-demo/evidence/node_modules/@sveltejs/kit/src/core/postbuild/prerender.js:71:25
+    at save (file:///home/faqih/projects/restaurant-demo/evidence/node_modules/@sveltejs/kit/src/core/postbuild/prerender.js:420:4)
+    at visit (file:///home/faqih/projects/restaurant-demo/evidence/node_modules/@sveltejs/kit/src/core/postbuild/prerender.js:242:3)
+Emitted 'error' event on Worker instance at:
+    at [kOnErrorMessage] (node:internal/worker:333:10)
+    at [kOnMessage] (node:internal/worker:344:37)
+    at MessagePort.<anonymous> (node:internal/worker:233:57)
+    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:831:20)
+    at MessagePort.<anonymous> (node:internal/per_context/messageport:23:28)
+
+Node.js v20.20.2
+Build failed
+
+file:///home/faqih/projects/restaurant-demo/evidence/node_modules/@evidence-dev/evidence/cli.js:228
+			throw `Build process exited with code ${code}`;
+			^
+Build process exited with code 1
+(Use `node --trace-uncaught ...` to show where the exception was thrown)
+
+Node.js v20.20.2

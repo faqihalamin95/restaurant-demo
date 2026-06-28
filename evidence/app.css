@@ -1320,6 +1320,15 @@ details.acc-strategic .acc-body { padding: 20px; }
   background: var(--color-background-secondary);
   position: relative;
   overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+.period-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+[data-theme='dark'] .period-pill:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 .period-pill.sehat {
   border-color: rgba(22, 163, 74, 0.28);
@@ -1436,6 +1445,83 @@ details.acc-strategic .acc-body { padding: 20px; }
   font-size: 0.82rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 18px;
+}
+
+.hero-main-card {
+  padding: 24px;
+  border-radius: 16px;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.hero-main-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05), 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.hero-main-card.status-sehat {
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.22);
+}
+
+.hero-main-card.status-waspada {
+  background: rgba(245, 158, 11, 0.09);
+  border-color: rgba(245, 158, 11, 0.24);
+}
+
+.hero-main-card.status-kritis {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(239, 68, 68, 0.22);
+}
+
+.hero-main-card.status-recovery {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.22);
+}
+
+.hero-stat-number {
+  font-size: 3.8rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.hero-main-card.status-sehat .hero-stat-number {
+  color: #15803d;
+}
+
+.hero-main-card.status-waspada .hero-stat-number {
+  color: #b45309;
+}
+
+.hero-main-card.status-kritis .hero-stat-number {
+  color: #b91c1c;
+}
+
+.hero-main-card.status-recovery .hero-stat-number {
+  color: #1d4ed8;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: 0;
 }
 
 /* Hero wrap variant (branch pages) */
@@ -2712,9 +2798,49 @@ details.acc-strategic .acc-body { padding: 20px; }
 /* 2f. Chart Background Override */
 .chart-container,
 .chart,
-.chart > div,
 .chart canvas,
 .chart svg {
   background: transparent !important;
   background-color: transparent !important;
+}
+
+/* ── Diagnostics section wrapper ── */
+.diagnostics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.diagnostics-header {
+  padding: 0 2px;
+  margin-bottom: 2px;
+}
+
+.diagnostics-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.diagnostics-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.diagnostics-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+  margin: 0;
 }
