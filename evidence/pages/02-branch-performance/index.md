@@ -2,6 +2,59 @@
 title: Performa Cabang
 ---
 
+<script>
+  function idFormat(num, dec = 0) {
+    if (num === null || num === undefined) return '0';
+    return new Intl.NumberFormat('id-ID', { minimumFractionDigits: dec, maximumFractionDigits: dec }).format(num);
+  }
+
+  let topBranchName = "-";
+  let topBranchNet = 0;
+  let topBranchMargin = 0;
+  
+  let worstBranchName = "-";
+  let worstBranchNet = 0;
+  let worstBranchMargin = 0;
+
+  let concentrationN = 1;
+  let concentrationPct = 0;
+
+  $: if (typeof branch_summary_30d !== 'undefined' && branch_summary_30d.length > 0) {
+      const sortedByNet = [...branch_summary_30d].sort((a, b) => b.net_revenue - a.net_revenue);
+      const top = sortedByNet[0];
+      topBranchName = top?.branch_name ?? "-";
+      topBranchNet = top?.net_revenue ?? 0;
+      topBranchMargin = top?.net_margin_pct ?? 0;
+
+      const worst = sortedByNet[sortedByNet.length - 1];
+      if (worst && worst.net_revenue < 0) {
+          worstBranchName = worst.branch_name;
+          worstBranchNet = worst.net_revenue;
+          worstBranchMargin = worst.net_margin_pct;
+      } else {
+          worstBranchName = "Nihil";
+      }
+
+      const sortedByRev = [...branch_summary_30d].sort((a, b) => b.total_revenue - a.total_revenue);
+      const totalBranches = sortedByRev.length;
+      
+      if (totalBranches <= 3) concentrationN = 1;
+      else if (totalBranches <= 7) concentrationN = 2;
+      else concentrationN = 3;
+
+      let topNRev = 0;
+      let totalRev = 0;
+      for (let i = 0; i < totalBranches; i++) {
+          totalRev += sortedByRev[i].total_revenue;
+          if (i < concentrationN) {
+              topNRev += sortedByRev[i].total_revenue;
+          }
+      }
+      
+      concentrationPct = totalRev > 0 ? (topNRev / totalRev) * 100 : 0;
+  }
+</script>
+
 <style>
 /* ── Hero ── */
 .hero {
@@ -274,6 +327,22 @@ title: Performa Cabang
 .branch-margin-active-box {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.branch-margin-main {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.branch-margin-label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  margin-top: 2px;
 }
 
 .branch-margin-benchmarks {
@@ -308,7 +377,7 @@ title: Performa Cabang
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin: 4px 0;
+  margin: 4px 0 12px 0;
 }
 
 .stat-pill {
@@ -399,11 +468,37 @@ title: Performa Cabang
   font-size: 0.85rem;
   margin-top: 1px;
 }
+/* -- KPI & Macro Strategic -- */
+:global(.branch-page .kpi-grid) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+:global(.branch-page .kpi-grid-2) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+:global(.branch-page .kpi-card) { padding: 18px 16px; border-radius: 18px; border: 1.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01); transition: all 0.22s ease; text-align: center; }
+:global(.branch-page .kpi-card:hover) { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02); }
+:global(.branch-page .kpi-label) { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+:global(.branch-page .kpi-value) { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em; color: var(--color-text-primary); }
+:global(.branch-page .kpi-meta) { margin-top: 6px; font-size: 0.82rem; line-height: 1; }
+:global(.branch-page .kpi-prev) { margin-top: 6px; font-size: 0.78rem; color: var(--color-text-secondary); line-height: 1.4; }
+:global(.branch-page .kpi-card.revenue) { border-color: rgba(37,99,235,0.18); background: linear-gradient(145deg, rgba(37,99,235,0.06), rgba(99,102,241,0.03)); }
+:global(.branch-page .kpi-card.net) { border-color: rgba(16,185,129,0.22); background: linear-gradient(145deg, rgba(16,185,129,0.07), rgba(22,163,74,0.03)); }
+:global(.branch-page .kpi-card.margin) { border-color: rgba(245,158,11,0.22); background: linear-gradient(145deg, rgba(245,158,11,0.07), rgba(251,191,36,0.03)); }
+:global(.branch-page .kpi-card.expense) { border-color: rgba(239,68,68,0.18); background: linear-gradient(145deg, rgba(239,68,68,0.06), rgba(220,38,38,0.02)); }
+
+:global(.branch-page .clean-cta-banner) { margin-top: 32px; margin-bottom: 40px; padding: 24px 28px; border-radius: 16px; background: rgba(13, 148, 136, 0.03); border: 1px solid rgba(13, 148, 136, 0.15); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.03); transition: all 0.3s ease; }
+:global(.branch-page .clean-cta-banner:hover) { background: rgba(13, 148, 136, 0.05); border-color: rgba(13, 148, 136, 0.25); box-shadow: 0 8px 24px rgba(13, 148, 136, 0.06); }
+:global(.branch-page .clean-cta-content) { display: flex; align-items: center; gap: 20px; }
+:global(.branch-page .clean-cta-icon) { font-size: 2.2rem; line-height: 1; filter: drop-shadow(0 2px 4px rgba(13, 148, 136, 0.15)); }
+:global(.branch-page .clean-cta-title) { margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.01em; color: #0f766e; }
+:global(.branch-page .clean-cta-desc) { margin: 0; font-size: 0.88rem; color: var(--color-text-secondary); font-weight: 400; max-width: 65ch; line-height: 1.6; }
+:global(.branch-page .clean-cta-button) { background: white !important; border: 1px solid rgba(13, 148, 136, 0.3) !important; color: #0d9488 !important; font-weight: 800 !important; font-size: 0.9rem !important; padding: 12px 20px !important; border-radius: 8px !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; box-shadow: 0 2px 6px rgba(13, 148, 136, 0.06) !important; line-height: 1 !important; margin: 0 !important; white-space: nowrap !important; }
+:global(.branch-page .clean-cta-button:hover) { background: #f0fdfa !important; color: #0f766e !important; border-color: #0d9488 !important; transform: translateY(-1px) !important; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1) !important; }
 </style>
 
 
 ```sql branch_list
 SELECT * FROM restaurant.branch_index_branch_list
+```
+
+```sql branch_macro_strategic
+SELECT * FROM restaurant.branch_index_macro_strategic
 ```
 
 ```sql branch_dates
@@ -513,66 +608,32 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 <div class="evidence-tabs-container">
   <a href="/02-branch-performance" class="tab-button active">🏠 Ringkasan</a>
   <a href="/02-branch-performance/deepdive" class="tab-button ">🏪 Deep Dive</a>
-  <a href="/02-branch-performance/analysis" class="tab-button ">🔭 Analisis Lanjutan</a>
+  <a href="/02-branch-performance/analysis" class="tab-button ">🔭 Evaluasi Strategis</a>
+  <a href="/02-branch-performance/direktori-data" class="tab-button ">📁 Direktori Data</a>
 </div>
 
 
-{#if branch_health_classification.length > 0 && branch_status_counts.length > 0 && branch_list.length > 0 && branch_concentration.length > 0 && branch_orders_comparison.length > 0 && branch_dates.length > 0}
+{#if typeof branch_health_classification !== 'undefined' && branch_health_classification.length > 0 && typeof branch_status_counts !== 'undefined' && branch_status_counts.length > 0 && typeof branch_summary_30d !== 'undefined' && branch_summary_30d.length > 0 && typeof branch_dates !== 'undefined' && branch_dates.length > 0}
 
-{@const branchOverviewRows = branch_summary_30d}
-{@const branchBestName = branchOverviewRows[0]?.branch_name ?? 'Belum ada data'}
-{@const branchTotalOrdersAll = branchOverviewRows.reduce((sum, row) => sum + (row.total_orders ?? 0), 0)}
-{@const branchTotalRevenueAll = branchOverviewRows.reduce((sum, row) => sum + (row.total_revenue ?? 0), 0)}
-{@const branchAovAll = Math.round(branchTotalRevenueAll / Math.max(branchTotalOrdersAll, 1))}
-{@const branchRevenueValues = branchOverviewRows.map(row => row.total_revenue ?? 0).filter(v => v > 0)}
-{@const branchMinRevenue = branchRevenueValues.reduce((min, v) => Math.min(min, v), branchRevenueValues[0] ?? 0)}
-{@const branchMaxRevenue = branchRevenueValues.reduce((max, v) => Math.max(max, v), 0)}
-{@const branchGapPct = branchMinRevenue > 0 ? Math.round((branchMaxRevenue - branchMinRevenue) / branchMinRevenue * 100) : 0}
-{@const branchAovState = branchAovAll >= 50000 ? 'safe' : branchAovAll >= 35000 ? 'warn' : 'critical'}
-{@const branchGapState = branchGapPct < 50 ? 'safe' : branchGapPct <= 100 ? 'warn' : 'critical'}
-{@const branchOrdersDropPct = branch_orders_comparison[0]?.pct_change ?? 0}
-{@const branchOrdersDropState = branchOrdersDropPct <= -15 ? 'critical' : branchOrdersDropPct <= -5 ? 'warn' : 'safe'}
-{@const branchIndexStatus = branchAovState === 'critical' || branchGapState === 'critical' || branchOrdersDropState === 'critical' ? 'critical' : branchAovState === 'warn' || branchGapState === 'warn' || branchOrdersDropState === 'warn' ? 'warn' : 'safe'}
-{@const branchIndexStates = [branchAovState, branchGapState, branchOrdersDropState]}
-{@const branchIndexSafeCount = branchIndexStates.filter(s => s === 'safe').length}
-{@const branchIndexWarnCount = branchIndexStates.filter(s => s === 'warn').length}
-{@const branchIndexCriticalCount = branchIndexStates.filter(s => s === 'critical').length}
-  {@const overviewPeriodRows = inputs.period === 'mtd' ? branch_summary_mtd : inputs.period === '90d' ? branch_summary_90d : branch_summary_30d}
-  {@const overviewOrdersComp = inputs.period === 'mtd' ? branch_orders_comparison_mtd : inputs.period === '90d' ? branch_orders_comparison_90d : branch_orders_comparison}
-  {@const guideOrdersDetail = inputs.period === 'mtd' ? branch_orders_comparison_detail_mtd : inputs.period === '90d' ? branch_orders_comparison_detail_90d : branch_orders_comparison_detail_30d}
+
+  {@const overviewPeriodRows = branch_summary_30d}
   {@const healthyCount = branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count}
   {@const totalCount = branch_health_classification.length}
   {@const heroStatusClass = healthyCount === 4 ? 'status-sehat' : healthyCount === 3 ? 'status-biru' : healthyCount === 2 ? 'status-waspada' : 'status-kritis'}
-  
-  {@const overviewBestName = overviewPeriodRows[0]?.branch_name ?? 'Belum ada data'}
-  {@const overviewTotalOrdersAll = overviewPeriodRows.reduce((sum, row) => sum + (row.total_orders ?? 0), 0)}
-  {@const overviewTotalRevenueAll = overviewPeriodRows.reduce((sum, row) => sum + (row.total_revenue ?? 0), 0)}
-  {@const overviewAovAll = Math.round(overviewTotalRevenueAll / Math.max(overviewTotalOrdersAll, 1))}
-  {@const overviewRevenueValues = overviewPeriodRows.map(row => row.total_revenue ?? 0).filter(v => v > 0)}
-  {@const overviewMinRevenue = overviewRevenueValues.reduce((min, v) => Math.min(min, v), overviewRevenueValues[0] ?? 0)}
-  {@const overviewMaxRevenue = overviewRevenueValues.reduce((max, v) => Math.max(max, v), 0)}
-  {@const overviewGapPct = overviewMinRevenue > 0 ? Math.round((overviewMaxRevenue - overviewMinRevenue) / overviewMinRevenue * 100) : 0}
-  {@const overviewAovState = overviewAovAll >= 50000 ? 'safe' : overviewAovAll >= 35000 ? 'warn' : 'critical'}
-  {@const overviewGapState = overviewGapPct < 50 ? 'safe' : overviewGapPct <= 100 ? 'warn' : 'critical'}
-  {@const overviewOrdersDropPct = overviewOrdersComp[0]?.pct_change ?? 0}
-  {@const overviewOrdersDropState = overviewOrdersDropPct <= -15 ? 'critical' : overviewOrdersDropPct <= -5 ? 'warn' : 'safe'}
-  {@const overviewIndexStatus = overviewAovState === 'critical' || overviewGapState === 'critical' || overviewOrdersDropState === 'critical' ? 'critical' : overviewAovState === 'warn' || overviewGapState === 'warn' || overviewOrdersDropState === 'warn' ? 'warn' : 'safe'}
-  {@const overviewIndexStates = [overviewAovState, overviewGapState, overviewOrdersDropState]}
-  {@const overviewIndexSafeCount = overviewIndexStates.filter(s => s === 'safe').length}
-  {@const overviewIndexWarnCount = overviewIndexStates.filter(s => s === 'warn').length}
-  {@const overviewIndexCriticalCount = overviewIndexStates.filter(s => s === 'critical').length}
+  {@const sumOrders = overviewPeriodRows.reduce((acc, row) => acc + row.total_orders, 0)}
+  {@const sumRevenue = overviewPeriodRows.reduce((acc, row) => acc + row.total_revenue, 0)}
+  {@const avgAov = sumOrders > 0 ? sumRevenue / sumOrders : 0}
+  {@const worstBranchObj = [...branch_health_classification].sort((a,b) => a.active_margin_pct - b.active_margin_pct)[0]}
+  {@const bestBranchObj = [...branch_health_classification].sort((a,b) => b.active_margin_pct - a.active_margin_pct)[0]}
+  {@const avgRev = overviewPeriodRows.reduce((sum, row) => sum + row.total_revenue, 0) / (overviewPeriodRows.length || 1)}
+  {@const waspadaRatio = totalCount > 0 ? ((branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count) / totalCount) * 100 : 0}
+  {@const turnaroundRatio = totalCount > 0 ? (branch_status_counts[0].turnaround_count / totalCount) * 100 : 0}
 
 <div class="branch-page">
 
-<ButtonGroup name=period>
-    <ButtonGroupItem valueLabel="📅 Bulan Ini" value="mtd" />
-    <ButtonGroupItem valueLabel="📊 30 Hari" value="30d" default />
-    <ButtonGroupItem valueLabel="🔭 90 Hari" value="90d" />
-  </ButtonGroup>
-
   <!-- Executive Summary -->
   <div class="hero" style="margin-top: 10px;">
-    <div class="hero-eyebrow">📊 Performa Cabang · {inputs.period === 'mtd' ? 'Bulan Berjalan' : inputs.period === '90d' ? '90 Hari Terakhir' : '30 Hari Terakhir'}</div>
+    <div class="hero-eyebrow">📊 Performa Cabang (Aktif 30H) · {branch_dates[0].tgl_30_awal} - {branch_dates[0].tgl_akhir}</div>
     <div class="hero-grid">
       <div class="hero-main-card {heroStatusClass}">
         <div class="hero-stat-number">{healthyCount}/{totalCount}</div>
@@ -591,348 +652,89 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
       </div>
       <div class="hero-side">
         <div class="hero-side-card">
-          <div class="hero-side-label">📅 Periode Aktif</div>
-          <div class="hero-side-value">{inputs.period === 'mtd' ? branch_dates[0].tgl_mtd_awal : inputs.period === '90d' ? branch_dates[0].tgl_90_awal : branch_dates[0].tgl_30_awal} - {branch_dates[0].tgl_akhir}</div>
-          <div class="hero-side-note">Ini window paling stabil untuk keputusan operasional: cukup panjang untuk melihat pola, cukup dekat untuk bereaksi.</div>
+          <div class="hero-side-label">🏆 Tulang Punggung Laba</div>
+          <div class="hero-side-value">{topBranchName}</div>
+          <div class="hero-side-note">Laba Rp {idFormat(topBranchNet)} (Margin {idFormat(topBranchMargin, 1)}%)</div>
         </div>
         <div class="hero-side-card">
-          <div class="hero-side-label">🏪 Cabang Terbaik</div>
-          <div class="hero-side-value">{overviewBestName}</div>
-          <div class="hero-side-note">Bukan sekadar ranking; gunakan sebagai acuan untuk mencari pola operasional yang bisa ditiru cabang lain.</div>
+          <div class="hero-side-label">🚨 Titik Kebocoran</div>
+          <div class="hero-side-value" style={worstBranchName !== 'Nihil' ? 'color: #dc2626;' : 'color: #16a34a;'}>{worstBranchName}</div>
+          {#if worstBranchName === 'Nihil'}
+            <div class="hero-side-note">Seluruh cabang beroperasi dengan profit positif.</div>
+          {:else}
+            <div class="hero-side-note">Rugi -Rp {idFormat(Math.abs(worstBranchNet))} (Margin {idFormat(worstBranchMargin, 1)}%)</div>
+          {/if}
         </div>
       </div>
     </div>
   </div>
 
-  <div class="overview-summary">
-    <div class="overview-summary-head">
-      <div class="overview-summary-label">Ringkasan 3 Indikator Utama</div>
-      <div class="overview-badges">
-        <span class="overview-badge safe">✓ {overviewIndexSafeCount} sehat</span>
-        <span class="overview-badge warn">! {overviewIndexWarnCount} waspada</span>
-        <span class="overview-badge critical">x {overviewIndexCriticalCount} kritis</span>
-      </div>
-    </div>
-    <div class="overview-list">
-      <div class="overview-row {overviewAovState}">
-        <div class="overview-icon">{overviewAovState === 'safe' ? '✅' : overviewAovState === 'warn' ? '⚠️' : '🚨'}</div>
-        <div><span class="overview-row-title">AOV Cabang</span> <span class="overview-row-copy">- <span class="overview-row-value">Rp {overviewAovAll.toLocaleString('id-ID')}</span>. Sehat = ≥Rp50.000, Waspada = Rp35.000-49.999, Kritis = di bawah Rp35.000.</span></div>
-      </div>
-      <div class="overview-row {overviewOrdersDropState}">
-        <div class="overview-icon">{overviewOrdersDropState === 'safe' ? '✅' : overviewOrdersDropState === 'warn' ? '⚠️' : '🚨'}</div>
-        <div><span class="overview-row-title">Orders Drop</span> <span class="overview-row-copy">- <span class="overview-row-value">{overviewOrdersComp[0].orders_this_period.toLocaleString('id-ID')} order</span> | <span class="overview-row-value">{overviewOrdersDropPct > 0 ? '+' : ''}{overviewOrdersDropPct}% vs {inputs.period === 'mtd' ? 'bulan lalu (mtd)' : inputs.period === '90d' ? '90h sebelumnya' : '30h sebelumnya'}</span>. Sehat = ≥-5%, Waspada = -5% s/d -15%, Kritis = di bawah -15%.</span></div>
-      </div>
-      <div class="overview-row {overviewGapState}">
-        <div class="overview-icon">{overviewGapState === 'safe' ? '✅' : overviewGapState === 'warn' ? '⚠️' : '🚨'}</div>
-        <div><span class="overview-row-title">Gap Antar Cabang</span> <span class="overview-row-copy">- <span class="overview-row-value">{overviewGapPct}% gap revenue</span>. Sehat = &lt;50%, Waspada = 50-100%, Kritis = di atas 100%.</span></div>
-      </div>
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 24px; margin-top: 24px;">
+    <div style="font-size: 2rem;">📋</div>
+    <div>
+      <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; text-transform: uppercase;">STATUS KESEHATAN & AUDIT MARGIN PER CABANG</h2>
+      <div style="font-size: 0.85rem; color: var(--color-text-tertiary); font-weight: 500;">Fokus: Analisis perbandingan margin 30H vs baseline 90H. Klik kartu untuk membuka analisis komprehensif.</div>
     </div>
   </div>
 
-  <!-- Panduan Konseptual (Collapsible) -->
-  <details class="guide-acc"  style="margin-top:12px;">
-  <summary>💡 Kenapa AOV, total order, dan gap jadi angka utama?</summary>
-<div class="guide-body">
-      <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-        AOV, total order, dan gap adalah pengetahuan dasar sebelum membaca analisis cabang yang lebih berat. Ketiga angka ini sengaja diselaraskan dengan beranda agar owner memiliki alur analisis yang konsisten.
-      </p>
-      <div class="guide-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-        <div class="guide-card blue">
-          <div class="guide-card-icon">💵</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">AOV</div>
-            <h4 class="guide-card-title">Kualitas Transaksi</h4>
-            <p class="guide-card-desc">AOV menjawab apakah pelanggan membeli cukup banyak/nilai cukup tinggi per kunjungan. Target sehatnya <strong>Rp50.000 ke atas</strong>.</p>
-          </div>
+  <div class="branch-health-grid" style="margin-top: 4px; margin-bottom: 8px;">
+    {#each branch_health_classification as row}
+      {@const branchStatusClass = row.health_status === 'Sehat' ? 'sehat' : row.health_status === 'Waspada' ? 'waspada' : row.health_status === 'Early Warning' ? 'early-warning' : row.health_status === 'Recovery' ? 'recovery' : row.health_status === 'Membaik' ? 'membaik' : row.health_status === 'Stabil Rendah' ? 'stabil-rendah' : 'turnaround'}
+      
+      <!-- Using anchor tag to make the whole card clickable to the deepdive page -->
+      <a href="/02-branch-performance/deepdive" class="branch-health-card {branchStatusClass}" style="text-decoration: none; display: block;">
+        <div class="branch-card-header">
+          <span class="branch-card-name">{row.branch_name}</span>
+          <span class="branch-status-badge {branchStatusClass}">
+            {row.health_status === 'Sehat' ? '✅' : row.health_status === 'Waspada' ? '⚠️' : row.health_status === 'Early Warning' ? '🟠' : row.health_status === 'Recovery' ? '🔵' : row.health_status === 'Membaik' ? '🟢' : row.health_status === 'Stabil Rendah' ? '🟡' : '🚨'} {row.health_status}
+          </span>
         </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">📈</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">Total Order</div>
-            <h4 class="guide-card-title">Volume Aktivitas</h4>
-            <p class="guide-card-desc">Membaca volume/frekuensi transaksi operasional untuk mendeteksi keaktifan cabang dan adanya tren penurunan transaksi (Orders Drop).</p>
-          </div>
-        </div>
-        <div class="guide-card purple">
-          <div class="guide-card-icon">⚖️</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">Gap Cabang</div>
-            <h4 class="guide-card-title">Ketimpangan Performa</h4>
-            <p class="guide-card-desc">Gap membaca jarak revenue cabang tertinggi dan terendah. Gap besar berarti cabang bawah perlu dicek lebih dekat.<br><strong style="font-size: 0.73rem; display: block; margin-top: 5px; color: var(--color-text-tertiary);">*Rumus gap: (revenue tertinggi - revenue terendah) / revenue terendah × 100%.</strong></p>
-          </div>
-        </div>
-        <div class="guide-card teal">
-          <div class="guide-card-icon">🚀</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">Lanjutannya</div>
-            <h4 class="guide-card-title">Baru Cek Margin</h4>
-            <p class="guide-card-desc">Jika AOV/total order/gap memberi sinyal, lanjut ke margin 30H vs 90H untuk melihat apakah masalahnya operasional, biaya, atau struktural.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-</details>
 
-  <!-- Section 1 & 2: Volume, Kualitas & Ketimpangan (Unified Collapsible Accordion) -->
-  <div class="strategic-stack" style="margin-top: 32px;">
-    <div class="strategic-header">
-      <div class="strategic-eyebrow">📈 Volume, Kualitas & Ketimpangan Pendapatan ({inputs.period === 'mtd' ? 'Bulan Berjalan' : inputs.period === '90d' ? '90 Hari' : '30 Hari'})</div>
-      <h2 class="strategic-title">Keaktifan & Keseimbangan Cabang</h2>
-      <p class="strategic-copy">Gunakan view ini untuk mendeteksi volume transaksi, kualitas belanja rata-rata (AOV), dan disparitas kontribusi omzet antar cabang.</p>
-    </div>
-
-    <details class="acc-strategic">
-      <summary>📊 Detail Analisis Volume, Kualitas & Ketimpangan</summary>
-      <div class="acc-body" style="padding: 20px 16px 16px 16px;">
-        <!-- Grid untuk data order dan AOV -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; padding-bottom: 20px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
-          <!-- Chart 1: Volume (Orders Drop) -->
-          <div>
-            <div class="section-head tight" style="margin-bottom: 12px;">
-              <div>
-                <div class="section-eyebrow">📦 Volume Order</div>
-                <h3 class="section-title">Bagaimana keaktifan operasional di tiap cabang?</h3>
-                <p class="section-copy">Mendeteksi adanya kenaikan atau penurunan volume transaksi di masing-masing cabang dibandingkan periode sebelumnya.</p>
-              </div>
-            </div>
-            <BarChart 
-              data={guideOrdersDetail} 
-              x="branch_name" 
-              y={inputs.period === 'mtd' ? ["Bulan Lalu (mtd)", "Bulan Ini"] : inputs.period === '90d' ? ["90h Lalu", "90h Sekarang"] : ["30h Lalu", "30h Sekarang"]} 
-              type="grouped" 
-              xAxisTitle="Cabang" 
-              yAxisTitle="Orders" 
-              yFmt="#,##0"
-            />
-            <div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 8px; line-height: 1.45;">
-              *Bandingkan volume order {inputs.period === 'mtd' ? 'Bulan Ini' : inputs.period === '90d' ? '90h Sekarang' : '30h Sekarang'} (kanan) vs {inputs.period === 'mtd' ? 'Bulan Lalu (mtd)' : inputs.period === '90d' ? '90h Lalu' : '30h Lalu'} (kiri).
-            </div>
+        <div class="branch-margin-section">
+          <div class="branch-margin-active-box">
+            <div class="branch-margin-main {branchStatusClass}">{row.active_margin_pct}%</div>
+            <div class="branch-margin-label">Margin Aktif 30H</div>
           </div>
 
-          <!-- Chart 2: Kualitas (AOV) -->
-          <div>
-            <div class="section-head tight" style="margin-bottom: 12px;">
-              <div>
-                <div class="section-eyebrow">💵 Nilai Transaksi (AOV)</div>
-                <h3 class="section-title">Berapa rata-rata nilai belanja per transaksi?</h3>
-                <p class="section-copy">Mengukur kualitas belanja konsumen per kunjungan di setiap cabang untuk mendeteksi potensi upselling.</p>
-              </div>
+          <div class="branch-margin-benchmarks">
+            <div class="benchmark-item">
+              <span class="benchmark-label">Margin 90H</span>
+              <strong class="benchmark-val">{row.recent_margin_pct}%</strong>
             </div>
-            <BarChart 
-              data={overviewPeriodRows} 
-              x="branch_name" 
-              y="avg_order_value" 
-              xAxisTitle="Cabang" 
-              yAxisTitle="AOV (Rp)" 
-              yFmt="#,##0"
-            >
-              <ReferenceLine y={50000} label="Sehat (≥50k)" lineType="dashed" color="#10B981" />
-              <ReferenceLine y={35000} label="Kritis (<35k)" lineType="dashed" color="#EF4444" />
-            </BarChart>
-            <div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 8px; line-height: 1.45;">
-              *Batas kelayakan transaksi (target sehat Rp50.000, batas kritis Rp35.000).
+            <div class="benchmark-item">
+              <span class="benchmark-label">Historis</span>
+              <strong class="benchmark-val">{row.historical_margin_pct}%</strong>
             </div>
           </div>
         </div>
 
-        <!-- Grafik sebaran pendapatan (gap) -->
-        <div style="margin-top: 24px;">
-          <div class="section-head tight" style="margin-bottom: 12px;">
-            <div>
-              <div class="section-eyebrow">⚖️ Sebaran Pendapatan & Ketimpangan</div>
-              <h3 class="section-title">Bagaimana distribusi omzet kotor dan tingkat ketimpangannya?</h3>
-              <p class="section-copy">Sebaran omzet kotor per cabang menunjukkan kontribusi pendapatan masing-masing outlet terhadap portofolio bisnis.</p>
-            </div>
+        <div class="branch-stats-grid">
+          <div class="stat-pill">
+            <span class="stat-label">Revenue</span>
+            <span class="stat-value">Rp {(row.active_revenue/1000000).toFixed(1)}jt</span>
           </div>
-          <BarChart 
-            data={overviewPeriodRows} 
-            x="branch_name" 
-            y="total_revenue" 
-            xAxisTitle="Cabang" 
-            yAxisTitle="Revenue (Rp)" 
-            yFmt="#,##0"
-          />
-          <div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 8px; line-height: 1.45;">
-            *Ketimpangan ditunjukkan dari beda tinggi pendapatan kotor antar cabang. Selisih yang terlalu jauh antara cabang tertinggi dan terendah memicu tingginya ketimpangan performa (gap).
+          <div class="stat-pill">
+            <span class="stat-label">Orders</span>
+            <span class="stat-value">{row.active_orders?.toLocaleString('id-ID')}</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Tren Orders</span>
+            <span class="stat-value {row.baseline_change_pct >= 0 ? 'text-up' : 'text-down'}">
+              {row.baseline_change_pct >= 0 ? '▲ +' : '▼ '}{row.baseline_change_pct}%
+            </span>
           </div>
         </div>
-      </div>
-    </details>
+
+        <div class="branch-diagnosis-box {branchStatusClass}">
+          <div class="diagnosis-icon">💡</div>
+          <div class="diagnosis-text">{row.diagnosis}</div>
+        </div>
+      </a>
+    {/each}
   </div>
-
-  <div class="strategic-stack" style="margin-top: 32px;">
-    <div class="strategic-header">
-      <div class="strategic-eyebrow">📈 Status Margin Cabang · Diagnosis Aktif 30H vs Baseline 90H</div>
-      <h2 class="strategic-title">Diagnosis Performa Margin Cabang</h2>
-      <p class="strategic-copy">Sementara parameter waktu di Ringkasan cockpit di atas bersifat dinamis, analisis margin di bawah ini sengaja dikunci ke perbandingan 30H (aktif) vs 90H (baseline recent) untuk mendiagnosis apakah masalah bersifat sementara atau struktural.</p>
-    </div>
-
-    <details class="acc-strategic">
-      <summary>📊 Detail Status Margin Cabang</summary>
-      <div class="acc-body" style="padding: 20px 16px 16px 16px;">
-        <div class="overview-summary" style="margin: 0 0 24px 0;">
-          <div class="overview-summary-head">
-            <div class="overview-summary-label">Ringkasan Status Margin Cabang</div>
-            <div class="overview-badges">
-              <span class="overview-badge safe">✓ {branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count} sehat/recovery</span>
-              <span class="overview-badge warn">! {branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count} perlu dipantau</span>
-              <span class="overview-badge critical">x {branch_status_counts[0].turnaround_count} turnaround</span>
-            </div>
-          </div>
-          <div class="overview-list">
-            <div class="overview-row {branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count > 0 ? 'safe' : 'warn'}">
-              <div class="overview-icon">✅</div>
-              <div><span class="overview-row-title">Cabang sehat/recovery</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count} cabang</span>. Ini cabang yang bisa dipertahankan sebagai standar operasional atau benchmark.</span></div>
-            </div>
-            <div class="overview-row {branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count > 0 ? 'warn' : 'safe'}">
-              <div class="overview-icon">{branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count > 0 ? '⚠️' : '✅'}</div>
-              <div><span class="overview-row-title">Cabang perlu dipantau</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count} cabang</span>. Termasuk cabang yang melunak, membaik tapi belum sehat, atau stabil rendah.</span></div>
-            </div>
-            <div class="overview-row {branch_status_counts[0].turnaround_count > 0 ? 'critical' : 'safe'}">
-              <div class="overview-icon">{branch_status_counts[0].turnaround_count > 0 ? '🚨' : '✅'}</div>
-              <div><span class="overview-row-title">Cabang turnaround</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].turnaround_count} cabang</span>. Jika ada, ini masuk prioritas tindakan sebelum optimasi lain.</span></div>
-            </div>
-          </div>
-        </div>
-
-        <details class="guide-acc"  style="margin-top:14px;">
-  <summary>💡 Cara membaca status cabang</summary>
-<div class="guide-body">
-            
-      <div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
-        <div class="guide-card teal">
-          <div class="guide-card-icon">✅</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">SEHAT</div>
-            <h4 class="guide-card-title">Sehat</h4>
-            <p class="guide-card-desc">margin 30H ≥ 15% dan baseline 90H ≥ 15%. Benchmark untuk cabang lain.</p>
-          </div>
-        </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">⚠️</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">WASPADA</div>
-            <h4 class="guide-card-title">Waspada</h4>
-            <p class="guide-card-desc">margin 30H 10-15%, baseline 90H masih sehat. Cabang yang biasanya sehat mulai melunak.</p>
-          </div>
-        </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">🚨</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">EARLY WARNING</div>
-            <h4 class="guide-card-title">Early Warning</h4>
-            <p class="guide-card-desc">margin 30H &lt; 10%, tapi baseline 90H masih sehat. Penurunan baru, bukan masalah lama.</p>
-          </div>
-        </div>
-        <div class="guide-card blue">
-          <div class="guide-card-icon">🔵</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">RECOVERY</div>
-            <h4 class="guide-card-title">Recovery</h4>
-            <p class="guide-card-desc">margin 30H ≥ 15%, baseline 90H masih rendah. Sudah sehat sekarang, tapi historinya masih perlu dipantau.</p>
-          </div>
-        </div>
-        <div class="guide-card teal">
-          <div class="guide-card-icon">🟢</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">MEMBAIK</div>
-            <h4 class="guide-card-title">Membaik</h4>
-            <p class="guide-card-desc">margin 30H 10-15%, baseline 90H &lt; 10%. Ada pemulihan dari kondisi lemah, tapi belum sehat.</p>
-          </div>
-        </div>
-        <div class="guide-card orange">
-          <div class="guide-card-icon">🟡</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">STABIL RENDAH</div>
-            <h4 class="guide-card-title">Stabil Rendah</h4>
-            <p class="guide-card-desc">margin 30H dan 90H sama-sama 10-15%. Bukan krisis, tapi belum optimal.</p>
-          </div>
-        </div>
-        <div class="guide-card purple">
-          <div class="guide-card-icon">🚨</div>
-          <div class="guide-card-content">
-            <div class="guide-card-label">TURNAROUND</div>
-            <h4 class="guide-card-title">Turnaround</h4>
-            <p class="guide-card-desc">margin 30H dan 90H sama-sama lemah. Perlu pembenahan struktural.</p>
-          </div>
-        </div>
-      </div>
-
-            Margin 30H adalah status aktif. Margin 90H adalah baseline recent. Margin historis tetap ditampilkan sebagai konteks fundamental, bukan penentu status utama.
-          </div>
-</details>
-
-        <!-- Detail Status per Cabang Section -->
-        <div class="strategic-header" style="margin-top:24px; padding-top:20px; border-top: 1px dashed rgba(0,0,0,0.15);">
-          <div class="strategic-eyebrow">📋 Detail Status per Cabang</div>
-          <h3 class="strategic-title" style="margin-top:0;">Cabang mana yang sehat, perlu dipantau, atau masuk turnaround?</h3>
-          <p class="strategic-copy">Kartu di bawah ini adalah bukti per cabang dari ringkasan margin di atas. Menggunakan analisis perbandingan 30 Hari (aktif) vs 90 Hari (baseline recent) untuk memotret perkembangan operasional terbaru per cabang.</p>
-        </div>
-
-        <div class="branch-health-grid" style="margin-top:14px;">
-          {#each branch_health_classification as row}
-            {@const branchStatusClass = row.health_status === 'Sehat' ? 'sehat' : row.health_status === 'Waspada' ? 'waspada' : row.health_status === 'Early Warning' ? 'early-warning' : row.health_status === 'Recovery' ? 'recovery' : row.health_status === 'Membaik' ? 'membaik' : row.health_status === 'Stabil Rendah' ? 'stabil-rendah' : 'turnaround'}
-            <div class="branch-health-card {branchStatusClass}">
-              <!-- Header Row -->
-              <div class="branch-card-header">
-                <span class="branch-card-name">{row.branch_name}</span>
-                <span class="branch-status-badge {branchStatusClass}">
-                  {row.health_status === 'Sehat' ? '✅' : row.health_status === 'Waspada' ? '⚠️' : row.health_status === 'Early Warning' ? '🟠' : row.health_status === 'Recovery' ? '🔵' : row.health_status === 'Membaik' ? '🟢' : row.health_status === 'Stabil Rendah' ? '🟡' : '🚨'} {row.health_status}
-                </span>
-              </div>
-
-              <!-- Main Margin Split Section -->
-              <div class="branch-margin-section">
-                <!-- Left: Active Margin -->
-                <div class="branch-margin-active-box">
-                  <div class="branch-margin-main {branchStatusClass}">{row.active_margin_pct}%</div>
-                  <div class="branch-margin-label">Margin Aktif 30H</div>
-                </div>
-
-                <!-- Right: Structural/Historical Benchmarks -->
-                <div class="branch-margin-benchmarks">
-                  <div class="benchmark-item">
-                    <span class="benchmark-label">Margin 90H</span>
-                    <strong class="benchmark-val">{row.recent_margin_pct}%</strong>
-                  </div>
-                  <div class="benchmark-item">
-                    <span class="benchmark-label">Historis</span>
-                    <strong class="benchmark-val">{row.historical_margin_pct}%</strong>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Stats Grid Row -->
-              <div class="branch-stats-grid">
-                <div class="stat-pill">
-                  <span class="stat-label">Revenue</span>
-                  <span class="stat-value">Rp {(row.active_revenue/1000000).toFixed(1)}jt</span>
-                </div>
-                <div class="stat-pill">
-                  <span class="stat-label">Orders</span>
-                  <span class="stat-value">{row.active_orders?.toLocaleString('id-ID')}</span>
-                </div>
-                <div class="stat-pill">
-                  <span class="stat-label">vs Baseline</span>
-                  <span class="stat-value {row.baseline_change_pct >= 0 ? 'text-up' : 'text-down'}">
-                    {row.baseline_change_pct >= 0 ? '▲ +' : '▼ '}{row.baseline_change_pct}%
-                  </span>
-                </div>
-              </div>
-
-              <!-- Diagnosis Row -->
-              <div class="branch-diagnosis-box {branchStatusClass}">
-                <div class="diagnosis-icon">💡</div>
-                <div class="diagnosis-text">{row.diagnosis}</div>
-              </div>
-            </div>
-          {/each}
-        </div>
-
-        <details class="guide-acc"  style="margin-top:14px;">
-  <summary>💡 Kenapa margin 30H dibandingkan dengan 90H?</summary>
-<div class="guide-body">
-            
+  <details class="guide-acc" style="margin-top: 0px; margin-bottom: 8px;">
+    <summary>💡 Kenapa margin 30H dibandingkan dengan 90H?</summary>
+    <div class="guide-body">
       <div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
         <div class="guide-card blue">
           <div class="guide-card-icon">⚡</div>
@@ -975,21 +777,101 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
           </div>
         </div>
       </div>
-
-          </div>
-</details>
     </div>
   </details>
-</div>
-
-</div>
-
-{:else}
-<div class="section-card">
-  <div class="section-head">
-    <div class="section-eyebrow">⚠️ Data Belum Siap</div>
-    <h3 class="section-title">Dashboard cabang belum bisa dirender penuh</h3>
-    <p class="section-copy">Dataset klasifikasi cabang atau status counts belum tersedia. Cek apakah query <code>branch_health_classification</code> dan <code>branch_status_counts</code> sudah berjalan dan menghasilkan baris data.</p>
+<div id="makro-fix">
+<style>
+#makro-fix .kpi-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; }
+#makro-fix .kpi-grid-2 { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; margin-bottom: 12px !important; }
+#makro-fix .kpi-card { padding: 18px 16px !important; border-radius: 18px !important; border: 1.5px solid var(--color-border-tertiary) !important; background: var(--color-background-secondary) !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01) !important; transition: all 0.22s ease !important; text-align: center !important; margin: 0 !important; }
+#makro-fix .kpi-card:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02) !important; }
+#makro-fix .kpi-label { font-size: 10px !important; font-weight: 700 !important; letter-spacing: 0.1em !important; text-transform: uppercase !important; color: var(--color-text-tertiary) !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; }
+#makro-fix .kpi-value { font-size: 1.15rem !important; font-weight: 800 !important; letter-spacing: -0.03em !important; color: var(--color-text-primary) !important; margin: 0 !important; }
+#makro-fix .kpi-meta { margin-top: 6px !important; font-size: 0.82rem !important; line-height: 1 !important; }
+#makro-fix .kpi-prev { margin-top: 6px !important; font-size: 0.78rem !important; color: var(--color-text-secondary) !important; line-height: 1.4 !important; }
+#makro-fix .kpi-card.revenue { border-color: rgba(37,99,235,0.18) !important; background: linear-gradient(145deg, rgba(37,99,235,0.06), rgba(99,102,241,0.03)) !important; }
+#makro-fix .kpi-card.net { border-color: rgba(16,185,129,0.22) !important; background: linear-gradient(145deg, rgba(16,185,129,0.07), rgba(22,163,74,0.03)) !important; }
+#makro-fix .kpi-card.margin { border-color: rgba(245,158,11,0.22) !important; background: linear-gradient(145deg, rgba(245,158,11,0.07), rgba(251,191,36,0.03)) !important; }
+#makro-fix .kpi-card.expense { border-color: rgba(239,68,68,0.18) !important; background: linear-gradient(145deg, rgba(239,68,68,0.06), rgba(220,38,38,0.02)) !important; }
+#makro-fix p { margin: 0 !important; padding: 0 !important; line-height: normal !important; }
+</style>
+<div style="margin-bottom: 16px; display: flex; align-items: center; gap: 10px; margin-top: 48px; padding-top: 32px; border-top: 2px dashed rgba(0,0,0,0.06);">
+  <div style="font-size: 1.5rem;">🔭</div>
+  <div>
+    <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em;">KESEHATAN MAKRO (STRATEGIS)</h2>
+    <div style="font-size: 0.85rem; color: var(--color-text-tertiary); font-weight: 500;">Fokus: Evaluasi Kebijakan Bisnis Jangka Panjang</div>
   </div>
 </div>
+<div class="kpi-grid-2">
+  <div class="kpi-card revenue">
+    <div class="kpi-label">⚖️ Pemusatan Risiko (CR{concentrationN})</div>
+    <div class="kpi-value">{idFormat(concentrationPct, 1)}%</div>
+    <div class="kpi-meta">
+      <span class="trend-indicator neutral">Dominasi {concentrationN} Cabang Teratas</span>
+    </div>
+    <div class="kpi-prev">{idFormat(concentrationPct, 1)}% omzet bergantung pada {concentrationN} cabang.</div>
+  </div>
+  <div class="kpi-card revenue">
+    <div class="kpi-label">👥 Momentum Trafik Jaringan</div>
+    <div class="kpi-value">{idFormat(branch_macro_strategic[0].network_orders_30d)}</div>
+    <div class="kpi-meta">
+      {#if branch_macro_strategic[0].network_orders_pct_change > 0}
+        <span class="trend-indicator up">▲ {idFormat(branch_macro_strategic[0].network_orders_pct_change, 1)}%</span>
+      {:else if branch_macro_strategic[0].network_orders_pct_change < 0}
+        <span class="trend-indicator down">▼ {idFormat(Math.abs(branch_macro_strategic[0].network_orders_pct_change), 1)}%</span>
+      {:else}
+        <span class="trend-indicator neutral">0,0%</span>
+      {/if}
+    </div>
+    <div class="kpi-prev">Total volume struk (30 Hari)</div>
+  </div>
+</div>
+<div class="kpi-grid" style="margin-bottom: 24px;">
+  <div class="kpi-card margin">
+    <div class="kpi-label">📉 Cabang Tren Menurun</div>
+    <div class="kpi-value">{idFormat(branch_health_overview[0].declining_30d)}</div>
+    <div class="kpi-meta">
+      <span class="trend-indicator down" style="color: #b45309;">Anomali Demand Drop</span>
+    </div>
+    <div class="kpi-prev">Omzet drop >10% bulan ini.</div>
+  </div>
+  <div class="kpi-card margin">
+    <div class="kpi-label">🛒 Daya Beli Jaringan</div>
+    <div class="kpi-value">Rp {idFormat(branch_macro_strategic[0].network_aov_30d)}</div>
+    <div class="kpi-meta">
+      {#if branch_macro_strategic[0].network_aov_pct_change > 0}
+        <span class="trend-indicator up">▲ {idFormat(branch_macro_strategic[0].network_aov_pct_change, 1)}%</span>
+      {:else if branch_macro_strategic[0].network_aov_pct_change < 0}
+        <span class="trend-indicator down">▼ {idFormat(Math.abs(branch_macro_strategic[0].network_aov_pct_change), 1)}%</span>
+      {:else}
+        <span class="trend-indicator neutral">0,0%</span>
+      {/if}
+    </div>
+    <div class="kpi-prev">Rata-rata omzet per struk.</div>
+  </div>
+  <div class="kpi-card net">
+    <div class="kpi-label">🛡️ Indikator Tahan Banting</div>
+    <div class="kpi-value">{idFormat(branch_macro_strategic[0].resilient_count)}</div>
+    <div class="kpi-meta">
+      <span style="color: var(--color-text-primary); font-weight: 600;">Resilience Index</span>
+    </div>
+    <div class="kpi-prev">Margin >10% selama 3 bln beruntun.</div>
+  </div>
+</div>
+<div class="clean-cta-banner">
+  <div class="clean-cta-content">
+    <div class="clean-cta-icon">🔍</div>
+    <div class="clean-cta-text">
+      <h3 class="clean-cta-title">Eksplorasi Ekosistem & Peta Kekuatan Cabang</h3>
+      <p class="clean-cta-desc">Bedah lebih dalam efektivitas SOP, deteksi anomali kinerja, dan ukur ketimpangan profitabilitas lintas cabang secara komprehensif.</p>
+    </div>
+  </div>
+  <a href="/02-branch-performance/analysis" class="clean-cta-button">
+    Buka Evaluasi Strategis ➔
+  </a>
+</div>
+</div>
+</div>
+{:else}
+  <GlobalLoading />
 {/if}

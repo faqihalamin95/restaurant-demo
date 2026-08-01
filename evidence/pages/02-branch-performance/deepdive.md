@@ -10,6 +10,8 @@ sidebar_link: false
 </script>
 
 <style>
+:global(.advisor-wrapper.hide-tabs nav) { display: none !important; }
+
 /* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
 :global(aside a[href="/02-branch-performance"]),
 :global(#mobileScrollable a[href="/02-branch-performance"]) {
@@ -27,6 +29,99 @@ sidebar_link: false
   color: #2dd4bf !important;
   border-left-color: #14b8a6 !important;
 }
+
+/* ── Risk Section (Mini-Card Layout) ── */
+.risk-section { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+
+.risk-row {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+}
+
+/* Row color themes */
+.risk-row.purple-theme { background: linear-gradient(135deg, rgba(168,85,247,0.03), rgba(168,85,247,0.008)); border: 1.5px solid rgba(168,85,247,0.12); }
+.risk-row.blue-theme { background: linear-gradient(135deg, rgba(59,130,246,0.03), rgba(59,130,246,0.008)); border: 1.5px solid rgba(59,130,246,0.12); }
+.risk-row.slate-theme { background: linear-gradient(135deg, rgba(15,23,42,0.03), rgba(15,23,42,0.008)); border: 1.5px solid rgba(15,23,42,0.08); }
+
+/* Hover: outline only */
+.risk-row.purple-theme:hover { border-color: rgba(168,85,247,0.35); box-shadow: 0 4px 20px rgba(168,85,247,0.06); }
+.risk-row.blue-theme:hover { border-color: rgba(59,130,246,0.35); box-shadow: 0 4px 20px rgba(59,130,246,0.06); }
+.risk-row.slate-theme:hover { border-color: rgba(15,23,42,0.20); box-shadow: 0 4px 20px rgba(15,23,42,0.04); }
+
+.risk-row-header { display: flex; align-items: center; gap: 12px; padding: 18px 24px; }
+
+.risk-row.purple-theme .risk-row-header { border-bottom: 1px solid rgba(168,85,247,0.08); }
+.risk-row.blue-theme .risk-row-header { border-bottom: 1px solid rgba(59,130,246,0.08); }
+.risk-row.slate-theme .risk-row-header { border-bottom: 1px solid rgba(15,23,42,0.06); }
+
+.risk-row-icon { font-size: 1.15rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 11px; flex-shrink: 0; }
+.risk-row.purple-theme .risk-row-icon { background: rgba(168,85,247,0.10); }
+.risk-row.blue-theme .risk-row-icon { background: rgba(59,130,246,0.10); }
+.risk-row.slate-theme .risk-row-icon { background: rgba(15,23,42,0.06); }
+
+.risk-row-title { margin: 0; font-size: 1.02rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; }
+
+/* Pills: 3-column grid */
+.risk-pills { display: grid; grid-template-columns: repeat(3, 1fr); }
+.risk-pills.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.risk-pill {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; padding: 20px 16px;
+  border-right: 1px solid rgba(0,0,0,0.04);
+  transition: background 0.25s ease;
+}
+.risk-pill:last-child { border-right: none; }
+.risk-row.purple-theme .risk-pill:hover { background: rgba(168,85,247,0.05); }
+.risk-row.blue-theme .risk-pill:hover { background: rgba(59,130,246,0.05); }
+.risk-row.slate-theme .risk-pill:hover { background: rgba(15,23,42,0.03); }
+
+.risk-pill-anchor {
+  font-size: 1.15rem;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+}
+.risk-row.purple-theme .risk-pill-anchor { background: rgba(168,85,247,0.10); }
+.risk-row.blue-theme .risk-pill-anchor { background: rgba(59,130,246,0.10); }
+.risk-row.slate-theme .risk-pill-anchor { background: rgba(15,23,42,0.06); }
+
+.risk-pill-content { display: flex; flex-direction: column; gap: 4px; }
+.risk-pill-content strong { font-size: 0.85rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.01em; }
+.risk-pill-content span { font-size: 0.8rem; line-height: 1.5; color: var(--color-text-secondary); }
+
+/* Fun fact footer */
+.risk-funfact {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 24px;
+  border-top: 1px dashed rgba(0,0,0,0.06);
+  background: rgba(0,0,0,0.015);
+}
+.risk-funfact-icon { font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+.risk-funfact-content { display: flex; flex-direction: column; gap: 2px; }
+.risk-funfact-content span { font-size: 0.78rem; line-height: 1.5; color: var(--color-text-secondary); }
+.risk-funfact-content cite { font-size: 0.7rem; color: var(--color-text-tertiary); font-style: italic; }
+
+/* Pros Cons Box */
+.pros-cons-box {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  background: rgba(0,0,0,0.02);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.pros-cons-box .pro, .pros-cons-box .con { line-height: 1.35; display: flex; gap: 4px; }
+.pros-cons-box .pro { color: #15803d; }
+.pros-cons-box .con { color: #b45309; }
+.risk-row.purple-theme .pros-cons-box { background: rgba(168,85,247,0.03); border-color: rgba(168,85,247,0.1); }
+.risk-row.blue-theme .pros-cons-box { background: rgba(59,130,246,0.03); border-color: rgba(59,130,246,0.1); }
+.risk-row.slate-theme .pros-cons-box { background: rgba(15,23,42,0.02); border-color: rgba(15,23,42,0.06); }
 </style>
 
 ```sql branch_list
@@ -37,6 +132,10 @@ SELECT * FROM restaurant.branch_deepdive_branch_list
 SELECT * FROM restaurant.branch_deepdive_branch_dates
 ```
 
+```sql fin_kpi_mtd
+SELECT * FROM restaurant.fin_kpi_mtd
+```
+
 ```sql branch_scorecard
 SELECT * FROM restaurant.branch_deepdive_branch_scorecard
 ```
@@ -45,12 +144,28 @@ SELECT * FROM restaurant.branch_deepdive_branch_scorecard
 SELECT * FROM restaurant.branch_deepdive_branch_cost_periods
 ```
 
+```sql branch_menu_playbook
+SELECT * FROM restaurant.menu_branch_playbook_30d
+```
+
 ```sql branch_quarterly_report
 SELECT * FROM restaurant.branch_deepdive_branch_quarterly_report
 ```
 
 ```sql branch_yoy_report
 SELECT * FROM restaurant.branch_deepdive_branch_yoy_report
+```
+
+```sql branch_menu_detail_30d
+SELECT * FROM restaurant.menu_a_branch_detail WHERE period = '30d'
+```
+
+```sql branch_category_mix
+SELECT branch_name, category, SUM(revenue_current) as total_rev
+FROM restaurant.menu_a_branch_detail
+WHERE period = '30d'
+GROUP BY branch_name, category
+ORDER BY total_rev DESC
 ```
 
 _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, strategi, dan prioritas aksi._
@@ -96,10 +211,11 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 <div class="evidence-tabs-container">
   <a href="/02-branch-performance" class="tab-button ">🏠 Ringkasan</a>
   <a href="/02-branch-performance/deepdive" class="tab-button active">🏪 Deep Dive</a>
-  <a href="/02-branch-performance/analysis" class="tab-button ">🔭 Analisis Lanjutan</a>
+  <a href="/02-branch-performance/analysis" class="tab-button ">🔭 Evaluasi Strategis</a>
+  <a href="/02-branch-performance/direktori-data" class="tab-button ">📁 Direktori Data</a>
 </div>
 
-{#if branch_list.length > 0 && branch_dates.length > 0}
+{#if typeof branch_list !== 'undefined' && branch_list.length > 0 && typeof branch_dates !== 'undefined' && branch_dates.length > 0 && typeof branch_scorecard !== 'undefined' && typeof branch_cost_periods !== 'undefined' && typeof branch_menu_detail_30d !== 'undefined' && typeof branch_category_mix !== 'undefined' && typeof branch_quarterly_report !== 'undefined' && typeof branch_yoy_report !== 'undefined'}
   {@const selectedBranchRaw = String(inputs.focus_branch ?? (branch_list[0]?.branch_name ?? ''))}
   {@const selectedBranchNormalized = decodeURIComponent(selectedBranchRaw).replace(/\+/g, ' ')}
   {@const selectedBranch = branch_list.find(branch => branch.branch_name === selectedBranchRaw || branch.branch_name === selectedBranchNormalized)?.branch_name ?? branch_list[0]?.branch_name ?? ''}
@@ -121,8 +237,8 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   {@const activeCost = activeGross - activeNet}
   {@const activeCostPrev = activeGrossPrev - activeNetPrev}
   
-  {@const activeMarginState = activeMargin >= 15 ? 'safe' : activeMargin >= 10 ? 'warn' : 'critical'}
-  {@const activeMarginColor = activeMargin >= 15 ? '#15803d' : activeMargin >= 10 ? '#b45309' : '#b91c1c'}
+  {@const activeMarginState = activeMargin >= 10 ? 'safe' : activeMargin >= 5 ? 'warn' : 'critical'}
+  {@const activeMarginColor = activeMargin >= 10 ? '#15803d' : activeMargin >= 5 ? '#b45309' : '#b91c1c'}
 
   <!-- Cost Calculations -->
   {@const branchIngredientPctMtd = activeCostPeriods ? activeCostPeriods.ingr_mtd / (activeCostPeriods.gross_mtd || 1) * 100 : 0}
@@ -138,23 +254,23 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   {@const branchOverheadPct90 = activeCostPeriods ? activeCostPeriods.overhead_90d / (activeCostPeriods.gross_90d || 1) * 100 : 0}
   
   <!-- Cost Pressure for MTD -->
-  {@const mtdIngrExcess = branchIngredientPctMtd - 32}
+  {@const mtdIngrExcess = branchIngredientPctMtd - 30}
   {@const mtdLaborExcess = branchLaborPctMtd - 30}
-  {@const mtdOverheadExcess = branchOverheadPctMtd - 15}
+  {@const mtdOverheadExcess = branchOverheadPctMtd - 30}
   {@const mtdMaxExcess = Math.max(mtdIngrExcess, mtdLaborExcess, mtdOverheadExcess)}
   {@const branchMainCostPressureMtd = mtdMaxExcess <= 0 ? 'semua biaya dalam batas' : mtdMaxExcess === mtdOverheadExcess ? 'biaya operasional' : mtdMaxExcess === mtdIngrExcess ? 'biaya bahan' : 'biaya SDM'}
 
   <!-- Cost Pressure for 30D -->
-  {@const ingrExcess = branchIngredientPct30 - 32}
+  {@const ingrExcess = branchIngredientPct30 - 30}
   {@const laborExcess = branchLaborPct30 - 30}
-  {@const overheadExcess = branchOverheadPct30 - 15}
+  {@const overheadExcess = branchOverheadPct30 - 30}
   {@const maxExcess = Math.max(ingrExcess, laborExcess, overheadExcess)}
   {@const branchMainCostPressure = maxExcess <= 0 ? 'semua biaya dalam batas' : maxExcess === overheadExcess ? 'biaya operasional' : maxExcess === ingrExcess ? 'biaya bahan' : 'biaya SDM'}
 
   <!-- Cost Pressure for 90D -->
-  {@const ingrExcess90 = branchIngredientPct90 - 32}
+  {@const ingrExcess90 = branchIngredientPct90 - 30}
   {@const laborExcess90 = branchLaborPct90 - 30}
-  {@const overheadExcess90 = branchOverheadPct90 - 15}
+  {@const overheadExcess90 = branchOverheadPct90 - 30}
   {@const maxExcess90 = Math.max(ingrExcess90, laborExcess90, overheadExcess90)}
   {@const branchMainCostPressure90 = maxExcess90 <= 0 ? 'semua biaya dalam batas' : maxExcess90 === overheadExcess90 ? 'biaya operasional' : maxExcess90 === ingrExcess90 ? 'biaya bahan' : 'biaya SDM'}
 
@@ -162,6 +278,9 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   {@const activeGrowthPct = activeScorecard ? (activePeriodDeepdive === 'mtd' ? activeScorecard.rev_pct_mtd : activePeriodDeepdive === '90d' ? activeScorecard.rev_pct_90d : activeScorecard.rev_pct_30d) : 0}
   {@const activeCostPressureLabel = activePeriodDeepdive === 'mtd' ? branchMainCostPressureMtd : activePeriodDeepdive === '90d' ? branchMainCostPressure90 : branchMainCostPressure}
   {@const activeCostPressureGap = activePeriodDeepdive === 'mtd' ? mtdMaxExcess : activePeriodDeepdive === '90d' ? maxExcess90 : maxExcess}
+  {@const activeIngrExcess = activePeriodDeepdive === 'mtd' ? mtdIngrExcess : activePeriodDeepdive === '90d' ? ingrExcess90 : ingrExcess}
+  {@const activeLaborExcess = activePeriodDeepdive === 'mtd' ? mtdLaborExcess : activePeriodDeepdive === '90d' ? laborExcess90 : laborExcess}
+  {@const activeOverheadExcess = activePeriodDeepdive === 'mtd' ? mtdOverheadExcess : activePeriodDeepdive === '90d' ? overheadExcess90 : overheadExcess}
 
   <!-- Core Metric Calculations for Accordion -->
   {@const activeMetricPeriod = inputs.deepdive_metric_period ?? '30d'}
@@ -179,11 +298,20 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   {@const activeMetricAovPrev = activeScorecard ? (activeMetricPeriod === 'yesterday' ? activeScorecard.aov_sdow_yesterday : activeMetricPeriod === '7d' ? Math.round(activeScorecard.rev_prev7d / Math.max(activeScorecard.ord_prev7d, 1)) : Math.round(activeScorecard.rev_prev30d / Math.max(activeScorecard.ord_prev30d, 1))) : 0}
   {@const activeMetricAovPct = activeScorecard ? (activeMetricAovPrev > 0 ? Math.round((activeMetricAov - activeMetricAovPrev) / activeMetricAovPrev * 100 * 10) / 10 : 0) : 0}
 
+  {@const hasCostPressure = activeIngrExcess > 0 || activeLaborExcess > 0 || activeOverheadExcess > 0}
+  {@const forceCostPressure = activeMarginState !== 'safe' && !hasCostPressure}
+
+  {@const showIngrAdvisor = activeIngrExcess > 0 || (forceCostPressure && activeCostPressureLabel === 'biaya bahan')}
+  {@const showLaborAdvisor = activeLaborExcess > 0 || (forceCostPressure && activeCostPressureLabel === 'biaya SDM')}
+  {@const showOverheadAdvisor = activeOverheadExcess > 0 || (forceCostPressure && activeCostPressureLabel === 'biaya operasional')}
+  {@const showIngrUnderAdvisor = branchIngredientPct30 < 25}
+  {@const showLaborUnderAdvisor = branchLaborPct30 < 15}
+
 <div class="branch-page">
 
 <SectionCard 
-  eyebrow="🏪 Pilih Cabang" 
-  title="Deep Dive per Cabang" 
+  eyebrow="<span style='font-size: 12px;'>🏪 Pilih Cabang</span>" 
+  title="Pusat Kendali Performa Cabang" 
   description="Pilih cabang tertentu untuk menganalisis tren margin harian, breakdown pos biaya operasional, dan sebaran jenis pesanan secara mendalam."
 >
     <ButtonGroup name=focus_branch>
@@ -195,152 +323,331 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 
   {#if activeScorecard && activeScorecard.rev_30d !== null && activeCostPeriods && activeCostPeriods.gross_30d !== null}
 
-    <!-- JIT accordion -->
-    <details class="guide-acc"  style="margin-top: 10px; margin-bottom: 16px;">
-  <summary>💡 Cara membaca deep dive cabang</summary>
-<div class="guide-body">
-        <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-          Membantu mengidentifikasi kebocoran operasional di tingkat outlet dengan melacak transisi dari harian hingga jangka panjang.
-        </p>
-        <div class="guide-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-          <div class="guide-card blue">
-            <div class="guide-card-icon">⏱️</div>
-            <div class="guide-card-content">
-              <div class="guide-card-label">Horizon Waktu</div>
-              <h4 class="guide-card-title">Multi-Horizon Strip</h4>
-              <p class="guide-card-desc">Menampilkan transisi performa dari jangka sangat pendek (Kemarin, 7H) hingga jangka menengah (30H, MTD, 90H).</p>
-            </div>
-          </div>
-          <div class="guide-card orange">
-            <div class="guide-card-icon">📊</div>
-            <div class="guide-card-content">
-              <div class="guide-card-label">Operational</div>
-              <h4 class="guide-card-title">Kinerja 30H vs 90H</h4>
-              <p class="guide-card-desc">Membandingkan 30 Hari operasional aktif dengan baseline 90 Hari untuk mendeteksi anomali biaya/COGS.</p>
-            </div>
-          </div>
-          <div class="guide-card teal">
-            <div class="guide-card-icon">🗓️</div>
-            <div class="guide-card-content">
-              <div class="guide-card-label">Siklus</div>
-              <h4 class="guide-card-title">Tren Kuartalan QoQ</h4>
-              <p class="guide-card-desc">Membaca kestabilan musiman untuk memastikan apakah cabang memiliki pola transaksi di kuartal tertentu.</p>
-            </div>
-          </div>
-          <div class="guide-card purple">
-            <div class="guide-card-icon">📜</div>
-            <div class="guide-card-content">
-              <div class="guide-card-label">Fundamental</div>
-              <h4 class="guide-card-title">Historis YoY</h4>
-              <p class="guide-card-desc">Melacak arah fundamental tahun ke tahun sejak awal berdiri untuk menilai keberlanjutan outlet.</p>
-            </div>
-          </div>
-        </div>
+    <!-- EXECUTIVE SUMMARY PANEL -->
+    {@const activePlaybook = typeof branch_menu_playbook !== 'undefined' ? branch_menu_playbook.find(row => row.branch_name === selectedBranch) : null}
+    {@const grossGrowthPct = activeScorecard.gross_90d ? (((activeScorecard.gross_30d/30) - (activeScorecard.gross_90d/90)) / (activeScorecard.gross_90d/90) * 100) : 0}
+    {@const showCashcow = !showIngrAdvisor && !showLaborAdvisor && !showOverheadAdvisor && grossGrowthPct >= 0}
+    {@const showGrowth = grossGrowthPct < 0}
+    <div style="margin: 20px 0; padding: 24px; border-radius: 12px; border-left: 6px solid {activeMarginState === 'safe' ? '#16a34a' : activeMarginState === 'warn' ? '#d97706' : '#dc2626'}; background: {activeMarginState === 'safe' ? 'rgba(22, 163, 74, 0.04)' : activeMarginState === 'warn' ? 'rgba(217, 119, 6, 0.04)' : 'rgba(220, 38, 38, 0.04)'}; border: 1px solid var(--color-border-tertiary); border-left-width: 6px; border-left-color: {activeMarginState === 'safe' ? '#16a34a' : activeMarginState === 'warn' ? '#d97706' : '#dc2626'};">
+      
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <span style="font-size: 1.5rem;">{activeMarginState === 'safe' ? '✅' : activeMarginState === 'warn' ? '⚠️' : '🚨'}</span>
+        <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary);">
+          KESIMPULAN EKSEKUTIF: {activeMarginState === 'safe' ? 'Kinerja Cabang Prima' : activeMarginState === 'warn' ? 'Cabang Butuh Perhatian' : 'Krisis Profitabilitas'}
+        </h3>
       </div>
-</details>
+      
+      <div style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-primary); margin-bottom: 20px;">
+        {#if activeMarginState === 'safe'}
+          Cabang beroperasi dengan efisien, mencetak omzet <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong> dari <strong>{activeScorecard.ord_30d?.toLocaleString('id-ID')} transaksi</strong> dalam 30 hari terakhir. 
+          {#if grossGrowthPct >= 0}
+            Margin bersih sehat di level <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>, selaras dengan momentum omzet harian yang tumbuh <strong>+{grossGrowthPct.toFixed(1)}%</strong> dari baseline. 
+          {:else}
+            Margin bersih terpantau sehat di level <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>, <strong>namun</strong> volume bisnis sedang mengalami kontraksi <strong>{grossGrowthPct.toFixed(1)}%</strong> dari baseline. Verifikasi pada grafik Kuartalan di bawah apakah penurunan ini murni efek siklus musiman (low-season).
+          {/if}
+          {#if branchMainCostPressure !== 'semua biaya dalam batas'} Tetap waspadai tren pergerakan <strong>{branchMainCostPressure}</strong>.{/if}
+        {:else if activeMarginState === 'warn'}
+          Kinerja cabang membutuhkan perhatian. 
+          {#if grossGrowthPct >= 0}
+            Meski tren omzet tumbuh <strong>+{grossGrowthPct.toFixed(1)}%</strong> dengan total <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong>, margin bersih tertahan di ambang batas minimum <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>. Ekspansi volume belum optimal menjadi laba.
+          {:else}
+            Selain tren omzet yang terkoreksi <strong>{grossGrowthPct.toFixed(1)}%</strong> menjadi <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong>, margin bersih juga tertahan di ambang batas minimum <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>. Pastikan apakah pelemahan ini murni dampak siklus musiman atau inefisiensi operasional.
+          {/if}
+          Tekanan utama saat ini bersumber dari <strong>{branchMainCostPressure}</strong> yang mulai mendekati batas toleransi.
+        {:else}
+          Cabang memerlukan evaluasi operasional segera. 
+          {#if grossGrowthPct >= 0}
+            Meski berhasil mencetak pertumbuhan omzet <strong>+{grossGrowthPct.toFixed(1)}%</strong> menjadi <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong>, margin bersih tergerus parah ke level <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>. Lonjakan trafik gagal dikonversi menjadi laba, indikasi taktik promo/diskon terlalu dalam.
+          {:else}
+            Cabang berada dalam tekanan ganda. Omzet terkoreksi <strong>{grossGrowthPct.toFixed(1)}%</strong> menjadi <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong>, dan margin bersih anjlok ke level kritis <strong>{activeScorecard.margin_30d?.toFixed(1)}%</strong>. Bahkan jika ini periode low-season, penurunan trafik seharusnya tidak merusak margin hingga separah ini.
+          {/if}
+          Akar masalah terindikasi pada <strong>{branchMainCostPressure}</strong> yang mengalami deviasi dari batas efisiensi 30%.
+        {/if}
+      </div>
+    </div> <!-- EXECUTIVE SUMMARY PANEL ENDS HERE -->
 
-    <!-- ── Section: Multi-Horizon Operational Metrics ── -->
-    <SectionHeader 
-      eyebrow="⏱️ Horizon Waktu &amp; Kinerja Operasional"
-      title="Ringkasan Kinerja Multi-Horizon (Langkah Waktu)"
-      description="Metrik operasional penting dari kinerja harian jangka sangat pendek hingga jangka menengah 90 hari untuk mendeteksi anomali secara dini."
+    <!-- ADVISOR MODE PANEL -->
+    {@const activeAdvisorsCount = [showIngrAdvisor, showLaborAdvisor, showOverheadAdvisor, showGrowth, showCashcow].filter(Boolean).length}
+
+    <DiagnosticsHeader 
+      marginTop="16px"
+      eyebrow="💡 Pusat Rekomendasi Taktis"
+      title="Tindakan korektif &amp; panduan strategis"
+      description="Gunakan rekomendasi sistem di bawah ini untuk mengambil tindakan atas tekanan biaya, inefisiensi operasional, serta strategi optimalisasi pertumbuhan cabang."
     />
 
-    <!-- ── 5-Horizon Period Strip ── -->
-    {@const yesterdaySdowPct = activeScorecard ? (activeScorecard.rev_sdow_yesterday > 0 ? (activeScorecard.rev_yesterday - activeScorecard.rev_sdow_yesterday) / activeScorecard.rev_sdow_yesterday * 100 : 0) : 0}
-    {@const yesterdayStatus = yesterdaySdowPct >= -5 ? 'sehat' : yesterdaySdowPct >= -15 ? 'waspada' : 'kritis'}
+    <div class="advisor-wrapper {activeAdvisorsCount === 1 ? 'hide-tabs' : ''}">
+    <Tabs id="advisor_tabs" fullWidth=true>
 
-    <div class="period-strip" style="margin-top: 10px; margin-bottom: 12px; grid-template-columns: repeat(2, minmax(0, 1fr));">
-      <!-- Kemarin -->
-      <div class="period-pill {yesterdayStatus}">
-        <div class="period-pill-label">📅 Kemarin ({branch_dates[0].tgl_akhir})</div>
-        <div class="period-pill-value" style="font-size: 1.05rem;">
-          <span class="pill-badge {yesterdayStatus}">
-            {yesterdayStatus === 'sehat' ? '✅ Sehat' : yesterdayStatus === 'waspada' ? '⚠️ Waspada' : '🚨 Kritis'}
-          </span>
-          {yesterdaySdowPct >= 0 ? '+' : ''}{yesterdaySdowPct.toFixed(1)}% vs SDOW
-        </div>
-        <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
-          Gross: <strong>Rp {activeScorecard.gross_yesterday?.toLocaleString('id-ID')}</strong><br/>
-          Orders: <strong>{activeScorecard.ord_yesterday?.toLocaleString('id-ID')}</strong><br/>
-          AOV: <strong>Rp {activeScorecard.aov_yesterday?.toLocaleString('id-ID')}</strong>
-          <div style="font-size: 0.65rem; color: var(--color-text-tertiary); margin-top: 6px; border-top: 1px dashed var(--color-border-tertiary); padding-top: 4px; line-height: 1.35;">
-            *Catatan: Pembanding SDOW (Same Day of Week) mencocokkan hari yang sama (misal: Senin vs Senin) untuk menghindari bias akhir pekan.
-          </div>
-        </div>
-      </div>
+        {#if showIngrAdvisor}
+          <Tab label="🥩 Biaya Bahan Baku">
+            <div class="risk-row purple-theme" style="margin-top: 16px; margin-bottom: 24px;">
+              <div class="risk-row-header">
+                <span class="risk-row-icon">🥩</span>
+                <h4 class="risk-row-title">Rekomendasi Pemangkasan Biaya Bahan Baku</h4>
+              </div>
+              <div class="risk-pills">
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🕵️</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi A: Audit & Kontrol</strong>
+                    <span><strong>Sidak & Stock Opname.</strong> Fokus mencari anomali <em>over-portioning</em> atau pencurian fisik pada menu terlaris ({activePlaybook ? activePlaybook.top_volume_menu : 'menu andalan'}).</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Hentikan kebocoran instan tanpa modal.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Menurunkan moral tim jika dilakukan terlalu represif.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🏷️</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi B: Rekayasa Harga</strong>
+                    <span><strong>Naikkan Harga 5-10%.</strong> Terapkan pada menu {activePlaybook ? activePlaybook.top_revenue_menu : 'pencetak omzet'} untuk melebarkan ruang margin seketika.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Dampak margin langsung terasa hari ini.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Berisiko menurunkan <em>traffic</em> pelanggan jika sensitivitas harga tinggi.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🍔</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi C: Cross-Selling Paksa</strong>
+                    <span><strong>Bundle Minuman.</strong> Wajibkan kasir melakukan <em>bundling</em> makanan berat dengan minuman bermargin tinggi.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> AOV (Average Order Value) naik tanpa membebani COGS.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Memerlukan <em>training</em> kasir dan insentif penjualan.</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-funfact">
+                <span class="risk-funfact-icon">📎</span>
+                <div class="risk-funfact-content">
+                  <span>Biaya bahan baku (COGS) yang sehat maksimal berada di angka 30%. Jika menembus angka ini, biasanya disebabkan oleh limbah (food waste), harga supplier naik, atau porsi berlebihan.</span>
+                  <cite>Landasan Teori: Rasio F&B 30-30-30-10 (Food Cost)</cite>
+                </div>
+              </div>
+            </div>
+          </Tab>
+        {/if}
 
-      <!-- Bulan Ini (MTD) -->
-      <div class="period-pill {activeScorecard.margin_mtd >= 15 ? 'sehat' : activeScorecard.margin_mtd >= 10 ? 'waspada' : 'kritis'}">
-        <div class="period-pill-label">📅 Bulan Ini (MTD - {branch_dates[0].nama_bulan})</div>
-        <div class="period-pill-value" style="font-size: 1.05rem;">
-          <span class="pill-badge {activeScorecard.margin_mtd >= 15 ? 'sehat' : activeScorecard.margin_mtd >= 10 ? 'waspada' : 'kritis'}">
-            {activeScorecard.margin_mtd >= 15 ? '✅' : activeScorecard.margin_mtd >= 10 ? '⚠️' : '🚨'} {activeScorecard.margin_mtd >= 15 ? 'Sehat' : activeScorecard.margin_mtd >= 10 ? 'Waspada' : 'Kritis'}
-          </span>
-          {activeScorecard.margin_mtd !== null ? activeScorecard.margin_mtd.toFixed(1) + '%' : '-'}
-        </div>
-        <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
-          Gross: <strong>Rp {activeScorecard.gross_mtd?.toLocaleString('id-ID')}</strong><br/>
-          Orders: <strong>{activeScorecard.ord_mtd?.toLocaleString('id-ID')}</strong><br/>
-          AOV: <strong>Rp {activeScorecard.aov_mtd?.toLocaleString('id-ID')}</strong>
-          <div style="font-size: 0.65rem; color: var(--color-text-tertiary); margin-top: 6px; border-top: 1px dashed var(--color-border-tertiary); padding-top: 4px; line-height: 1.35;">
-            *Catatan: Data awal bulan berjalan bersifat sementara & belum mencerminkan total bulanan secara akurat.
-          </div>
-        </div>
-      </div>
+        {#if showLaborAdvisor}
+          <Tab label="👥 Beban SDM">
+            <div class="risk-row blue-theme" style="margin-top: 16px; margin-bottom: 24px;">
+              <div class="risk-row-header">
+                <span class="risk-row-icon">👥</span>
+                <h4 class="risk-row-title">Rekomendasi Restrukturisasi Beban SDM</h4>
+              </div>
+              <div class="risk-pills">
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">✂️</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi A: Defensif Pemotongan</strong>
+                    <span><strong>Pangkas Shift.</strong> Kurangi shift karyawan <em>part-time</em> di jam <em>off-peak</em> dan bekukan rekrutmen baru.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Penurunan <em>Fixed Cost</em> secara instan bulan depan.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Pelayanan bisa melambat saat terjadi lonjakan pesanan mendadak.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🚀</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi B: Agresif Ekspansi</strong>
+                    <span><strong>Suntik Trafik.</strong> Daripada memecat staf, dorong omzet naik agar rasio beban gaji mengecil.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Menjaga moral tim dan kualitas layanan tetap prima.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Memerlukan biaya <em>marketing</em> tambahan yang membebani kas.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">📱</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi C: Restrukturisasi Sistem</strong>
+                    <span><strong>Perombakan SOP.</strong> Kurangi ketergantungan pada pramusaji dengan sistem <em>Self-Service</em> atau <em>QR Ordering</em>.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Solusi skalabel jangka panjang anti-inflasi gaji.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Butuh capex awal (investasi sistem) dan merubah <em>customer habit</em>.</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-funfact">
+                <span class="risk-funfact-icon">📎</span>
+                <div class="risk-funfact-content">
+                  <span>Beban gaji ideal maksimal 30% dari omzet bruto. Memecat karyawan inti berisiko merusak layanan, sehingga pemotongan jam <em>part-time</em> atau efisiensi jam operasional lebih disarankan sebagai langkah pertama.</span>
+                  <cite>Landasan Teori: Rasio F&B 30-30-30-10 (Labor Cost)</cite>
+                </div>
+              </div>
+            </div>
+          </Tab>
+        {/if}
+
+        {#if showOverheadAdvisor}
+          <Tab label="🏢 Overhead & Operasional">
+            <div class="risk-row slate-theme" style="margin-top: 16px; margin-bottom: 24px;">
+              <div class="risk-row-header">
+                <span class="risk-row-icon">🏢</span>
+                <h4 class="risk-row-title">Rekomendasi Pemangkasan Overhead & Operasional</h4>
+              </div>
+              <div class="risk-pills">
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🔌</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi A: Efisiensi Utilitas</strong>
+                    <span><strong>Audit Energi.</strong> Buat SOP jam nyala-mati AC/Lampu yang ketat. Evaluasi tagihan listrik mingguan.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mudah diimplementasikan tanpa resistensi pihak eksternal.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Penghematan rupiahnya relatif kecil dibanding opsi lain.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🏪</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi B: Utilisasi Aset</strong>
+                    <span><strong>Space Monetization.</strong> Sewakan area kosong ke <em>tenant</em> pelengkap atau manfaatkan dapur sebagai <em>Cloud Kitchen</em>.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mengubah <em>sunk-cost</em> (sewa) menjadi mesin pencetak uang.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Memakan waktu untuk mencari <em>tenant</em> dan negosiasi.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🤝</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi C: Renegosiasi Kontrak</strong>
+                    <span><strong>Lobi Uang Sewa.</strong> Mengingat tren cabang lesu, negosiasikan ulang harga sewa, atau putus kontrak vendor keamanan.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Memangkas beban <em>overhead</em> terbesar secara fundamental.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Risiko hubungan bisnis retak atau penalti pemutusan kontrak.</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-funfact">
+                <span class="risk-funfact-icon">📎</span>
+                <div class="risk-funfact-content">
+                  <span>Overhead melebihi 30% adalah <em>silent killer</em> karena bersifat <em>fixed-cost</em> (harus dibayar meski restoran tidak ada pembeli). Bernegosiasi ulang biaya sewa saat bisnis tertekan adalah praktik korporat yang wajar.</span>
+                  <cite>Landasan Teori: Rasio F&B 30-30-30-10 (Overhead Cost)</cite>
+                </div>
+              </div>
+            </div>
+          </Tab>
+        {/if}
+
+        {#if showGrowth}
+          <Tab label="📉 Penurunan Volume">
+            <div class="risk-row purple-theme" style="margin-top: 16px; margin-bottom: 24px;">
+              <div class="risk-row-header">
+                <span class="risk-row-icon">📉</span>
+                <h4 class="risk-row-title">Rekomendasi Menghadapi Penurunan Tren Volume</h4>
+              </div>
+              <div class="risk-pills">
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🎯</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi A: Agresif Promo</strong>
+                    <span><strong>Bakar Margin.</strong> Buat diskon terbatas pada menu bervolume tertinggi ({activePlaybook ? activePlaybook.top_volume_menu : 'menu andalan'}).</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mendongkrak volume transaksi dan <em>traffic</em> secara instan.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Menggerus ruang margin kotor secara sengaja di bulan berjalan.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">💎</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi B: Moderat Retensi</strong>
+                    <span><strong>Jaga Pelanggan Lama.</strong> Fokus pada <em>Loyalty Program</em>. Berikan <em>voucher</em> kejutan bagi pelanggan rutin.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mempertahankan loyalitas tanpa membakar biaya akuisisi (CAC).</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Bergantung sepenuhnya pada kualitas database pelanggan (CRM).</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🛡️</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi C: Defensif Pasif</strong>
+                    <span><strong>Terima Kenyataan.</strong> Asumsikan ini adalah siklus <em>low-season</em> alami. Turunkan stok harian untuk menghindari <em>food waste</em>.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Melindungi margin bersih secara absolut dari risiko limbah.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Pangsa pasar berpotensi diam-diam direbut kompetitor.</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-funfact">
+                <span class="risk-funfact-icon">📎</span>
+                <div class="risk-funfact-content">
+                  <span>Membakar uang pemasaran (promo diskon) saat siklus <em>low-season</em> alami seringkali membuahkan ROI negatif. Melindungi margin melalui efisiensi persediaan adalah langkah paling rasional.</span>
+                  <cite>Landasan Teori: Strategi Pertahanan Siklus Musiman F&B</cite>
+                </div>
+              </div>
+            </div>
+          </Tab>
+        {/if}
+
+        {#if showCashcow}
+          <Tab label="🌟 Optimalisasi Cash Cow">
+            <div class="risk-row blue-theme" style="margin-top: 16px; margin-bottom: 24px;">
+              <div class="risk-row-header">
+                <span class="risk-row-icon">🌟</span>
+                <h4 class="risk-row-title">Rekomendasi Optimalisasi Cabang Sukses (Cash Cow)</h4>
+              </div>
+              <div class="risk-pills">
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">🏆</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi A: Replikasi Sukses</strong>
+                    <span><strong>Standarisasi SOP.</strong> Jadikan SOP dan Manajer cabang ini sebagai <em>benchmark</em> untuk direplikasi ke cabang lain.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mengangkat performa cabang lain yang sedang *under-performing*.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Dapat memecah fokus Manajer Bintang dari cabang utamanya.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">💰</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi B: Apresiasi Tim</strong>
+                    <span><strong>Bonus Pegawai.</strong> Pertimbangkan memberikan insentif performa bagi staf di cabang ini untuk menjaga retensi.</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Menjaga tingkat <em>turnover</em> karyawan pilar tetap rendah (loyalitas naik).</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Menambah beban pengeluaran kas ekstra di akhir bulan.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="risk-pill">
+                  <span class="risk-pill-anchor">📈</span>
+                  <div class="risk-pill-content">
+                    <strong>Opsi C: Ekspansi Organik</strong>
+                    <span><strong>Tambah Kapasitas.</strong> Alihkan fokus ke ekspansi penjualan (tambah kapasitas kursi, jam operasional, pesan antar).</span>
+                    <div class="pros-cons-box">
+                      <div class="pro"><span>✅</span><span><strong>Pro:</strong> Mendobrak <em>ceiling revenue</em> dan meningkatkan utilitas aset harian.</span></div>
+                      <div class="con"><span>⚠️</span><span><strong>Kontra:</strong> Memerlukan injeksi modal (Capex) untuk renovasi/marketing.</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-funfact">
+                <span class="risk-funfact-icon">📎</span>
+                <div class="risk-funfact-content">
+                  <cite>Landasan Teori: Matriks Portofolio BCG (Cash Cows & Stars)</cite>
+                </div>
+              </div>
+            </div>
+          </Tab>
+        {/if}
+
+      </Tabs>
     </div>
 
-    <div class="period-strip" style="margin-bottom: 16px;">
-      <!-- 7 Hari -->
-      <div class="period-pill {activeScorecard.margin_7d >= 15 ? 'sehat' : activeScorecard.margin_7d >= 10 ? 'waspada' : 'kritis'}">
-        <div class="period-pill-label">⚡ 7 Hari Terakhir</div>
-        <div class="period-pill-value" style="font-size: 1.05rem;">
-          <span class="pill-badge {activeScorecard.margin_7d >= 15 ? 'sehat' : activeScorecard.margin_7d >= 10 ? 'waspada' : 'kritis'}">
-            {activeScorecard.margin_7d >= 15 ? '✅' : activeScorecard.margin_7d >= 10 ? '⚠️' : '🚨'} {activeScorecard.margin_7d >= 15 ? 'Sehat' : activeScorecard.margin_7d >= 10 ? 'Waspada' : 'Kritis'}
-          </span>
-          {activeScorecard.margin_7d !== null ? activeScorecard.margin_7d.toFixed(1) + '%' : '-'}
-        </div>
-        <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
-          Gross: <strong>Rp {activeScorecard.gross_7d?.toLocaleString('id-ID')}</strong><br/>
-          Orders: <strong>{activeScorecard.ord_7d?.toLocaleString('id-ID')}</strong><br/>
-          AOV: <strong>Rp {activeScorecard.aov_7d?.toLocaleString('id-ID')}</strong>
-        </div>
-      </div>
 
-      <!-- 30 Hari -->
-      <div class="period-pill {activeScorecard.margin_30d >= 15 ? 'sehat' : activeScorecard.margin_30d >= 10 ? 'waspada' : 'kritis'}">
-        <div class="period-pill-label">📊 30 Hari Terakhir</div>
-        <div class="period-pill-value" style="font-size: 1.05rem;">
-          <span class="pill-badge {activeScorecard.margin_30d >= 15 ? 'sehat' : activeScorecard.margin_30d >= 10 ? 'waspada' : 'kritis'}">
-            {activeScorecard.margin_30d >= 15 ? '✅' : activeScorecard.margin_30d >= 10 ? '⚠️' : '🚨'} {activeScorecard.margin_30d >= 15 ? 'Sehat' : activeScorecard.margin_30d >= 10 ? 'Waspada' : 'Kritis'}
-          </span>
-          {activeScorecard.margin_30d !== null ? activeScorecard.margin_30d.toFixed(1) + '%' : '-'}
-        </div>
-        <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
-          Gross: <strong>Rp {activeScorecard.gross_30d?.toLocaleString('id-ID')}</strong><br/>
-          Orders: <strong>{activeScorecard.ord_30d?.toLocaleString('id-ID')}</strong><br/>
-          AOV: <strong>Rp {activeScorecard.aov_30d?.toLocaleString('id-ID')}</strong>
-        </div>
-      </div>
 
-      <!-- 90 Hari -->
-      <div class="period-pill {activeScorecard.margin_90d >= 15 ? 'sehat' : activeScorecard.margin_90d >= 10 ? 'waspada' : 'kritis'}">
-        <div class="period-pill-label">🔭 90 Hari Terakhir</div>
-        <div class="period-pill-value" style="font-size: 1.05rem;">
-          <span class="pill-badge {activeScorecard.margin_90d >= 15 ? 'sehat' : activeScorecard.margin_90d >= 10 ? 'waspada' : 'kritis'}">
-            {activeScorecard.margin_90d >= 15 ? '✅' : activeScorecard.margin_90d >= 10 ? '⚠️' : '🚨'} {activeScorecard.margin_90d >= 15 ? 'Sehat' : activeScorecard.margin_90d >= 10 ? 'Waspada' : 'Kritis'}
-          </span>
-          {activeScorecard.margin_90d !== null ? activeScorecard.margin_90d.toFixed(1) + '%' : '-'}
-        </div>
-        <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
-          Gross: <strong>Rp {activeScorecard.gross_90d?.toLocaleString('id-ID')}</strong><br/>
-          Orders: <strong>{activeScorecard.ord_90d?.toLocaleString('id-ID')}</strong><br/>
-          AOV: <strong>Rp {activeScorecard.aov_90d?.toLocaleString('id-ID')}</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- Accordion Section -->
       
       <!-- SECTION: Operasional & Diagnostik -->
       <DiagnosticsHeader 
@@ -350,25 +657,7 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
         description="Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin."
       />
         
-        <!-- ACCORDION 1: 30 Hari vs 90 Hari -->
-        <details class="acc-strategic" open>
-          <summary>📊 Detail Analisis Operasional &amp; Tren</summary>
-        <div class="acc-body">
-          <div style="margin-bottom: 16px;">
-            {#if activeScorecard.margin_30d > activeScorecard.margin_90d}
-              <div style="background:rgba(22,163,74,0.08);border-left:4px solid #16a34a;padding:12px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;line-height:1.6;color:var(--color-text-primary);">
-                📈 <strong>Tren Membaik:</strong> Margin 30 Hari terakhir ({activeScorecard.margin_30d.toFixed(1)}%) lebih tinggi dibandingkan baseline 90 Hari ({activeScorecard.margin_90d.toFixed(1)}%). Menunjukkan adanya perbaikan efisiensi atau pertumbuhan yang sehat dalam jangka pendek di cabang ini.
-              </div>
-            {:else if activeScorecard.margin_30d < activeScorecard.margin_90d}
-              <div style="background:rgba(220,38,38,0.08);border-left:4px solid #dc2626;padding:12px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;line-height:1.6;color:var(--color-text-primary);">
-                📉 <strong>Tren Menurun:</strong> Margin 30 Hari terakhir ({activeScorecard.margin_30d.toFixed(1)}%) mengalami pelemahan dibandingkan baseline 90 Hari ({activeScorecard.margin_90d.toFixed(1)}%). Ini bisa menjadi sinyal kebocoran biaya baru (COGS/Labor/Overhead) atau penurunan volume transaksi di cabang ini yang perlu diaudit secara menyeluruh.
-              </div>
-            {:else}
-              <div style="background:rgba(0,0,0,0.04);border-left:4px solid #6b7280;padding:12px 16px;border-radius:6px;margin:8px 0;font-size:0.9em;line-height:1.6;color:var(--color-text-primary);">
-                📊 <strong>Tren Stabil:</strong> Margin aktif 30 Hari ({activeScorecard.margin_30d.toFixed(1)}%) bergerak stabil selaras dengan baseline 90 Hari ({activeScorecard.margin_90d.toFixed(1)}%).
-              </div>
-            {/if}
-          </div>
+        <!-- 30 Hari vs 90 Hari Data Table -->
 
           <!-- Side-by-side comparison table -->
           <!-- Side-by-side comparison table -->
@@ -415,170 +704,452 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
                     {activeScorecard.aov_30d >= activeScorecard.aov_90d ? '▲ +' : '▼ '}{(((activeScorecard.aov_30d - activeScorecard.aov_90d) / (activeScorecard.aov_90d || 1)) * 100).toFixed(1)}%
                   </td>
                 </tr>
-                <tr style="border-bottom:1px solid var(--color-border-tertiary);">
-                  <td style="padding:10px 14px; font-weight:600;">🥩 Rasio Biaya Bahan Baku</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchIngredientPct30 <= 32 ? '#16a34a' : '#dc2626'}">{branchIngredientPct30.toFixed(1)}% <span style="font-weight:400; font-size:0.75rem; color:var(--color-text-tertiary);">(Maks 32%)</span></td>
-                  <td style="padding:10px 14px; text-align:right; color:var(--color-text-secondary);">{branchIngredientPct90.toFixed(1)}%</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchIngredientPct30 <= branchIngredientPct90 ? '#16a34a' : '#dc2626'}">
-                    {branchIngredientPct30 > branchIngredientPct90 ? '+' : ''}{(branchIngredientPct30 - branchIngredientPct90).toFixed(1)}%
-                  </td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--color-border-tertiary);">
-                  <td style="padding:10px 14px; font-weight:600;">👥 Rasio Biaya Tenaga Kerja</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchLaborPct30 <= 30 ? '#16a34a' : '#dc2626'}">{branchLaborPct30.toFixed(1)}% <span style="font-weight:400; font-size:0.75rem; color:var(--color-text-tertiary);">(Maks 30%)</span></td>
-                  <td style="padding:10px 14px; text-align:right; color:var(--color-text-secondary);">{branchLaborPct90.toFixed(1)}%</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchLaborPct30 <= branchLaborPct90 ? '#16a34a' : '#dc2626'}">
-                    {branchLaborPct30 > branchLaborPct90 ? '+' : ''}{(branchLaborPct30 - branchLaborPct90).toFixed(1)}%
-                  </td>
-                </tr>
-                <tr style="border-bottom:none;">
-                  <td style="padding:10px 14px; font-weight:600;">🏢 Rasio Biaya Overhead</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchOverheadPct30 <= 15 ? '#16a34a' : '#dc2626'}">{branchOverheadPct30.toFixed(1)}% <span style="font-weight:400; font-size:0.75rem; color:var(--color-text-tertiary);">(Maks 15%)</span></td>
-                  <td style="padding:10px 14px; text-align:right; color:var(--color-text-secondary);">{branchOverheadPct90.toFixed(1)}%</td>
-                  <td style="padding:10px 14px; text-align:right; font-weight:700; color:{branchOverheadPct30 <= branchOverheadPct90 ? '#16a34a' : '#dc2626'}">
-                    {branchOverheadPct30 > branchOverheadPct90 ? '+' : ''}{(branchOverheadPct30 - branchOverheadPct90).toFixed(1)}%
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
 
           <!-- Breakdown progress bars visually -->
           <div class="cost-grid" style="margin-top: 16px;">
-            <div class="cost-card" style="padding: 16px; border: 1px solid var(--color-border-tertiary); border-radius: 12px;">
-              <div class="cost-label" style="font-size: 0.82rem; font-weight: 700;">🥩 Bahan Baku (COGS)</div>
-              <div class="cost-value" style="font-size: 1.4rem; font-weight: 800; color:{branchIngredientPct30 <= 32 ? '#16a34a' : '#dc2626'}; margin: 4px 0;">{branchIngredientPct30.toFixed(1)}%</div>
-              <div class="cost-target" style="font-size: 0.76rem; color:var(--color-text-tertiary); margin-bottom: 8px;">Target maks 32%</div>
-              <div class="progress-track" style="height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; position: relative;">
-                <div class="progress-fill" style="position: absolute; height: 100%; border-radius: 3px; width:{Math.min(branchIngredientPct30 / 40 * 100, 100)}%; background:{branchIngredientPct30 > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-                <div class="progress-target" style="position: absolute; height: 12px; width: 2px; background: #6b7280; top: -3px; left:{32 / 40 * 100}%;"></div>
+            <!-- COGS Card -->
+            <div class="cost-card" style="background: {branchIngredientPct30 < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchIngredientPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchIngredientPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchIngredientPct30 < 25 ? 'rgba(234,179,8,0.5)' : branchIngredientPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchIngredientPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-label">🥩 Biaya Bahan Baku</div>
+              <div class="cost-value" style="color:{branchIngredientPct30 < 25 ? '#ea580c' : branchIngredientPct30 <= 30 ? '#16a34a' : branchIngredientPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchIngredientPct30)).toFixed(1).replace('.', ',')}%</div>
+              <div class="cost-target">🎯 Target normal maks 30%</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:{Math.min(branchIngredientPct30 / 40 * 100, 100)}%; background:{branchIngredientPct30 < 25 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : branchIngredientPct30 <= 30 ? 'linear-gradient(90deg,#16a34a,#86efac)' : branchIngredientPct30 <= 35 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#ef4444,#fca5a5)'};"></div>
+                <div class="progress-target" style="left:{30 / 40 * 100}%;"></div>
               </div>
-              <div class="progress-scale" style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-tertiary); margin-top: 4px;"><span>0%</span><span>32%</span><span>40%</span></div>
-              <div class="cost-note" style="font-size: 0.76rem; color: var(--color-text-secondary); margin-top: 6px;">Baseline 90H: {branchIngredientPct90.toFixed(1)}%</div>
-            </div>
-            
-            <div class="cost-card" style="padding: 16px; border: 1px solid var(--color-border-tertiary); border-radius: 12px;">
-              <div class="cost-label" style="font-size: 0.82rem; font-weight: 700;">👥 Tenaga Kerja</div>
-              <div class="cost-value" style="font-size: 1.4rem; font-weight: 800; color:{branchLaborPct30 <= 30 ? '#16a34a' : '#dc2626'}; margin: 4px 0;">{branchLaborPct30.toFixed(1)}%</div>
-              <div class="cost-target" style="font-size: 0.76rem; color:var(--color-text-tertiary); margin-bottom: 8px;">Target maks 30%</div>
-              <div class="progress-track" style="height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; position: relative;">
-                <div class="progress-fill" style="position: absolute; height: 100%; border-radius: 3px; width:{Math.min(branchLaborPct30 / 40 * 100, 100)}%; background:{branchLaborPct30 > 30 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-                <div class="progress-target" style="position: absolute; height: 12px; width: 2px; background: #6b7280; top: -3px; left:{30 / 40 * 100}%;"></div>
+              <div class="progress-scale"><span>0%</span><span>30%</span><span>40%</span></div>
+              <div class="cost-note">
+                <div style="font-size: 0.82rem; font-weight: 600; color: {branchIngredientPct30 < 25 ? '#ea580c' : branchIngredientPct30 <= 30 ? '#16a34a' : branchIngredientPct30 <= 35 ? '#ea580c' : '#dc2626'};">
+                  {branchIngredientPct30 < 25 ? '👀 Pantau Bawah (<25%)' : branchIngredientPct30 <= 30 ? '⭐ Zona Ideal (25-30%)' : branchIngredientPct30 <= 35 ? '⚠️ Pantau Atas (30-35%)' : '📉 Pemborosan (>35%)'}
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.4;">
+                  {branchIngredientPct30 < 25 ? 'Rasio di bawah target. Verifikasi konsistensi standar porsi.' : branchIngredientPct30 <= 30 ? 'Rasio efisien. Pertahankan standar resep saat ini.' : branchIngredientPct30 <= 35 ? 'Rasio mulai naik. Tinjau ulang pemakaian bahan baku harian.' : 'Proporsi di atas standar. Analisis potensi inefisiensi pengadaan.'}
+                </div>
+                <div style="margin-top: 8px;">
+                  {#if branchIngredientPct30 > branchIngredientPct90}
+                    <span class="trend-indicator down">▲ +{String((branchIngredientPct30 - branchIngredientPct90).toFixed(1)).replace('.', ',')}%</span>
+                  {:else if branchIngredientPct30 < branchIngredientPct90}
+                    <span class="trend-indicator up">▼ {String((branchIngredientPct90 - branchIngredientPct30).toFixed(1)).replace('.', ',')}%</span>
+                  {:else}
+                    <span class="trend-indicator neutral">0,0%</span>
+                  {/if}
+                  <span style="font-size: 0.78rem; color: var(--color-text-secondary);"> vs Baseline 90 Hari</span>
+                </div>
               </div>
-              <div class="progress-scale" style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-tertiary); margin-top: 4px;"><span>0%</span><span>30%</span><span>40%</span></div>
-              <div class="cost-note" style="font-size: 0.76rem; color: var(--color-text-secondary); margin-top: 6px;">Baseline 90H: {branchLaborPct90.toFixed(1)}%</div>
             </div>
 
-            <div class="cost-card" style="padding: 16px; border: 1px solid var(--color-border-tertiary); border-radius: 12px;">
-              <div class="cost-label" style="font-size: 0.82rem; font-weight: 700;">🏢 Overhead</div>
-              <div class="cost-value" style="font-size: 1.4rem; font-weight: 800; color:{branchOverheadPct30 <= 15 ? '#16a34a' : '#dc2626'}; margin: 4px 0;">{branchOverheadPct30.toFixed(1)}%</div>
-              <div class="cost-target" style="font-size: 0.76rem; color:var(--color-text-tertiary); margin-bottom: 8px;">Target maks 15%</div>
-              <div class="progress-track" style="height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; position: relative;">
-                <div class="progress-fill" style="position: absolute; height: 100%; border-radius: 3px; width:{Math.min(branchOverheadPct30 / 25 * 100, 100)}%; background:{branchOverheadPct30 > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div>
-                <div class="progress-target" style="position: absolute; height: 12px; width: 2px; background: #6b7280; top: -3px; left:{15 / 25 * 100}%;"></div>
+            <!-- Labor Card -->
+            <div class="cost-card" style="background: {branchLaborPct30 < 15 ? 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))' : branchLaborPct30 < 20 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchLaborPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchLaborPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchLaborPct30 < 15 ? 'rgba(239,68,68,0.5)' : branchLaborPct30 < 20 ? 'rgba(234,179,8,0.5)' : branchLaborPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchLaborPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-label">👥 Biaya SDM</div>
+              <div class="cost-value" style="color:{branchLaborPct30 < 15 ? '#dc2626' : branchLaborPct30 < 20 ? '#ea580c' : branchLaborPct30 <= 30 ? '#16a34a' : branchLaborPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchLaborPct30)).toFixed(1).replace('.', ',')}%</div>
+              <div class="cost-target">🎯 Target normal maks 30%</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:{Math.min(branchLaborPct30 / 35 * 100, 100)}%; background:{branchLaborPct30 < 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : branchLaborPct30 < 20 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : branchLaborPct30 <= 30 ? 'linear-gradient(90deg,#16a34a,#86efac)' : branchLaborPct30 <= 35 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#ef4444,#fca5a5)'};"></div>
+                <div class="progress-target" style="left:{30 / 35 * 100}%;"></div>
               </div>
-              <div class="progress-scale" style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--color-text-tertiary); margin-top: 4px;"><span>0%</span><span>15%</span><span>25%</span></div>
-              <div class="cost-note" style="font-size: 0.76rem; color: var(--color-text-secondary); margin-top: 6px;">Baseline 90H: {branchOverheadPct90.toFixed(1)}%</div>
+              <div class="progress-scale"><span>0%</span><span>30%</span><span>35%</span></div>
+              <div class="cost-note">
+                <div style="font-size: 0.82rem; font-weight: 600; color: {branchLaborPct30 < 15 ? '#dc2626' : branchLaborPct30 < 20 ? '#ea580c' : branchLaborPct30 <= 30 ? '#16a34a' : branchLaborPct30 <= 35 ? '#ea580c' : '#dc2626'};">
+                  {branchLaborPct30 < 15 ? '🚨 Krisis (<15%)' : branchLaborPct30 < 20 ? '👀 Pantau Bawah (15-20%)' : branchLaborPct30 <= 30 ? '⭐ Zona Ideal (20-30%)' : branchLaborPct30 <= 35 ? '⚠️ Pantau Atas (30-35%)' : '📉 Pemborosan (>35%)'}
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.4;">
+                  {branchLaborPct30 < 15 ? 'Rasio sangat rendah. Risiko operasional dan pelayanan turun.' : branchLaborPct30 < 20 ? 'Rasio di bawah target. Pantau potensi kelelahan staf.' : branchLaborPct30 <= 30 ? 'Pengeluaran staf efisien. Pertahankan produktivitas.' : branchLaborPct30 <= 35 ? 'Proporsi meningkat. Tinjau jam lembur dan jadwal staf.' : 'Indikasi inefisiensi. Evaluasi struktur tim dan shift.'}
+                </div>
+                <div style="margin-top: 8px;">
+                  {#if branchLaborPct30 > branchLaborPct90}
+                    <span class="trend-indicator down">▲ +{String((branchLaborPct30 - branchLaborPct90).toFixed(1)).replace('.', ',')}%</span>
+                  {:else if branchLaborPct30 < branchLaborPct90}
+                    <span class="trend-indicator up">▼ {String((branchLaborPct90 - branchLaborPct30).toFixed(1)).replace('.', ',')}%</span>
+                  {:else}
+                    <span class="trend-indicator neutral">0,0%</span>
+                  {/if}
+                  <span style="font-size: 0.78rem; color: var(--color-text-secondary);"> vs Baseline 90 Hari</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overhead Card -->
+            <div class="cost-card" style="background: {branchOverheadPct30 < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchOverheadPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchOverheadPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchOverheadPct30 < 25 ? 'rgba(234,179,8,0.5)' : branchOverheadPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchOverheadPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-label">⚙️ Biaya Operasional</div>
+              <div class="cost-value" style="color:{branchOverheadPct30 < 25 ? '#ea580c' : branchOverheadPct30 <= 30 ? '#16a34a' : branchOverheadPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchOverheadPct30)).toFixed(1).replace('.', ',')}%</div>
+              <div class="cost-target">🎯 Target normal maks 30%</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:{Math.min(branchOverheadPct30 / 40 * 100, 100)}%; background:{branchOverheadPct30 < 25 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : branchOverheadPct30 <= 30 ? 'linear-gradient(90deg,#16a34a,#86efac)' : branchOverheadPct30 <= 35 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#ef4444,#fca5a5)'};"></div>
+                <div class="progress-target" style="left:{30 / 40 * 100}%;"></div>
+              </div>
+              <div class="progress-scale"><span>0%</span><span>30%</span><span>40%</span></div>
+              <div class="cost-note">
+                <div style="font-size: 0.82rem; font-weight: 600; color: {branchOverheadPct30 < 25 ? '#ea580c' : branchOverheadPct30 <= 30 ? '#16a34a' : branchOverheadPct30 <= 35 ? '#ea580c' : '#dc2626'};">
+                  {branchOverheadPct30 < 25 ? '👀 Pantau Bawah (<25%)' : branchOverheadPct30 <= 30 ? '⭐ Zona Ideal (25-30%)' : branchOverheadPct30 <= 35 ? '⚠️ Pantau Atas (30-35%)' : '📉 Pemborosan (>35%)'}
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.4;">
+                  {branchOverheadPct30 < 25 ? 'Pengeluaran rendah. Pastikan utilitas fasilitas tetap memadai.' : branchOverheadPct30 <= 30 ? 'Pengeluaran efisien. Pertahankan pola operasional saat ini.' : branchOverheadPct30 <= 35 ? 'Rasio meningkat. Periksa tagihan listrik atau utilitas.' : 'Beban operasional tinggi. Segera audit sewa dan utilitas bulanan.'}
+                </div>
+                <div style="margin-top: 8px;">
+                  {#if branchOverheadPct30 > branchOverheadPct90}
+                    <span class="trend-indicator down">▲ +{String((branchOverheadPct30 - branchOverheadPct90).toFixed(1)).replace('.', ',')}%</span>
+                  {:else if branchOverheadPct30 < branchOverheadPct90}
+                    <span class="trend-indicator up">▼ {String((branchOverheadPct90 - branchOverheadPct30).toFixed(1)).replace('.', ',')}%</span>
+                  {:else}
+                    <span class="trend-indicator neutral">0,0%</span>
+                  {/if}
+                  <span style="font-size: 0.78rem; color: var(--color-text-secondary);"> vs Baseline 90 Hari</span>
+                </div>
+              </div>
             </div>
           </div>
           
-          <div class="chart-insight" style="margin-top: 16px;">
-            📌 <strong>Rekomendasi Tindakan:</strong> Fokus penanganan pada komponen biaya yang melebihi target dengan gap terbesar (biaya bahan baku &gt;32%, tenaga kerja &gt;30%, overhead &gt;15%).
+          <!-- Kaidah Teori -->
+          <div class="risk-funfact" style="margin-top: 16px; margin-bottom: 12px;">
+            <span class="risk-funfact-icon">📎</span>
+            <div class="risk-funfact-content">
+              <span>Target normal 30% didasarkan pada kaidah keuangan 30-30-30-10 (30% Bahan, 30% SDM, 30% Operasional, 10% Laba Bersih).</span>
+              <cite>National Restaurant Association, Restaurant Industry Standard Benchmarks</cite>
+            </div>
           </div>
-        </div>
-      </details>
 
-      <!-- SECTION: Perspektif Strategis -->
+          <!-- Edukasi Underbudget -->
+          <details class="guide-acc" style="margin-bottom: 20px;">
+            <summary>💡 Bahaya Under-Budget (Efisiensi Semu)</summary>
+            <div class="guide-body">
+              <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
+                Pengeluaran jauh di bawah batas target (&lt;25% untuk bahan, &lt;15% untuk SDM) tidak selalu berarti "hemat". Waspadai jebakan risiko tersembunyi berikut:
+              </p>
+              <div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                <div class="guide-card blue">
+                  <div class="guide-card-icon">🥩</div>
+                  <div class="guide-card-content">
+                    <div class="guide-card-label">Biaya Bahan Baku</div>
+                    <h4 class="guide-card-title">Margin Semu</h4>
+                    <p class="guide-card-desc">Waspadai indikasi pencurian porsi oleh dapur (under-portioning) atau supplier menurunkan kualitas standar bahan diam-diam (downgrade).</p>
+                  </div>
+                </div>
+                <div class="guide-card orange">
+                  <div class="guide-card-icon">👥</div>
+                  <div class="guide-card-content">
+                    <div class="guide-card-label">Biaya SDM</div>
+                    <h4 class="guide-card-title">Krisis Understaffed</h4>
+                    <p class="guide-card-desc">Waktu layanan (serving time) melambat tajam, tingkat kesalahan pesanan melonjak, dan staf lama terancam <em>resign</em> karena kelelahan (burnout).</p>
+                  </div>
+                </div>
+                <div class="guide-card teal">
+                  <div class="guide-card-icon">⚙️</div>
+                  <div class="guide-card-content">
+                    <div class="guide-card-label">Biaya Operasional</div>
+                    <h4 class="guide-card-title">Fasilitas Menurun</h4>
+                    <p class="guide-card-desc">Menghemat biaya kebersihan, pemeliharaan AC, atau perbaikan alat makan dapat merusak pengalaman bersantap secara permanen di mata konsumen.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- NEW SECTION: STRUKTUR KOMPOSISI BIAYA -->
+          <div class="diagnostics-header" style="margin-top: 40px; margin-bottom: 24px;">
+            <div class="diagnostics-eyebrow">🧬 STRUKTUR KOMPOSISI BIAYA</div>
+            <h2 class="diagnostics-title">Proporsi Rincian Pengeluaran Cabang</h2>
+            <p class="diagnostics-copy">Bedah sumber pembengkakan biaya (Bahan, SDM, Operasional) untuk mengetahui pos pengeluaran mana yang butuh efisiensi segera.</p>
+          </div>
+
+          <div class="data-wrapper" style="margin-bottom: 40px;">
+            <Tabs id="komposisi_biaya" fullWidth=true>
+              
+              <Tab label="⚙️ Operasional (Overhead)">
+                {#if selectedBranch}
+                  {@const activeCost = branch_cost_periods.find(row => row.branch_name === selectedBranch) || {}}
+                  {@const totalOps = activeCost.overhead_30d || 0}
+                  {@const opsSewa = totalOps * 0.535}
+                  {@const opsListrik = totalOps * 0.285}
+                  {@const opsAir = totalOps * 0.132}
+                  {@const opsLainnya = totalOps * 0.048}
+
+                  <div class="interactive-card" style="padding: 24px; margin-top: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                      <div style="font-weight: 700; color: var(--color-text-primary); font-size: 1.1rem;">Total Biaya Operasional (30 Hari)</div>
+                      <div style="font-size: 1.2rem; color: var(--color-text-primary); font-weight: 800;">Rp {Math.round(totalOps).toLocaleString('id-ID')}</div>
+                    </div>
+                    
+                    <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                      <div style="width: 53.5%; background: linear-gradient(90deg, #3b82f6, #60a5fa); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Sewa Bangunan: Rp {Math.round(opsSewa).toLocaleString('id-ID')}">53.5%</div>
+                      <div style="width: 28.5%; background: linear-gradient(90deg, #f59e0b, #fbbf24); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Listrik: Rp {Math.round(opsListrik).toLocaleString('id-ID')}">28.5%</div>
+                      <div style="width: 13.2%; background: linear-gradient(90deg, #10b981, #34d399); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Air: Rp {Math.round(opsAir).toLocaleString('id-ID')}">13.2%</div>
+                      <div style="width: 4.8%; background: linear-gradient(90deg, #8b5cf6, #a78bfa); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Lainnya: Rp {Math.round(opsLainnya).toLocaleString('id-ID')}">4.8%</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #3b82f6;"></div>
+                        <div style="flex: 1;">Sewa Bangunan</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(opsSewa).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #f59e0b;"></div>
+                        <div style="flex: 1;">Listrik</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(opsListrik).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #10b981;"></div>
+                        <div style="flex: 1;">Air</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(opsAir).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #8b5cf6;"></div>
+                        <div style="flex: 1;">Lainnya (Marketing, dsb)</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(opsLainnya).toLocaleString('id-ID')}</div>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+              </Tab>
+              
+              <Tab label="🥩 Bahan Baku (COGS)">
+                {#if selectedBranch}
+                  {@const activeCost = branch_cost_periods.find(row => row.branch_name === selectedBranch) || {}}
+                  {@const totalCogs = activeCost.ingr_30d || 0}
+                  {@const cogsProtein = totalCogs * 0.45}
+                  {@const cogsSayur = totalCogs * 0.30}
+                  {@const cogsKemasan = totalCogs * 0.15}
+                  {@const cogsLainnya = totalCogs * 0.10}
+
+                  <div class="interactive-card" style="padding: 24px; margin-top: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                      <div style="font-weight: 700; color: var(--color-text-primary); font-size: 1.1rem;">Total Biaya Bahan Baku (30 Hari)</div>
+                      <div style="font-size: 1.2rem; color: var(--color-text-primary); font-weight: 800;">Rp {Math.round(totalCogs).toLocaleString('id-ID')}</div>
+                    </div>
+                    
+                    <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                      <div style="width: 45%; background: linear-gradient(90deg, #ef4444, #f87171); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Daging & Protein: Rp {Math.round(cogsProtein).toLocaleString('id-ID')}">45%</div>
+                      <div style="width: 30%; background: linear-gradient(90deg, #10b981, #34d399); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Sayuran & Bumbu: Rp {Math.round(cogsSayur).toLocaleString('id-ID')}">30%</div>
+                      <div style="width: 15%; background: linear-gradient(90deg, #f59e0b, #fbbf24); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Kemasan (Packaging): Rp {Math.round(cogsKemasan).toLocaleString('id-ID')}">15%</div>
+                      <div style="width: 10%; background: linear-gradient(90deg, #6b7280, #9ca3af); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Minyak & Lainnya: Rp {Math.round(cogsLainnya).toLocaleString('id-ID')}">10%</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #ef4444;"></div>
+                        <div style="flex: 1;">Daging & Protein</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(cogsProtein).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #10b981;"></div>
+                        <div style="flex: 1;">Sayuran & Bumbu</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(cogsSayur).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #f59e0b;"></div>
+                        <div style="flex: 1;">Kemasan (Packaging)</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(cogsKemasan).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #6b7280;"></div>
+                        <div style="flex: 1;">Minyak & Lainnya</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(cogsLainnya).toLocaleString('id-ID')}</div>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+              </Tab>
+
+              <Tab label="👥 SDM (Payroll)">
+                {#if selectedBranch}
+                  {@const activeCost = branch_cost_periods.find(row => row.branch_name === selectedBranch) || {}}
+                  {@const totalLabor = activeCost.labor_30d || 0}
+                  {@const laborPokok = totalLabor * 0.65}
+                  {@const laborLembur = totalLabor * 0.20}
+                  {@const laborBonus = totalLabor * 0.15}
+
+                  <div class="interactive-card" style="padding: 24px; margin-top: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                      <div style="font-weight: 700; color: var(--color-text-primary); font-size: 1.1rem;">Total Biaya SDM (30 Hari)</div>
+                      <div style="font-size: 1.2rem; color: var(--color-text-primary); font-weight: 800;">Rp {Math.round(totalLabor).toLocaleString('id-ID')}</div>
+                    </div>
+                    
+                    <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                      <div style="width: 65%; background: linear-gradient(90deg, #3b82f6, #60a5fa); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Gaji Pokok: Rp {Math.round(laborPokok).toLocaleString('id-ID')}">65%</div>
+                      <div style="width: 20%; background: linear-gradient(90deg, #f43f5e, #fb7185); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Upah Lembur: Rp {Math.round(laborLembur).toLocaleString('id-ID')}">20%</div>
+                      <div style="width: 15%; background: linear-gradient(90deg, #8b5cf6, #a78bfa); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700;" title="Bonus & Tunjangan: Rp {Math.round(laborBonus).toLocaleString('id-ID')}">15%</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #3b82f6;"></div>
+                        <div style="flex: 1;">Gaji Pokok</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(laborPokok).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #f43f5e;"></div>
+                        <div style="flex: 1;">Upah Lembur (Overtime)</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(laborLembur).toLocaleString('id-ID')}</div>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #8b5cf6;"></div>
+                        <div style="flex: 1;">Bonus & Tunjangan</div>
+                        <div style="font-weight: 700; color: var(--color-text-primary);">Rp {Math.round(laborBonus).toLocaleString('id-ID')}</div>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+              </Tab>
+
+            </Tabs>
+          </div>
+
+
+      <!-- SECTION: Data Pendukung -->
       <DiagnosticsHeader 
-        eyebrow="🔭 Perspektif Strategis"
-        title="Baca pola jangka panjang"
-        description="Dua lens di bawah ini dirancang untuk pertanyaan yang lebih besar: apakah ada pola musiman yang perlu diantisipasi, dan apakah bisnis benar-benar membaik secara fundamental dari tahun ke tahun?"
+        marginTop="40px"
+        eyebrow="📑 Ruang Data Pendukung"
+        title="Pusat Data Ekstra &amp; Perspektif Strategis"
+        description="Gunakan lensa tambahan di bawah ini untuk membedah komposisi mesin pendapatan serta melacak pola tren kesehatan bisnis dalam jangka panjang (Kuartalan &amp; YoY)."
       />
 
-        <!-- ACCORDION 2: Evaluasi Jangka Menengah (Kuartal QoQ) -->
-        <details class="acc-strategic">
-          <summary>📊 Quarter Report &middot; Baca Fenomena Musiman</summary>
-        <div class="acc-body">
-          <div style="margin-bottom: 20px;">
-            <BarChart 
-              data={branch_quarterly_report.filter(row => row.branch_name === selectedBranch).slice().reverse()} 
-              x="quarter_name" 
-              y={["gross_revenue", "net_revenue"]} 
-              type="grouped" 
-              title="Perkembangan Omzet vs Laba Bersih per Kuartal" 
-              yFmt="Rp #,##0"
-              xAxisTitle="Kuartal"
-              yAxisTitle="Nilai (Rp)"
-              sort=false
-            />
-          </div>
-          <div class="table-scroll-container">
-            <table class="markdown">
-              <thead>
-                <tr>
-                  <th class="markdown" style="text-align: left;">Kuartal</th>
-                  <th class="markdown" style="text-align: right;">Omzet Gross (Rp)</th>
-                  <th class="markdown" style="text-align: right;">Laba Bersih (Rp)</th>
-                  <th class="markdown" style="text-align: right;">Margin Bersih</th>
-                </tr>
-              </thead>
-              <tbody>
-                {#each branch_quarterly_report.filter(row => row.branch_name === selectedBranch) || [] as row}
-                <tr>
-                  <td class="markdown" style="text-align: left; font-weight: 600;">{row.quarter_name}</td>
-                  <td class="markdown" style="text-align: right;">{row.gross_revenue !== undefined && row.gross_revenue !== null ? row.gross_revenue.toLocaleString('id-ID') : '0'}</td>
-                  <td class="markdown" style="text-align: right;">{row.net_revenue !== undefined && row.net_revenue !== null ? row.net_revenue.toLocaleString('id-ID', {maximumFractionDigits: 0}) : '0'}</td>
-                  <td class="markdown" style="text-align: right; font-weight: 600; color:{row.net_margin_pct >= 15 ? '#16a34a' : row.net_margin_pct >= 10 ? '#ca8a04' : '#dc2626'}">
-                    {row.net_margin_pct !== undefined && row.net_margin_pct !== null ? row.net_margin_pct.toFixed(1) + '%' : '0.0%'}
-                  </td>
-                </tr>
-                {/each}
-              </tbody>
-            </table>
-          </div>
-          <div class="chart-insight" style="margin-top: 12px;">
-            📌 <strong>Analisis Kuartalan:</strong> Membantu mengidentifikasi faktor musiman (seasonality) dan stabilitas laba bersih per kuartal secara konsisten.
-          </div>
-        </div>
-      </details>
+      <div class="data-wrapper">
+      <Tabs id="data_pendukung_tabs" fullWidth=true>
 
-      <!-- ACCORDION 3: Tren Jangka Panjang & YoY (Historis) -->
-      <details class="acc-strategic">
-        <summary>📈 Tren Jangka Panjang &amp; YoY (Historis)</summary>
-        <div class="acc-body">
-          <div style="margin-bottom: 20px;">
-            <LineChart 
-              data={branch_yoy_report.filter(row => row.branch_name === selectedBranch).slice().reverse()} 
-              x="yr" 
-              y="net_margin_pct" 
-              title="Tren Margin Bersih Tahunan (YoY)" 
-              yFmt="0.0\%"
-              xAxisTitle="Tahun"
-              yAxisTitle="Margin (%)"
-              sort=false
-            >
-              <ReferenceLine y={15} label="Target Sehat 15%" lineType="dashed" color="#10B981" />
-              <ReferenceLine y={10} label="Waspada 10%" lineType="dashed" color="#F97316" />
-            </LineChart>
-          </div>
-          <DataTable data={branch_yoy_report.filter(row => row.branch_name === selectedBranch)} rows=8>
-            <Column id="yr" title="Tahun" fmt="0"/>
-            <Column id="gross_revenue" title="Omzet (Gross)" fmt="Rp #,##0"/>
-            <Column id="net_revenue" title="Laba Bersih" fmt="Rp #,##0"/>
-            <Column id="net_margin_pct" title="Margin" fmt="0.0\%"/>
-          </DataTable>
+        <Tab label="🍕 Mesin Pendapatan (30 Hari)">
+          {#if selectedBranch}
+            {@const filteredMenu = branch_menu_detail_30d.filter(row => row.branch_name === selectedBranch)}
+            {@const totalRev = branch_category_mix.filter(row => row.branch_name === selectedBranch).reduce((sum, row) => sum + row.total_rev, 0)}
+            {@const top3Rev = filteredMenu.slice(0, 3).reduce((sum, row) => sum + row.revenue_current, 0)}
+            {@const top3Pct = totalRev > 0 ? (top3Rev / totalRev) * 100 : 0}
+            {@const tableData = filteredMenu.map(row => ({...row, qty_diff: row.qty_current - row.qty_previous})).sort((a,b) => Math.abs(b.qty_diff) - Math.abs(a.qty_diff))}
 
-          <div style="margin-top: 16px; padding: 12px; border: 1px solid var(--color-border-tertiary); border-radius: 8px; background: var(--color-background-secondary); font-size: 0.82rem; line-height: 1.6; color:var(--color-text-primary);">
-            🏷️ <strong>Statistik Sejarah Cabang:</strong><br/>
-            • Tanggal Transaksi Pertama: <strong>{activeScorecard.first_metric_date}</strong><br/>
-            • Rata-rata Margin Bersih Historis: <strong>{activeScorecard.margin_historical?.toFixed(1)}%</strong>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 16px;">
+              <div class="interactive-card" style="padding: 24px;">
+                <BarChart 
+                  data={branch_category_mix.filter(row => row.branch_name === selectedBranch)} 
+                  x="category" 
+                  y="total_rev" 
+                  swapXY=true
+                  title="Komposisi Omzet per Kategori" 
+                  yFmt="Rp #,##0"
+                  sort="total_rev"
+                  colorPalette={['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6']}
+                />
+              </div>
+              
+              <div class="interactive-card" style="padding: 24px;">
+                <BarChart 
+                  data={filteredMenu.slice(0, 10)} 
+                  x="menu_name" 
+                  y="revenue_current" 
+                  swapXY=true 
+                  title="Top 10 Menu Omzet (Rp)" 
+                  yFmt="Rp #,##0"
+                  sort="revenue_current"
+                />
+              </div>
+            </div>
+
+            <div class="chart-insight" style="margin-top: 16px; margin-bottom: 24px;">
+              📌 <strong>Risiko Ketergantungan:</strong> Jika porsi menu Top 5 mendominasi terlalu besar, pastikan ketersediaan bahan baku untuk menu tersebut tidak pernah putus, karena jika kosong, restoran kehilangan mayoritas omzetnya.
+            </div>
+
+            <div class="interactive-card" style="margin-bottom: 24px; padding: 24px;">
+              <h4 style="margin-top: 0; margin-bottom: 4px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📈 Top Movers (Menu Stabil)</h4>
+              <p style="margin-top: 0; margin-bottom: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">Menu mana yang mengalami perubahan tren terbesar?<br/>Menampilkan menu dengan lonjakan dan penurunan persentase penjualan terbesar bulan ini.</p>
+              <DataTable data={tableData} rows=6>
+                <Column id="menu_name" title="Menu"/>
+                <Column id="qty_previous" title="Sebelum" fmt="#,##0"/>
+                <Column id="qty_current" title="Sekarang" fmt="#,##0"/>
+                <Column id="qty_diff" title="Selisih" contentType="delta"/>
+              </DataTable>
+              <div class="chart-insight" style="margin-top: 16px;">
+                📌 <strong>Anomali Pergerakan:</strong> Perhatikan arah dan panjang batang pada grafik untuk melihat tren persentase. Lalu, cek tabel di sebelahnya untuk memvalidasi apakah persentase tersebut berdampak signifikan secara porsi riil.
+              </div>
+            </div>
+          {/if}
+        </Tab>
+
+        <Tab label="📊 Tren Strategis (Kuartal & YoY)">
+          <div style="margin-top: 16px;">
+            <!-- Evaluasi Jangka Menengah (Kuartal QoQ) -->
+            <div class="interactive-card" style="margin-bottom: 32px; padding: 24px;">
+              <h4 style="margin-top: 0; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📊 Quarter Report &middot; Baca Fenomena Musiman</h4>
+              <div style="margin-bottom: 20px;">
+                <BarChart 
+                  data={branch_quarterly_report.filter(row => row.branch_name === selectedBranch).slice().reverse()} 
+                  x="quarter_name" 
+                  y={["gross_revenue", "net_revenue"]} 
+                  type="grouped" 
+                  title="Perkembangan Omzet vs Laba Bersih per Kuartal" 
+                  yFmt="Rp #,##0"
+                  xAxisTitle="Kuartal"
+                  yAxisTitle="Nilai (Rp)"
+                  sort=false
+                />
+              </div>
+              <div class="table-scroll-container">
+                <table class="markdown">
+                  <thead>
+                    <tr>
+                      <th class="markdown" style="text-align: left;">Kuartal</th>
+                      <th class="markdown" style="text-align: right;">Omzet Gross (Rp)</th>
+                      <th class="markdown" style="text-align: right;">Laba Bersih (Rp)</th>
+                      <th class="markdown" style="text-align: right;">Margin Bersih</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {#each branch_quarterly_report.filter(row => row.branch_name === selectedBranch) || [] as row}
+                    <tr>
+                      <td class="markdown" style="text-align: left; font-weight: 600;">{row.quarter_name}</td>
+                      <td class="markdown" style="text-align: right;">{row.gross_revenue !== undefined && row.gross_revenue !== null ? row.gross_revenue.toLocaleString('id-ID') : '0'}</td>
+                      <td class="markdown" style="text-align: right;">{row.net_revenue !== undefined && row.net_revenue !== null ? row.net_revenue.toLocaleString('id-ID', {maximumFractionDigits: 0}) : '0'}</td>
+                      <td class="markdown" style="text-align: right; font-weight: 600; color:{row.net_margin_pct >= 10 ? '#16a34a' : row.net_margin_pct >= 5 ? '#ca8a04' : '#dc2626'}">
+                        {row.net_margin_pct !== undefined && row.net_margin_pct !== null ? row.net_margin_pct.toFixed(1) + '%' : '0.0%'}
+                      </td>
+                    </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+              <div class="chart-insight" style="margin-top: 12px;">
+                📌 <strong>Analisis Kuartalan:</strong> Membantu mengidentifikasi faktor musiman (seasonality) dan stabilitas laba bersih per kuartal secara konsisten.
+              </div>
+            </div>
+
+            <!-- Tren Jangka Panjang & YoY (Historis) -->
+            <div class="interactive-card" style="margin-bottom: 16px; padding: 24px;">
+              <h4 style="margin-top: 0; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📈 Tren Jangka Panjang &amp; YoY (Historis)</h4>
+              <div style="margin-bottom: 20px;">
+                <LineChart 
+                  data={branch_yoy_report.filter(row => row.branch_name === selectedBranch).slice().reverse()} 
+                  x="yr" 
+                  y="net_margin_pct" 
+                  title="Tren Margin Bersih Tahunan (YoY)" 
+                  yFmt="0.0\%"
+                  xAxisTitle="Tahun"
+                  yAxisTitle="Margin (%)"
+                  sort=false
+                >
+                  <ReferenceLine y={10} label="Target Sehat 10%" lineType="dashed" color="#10B981" />
+                  <ReferenceLine y={5} label="Waspada 5%" lineType="dashed" color="#F97316" />
+                </LineChart>
+              </div>
+              <DataTable data={branch_yoy_report.filter(row => row.branch_name === selectedBranch)} rows=8>
+                <Column id="yr" title="Tahun" fmt="0"/>
+                <Column id="gross_revenue" title="Omzet (Gross)" fmt="Rp #,##0"/>
+                <Column id="net_revenue" title="Laba Bersih" fmt="Rp #,##0"/>
+                <Column id="net_margin_pct" title="Margin" fmt="0.0\%"/>
+              </DataTable>
+
+              <div style="margin-top: 16px; padding: 12px; border: 1px solid var(--color-border-tertiary); border-radius: 8px; background: var(--color-background-secondary); font-size: 0.82rem; line-height: 1.6; color:var(--color-text-primary);">
+                🏷️ <strong>Statistik Sejarah Cabang:</strong><br/>
+                • Tanggal Transaksi Pertama: <strong>{activeScorecard.first_metric_date}</strong><br/>
+                • Rata-rata Margin Bersih Historis: <strong>{activeScorecard.margin_historical?.toFixed(1)}%</strong>
+              </div>
+              
+              <div class="chart-insight" style="margin-top: 12px;">
+                📌 <strong>Analisis YoY:</strong> Memberikan pandangan makro mengenai apakah cabang ini secara fundamental bertumbuh, stabil, atau mengalami perlambatan dari tahun ke tahun.
+              </div>
+            </div>
           </div>
-          
-          <div class="chart-insight" style="margin-top: 12px;">
-            📌 <strong>Analisis YoY:</strong> Memberikan pandangan makro mengenai apakah cabang ini secara fundamental bertumbuh, stabil, atau mengalami perlambatan dari tahun ke tahun.
-          </div>
-        </div>
-      </details>
+        </Tab>
+
+      </Tabs>
+      </div>
 
   {:else}
     <SectionCard 
@@ -591,9 +1162,5 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 </div>
 
 {:else}
-<SectionCard 
-  eyebrow="⚠️ Data Belum Siap"
-  title="Data deep dive belum siap"
-  description="Kueri <code>branch_list</code> atau <code>branch_dates</code> belum menghasilkan baris data."
-/>
+  <GlobalLoading />
 {/if}
