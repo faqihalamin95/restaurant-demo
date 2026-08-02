@@ -761,7 +761,6 @@ div.evidence-data-table-pagination button:hover:not(:disabled) {
    ================================================================ */
 
 /* ── 1. BASE / RESET ── */
-.over-container { display: none !important; }
 
 /* ── 2. ACCORDION SYSTEM ── */
 
@@ -2722,7 +2721,6 @@ details.acc-strategic .acc-body { padding: 20px; }
 .trend-indicator.up { color: #16a34a; }
 .trend-indicator.down { color: #dc2626; }
 .trend-indicator.neutral { color: var(--color-text-tertiary); }
-.over-container { display: none !important; }
 
 .inv-page { display: flex; flex-direction: column; gap: 22px; margin-top: 10px; }
 .inv-hero {

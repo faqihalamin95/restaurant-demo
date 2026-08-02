@@ -25,7 +25,6 @@ h2[id] * {
   display: none !important;
 }
 
-.over-container { display: none !important; }
 
 details {
   border: 1px solid rgba(128,128,128,0.18);

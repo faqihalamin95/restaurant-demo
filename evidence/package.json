@@ -2,8 +2,8 @@
   "name": "wekadata",
   "version": "0.0.1",
   "scripts": {
-    "build": "evidence sources && evidence build",
-    "build:strict": "evidence sources --strict && evidence build:strict",
+    "build": "rm -rf .evidence/template/src/pages && evidence sources && evidence build",
+    "build:strict": "rm -rf .evidence/template/src/pages && evidence sources --strict && evidence build:strict",
     "dev": "evidence dev --open /",
     "test": "evidence build",
     "sources": "evidence sources",
