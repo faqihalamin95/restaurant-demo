@@ -1,9 +1,9 @@
 ---
 title: Laporan Keuangan
-sidebar: hide
+
 ---
 
-<FinanceTabs activeTab="overview" />
+
 
 <style>
 

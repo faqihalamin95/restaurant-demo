@@ -1,6 +1,6 @@
 ---
-title: Laporan Keuangan
-sidebar: hide
+title: Rincian Biaya
+
 ---
 
 <script>
@@ -117,7 +117,7 @@ sidebar: hide
 
 
 
-<FinanceTabs activeTab="rincian-biaya" />
+
 
 
 <Tabs id="rincian-biaya-tabs" fullWidth=true>

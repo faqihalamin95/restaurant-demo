@@ -1,6 +1,6 @@
 ---
 title: Performa Menu
-sidebar: hide
+
 ---
 
 <script>
@@ -680,7 +680,7 @@ ORDER BY total_qty ASC
 {@const menuPrimaryWarnCount = menuPrimaryStates.filter(s => s === 'warn').length}
 {@const menuPrimaryCriticalCount = menuPrimaryStates.filter(s => s === 'critical').length}
 
-<MenuTabs activeTab="ringkasan" />
+
 
 <div class="hero" style="margin-top: 10px;">
   <div class="hero-eyebrow">📊 Performa Menu · {activePeriod === '30d' ? '30 Hari Terakhir' : 'Pola 7 Hari'}</div>

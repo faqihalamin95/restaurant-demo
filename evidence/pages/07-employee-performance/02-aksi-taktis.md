@@ -1,8 +1,8 @@
 ---
-title: Performa Pegawai
-sidebar: hide
+title: Aksi Taktis
+
 ---
-<EmployeeTabs activeTab="taktis" />
+
 
 ```sql workforce_overview
 SELECT * FROM restaurant.workforce_health_overview

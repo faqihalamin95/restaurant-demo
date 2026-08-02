@@ -1,6 +1,6 @@
 ---
-title: Inventori & Stok
-sidebar: hide
+title: Analysis
+
 ---
 
 <script>
@@ -17,7 +17,7 @@ sidebar: hide
 
 <InvGuide />
 
-<InvTabs activeTab="analysis" />
+
 
 ```sql supplier_kpi
 /* 

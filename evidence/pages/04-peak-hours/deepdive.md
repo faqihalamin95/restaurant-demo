@@ -1,6 +1,6 @@
 ---
-title: Permintaan & Traffic
-sidebar: hide
+title: Deepdive
+
 ---
 
 <script>
@@ -10,7 +10,7 @@ import SectionCard from '$lib/SectionCard.svelte';
 </script>
 
 
-<PeakTabs activeTab="deepdive" />
+
 
 <style>
 .crisis-btn {

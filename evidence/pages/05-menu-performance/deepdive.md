@@ -1,6 +1,6 @@
 ---
-sidebar: hide
-title: Performa Menu
+
+title: Deepdive
 ---
 
 <script>
@@ -524,7 +524,7 @@ SELECT * FROM restaurant.mart_structural_decline_90d
 
 
 
-<MenuTabs activeTab="deepdive" />
+
 
 <SectionCard 
   eyebrow="<span style='font-size: 12px;'>🏪 Filter Lokasi</span>" 

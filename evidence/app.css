@@ -3761,3 +3761,30 @@ details.acc-strategic .acc-body { padding: 20px; }
   bottom: 100%;
   border-color: transparent transparent #1e293b transparent;
 }
+
+/* ==== NEW FULL-WIDTH HAMBURGER LAYOUT ==== */
+/* 1. Force Hamburger Menu Icon to always show on Desktop */
+header button.md\:hidden {
+  display: block !important;
+}
+
+/* 2. Hide the fixed Desktop Left Sidebar completely */
+aside.w-48.hidden.md\:flex {
+  display: none !important;
+}
+
+/* 3. Reclaim space from Left Sidebar */
+main.md\:pl-8 {
+  padding-left: 0 !important;
+}
+
+/* 4. Hide the Desktop Right Sidebar (TOC / On this page) completely */
+aside.w-48.hidden.lg\:block {
+  display: none !important;
+}
+
+/* 5. Reclaim space from Right Sidebar (TOC) */
+main.md\:pr-8 {
+  padding-right: 0 !important;
+}
+/* ======================================= */

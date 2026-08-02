@@ -1,13 +1,13 @@
 ---
-title: Direktori Data
-sidebar: hide
+title: Direktori
+
 ---
 
 <script>
   import SectionCard from '$lib/SectionCard.svelte';
 </script>
 
-<MenuTabs activeTab="direktori" />
+
 
 ```sql menu_branch_list_all
 SELECT branch_name FROM (

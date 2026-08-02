@@ -1,6 +1,6 @@
 ---
-title: Inventori & Stok
-sidebar: hide
+title: Deepdive
+
 ---
 
 <script>
@@ -13,7 +13,7 @@ sidebar: hide
 
 <InvGuide />
 
-<InvTabs activeTab="deepdive" />
+
 
 ```sql branch_list
 SELECT DISTINCT branch_name FROM restaurant.inventory_stok ORDER BY branch_name

@@ -1,9 +1,9 @@
 ---
-title: Laporan Keuangan
-sidebar: hide
+title: Tren
+
 ---
 
-<FinanceTabs activeTab="jangka-panjang" />
+
 
 ```sql fin_quarter
 SELECT * FROM (

@@ -1,8 +1,8 @@
 ---
 title: Insight Member
-sidebar: hide
+
 ---
-<MemberTabs activeTab="overview" />
+
 
 ```sql member_kpi_period
 SELECT * FROM restaurant.member_member_kpi_period

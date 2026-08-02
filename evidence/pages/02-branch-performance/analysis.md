@@ -1,6 +1,6 @@
 ---
-title: Performa Cabang
-sidebar: hide
+title: Analysis
+
 ---
 
 <script>

@@ -1,8 +1,8 @@
 ---
-sidebar: hide
-title: Insight Member
+
+title: Direktori Member
 ---
-<MemberTabs activeTab="direktori" />
+
 
 <script>
   // Tidak perlu import manual jika menggunakan komponen native Evidence

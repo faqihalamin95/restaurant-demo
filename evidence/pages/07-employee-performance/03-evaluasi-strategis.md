@@ -1,8 +1,8 @@
 ---
-title: Performa Pegawai
-sidebar: hide
+title: Evaluasi Strategis
+
 ---
-<EmployeeTabs activeTab="strategis" />
+
 
 ```sql emp_productivity
 SELECT 

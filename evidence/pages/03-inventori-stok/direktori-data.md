@@ -1,11 +1,11 @@
 ---
-title: Inventori & Stok
-sidebar: hide
+title: Direktori Data
+
 ---
 
 <InvGuide />
 
-<InvTabs activeTab="direktori-data" />
+
 
 ```sql raw_inventory
 SELECT *

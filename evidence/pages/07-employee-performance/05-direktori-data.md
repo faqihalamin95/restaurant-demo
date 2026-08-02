@@ -1,8 +1,8 @@
 ---
-sidebar: hide
-title: Performa Pegawai
+
+title: Direktori Data
 ---
-<EmployeeTabs activeTab="direktori" />
+
 
 ```sql top_sales
 SELECT 
