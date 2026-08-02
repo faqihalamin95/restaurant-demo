@@ -360,11 +360,6 @@ ORDER BY count DESC
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   }
 
-  :global([data-theme='dark']) .filter-panel {
-    background: rgba(20, 20, 25, 0.65);
-    border-color: rgba(20, 184, 166, 0.15);
-  }
-
   .filter-group {
     display: flex;
     align-items: center;
@@ -428,10 +423,6 @@ ORDER BY count DESC
     border-color: rgba(13, 148, 136, 0.2);
   }
 
-  :global([data-theme='dark']) .chart-card {
-    background: rgba(20, 20, 25, 0.45);
-  }
-
   .chart-title {
     font-size: 1.05rem;
     font-weight: 800;
@@ -447,10 +438,6 @@ ORDER BY count DESC
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-  }
-
-  :global([data-theme='dark']) .table-card {
-    background: rgba(20, 20, 25, 0.45);
   }
 
   .guide-card.red { border-color: rgba(239,68,68,0.16); background: linear-gradient(135deg, rgba(239,68,68,0.04), rgba(255,255,255,0.8)); }

@@ -274,14 +274,6 @@ details.acc-strategic .acc-body {
   font-size: 0.85rem;
   line-height: 1.6;
 }
-:global([data-theme='dark']) .warning-banner {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 191, 36, 0.05));
-  border-color: rgba(245, 158, 11, 0.4);
-}
-:global([data-theme='dark']) .warning-banner-title {
-  color: #fbbf24;
-}
-
 /* ── Responsive ── */
 @media (max-width: 1100px) { .kpi-row-4 { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 900px)  { .kpi-row-3 { grid-template-columns: 1fr; } }

@@ -3803,3 +3803,19 @@ details.acc-strategic .acc-body { padding: 20px; }
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ========================================================
+   GLOBAL RESPONSIVE TYPOGRAPHY
+   Scale down all text (using rem units) on smaller screens 
+   ======================================================== */
+@media (max-width: 1024px) {
+  html {
+    font-size: 14px !important; /* Reduces all rem-based text by ~12.5% on iPad/Tablet */
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 12.5px !important; /* Reduces all rem-based text by ~22% on HP/Mobile */
+  }
+}

@@ -421,18 +421,7 @@ details.acc-strategic .acc-body { padding: 20px; }
   .hero-title { font-size: 1.4rem; }
 }
 
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
-:global(aside a[href="/05-menu-performance"]),
-:global(#mobileScrollable a[href="/05-menu-performance"]) {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.06)) !important;
-  color: #0f766e !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-  border-left: 3px solid #0d9488 !important;
-  padding-left: 12px !important;
-}
-
-</style>
+/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan </style>
 
 ```sql menu_dates
 SELECT * FROM restaurant.mart_menu_dates

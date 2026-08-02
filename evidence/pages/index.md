@@ -93,12 +93,6 @@ sidebar_link: true
 
 
 /* Sidebar homepage link: teal text only when on this page */
-:global(aside a.sticky[href="/"]),
-:global(#mobileScrollable a.sticky[href="/"]) {
-    color: #0d9488 !important;
-    font-weight: 800 !important;
-}
-
 /* Glassmorphism Cockpit Card */
 .hero-health-card {
   border-radius: 20px;

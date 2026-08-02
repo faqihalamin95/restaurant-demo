@@ -333,11 +333,6 @@ details.acc-strategic .acc-body { padding: 20px; }
 .legend-chip.weak      { background: rgba(239,68,68,0.06);  border-color: rgba(239,68,68,0.22);  color: #b91c1c; }
 
 /* ── Section card ── */
-:global(.section-card) { padding: 20px; border-radius: 20px; border: 1.5px solid rgba(99, 102, 241, 0.18) !important; background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03)) !important; }
-:global(.section-head) { margin-bottom: 13px; }
-:global(.section-eyebrow) { font-size: 10px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-:global(.section-title) { margin: 0; font-size: 1.08rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary); }
-:global(.section-copy) { margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: var(--color-text-secondary); max-width: 70ch; }
 .timeframe-tag { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.05); color: var(--color-text-tertiary); }
 
 /* ── Overview snapshots ── */
@@ -424,17 +419,7 @@ details.acc-strategic .acc-body { padding: 20px; }
   .hero-title { font-size: 1.4rem; }
 }
 
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
-:global(aside a[href="/05-menu-performance"]),
-:global(#mobileScrollable a[href="/05-menu-performance"]) {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.06)) !important;
-  color: #0f766e !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-  border-left: 3px solid #0d9488 !important;
-  padding-left: 12px !important;
-}
-/* ===== Placeholder / Empty State ===== */
+/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan /* ===== Placeholder / Empty State ===== */
 .empty-state {
   padding: 48px 32px;
   text-align: center;
@@ -475,72 +460,13 @@ details.acc-strategic .acc-body { padding: 20px; }
   margin-top: 16px;
   margin-bottom: 8px; /* Internal spacing only */
 }
-.custom-category-tabs :global(.inline-flex) {
-  border: none !important;
-  box-shadow: none !important;
-  gap: 8px !important;
-  overflow: visible !important;
-  background: transparent !important;
-  height: auto !important;
-  flex-wrap: wrap !important; /* Allow wrapping */
-  justify-content: center !important;
-}
-.custom-category-tabs :global(button) {
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 10px !important; /* Persegi dengan ujung membulat */
-  padding: 8px 16px !important; /* Lebih kecil */
-  font-size: 0.85rem !important; /* Font lebih kecil */
-  font-weight: 600 !important;
-  color: #64748b !important;
-  background: white !important;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  cursor: pointer !important;
-  text-transform: capitalize !important;
-}
-.custom-category-tabs :global(button:hover) {
-  transform: translateY(-2px) !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05) !important;
-  color: #334155 !important;
-}
-.custom-category-tabs :global(button.bg-base-200),
-.custom-category-tabs :global(button.text-primary) {
-  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-  color: white !important;
-  border-color: transparent !important;
-  box-shadow: 0 8px 16px -4px rgba(37,99,235,0.4) !important;
-}
-
-/* ===== Custom Dropdown (Premium Selection) ===== */
+.custom-category-tabs .custom-category-tabs .custom-category-tabs .custom-category-tabs /* ===== Custom Dropdown (Premium Selection) ===== */
 .custom-dropdown-container {
   display: flex;
   justify-content: center;
   padding: 16px 0 8px 0;
 }
-.custom-dropdown-container :global(button[role="combobox"]) {
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important; /* Persegi rounded modern */
-  padding: 12px 24px !important;
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  color: #334155 !important;
-  background: white !important;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  cursor: pointer !important;
-  min-width: 280px !important; /* Lebih lebar agar teks menu panjang muat */
-  height: auto !important; /* Timpa tinggi default */
-}
-.custom-dropdown-container :global(button[role="combobox"]:hover) {
-  transform: translateY(-2px) !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05) !important;
-}
-
-
-
-/* ===== KPI Cards (Bab 1) ===== */
+.custom-dropdown-container .custom-dropdown-container /* ===== KPI Cards (Bab 1) ===== */
 .kpi-card {
   transition: all 0.25s ease;
   position: relative;

@@ -395,12 +395,6 @@ ORDER BY sort_order DESC
 .diagnostics-copy { font-size: 0.9rem; line-height: 1.7; color: var(--color-text-secondary); max-width: 68ch; margin: 0; }
 
 /* Override Evidence Tabs agar merentang penuh (50-50) jika isinya 2 */
-:global(#deep-dive > div:first-child) { display: flex; width: 100%; border-bottom: 2px solid var(--color-border-tertiary); gap: 8px; margin-bottom: 24px; }
-:global(#deep-dive > div:first-child > a) { flex: 1; text-align: center; padding: 12px 16px; border-radius: 8px 8px 0 0; font-weight: 700; color: var(--color-text-secondary); transition: all 0.2s ease; border-bottom: 2px solid transparent; margin-bottom: -2px; }
-:global(#deep-dive > div:first-child > a:hover) { background: var(--color-background-secondary); color: var(--color-text-primary); }
-:global(#deep-dive > div:first-child > a[aria-current="true"]), 
-:global(#deep-dive > div:first-child > a[data-active="true"]) { color: #2563eb; border-bottom-color: #2563eb; background: rgba(37, 99, 235, 0.04); }
-
 /* ── PREVIEW OPSI 1: Action Queue ── */
 .opt-action-stack { display: flex; flex-direction: column; gap: 12px; margin-left: 28px; }
 .opt-action-card { padding: 16px 18px; border-radius: 12px; border-left: 4px solid; border-top: 1px solid; border-right: 1px solid; border-bottom: 1px solid; display: flex; flex-direction: column; gap: 4px; transition: transform 0.2s; }

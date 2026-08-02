@@ -103,25 +103,7 @@ title: Analysis
 </script>
 
 <style>
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan :global() */
-:global(aside a[href="/02-branch-performance"]),
-:global(#mobileScrollable a[href="/02-branch-performance"]) {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.06)) !important;
-  color: #0f766e !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-  border-left: 3px solid #0d9488 !important;
-  padding-left: 12px !important;
-}
-
-:global([data-theme='dark'] aside a[href="/02-branch-performance"]),
-:global([data-theme='dark'] #mobileScrollable a[href="/02-branch-performance"]) {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(45, 212, 191, 0.08)) !important;
-  color: #2dd4bf !important;
-  border-left-color: #14b8a6 !important;
-}
-
-.warning-banner {
+/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan .warning-banner {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(251, 191, 36, 0.04));
   border: 1px solid rgba(245, 158, 11, 0.3);
   border-left: 4px solid #f59e0b;
