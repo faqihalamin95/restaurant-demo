@@ -419,7 +419,7 @@ details.acc-strategic .acc-body { padding: 20px; }
   .hero-title { font-size: 1.4rem; }
 }
 
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan /* ===== Placeholder / Empty State ===== */
+/* ===== Placeholder / Empty State ===== */
 .empty-state {
   padding: 48px 32px;
   text-align: center;

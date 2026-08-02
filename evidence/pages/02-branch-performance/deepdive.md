@@ -9,7 +9,7 @@ title: Deepdive
 </script>
 
 <style>
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan /* ── Risk Section (Mini-Card Layout) ── */
+/* ── Risk Section (Mini-Card Layout) ── */
 .risk-section { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
 
 .risk-row {

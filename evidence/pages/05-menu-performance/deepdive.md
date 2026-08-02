@@ -421,7 +421,7 @@ details.acc-strategic .acc-body { padding: 20px; }
   .hero-title { font-size: 1.4rem; }
 }
 
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan </style>
+</style>
 
 ```sql menu_dates
 SELECT * FROM restaurant.mart_menu_dates

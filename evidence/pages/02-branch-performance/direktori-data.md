@@ -11,7 +11,7 @@ title: Direktori Data
 </script>
 
 <style>
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan </style>
+</style>
 
 ```sql revenue_log
 SELECT *

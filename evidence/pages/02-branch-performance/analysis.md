@@ -103,7 +103,7 @@ title: Analysis
 </script>
 
 <style>
-/* Paksa menu sidebar parent tetap aktif (hijau) saat berada di subpage ini menggunakan .warning-banner {
+.warning-banner {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(251, 191, 36, 0.04));
   border: 1px solid rgba(245, 158, 11, 0.3);
   border-left: 4px solid #f59e0b;
