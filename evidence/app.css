@@ -372,7 +372,7 @@ main.flex-grow {
 }
 
 /* Adjust desktop sidebar top position to match taller header */
-aside > div {
+aside.flex-none > div {
   top: 4.5rem !important;
 }
 
@@ -469,21 +469,21 @@ aside a[href="/"]::after {
   color: var(--color-text-primary) !important;
 }
 
-/* Sidebar main background */
-aside {
+/* Sidebar main background — scoped to LEFT nav sidebar only */
+aside.flex-none {
   border-right: 1px solid rgba(128, 128, 128, 0.08) !important;
   background: linear-gradient(to bottom, #f8fafc, #f1f5f9) !important;
   padding-left: 14px !important;
   padding-right: 14px !important;
 }
 
-[data-theme='dark'] aside {
+[data-theme='dark'] aside.flex-none {
   background: linear-gradient(to bottom, #09090b, #18181b) !important;
   border-right-color: rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Sidebar inner container */
-aside > div {
+/* Sidebar inner container — scoped to LEFT nav sidebar only */
+aside.flex-none > div {
   width: auto !important;
   padding-top: 10px !important;
   padding-right: 8px !important;
@@ -641,8 +641,8 @@ aside.w-48.hidden.lg\:block a.h3:hover {
   padding-left: 22px !important;
 }
 
-/* Force Table of Contents display on medium screens and above */
-@media (min-width: 768px) {
+/* Force Table of Contents display on large screens and above */
+@media (min-width: 1024px) {
   aside.w-48.hidden.lg\:block {
     display: block !important;
   }
