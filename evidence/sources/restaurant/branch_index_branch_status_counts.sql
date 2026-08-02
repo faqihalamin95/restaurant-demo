@@ -44,14 +44,14 @@ classified AS (
         n.recent_margin_pct,
         h.historical_margin_pct,
         CASE
-            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct >= 15 THEN 'Sehat'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 15 THEN 'Waspada'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 15 THEN 'Early Warning'
-            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct < 15 THEN 'Recovery'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct < 10 THEN 'Membaik'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 10 AND n.recent_margin_pct < 15 THEN 'Stabil Rendah'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Turnaround'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct < 10 THEN 'Turnaround'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Sehat'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Waspada'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 10 THEN 'Early Warning'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovery'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Membaik'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stabil Rendah'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 5 THEN 'Turnaround'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 5 THEN 'Turnaround'
             ELSE 'Waspada'
         END AS health_status
     FROM active_rev r

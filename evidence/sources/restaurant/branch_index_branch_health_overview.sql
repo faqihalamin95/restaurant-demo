@@ -67,18 +67,18 @@ raw AS (
 )
 SELECT *,
     CASE
-        WHEN critical_y > 0 OR margin_y < 10 OR gap_y > 120 THEN 'Kritis'
-        WHEN declining_y > 0 OR margin_y < 15 OR gap_y > 70 THEN 'Waspada'
+        WHEN critical_y > 0 OR margin_y < 5 OR gap_y > 120 THEN 'Kritis'
+        WHEN declining_y > 0 OR margin_y < 10 OR gap_y > 70 THEN 'Waspada'
         ELSE 'Sehat'
     END AS status_y,
     CASE
-        WHEN critical_7d > 0 OR margin_7d < 10 OR gap_7d > 120 THEN 'Kritis'
-        WHEN declining_7d > 0 OR margin_7d < 15 OR gap_7d > 70 THEN 'Waspada'
+        WHEN critical_7d > 0 OR margin_7d < 5 OR gap_7d > 120 THEN 'Kritis'
+        WHEN declining_7d > 0 OR margin_7d < 10 OR gap_7d > 70 THEN 'Waspada'
         ELSE 'Sehat'
     END AS status_7d,
     CASE
-        WHEN critical_30d > 0 OR margin_30d < 10 OR gap_30d > 120 THEN 'Kritis'
-        WHEN declining_30d > 0 OR margin_30d < 15 OR gap_30d > 70 THEN 'Waspada'
+        WHEN critical_30d > 0 OR margin_30d < 5 OR gap_30d > 120 THEN 'Kritis'
+        WHEN declining_30d > 0 OR margin_30d < 10 OR gap_30d > 70 THEN 'Waspada'
         ELSE 'Sehat'
     END AS status_30d,
     CASE

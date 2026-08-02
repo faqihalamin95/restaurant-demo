@@ -74,9 +74,11 @@ gold_risk AS (
         member_name, tier, city,
         total_spend,
         avg_order_value,
+        total_orders,
         orders_per_week,
         recency_days,
         delay_days,
+        avg_visit_interval_days,
         CAST(recency_days AS VARCHAR) || ' hari tidak transaksi' AS metric_value,
         CASE
             WHEN avg_visit_interval_days IS NULL THEN 'Ritme normal belum cukup histori.'
@@ -86,7 +88,7 @@ gold_risk AS (
         'Member Gold bernilai tinggi mulai berisiko churn.' AS impact_text,
         'Hubungi personal via WhatsApp/telepon. Beri apresiasi khusus, akses reservasi, atau perhatian personal.' AS recommended_action
     FROM base
-    WHERE tier = 'Gold' AND recency_days >= 14
+    WHERE tier = 'Gold' AND delay_days > 7
 ),
 hv_inactive AS (
     SELECT
@@ -98,9 +100,11 @@ hv_inactive AS (
         member_name, tier, city,
         total_spend,
         avg_order_value,
+        total_orders,
         orders_per_week,
         recency_days,
         delay_days,
+        avg_visit_interval_days,
         CAST(recency_days AS VARCHAR) || ' hari · Rp' || CAST(ROUND(total_spend/1000000.0,1) AS VARCHAR) || 'jt' AS metric_value,
         CASE
             WHEN avg_visit_interval_days IS NULL THEN 'Ritme normal belum cukup histori.'
@@ -111,7 +115,7 @@ hv_inactive AS (
         'Kirim pesan win-back dengan penawaran personalisasi.' AS recommended_action
     FROM base, spend_p75
     WHERE tier IN ('Silver','Bronze')
-      AND recency_days >= 21
+      AND delay_days > 7
       AND total_spend > spend_p75.p75
       AND total_spend > 0
 )
@@ -129,17 +133,21 @@ SELECT
         WHEN delay_days > 0 THEN CAST(delay_days AS VARCHAR) || ' hari'
         ELSE 'Masih sesuai ritme'
     END AS delay_label,
+    delay_days,
+    avg_visit_interval_days,
+    recency_days,
     total_spend,
     avg_order_value,
+    total_orders,
     orders_per_week,
     metric_value,
     rhythm_text,
     impact_text,
     recommended_action
 FROM (
-    SELECT severity, action_type, action_label, action_short, member_name, tier, city, total_spend, avg_order_value, orders_per_week, recency_days, delay_days, metric_value, rhythm_text, impact_text, recommended_action, rn FROM gold_risk
+    SELECT severity, action_type, action_label, action_short, member_name, tier, city, total_spend, avg_order_value, total_orders, orders_per_week, recency_days, delay_days, avg_visit_interval_days, metric_value, rhythm_text, impact_text, recommended_action, rn FROM gold_risk
     UNION ALL
-    SELECT severity, action_type, action_label, action_short, member_name, tier, city, total_spend, avg_order_value, orders_per_week, recency_days, delay_days, metric_value, rhythm_text, impact_text, recommended_action, rn FROM hv_inactive
+    SELECT severity, action_type, action_label, action_short, member_name, tier, city, total_spend, avg_order_value, total_orders, orders_per_week, recency_days, delay_days, avg_visit_interval_days, metric_value, rhythm_text, impact_text, recommended_action, rn FROM hv_inactive
 )
 ORDER BY
     CASE severity WHEN 'Kritis' THEN 1 WHEN 'Tinggi' THEN 2 ELSE 3 END,

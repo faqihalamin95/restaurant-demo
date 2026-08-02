@@ -97,7 +97,7 @@ peak_stat AS (
 
 -- FINAL UNION
 SELECT 'Keuangan' AS section, '💰' AS icon,
-    CASE WHEN m < 10 THEN 'kritis' WHEN m < 15 THEN 'perhatian' ELSE 'sehat' END AS status,
+    CASE WHEN m < 5 THEN 'kritis' WHEN m < 10 THEN 'perhatian' ELSE 'sehat' END AS status,
     'Net margin ' || m || '%' AS label, 'Net Margin' AS metrik FROM fin
 UNION ALL
 SELECT 'Cabang', '🏪',

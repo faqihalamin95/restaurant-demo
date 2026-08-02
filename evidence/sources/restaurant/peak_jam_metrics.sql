@@ -87,6 +87,7 @@ window_summary AS (
     FROM ranked_windows
 )
 SELECT
+    ROUND(stats.max_orders * 100.0 / NULLIF(stats.grand_total, 0), 1) AS peak_pct,
     ROUND(top3.top3_total * 100.0 / NULLIF(stats.grand_total, 0), 1) AS peak_share_pct,
     ROUND(stats.max_orders * 1.0   / NULLIF(stats.avg_orders,  0), 2) AS demand_surge,
     ws.peak_window_start,

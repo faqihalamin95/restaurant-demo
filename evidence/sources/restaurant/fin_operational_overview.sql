@@ -20,7 +20,7 @@ rolling AS (
     FROM main_marts.mart_daily_net_revenue CROSS JOIN max_d
 )
 SELECT
-    CASE WHEN m.margin_mtd >= 15 THEN 'Sehat' WHEN m.margin_mtd >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_mtd,
+    CASE WHEN m.margin_mtd >= 10 THEN 'Sehat' WHEN m.margin_mtd >= 5 THEN 'Waspada' ELSE 'Kritis' END AS status_mtd,
     CASE
         WHEN m.bahan_mtd <= 32 AND m.sdm_mtd <= 22 AND m.ops_mtd <= 15 THEN 'Semua biaya dalam batas'
         WHEN m.bahan_mtd - 32 >= m.sdm_mtd - 22 AND m.bahan_mtd - 32 >= m.ops_mtd - 15 THEN 'Biaya bahan'
@@ -33,7 +33,7 @@ SELECT
         WHEN m.sdm_mtd - 22 >= m.ops_mtd - 15 THEN ROUND(m.sdm_mtd - 22, 1)
         ELSE ROUND(m.ops_mtd - 15, 1)
     END AS fokus_gap_mtd,
-    CASE WHEN r.margin_30d >= 15 THEN 'Sehat' WHEN r.margin_30d >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_30d,
+    CASE WHEN r.margin_30d >= 10 THEN 'Sehat' WHEN r.margin_30d >= 5 THEN 'Waspada' ELSE 'Kritis' END AS status_30d,
     CASE
         WHEN r.bahan_30d <= 32 AND r.sdm_30d <= 22 AND r.ops_30d <= 15 THEN 'Semua biaya dalam batas'
         WHEN r.bahan_30d - 32 >= r.sdm_30d - 22 AND r.bahan_30d - 32 >= r.ops_30d - 15 THEN 'Biaya bahan'
@@ -46,7 +46,7 @@ SELECT
         WHEN r.sdm_30d - 22 >= r.ops_30d - 15 THEN ROUND(r.sdm_30d - 22, 1)
         ELSE ROUND(r.ops_30d - 15, 1)
     END AS fokus_gap_30d,
-    CASE WHEN r.margin_90d >= 15 THEN 'Sehat' WHEN r.margin_90d >= 10 THEN 'Waspada' ELSE 'Kritis' END AS status_90d,
+    CASE WHEN r.margin_90d >= 10 THEN 'Sehat' WHEN r.margin_90d >= 5 THEN 'Waspada' ELSE 'Kritis' END AS status_90d,
     CASE
         WHEN r.bahan_90d <= 32 AND r.sdm_90d <= 22 AND r.ops_90d <= 15 THEN 'Semua biaya dalam batas'
         WHEN r.bahan_90d - 32 >= r.sdm_90d - 22 AND r.bahan_90d - 32 >= r.ops_90d - 15 THEN 'Biaya bahan'

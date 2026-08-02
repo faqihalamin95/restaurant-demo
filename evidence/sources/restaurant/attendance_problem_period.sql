@@ -10,7 +10,12 @@ base AS (
        OR (p = '30d' AND e.attendance_date >= m.d - INTERVAL '29 days')
 )
 SELECT
-    period, employee_name, role, branch_name, shift_name,
+    period, employee_name, role, MAX(branch_name) as branch_name, MAX(shift_name) as shift_name,
+    CASE
+        WHEN period = '30d' AND (SUM(is_absent) >= 3 OR SUM(is_late) >= 6) THEN '<span style="background-color: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 6px; font-weight: 700;">' || employee_name || '</span>'
+        WHEN period = '7d'  AND (SUM(is_absent) >= 2 OR SUM(is_late) >= 3) THEN '<span style="background-color: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 6px; font-weight: 700;">' || employee_name || '</span>'
+        ELSE employee_name
+    END AS nama_staf_html,
     COUNT(*) AS total_workdays,
     SUM(is_absent) AS total_absent,
     SUM(is_late) AS total_late,
@@ -24,14 +29,14 @@ SELECT
         ELSE 'Pantau'
     END AS risk_label,
     CASE
-        WHEN SUM(is_absent) >= 3 THEN 'Coaching dan review jadwal — pola absent perlu dipahami penyebabnya'
-        WHEN SUM(is_late) >= 6   THEN 'Diskusi keterlambatan — cek transportasi, jadwal, atau beban kerja'
-        WHEN SUM(is_absent) >= 2 THEN 'Percakapan coaching untuk pahami penyebab absensi'
-        WHEN SUM(is_late) >= 4   THEN 'Coaching keterlambatan — pertimbangkan penyesuaian jadwal shift'
+        WHEN SUM(is_absent) >= 3 THEN 'Terbitkan SP1. Panggil untuk investigasi alasan mangkir beruntun.'
+        WHEN SUM(is_late) >= 6   THEN 'Terbitkan SP1. Wajibkan lapor absensi 15 menit sebelum shift.'
+        WHEN SUM(is_absent) >= 2 THEN 'Peringatan Lisan & Sesi 1-on-1: Cari tahu alasan absensi.'
+        WHEN SUM(is_late) >= 4   THEN 'Sesi 1-on-1 Coaching: Evaluasi jadwal shift & akses transportasi.'
         ELSE 'Pantau tren kehadiran minggu berikutnya'
     END AS recommended_action
 FROM base
-GROUP BY period, employee_name, role, branch_name, shift_name
+GROUP BY period, employee_name, role
 HAVING (period = '30d' AND (SUM(is_absent) >= 2 OR SUM(is_late) >= 4))
     OR (period = '7d'  AND (SUM(is_absent) >= 1 OR SUM(is_late) >= 2))
 ORDER BY period, SUM(is_absent) DESC, SUM(is_late) DESC

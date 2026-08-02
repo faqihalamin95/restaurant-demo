@@ -49,14 +49,14 @@ classified AS (
         n.recent_margin_pct,
         h.historical_margin_pct,
         CASE
-            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct >= 15 THEN 'Sehat'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 15 THEN 'Waspada'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 15 THEN 'Early Warning'
-            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct < 15 THEN 'Recovery'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct < 10 THEN 'Membaik'
-            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 10 AND n.recent_margin_pct < 15 THEN 'Stabil Rendah'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Turnaround'
-            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct < 10 THEN 'Turnaround'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Sehat'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Waspada'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 10 THEN 'Early Warning'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovery'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Membaik'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stabil Rendah'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 5 THEN 'Turnaround'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 5 THEN 'Turnaround'
             ELSE 'Waspada'
         END AS health_status
     FROM active_rev r
@@ -66,13 +66,13 @@ classified AS (
 )
 SELECT *,
     CASE health_status
-        WHEN 'Sehat' THEN 'Margin 30H dan 90H sama-sama kuat. Jadikan benchmark operasional.'
-        WHEN 'Waspada' THEN 'Margin 30H mulai melunak, tapi baseline 90H masih sehat. Pantau lebih dekat.'
-        WHEN 'Early Warning' THEN 'Margin 30H turun tajam meski baseline 90H masih sehat. Audit 30 hari terakhir.'
-        WHEN 'Recovery' THEN 'Margin 30H sudah sehat setelah baseline 90H lemah. Pertahankan momentum ini.'
-        WHEN 'Membaik' THEN 'Margin 30H membaik dari baseline 90H yang lemah, tapi belum sehat. Lanjutkan perbaikan.'
-        WHEN 'Stabil Rendah' THEN 'Margin 30H dan 90H sama-sama sedang. Bukan krisis, tapi belum optimal.'
-        WHEN 'Turnaround' THEN 'Margin 30H dan 90H sama-sama lemah. Perlu pembenahan struktural.'
+        WHEN 'Sehat' THEN 'Margin 30H (≥ 10%) dan 90H (≥ 10%) sama-sama kuat. Jadikan benchmark operasional.'
+        WHEN 'Waspada' THEN 'Margin 30H mulai melunak (5-10%), tapi baseline 90H masih sehat (≥ 10%). Pantau lebih dekat.'
+        WHEN 'Early Warning' THEN 'Margin 30H turun tajam (< 5%) meski baseline 90H masih sehat (≥ 10%). Audit 30 hari terakhir.'
+        WHEN 'Recovery' THEN 'Margin 30H sudah sehat (≥ 10%) setelah baseline 90H lemah (< 10%). Pertahankan momentum ini.'
+        WHEN 'Membaik' THEN 'Margin 30H membaik (5-10%) dari baseline 90H yang lemah (< 5%), tapi belum sehat. Lanjutkan perbaikan.'
+        WHEN 'Stabil Rendah' THEN 'Margin 30H dan 90H sama-sama sedang (5-10%). Bukan krisis, tapi belum optimal.'
+        WHEN 'Turnaround' THEN 'Margin 30H dan 90H sama-sama lemah (< 5%). Perlu pembenahan struktural.'
         ELSE 'Pantau perkembangan margin di beberapa hari ke depan.'
     END AS diagnosis,
     CASE health_status

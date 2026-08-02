@@ -21,6 +21,8 @@ SELECT
     SUM(CASE WHEN attendance_date = m.d THEN is_absent ELSE 0 END) AS absent_y,
     ROUND(SUM(CASE WHEN attendance_date = m.d AND overtime_hours > 0 AND is_working = 1 THEN 1 ELSE 0 END) * 100.0
          / NULLIF(SUM(CASE WHEN attendance_date = m.d THEN is_working ELSE 0 END), 0), 1) AS overtime_pct_y,
+    SUM(CASE WHEN attendance_date = m.d AND is_working = 1 THEN overtime_hours ELSE 0 END) AS overtime_hours_y,
+    SUM(CASE WHEN attendance_date = m.d THEN is_late ELSE 0 END) AS late_count_y,
     ROUND(SUM(CASE WHEN attendance_date = m.d AND is_working = 1 THEN total_revenue ELSE 0 END)
          / NULLIF(SUM(CASE WHEN attendance_date = m.d AND is_working = 1 THEN shift_dur ELSE 0 END), 0), 0) AS rev_per_hour_y,
     CASE
@@ -85,6 +87,8 @@ SELECT
     SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' THEN is_absent ELSE 0 END) AS absent_30d,
     ROUND(SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' AND overtime_hours > 0 AND is_working = 1 THEN 1 ELSE 0 END) * 100.0
          / NULLIF(SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' THEN is_working ELSE 0 END), 0), 1) AS overtime_pct_30d,
+    SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' AND is_working = 1 THEN overtime_hours ELSE 0 END) AS overtime_hours_30d,
+    SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' THEN is_late ELSE 0 END) AS late_count_30d,
     ROUND(SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' AND is_working = 1 THEN total_revenue ELSE 0 END)
          / NULLIF(SUM(CASE WHEN attendance_date >= m.d - INTERVAL '29 days' AND is_working = 1 THEN shift_dur ELSE 0 END), 0), 0) AS rev_per_hour_30d,
     (SELECT COUNT(*) FROM (SELECT e2.employee_id FROM main_marts.mart_employee_shift_performance e2 CROSS JOIN max_d m2 WHERE e2.attendance_date >= m2.d - INTERVAL '29 days' GROUP BY e2.employee_id HAVING SUM(CASE WHEN e2.attendance_status='absent' THEN 1 ELSE 0 END) >= 2 OR SUM(CASE WHEN e2.attendance_status='late' THEN 1 ELSE 0 END) >= 4)) AS problem_employees_30d,
