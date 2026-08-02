@@ -469,24 +469,28 @@ aside a[href="/"]::after {
   color: var(--color-text-primary) !important;
 }
 
-/* Sidebar main background — scoped to LEFT nav sidebar only */
+/* Sidebar wrapper tweaks */
 aside.flex-none {
-  border-right: 1px solid rgba(128, 128, 128, 0.08) !important;
-  background: linear-gradient(to bottom, #f8fafc, #f1f5f9) !important;
-  padding-left: 14px !important;
-  padding-right: 14px !important;
+  /* removed background/border from here, moved to inner div */
 }
 
 [data-theme='dark'] aside.flex-none {
-  background: linear-gradient(to bottom, #09090b, #18181b) !important;
-  border-right-color: rgba(255, 255, 255, 0.04) !important;
 }
 
 /* Sidebar inner container — scoped to LEFT nav sidebar only */
 aside.flex-none > div {
-  width: auto !important;
+  width: 12rem !important; /* Exactly w-48 */
+  border-right: 1px solid rgba(128, 128, 128, 0.08) !important;
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9) !important;
   padding-top: 10px !important;
-  padding-right: 8px !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  box-sizing: border-box !important;
+}
+
+[data-theme='dark'] aside.flex-none > div {
+  background: linear-gradient(to bottom, #09090b, #18181b) !important;
+  border-right-color: rgba(255, 255, 255, 0.04) !important;
 }
 
 /* Sticky Headers / Section Titles */
