@@ -1,6 +1,7 @@
 ---
 title: Inventori & Stok
-
+sidebar: hide
+hide_toc: true
 ---
 
 <InvStyles />
@@ -700,7 +701,7 @@ ORDER BY l.calculated_days ASC
 ```
 
 <InvGuide />
-
+<InvTabs activeTab="ringkasan" />
 
 
 {#if typeof inv_inventory_overview !== 'undefined' && inv_inventory_overview.length > 0 && typeof inv_branch_health !== 'undefined' && typeof inv_dates !== 'undefined' && typeof inv_stock_value_by_category !== 'undefined' && typeof inv_stock_transfer !== 'undefined'}

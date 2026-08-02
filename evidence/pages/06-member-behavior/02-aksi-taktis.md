@@ -1,8 +1,9 @@
 ---
-
+sidebar: hide
+hide_toc: true
 title: Aksi Taktis
 ---
-
+<MemberTabs activeTab="taktis" />
 
 ```sql member_kpi_period
 SELECT * FROM restaurant.member_member_kpi_period

@@ -1,8 +1,9 @@
 ---
 title: Aksi Taktis
-
+sidebar: hide
+hide_toc: true
 ---
-
+<EmployeeTabs activeTab="taktis" />
 
 ```sql workforce_overview
 SELECT * FROM restaurant.workforce_health_overview

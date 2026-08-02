@@ -1,6 +1,7 @@
 ---
 title: Analysis
-
+sidebar: hide
+hide_toc: true
 ---
 
 <script>
@@ -17,7 +18,7 @@ title: Analysis
 
 <InvGuide />
 
-
+<InvTabs activeTab="analysis" />
 
 ```sql supplier_kpi
 /* 

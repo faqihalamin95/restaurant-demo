@@ -1,6 +1,7 @@
 ---
 title: Evaluasi
-
+sidebar: hide
+hide_toc: true
 ---
 
 <script>
@@ -57,7 +58,7 @@ title: Evaluasi
 .acc-strategic[open] > summary { border-bottom: 1px solid var(--color-border-tertiary); background: var(--color-background-primary); }
 </style>
 
-
+<MenuTabs activeTab="evaluasi" />
 
 ```sql menu_health_overview
 SELECT * FROM restaurant.mart_menu_health_overview

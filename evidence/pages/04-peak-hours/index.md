@@ -1,6 +1,7 @@
 ---
 title: Permintaan & Traffic
-
+sidebar: hide
+hide_toc: true
 ---
 
 <style>
@@ -603,7 +604,7 @@ SELECT * FROM restaurant.peak_monthly_trend
 SELECT * FROM restaurant.peak_quarterly_trend
 ```
 
-
+<PeakTabs activeTab="ringkasan" />
 
 
 {#if typeof volatility_metrics !== 'undefined' && volatility_metrics.length > 0 && typeof jam_metrics !== 'undefined' && jam_metrics.length > 0 && typeof hari_metrics !== 'undefined' && hari_metrics.length > 0 && typeof seasonal_metrics !== 'undefined' && seasonal_metrics.length > 0}

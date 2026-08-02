@@ -1,9 +1,10 @@
 ---
 title: Tren
-
+sidebar: hide
+hide_toc: true
 ---
 
-
+<FinanceTabs activeTab="jangka-panjang" />
 
 ```sql fin_quarter
 SELECT * FROM (

@@ -1,6 +1,7 @@
 ---
 title: Deepdive
-
+sidebar: hide
+hide_toc: true
 ---
 
 <script>

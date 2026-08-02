@@ -1,8 +1,9 @@
 ---
-
+sidebar: hide
+hide_toc: true
 title: Direktori Member
 ---
-
+<MemberTabs activeTab="direktori" />
 
 <script>
   // Tidak perlu import manual jika menggunakan komponen native Evidence

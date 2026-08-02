@@ -1,8 +1,9 @@
 ---
-
+sidebar: hide
+hide_toc: true
 title: Evaluasi Strategis
 ---
-
+<MemberTabs activeTab="strategis" />
 
 ```sql member_kpi_period
 SELECT * FROM restaurant.member_member_kpi_period

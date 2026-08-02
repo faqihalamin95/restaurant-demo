@@ -1,6 +1,7 @@
 ---
 title: Rincian Biaya
-
+sidebar: hide
+hide_toc: true
 ---
 
 <script>
@@ -117,7 +118,7 @@ title: Rincian Biaya
 
 
 
-
+<FinanceTabs activeTab="rincian-biaya" />
 
 
 <Tabs id="rincian-biaya-tabs" fullWidth=true>

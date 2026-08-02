@@ -1,5 +1,6 @@
 ---
-
+sidebar: hide
+hide_toc: true
 title: Rapor
 ---
 
@@ -828,7 +829,7 @@ SELECT * FROM restaurant.menu_b_declining_trend_90d_branch
 {@const activeDecliningTrend = declining_trend_90d}
 {@const selectedMovementBranch = 'Semua Cabang'}
 
-
+<MenuTabs activeTab="rapor" />
 
 
 

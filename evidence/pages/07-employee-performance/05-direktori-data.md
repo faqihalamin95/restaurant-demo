@@ -1,8 +1,9 @@
 ---
-
+sidebar: hide
+hide_toc: true
 title: Direktori Data
 ---
-
+<EmployeeTabs activeTab="direktori" />
 
 ```sql top_sales
 SELECT 

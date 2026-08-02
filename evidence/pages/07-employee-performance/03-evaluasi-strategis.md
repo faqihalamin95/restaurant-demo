@@ -1,8 +1,9 @@
 ---
 title: Evaluasi Strategis
-
+sidebar: hide
+hide_toc: true
 ---
-
+<EmployeeTabs activeTab="strategis" />
 
 ```sql emp_productivity
 SELECT 

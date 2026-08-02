@@ -1,6 +1,7 @@
 ---
 title: Deepdive
-
+sidebar: hide
+hide_toc: true
 ---
 
 <script>
@@ -10,7 +11,7 @@ import SectionCard from '$lib/SectionCard.svelte';
 </script>
 
 
-
+<PeakTabs activeTab="deepdive" />
 
 <style>
 .crisis-btn {
