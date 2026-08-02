@@ -3768,3 +3768,16 @@ details.acc-strategic .acc-body { padding: 20px; }
   width: 100% !important;
   max-width: 100% !important;
 }
+
+/* Safe Margins for Edge of Screen */
+main {
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+}
