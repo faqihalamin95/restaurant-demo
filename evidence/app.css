@@ -3769,3 +3769,37 @@ details.acc-strategic .acc-body { padding: 20px; }
   max-width: 100% !important;
 }
 
+
+/* ========================================================
+   GLOBAL RESPONSIVE OVERRIDES
+   Force all hardcoded grid layouts to stack on mobile/tablet 
+   ======================================================== */
+@media (max-width: 1024px) {
+  /* For iPad and smaller, any grid that has 4 columns or more should become 2 columns */
+  .metric-grid, 
+  .lens-grid, 
+  .priority-grid, 
+  .inv-analysis-grid,
+  .hero-grid,
+  .kpi-grid,
+  .branch-main-grid,
+  .action-summary-grid,
+  .classification-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* For Mobile, almost all grids should become 1 column */
+  .metric-grid, 
+  .lens-grid, 
+  .priority-grid, 
+  .inv-analysis-grid,
+  .hero-grid,
+  .kpi-grid,
+  .branch-main-grid,
+  .action-summary-grid,
+  .classification-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
