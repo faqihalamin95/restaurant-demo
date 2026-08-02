@@ -1,6 +1,4 @@
 ---
-sidebar: hide
-hide_toc: true
 title: Aksi Taktis
 ---
 <MemberTabs activeTab="taktis" />

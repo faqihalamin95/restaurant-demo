@@ -1,7 +1,5 @@
 ---
 title: Tren
-sidebar: hide
-hide_toc: true
 ---
 
 <FinanceTabs activeTab="jangka-panjang" />

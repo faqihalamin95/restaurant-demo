@@ -1,7 +1,5 @@
 ---
 title: Direktori Data
-sidebar: hide
-hide_toc: true
 ---
 
 <script>

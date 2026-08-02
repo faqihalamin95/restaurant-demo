@@ -1,7 +1,5 @@
 ---
 title: Insight Member
-sidebar: hide
-hide_toc: true
 ---
 <MemberTabs activeTab="overview" />
 

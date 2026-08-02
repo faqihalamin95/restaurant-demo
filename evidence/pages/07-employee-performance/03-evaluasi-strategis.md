@@ -1,7 +1,5 @@
 ---
 title: Evaluasi Strategis
-sidebar: hide
-hide_toc: true
 ---
 <EmployeeTabs activeTab="strategis" />
 

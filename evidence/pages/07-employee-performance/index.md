@@ -1,7 +1,5 @@
 ---
 title: Performa Pegawai
-sidebar: hide
-hide_toc: true
 ---
 <EmployeeTabs activeTab="overview" />
 

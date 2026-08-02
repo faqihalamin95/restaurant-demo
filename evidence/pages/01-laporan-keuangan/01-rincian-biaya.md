@@ -1,7 +1,5 @@
 ---
 title: Rincian Biaya
-sidebar: hide
-hide_toc: true
 ---
 
 <script>

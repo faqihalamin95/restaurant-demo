@@ -1,7 +1,5 @@
 ---
 title: Permintaan & Traffic
-sidebar: hide
-hide_toc: true
 ---
 
 <style>

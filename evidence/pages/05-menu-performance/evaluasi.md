@@ -1,7 +1,5 @@
 ---
 title: Evaluasi
-sidebar: hide
-hide_toc: true
 ---
 
 <script>

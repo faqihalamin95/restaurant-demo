@@ -1,7 +1,5 @@
 ---
 title: Laporan Keuangan
-sidebar: hide
-hide_toc: true
 ---
 
 <FinanceTabs activeTab="overview" />

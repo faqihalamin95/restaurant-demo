@@ -1,7 +1,5 @@
 ---
 title: Aksi Taktis
-sidebar: hide
-hide_toc: true
 ---
 <EmployeeTabs activeTab="taktis" />
 

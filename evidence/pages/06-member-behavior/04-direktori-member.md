@@ -1,6 +1,4 @@
 ---
-sidebar: hide
-hide_toc: true
 title: Direktori Member
 ---
 <MemberTabs activeTab="direktori" />
