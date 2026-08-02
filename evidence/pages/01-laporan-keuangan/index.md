@@ -1551,7 +1551,7 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
               <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--color-text-primary);">📈 Ingin menganalisis pola fluktuasi harian dan musiman?</h3>
               <p style="margin: 8px 0 0 0; color: var(--color-text-secondary); font-size: 0.95rem;">Lanjutkan ke Laporan Tren untuk melihat korelasi margin dan pendapatan jangka panjang.</p>
             </div>
-            <a href="/01-laporan-keuangan/04-tren" style="display: inline-block; padding: 10px 24px; background-color: #0d9488; color: white; text-decoration: none; font-weight: 600; border-radius: 8px; font-size: 0.95rem; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2); transition: all 0.2s ease;">
+            <a href="/01-laporan-keuangan/02-tren" style="display: inline-block; padding: 10px 24px; background-color: #0d9488; color: white; text-decoration: none; font-weight: 600; border-radius: 8px; font-size: 0.95rem; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2); transition: all 0.2s ease;">
               Buka Laporan Tren Komprehensif ➔
             </a>
           </div>
