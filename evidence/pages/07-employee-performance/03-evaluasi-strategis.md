@@ -1,6 +1,6 @@
 ---
 title: Performa Pegawai
-sidebar_link: false
+sidebar: hide
 ---
 <EmployeeTabs activeTab="strategis" />
 

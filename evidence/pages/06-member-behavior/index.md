@@ -1,5 +1,6 @@
 ---
 title: Insight Member
+sidebar: hide
 ---
 <MemberTabs activeTab="overview" />
 

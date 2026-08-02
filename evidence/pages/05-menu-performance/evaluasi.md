@@ -1,6 +1,6 @@
 ---
 title: Evaluasi Strategis
-sidebar_link: false
+sidebar: hide
 ---
 
 <script>

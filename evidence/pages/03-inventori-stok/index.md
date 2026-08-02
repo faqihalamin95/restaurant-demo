@@ -1,5 +1,6 @@
 ---
 title: Inventori & Stok
+sidebar: hide
 ---
 
 <InvStyles />

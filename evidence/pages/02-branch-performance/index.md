@@ -1,5 +1,6 @@
 ---
 title: Performa Cabang
+sidebar: hide
 ---
 
 <script>

@@ -1,5 +1,6 @@
 ---
 title: Performa Menu
+sidebar: hide
 ---
 
 <script>

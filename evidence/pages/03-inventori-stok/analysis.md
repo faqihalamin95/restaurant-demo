@@ -1,6 +1,6 @@
 ---
 title: Inventori & Stok
-sidebar_link: false
+sidebar: hide
 ---
 
 <script>

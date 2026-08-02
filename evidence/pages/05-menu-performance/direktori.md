@@ -1,6 +1,6 @@
 ---
 title: Direktori Data
-sidebar_link: false
+sidebar: hide
 ---
 
 <script>

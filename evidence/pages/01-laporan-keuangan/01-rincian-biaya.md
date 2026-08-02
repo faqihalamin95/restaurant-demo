@@ -1,6 +1,6 @@
 ---
 title: Laporan Keuangan
-sidebar_link: false
+sidebar: hide
 ---
 
 <script>

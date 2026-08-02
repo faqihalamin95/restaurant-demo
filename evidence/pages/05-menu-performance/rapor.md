@@ -1,5 +1,5 @@
 ---
-sidebar_link: false
+sidebar: hide
 title: Performa Menu
 ---
 

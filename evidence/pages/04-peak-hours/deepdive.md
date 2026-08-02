@@ -1,6 +1,6 @@
 ---
 title: Permintaan & Traffic
-sidebar_link: false
+sidebar: hide
 ---
 
 <script>

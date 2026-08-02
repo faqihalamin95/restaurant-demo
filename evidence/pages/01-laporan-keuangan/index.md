@@ -1,13 +1,12 @@
 ---
 title: Laporan Keuangan
+sidebar: hide
 ---
 
 <FinanceTabs activeTab="overview" />
 
 <style>
-.over-container {
-  display: none !important;
-}
+
 
 details {
   border: 1px solid rgba(128, 128, 128, 0.18);

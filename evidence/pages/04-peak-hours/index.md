@@ -1,5 +1,6 @@
 ---
 title: Permintaan & Traffic
+sidebar: hide
 ---
 
 <style>

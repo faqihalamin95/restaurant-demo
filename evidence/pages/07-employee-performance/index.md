@@ -1,5 +1,6 @@
 ---
 title: Performa Pegawai
+sidebar: hide
 ---
 <EmployeeTabs activeTab="overview" />
 
