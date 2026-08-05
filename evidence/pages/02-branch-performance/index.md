@@ -661,7 +661,7 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
       {@const branchStatusClass = row.health_status === 'Sehat' ? 'sehat' : row.health_status === 'Waspada' ? 'waspada' : row.health_status === 'Early Warning' ? 'early-warning' : row.health_status === 'Recovery' ? 'recovery' : row.health_status === 'Membaik' ? 'membaik' : row.health_status === 'Stabil Rendah' ? 'stabil-rendah' : 'turnaround'}
       
       <!-- Using anchor tag to make the whole card clickable to the deepdive page -->
-      <a href="/02-branch-performance/deepdive" class="branch-health-card {branchStatusClass}" style="text-decoration: none; display: block;">
+      <a href="/02-branch-performance/deepdive?focus_branch={encodeURIComponent(row.branch_name)}" class="branch-health-card {branchStatusClass}" style="text-decoration: none; display: block;">
         <div class="branch-card-header">
           <span class="branch-card-name">{row.branch_name}</span>
           <span class="branch-status-badge {branchStatusClass}">
