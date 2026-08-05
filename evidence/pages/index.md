@@ -650,17 +650,13 @@ FROM restaurant.daily_revenue
       {/if}
     </div>
     
-    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
 
-## {#if status === 'sehat'}
         🎉 Finansial Sehat (Target 10% Tercapai)
       {:else if status === 'waspada'}
         ⚠️ Finansial Melandai (Di Bawah Target 10%)
       {:else}
         🚨 Keuangan Kritis (Margin Tergerus Parah)
       {/if}
-
-</div>
 <h2 class="hero-card-title">
       {#if status === 'sehat'}
         🎉 Finansial Sehat (Target 10% Tercapai)
