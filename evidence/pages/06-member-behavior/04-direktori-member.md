@@ -163,9 +163,6 @@ ORDER BY count DESC
 <div class="directory-container">
   <div class="diagnostics-header" style="margin-bottom: 24px; margin-top: 24px;">
     <div class="diagnostics-eyebrow">🗂️ EKSPLORASI DATA</div>
-    <span class="toc-anchor-marker"></span>
-
-## Database Seluruh Member
 <h2 class="diagnostics-title">Database Seluruh Member</h2>
     <p class="diagnostics-copy">Gunakan fitur penyaringan cerdas di bawah ini untuk mengkurasi data spesifik dan menganalisis segmentasi member Anda.</p>
   </div>

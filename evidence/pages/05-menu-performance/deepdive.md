@@ -557,9 +557,6 @@ SELECT * FROM restaurant.mart_structural_decline_90d
 <div class="strategic-stack" style="margin-top: 32px;">
   <div class="strategic-header">
     <div class="strategic-eyebrow">🗂️ Status Klasifikasi & Peta Menu · {selectedBranch}</div>
-    <span class="toc-anchor-marker"></span>
-
-## Bagaimana komposisi dan posisi menu Anda saat ini?
 <h2 class="strategic-title">Bagaimana komposisi dan posisi menu Anda saat ini?</h2>
     <p class="strategic-copy">Dua lens di bawah ini dirancang untuk membaca distribusi menu di setiap kuadran matriks portofolio beserta arahan aksi utamanya, dan melihat apakah perlakuannya berubah di cabang tertentu.</p>
   </div>
@@ -672,9 +669,6 @@ SELECT * FROM restaurant.mart_structural_decline_90d
 <div class="strategic-stack" style="margin-top: 48px; margin-bottom: 32px;">
   <div class="strategic-header">
     <div class="strategic-eyebrow">🎯 Ruang Eksperimen Bisnis</div>
-    <span class="toc-anchor-marker"></span>
-
-## Meracik Kombinasi Promo Bundling
 <h2 class="strategic-title">Meracik Kombinasi Promo Bundling</h2>
     <p class="strategic-copy">Simulasi penggabungan menu-menu yang potensial untuk menciptakan paket promosi yang memaksimalkan daya tarik pelanggan sekaligus mendongkrak profitabilitas restoran.</p>
   </div>

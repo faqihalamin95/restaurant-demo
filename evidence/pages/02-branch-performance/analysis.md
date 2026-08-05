@@ -384,9 +384,6 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   <!-- RISIKO STRUKTURAL SECTION -->
   <div class="diagnostics-header" style="margin-top: 48px; margin-bottom: 24px;">
     <div class="diagnostics-eyebrow">⚠️ DINAMIKA PORTOFOLIO CABANG</div>
-    <span class="toc-anchor-marker"></span>
-
-## Membedah Risiko Konsentrasi, Ekspansi, & Subsidi Silang
 <h2 class="diagnostics-title">Membedah Risiko Konsentrasi, Ekspansi, & Subsidi Silang</h2>
     <p class="diagnostics-copy">Memahami bagaimana ketergantungan pada segelintir cabang utama dan jebakan ekspansi buta dapat meruntuhkan fondasi arus kas seluruh jaringan bisnis Anda.</p>
   </div>
@@ -469,10 +466,6 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
   </div>
 
   <!-- Panel 2: Analisis Kinerja Lintas Cabang -->
-  
-  <span class="toc-anchor-marker"></span>
-
-## Pusat Data Ekstra & Perspektif Strategis
 <SectionHeader 
   eyebrow="📑 Ruang Data Pendukung"
   title="Pusat Data Ekstra & Perspektif Strategis"

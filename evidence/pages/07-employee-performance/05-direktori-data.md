@@ -33,9 +33,6 @@ LIMIT 5
 <!-- LEADERBOARDS SECTION -->
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🏆 LEADERBOARDS</div>
-  <span class="toc-anchor-marker"></span>
-
-## Peringkat Staf (Top 5)
 <h2 class="diagnostics-title">Peringkat Staf (Top 5)</h2>
   <p class="diagnostics-copy">Sorotan karyawan terbaik berdasarkan pencetakan omzet tertinggi, serta daftar staf dengan akumulasi beban lembur paling rawan.</p>
 </div>
@@ -109,9 +106,6 @@ ORDER BY "Total Omzet (Rp)" DESC
 <!-- MASTER ROSTER -->
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">📋 DATABASE KARYAWAN</div>
-  <span class="toc-anchor-marker"></span>
-
-## Master Roster HRD
 <h2 class="diagnostics-title">Master Roster HRD</h2>
   <p class="diagnostics-copy">Tabel agregasi seluruh karyawan yang aktif, merangkum total shift, pelanggaran disiplin, dan performa finansial secara keseluruhan.</p>
 </div>
@@ -134,9 +128,6 @@ ORDER BY "Total Omzet (Rp)" DESC
 <!-- Page Header -->
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 32px;">
   <div class="diagnostics-eyebrow">🗂️ DIREKTORI DATA & BUKU RAPOR</div>
-  <span class="toc-anchor-marker"></span>
-
-## Profil & Evaluasi Kinerja Karyawan
 <h2 class="diagnostics-title">Profil & Evaluasi Kinerja Karyawan</h2>
   <p class="diagnostics-copy">Akses rapor individu setiap karyawan secara instan. Menampilkan agregasi data performa, kedisiplinan, dan peringkat karyawan untuk periode <strong>30 Hari Terakhir</strong>.</p>
 </div>

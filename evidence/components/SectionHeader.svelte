@@ -10,7 +10,7 @@
   {#if eyebrow}
     <div class="section-eyebrow">{@html eyebrow}</div>
   {/if}
-  <h3 class="section-title">{@html title}</h3>
+  <h2 class="section-title">{@html title}</h2>
   {#if description}
     <p class="section-copy">{@html description}</p>
   {/if}

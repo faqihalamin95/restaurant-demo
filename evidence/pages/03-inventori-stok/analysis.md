@@ -304,9 +304,6 @@ SELECT * FROM watchlist_logic
 <!-- RISIKO STRUKTURAL SECTION -->
   <div class="diagnostics-header" style="margin-top: 48px; margin-bottom: 24px;">
     <div class="diagnostics-eyebrow">⚠️ DINAMIKA RANTAI PASOK (SUPPLY CHAIN)</div>
-    <span class="toc-anchor-marker"></span>
-
-## Membedah Risiko Penumpukan & Kekosongan Stok
 <h2 class="diagnostics-title">Membedah Risiko Penumpukan & Kekosongan Stok</h2>
     <p class="diagnostics-copy">Memahami mengapa rasio efisiensi beli (PO vs Pemakaian) harus dipertahankan di angka 1.0x untuk mencegah matinya uang kas di gudang atau lumpuhnya operasional dapur.</p>
   </div>
@@ -389,9 +386,6 @@ SELECT * FROM watchlist_logic
   </div>
 
 <div style="margin-top: 48px;">
-  <span class="toc-anchor-marker"></span>
-
-## Pusat Data Ekstra & Perspektif Strategis
 <SectionHeader 
     eyebrow="📑 Ruang Data Pendukung"
     title="Pusat Data Ekstra & Perspektif Strategis"

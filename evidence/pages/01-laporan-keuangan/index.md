@@ -1390,9 +1390,6 @@ _Kesehatan finansial bisnis: margin, tekanan biaya, dan konteks musiman dalam sa
     <div class="diagnostics-stack">
       <div class="diagnostics-header">
         <div class="diagnostics-eyebrow">🔬 Operasional & Diagnostik</div>
-        <span class="toc-anchor-marker"></span>
-
-## Bedah performa & detail biaya
 <h2 class="diagnostics-title">Bedah performa & detail biaya</h2>
         <p class="diagnostics-copy">Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin.</p>
       </div>
