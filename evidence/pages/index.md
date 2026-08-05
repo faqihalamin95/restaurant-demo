@@ -650,13 +650,6 @@ FROM restaurant.daily_revenue
       {/if}
     </div>
     
-
-        🎉 Finansial Sehat (Target 10% Tercapai)
-      {:else if status === 'waspada'}
-        ⚠️ Finansial Melandai (Di Bawah Target 10%)
-      {:else}
-        🚨 Keuangan Kritis (Margin Tergerus Parah)
-      {/if}
 <h2 class="hero-card-title">
       {#if status === 'sehat'}
         🎉 Finansial Sehat (Target 10% Tercapai)
