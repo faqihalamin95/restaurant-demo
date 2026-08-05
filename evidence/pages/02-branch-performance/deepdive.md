@@ -295,7 +295,7 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
 >
     <ButtonGroup name=focus_branch>
       {#each branch_list as branch, i}
-        <ButtonGroupItem value={branch.branch_name} valueLabel={branch.branch_name} default={i === 0} />
+        <ButtonGroupItem value={branch.branch_name} valueLabel={branch.branch_name} default={branch.branch_name === selectedBranch} />
       {/each}
     </ButtonGroup>
 </SectionCard>
