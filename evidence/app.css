@@ -3819,3 +3819,91 @@ details.acc-strategic .acc-body { padding: 20px; }
     font-size: 12.5px !important; /* Reduces all rem-based text by ~22% on HP/Mobile */
   }
 }
+
+
+/* ========================================================
+   GLOBAL CLEAN CTA BANNER CSS
+   ======================================================== */
+.clean-cta-banner {
+  margin-top: 32px;
+  margin-bottom: 40px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background: rgba(13, 148, 136, 0.03);
+  border: 1px solid rgba(13, 148, 136, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.03);
+  transition: all 0.3s ease;
+}
+
+.clean-cta-banner:hover {
+  background: rgba(13, 148, 136, 0.05);
+  border-color: rgba(13, 148, 136, 0.25);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.06);
+}
+
+.clean-cta-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.clean-cta-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(13, 148, 136, 0.15));
+}
+
+.clean-cta-title {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #0f766e;
+}
+
+.clean-cta-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
+.clean-cta-button {
+  background: white !important;
+  border: 1px solid rgba(13, 148, 136, 0.3) !important;
+  color: #0d9488 !important;
+  font-weight: 800 !important;
+  font-size: 0.9rem !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.06) !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.clean-cta-button:hover {
+  background: #f0fdfa !important;
+  color: #0f766e !important;
+  border-color: #0d9488 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1) !important;
+}
+
+@media (max-width: 640px) {
+  .clean-cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
