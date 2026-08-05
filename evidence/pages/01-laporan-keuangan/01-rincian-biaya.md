@@ -210,11 +210,9 @@ LIMIT 10
 {#if worstBranchBahan && bestBranchBahan && cogs_kpi}
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧠 DIAGNOSTIK UTAMA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Sintesis Efisiensi Bahan Baku Makro
-
-</div>
 <h2 class="diagnostics-title">Sintesis Efisiensi Bahan Baku Makro</h2>
   <p class="diagnostics-copy">Evaluasi menyeluruh terhadap rasio HPP, pemborosan bahan, dan kesehatan struktural biaya dapur restoran bulan ini.</p>
 </div>
@@ -320,11 +318,9 @@ LIMIT 10
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🔬 BEDAH KAPASITAS & COGS CABANG</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Pemetaan Pemborosan Bahan
-
-</div>
 <h2 class="diagnostics-title">Pemetaan Pemborosan Bahan</h2>
   <p class="diagnostics-copy">Tabel di bawah menyoroti cabang mana yang mengalami pemborosan bahan mentah dibandingkan dengan target ideal 30% dari omzet.</p>
 </div>
@@ -457,11 +453,9 @@ ORDER BY CASE WHEN branch_name = 'Semua Cabang' THEN 0 ELSE 1 END, total_inv DES
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧬 STRUKTUR KOMPOSISI BIAYA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Proporsi Biaya Bahan (Pemakaian vs Pembelian)
-
-</div>
 <h2 class="diagnostics-title">Proporsi Biaya Bahan (Pemakaian vs Pembelian)</h2>
   <p class="diagnostics-copy">Pantau aliran arus kas inventaris: apakah tingginya biaya bahan didominasi oleh pemakaian (barang benar-benar dimasak/terjual), atau karena penumpukan stok baru (restock) di gudang.</p>
 </div>
@@ -539,11 +533,9 @@ ORDER BY CASE WHEN branch_name = 'Semua Cabang' THEN 0 ELSE 1 END, total_inv DES
 
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧠 DIAGNOSTIK UTAMA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Sintesis Efisiensi & Produktivitas Makro
-
-</div>
 <h2 class="diagnostics-title">Sintesis Efisiensi & Produktivitas Makro</h2>
   <p class="diagnostics-copy">Evaluasi menyeluruh terhadap kapasitas operasional, profitabilitas tenaga kerja, dan kesehatan struktural beban gaji bulan ini.</p>
 </div>
@@ -715,11 +707,9 @@ ORDER BY pressure_score DESC
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🔬 ANALISIS PENDUKUNG (DEEP-DIVE)</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Bedah Kapasitas & Profitabilitas Cabang
-
-</div>
 <h2 class="diagnostics-title">Bedah Kapasitas & Profitabilitas Cabang</h2>
   <p class="diagnostics-copy">Membedah metrik beban pengeluaran payroll per cabang secara mendetail.</p>
 </div>
@@ -863,11 +853,9 @@ ORDER BY CASE WHEN branch_name = 'Semua Cabang' THEN 0 ELSE 1 END, total_labor D
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧬 STRUKTUR KOMPOSISI BIAYA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Proporsi Biaya SDM (Gaji vs Lembur vs Tunjangan)
-
-</div>
 <h2 class="diagnostics-title">Proporsi Biaya SDM (Gaji vs Lembur vs Tunjangan)</h2>
   <p class="diagnostics-copy">Analisis komposisi persentase untuk melacak secara persis darimana pembengkakan biaya berasal (apakah over-lembur, atau beban gaji pokok memang sudah ketinggian).</p>
 </div>
@@ -975,11 +963,9 @@ ORDER BY ops_pct DESC
 {#if worstBranchOps && bestBranchOps && ops_kpi}
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧠 DIAGNOSTIK UTAMA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Sintesis Efisiensi Operasional Makro
-
-</div>
 <h2 class="diagnostics-title">Sintesis Efisiensi Operasional Makro</h2>
   <p class="diagnostics-copy">Evaluasi menyeluruh terhadap batas aman pengeluaran utilitas, biaya tetap, dan kesehatan anggaran operasional restoran bulan ini.</p>
 </div>
@@ -1225,11 +1211,9 @@ ORDER BY CASE WHEN branch_name = 'Semua Cabang' THEN 0 ELSE 1 END, total_ops DES
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧬 STRUKTUR KOMPOSISI BIAYA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Proporsi Biaya Operasional (Sewa vs Listrik vs Air vs Lainnya)
-
-</div>
 <h2 class="diagnostics-title">Proporsi Biaya Operasional (Sewa vs Listrik vs Air vs Lainnya)</h2>
   <p class="diagnostics-copy">Bedah sumber pembengkakan utilitas atau biaya overhead lainnya untuk mengetahui pos pengeluaran mana yang butuh efisiensi segera.</p>
 </div>

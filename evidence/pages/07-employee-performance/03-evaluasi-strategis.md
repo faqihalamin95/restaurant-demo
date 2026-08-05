@@ -116,11 +116,9 @@ FROM restaurant.workforce_health_overview
 
 <div class="diagnostics-header" style="margin-top: 24px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🧠 DIAGNOSTIK UTAMA</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Sintesis Efisiensi & Produktivitas Makro
-
-</div>
 <h2 class="diagnostics-title">Sintesis Efisiensi & Produktivitas Makro</h2>
   <p class="diagnostics-copy">Evaluasi menyeluruh terhadap kapasitas operasional, profitabilitas tenaga kerja, dan kesehatan struktural jam kerja bulan ini.</p>
 </div>
@@ -165,11 +163,9 @@ FROM restaurant.workforce_health_overview
 <!-- RISIKO STRUKTURAL SECTION -->
 <div class="diagnostics-header" style="margin-top: 48px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">⚠️ RISIKO STRUKTURAL</div>
-  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+  <span class="toc-anchor-marker"></span>
 
 ## Dampak Overtime & Indisipliner
-
-</div>
 <h2 class="diagnostics-title">Dampak Overtime & Indisipliner</h2>
   <p class="diagnostics-copy">Memahami bagaimana ketergantungan pada jam kerja ekstra dan masalah kehadiran staf secara langsung menggerus margin profitabilitas serta kualitas layanan restoran.</p>
 </div>

@@ -73,11 +73,9 @@ LEFT JOIN movement_branch b ON i.branch_name = b.branch_name
 GROUP BY i.branch_name
 ```
 
-<div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+<span class="toc-anchor-marker"></span>
 
 ## Ringkasan Kinerja Inventori Cabang
-
-</div>
 <SectionHeader 
   eyebrow="⏱️ KESEHATAN OPERASIONAL"
   title="Ringkasan Kinerja Inventori Cabang"
@@ -301,11 +299,9 @@ ORDER BY item_name ASC
 <Tabs fullWidth=true>
   <Tab label="📋 Stok Aktual (Buku Besar)">
     <div style="margin-top: 16px;">
-      <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+      <span class="toc-anchor-marker"></span>
 
 ## Buku Besar Stok Gudang - {activeCabang}
-
-</div>
 <SectionHeader 
         eyebrow="📋 BUKU BESAR GUDANG"
         title="Buku Besar Stok Gudang - {activeCabang}"
@@ -330,11 +326,9 @@ ORDER BY item_name ASC
   <Tab label="🚨 Darurat (Low Stock)">
     <div style="margin-top: 16px;">
       {#if branch_lowstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+        <span class="toc-anchor-marker"></span>
 
 ## Daftar Bahan Rawan Habis - {activeCabang}
-
-</div>
 <SectionHeader 
           eyebrow="🚨 KONDISI DARURAT"
           title="Daftar Bahan Rawan Habis - {activeCabang}"
@@ -366,11 +360,9 @@ ORDER BY item_name ASC
   <Tab label="📦 Uang Mati (Overstock)">
     <div style="margin-top: 16px;">
       {#if branch_overstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+        <span class="toc-anchor-marker"></span>
 
 ## Daftar Barang Overstock - {activeCabang}
-
-</div>
 <SectionHeader 
           eyebrow="📦 PENUMPUKAN MODAL"
           title="Daftar Barang Overstock - {activeCabang}"

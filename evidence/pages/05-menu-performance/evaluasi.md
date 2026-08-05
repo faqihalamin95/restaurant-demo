@@ -101,11 +101,9 @@ ORDER BY total_qty ASC
 <div class="strategic-stack" style="margin-top: 32px;">
   <div class="strategic-header">
     <div class="strategic-eyebrow">📈 Analisis Kesehatan Operasional</div>
-    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+    <span class="toc-anchor-marker"></span>
 
 ## Keseimbangan Penjualan & Performa Menu
-
-</div>
 <h2 class="strategic-title">Keseimbangan Penjualan & Performa Menu</h2>
     <p class="strategic-copy">Gunakan view ini untuk mendeteksi apakah ritme penjualan seimbang dengan target, serta memantau ketimpangan revenue dan daftar hitam menu pasif.</p>
   </div>

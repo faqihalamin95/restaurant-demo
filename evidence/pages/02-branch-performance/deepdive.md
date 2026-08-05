@@ -828,11 +828,9 @@ _Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, str
           <!-- NEW SECTION: STRUKTUR KOMPOSISI BIAYA -->
           <div class="diagnostics-header" style="margin-top: 40px; margin-bottom: 24px;">
             <div class="diagnostics-eyebrow">🧬 STRUKTUR KOMPOSISI BIAYA</div>
-            <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+            <span class="toc-anchor-marker"></span>
 
 ## Proporsi Rincian Pengeluaran Cabang
-
-</div>
 <h2 class="diagnostics-title">Proporsi Rincian Pengeluaran Cabang</h2>
             <p class="diagnostics-copy">Bedah sumber pembengkakan biaya (Bahan, SDM, Operasional) untuk mengetahui pos pengeluaran mana yang butuh efisiensi segera.</p>
           </div>

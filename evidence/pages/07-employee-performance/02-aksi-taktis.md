@@ -235,11 +235,9 @@ ORDER BY jumlah_pegawai ASC
 <div id="disiplin" class="diagnostics-stack" style="margin-top: 32px; margin-bottom: 24px;">
   <div class="diagnostics-header">
     <div class="diagnostics-eyebrow">⚠️ Pembinaan Staf</div>
-    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+    <span class="toc-anchor-marker"></span>
 
 ## Pelanggaran Disiplin (Absen & Telat)
-
-</div>
 <h2 class="diagnostics-title">Pelanggaran Disiplin (Absen & Telat)</h2>
     <p class="diagnostics-copy">Daftar staf yang paling sering absen atau terlambat. Temukan pola pelanggarannya dan jadwalkan 1-on-1 coaching sebelum mengganggu kualitas pelayanan FOH/BOH.</p>
   </div>
@@ -424,11 +422,9 @@ ORDER BY jumlah_pegawai ASC
 <div id="burnout" class="diagnostics-stack" style="margin-top: 32px; margin-bottom: 24px;">
   <div class="diagnostics-header">
     <div class="diagnostics-eyebrow">🚨 Peringatan SDM</div>
-    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+    <span class="toc-anchor-marker"></span>
 
 ## Risiko Burnout & Flight Risk
-
-</div>
 <h2 class="diagnostics-title">Risiko Burnout & Flight Risk</h2>
     <p class="diagnostics-copy">Daftar staf yang mengalami tekanan lembur berlebihan bulan ini. Segera rotasi shift mereka untuk menghindari kelelahan kronis atau risiko resign mendadak.</p>
   </div>

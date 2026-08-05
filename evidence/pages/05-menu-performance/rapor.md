@@ -826,11 +826,9 @@ SELECT * FROM restaurant.menu_b_declining_trend_90d_branch
 <div class="strategic-stack" style="margin-top: 32px; margin-bottom: 24px;">
   <div class="strategic-header">
     <div class="strategic-eyebrow">🧬 Buku Medis Menu (Menu 360°)</div>
-    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+    <span class="toc-anchor-marker"></span>
 
 ## Bedah Performa & Finansial Menu Individual
-
-</div>
 <h2 class="strategic-title">Bedah Performa & Finansial Menu Individual</h2>
     <p class="strategic-copy">Pilih salah satu menu untuk membedah komposisi margin, estimasi HPP resep, tren penjualan harian, dan distribusi antar cabang.</p>
   </div>

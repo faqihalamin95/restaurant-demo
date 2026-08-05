@@ -3819,3 +3819,25 @@ details.acc-strategic .acc-body { padding: 20px; }
     font-size: 12.5px !important; /* Reduces all rem-based text by ~22% on HP/Mobile */
   }
 }
+
+/* Hide injected TOC markers and their subsequent headings */
+span.toc-anchor-marker {
+    display: none !important;
+}
+p:has(> span.toc-anchor-marker) {
+    display: none !important;
+}
+p:has(> span.toc-anchor-marker) + h2,
+p:has(> span.toc-anchor-marker) + * + h2,
+span.toc-anchor-marker + h2,
+span.toc-anchor-marker + * + h2 {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    font-size: 0px !important;
+    border: none !important;
+}
