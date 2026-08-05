@@ -73,6 +73,11 @@ LEFT JOIN movement_branch b ON i.branch_name = b.branch_name
 GROUP BY i.branch_name
 ```
 
+<div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Ringkasan Kinerja Inventori Cabang
+
+</div>
 <SectionHeader 
   eyebrow="⏱️ KESEHATAN OPERASIONAL"
   title="Ringkasan Kinerja Inventori Cabang"
@@ -296,7 +301,12 @@ ORDER BY item_name ASC
 <Tabs fullWidth=true>
   <Tab label="📋 Stok Aktual (Buku Besar)">
     <div style="margin-top: 16px;">
-      <SectionHeader 
+      <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Buku Besar Stok Gudang - {activeCabang}
+
+</div>
+<SectionHeader 
         eyebrow="📋 BUKU BESAR GUDANG"
         title="Buku Besar Stok Gudang - {activeCabang}"
         description="Catatan lengkap dan detail metrik untuk seluruh item inventori di cabang ini."
@@ -320,7 +330,12 @@ ORDER BY item_name ASC
   <Tab label="🚨 Darurat (Low Stock)">
     <div style="margin-top: 16px;">
       {#if branch_lowstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <SectionHeader 
+        <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Daftar Bahan Rawan Habis - {activeCabang}
+
+</div>
+<SectionHeader 
           eyebrow="🚨 KONDISI DARURAT"
           title="Daftar Bahan Rawan Habis - {activeCabang}"
           description="Pantauan item yang berisiko sold-out dalam waktu dekat dan butuh tindakan segera."
@@ -351,7 +366,12 @@ ORDER BY item_name ASC
   <Tab label="📦 Uang Mati (Overstock)">
     <div style="margin-top: 16px;">
       {#if branch_overstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <SectionHeader 
+        <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Daftar Barang Overstock - {activeCabang}
+
+</div>
+<SectionHeader 
           eyebrow="📦 PENUMPUKAN MODAL"
           title="Daftar Barang Overstock - {activeCabang}"
           description="Identifikasi barang dengan perputaran lambat yang membebani kapasitas gudang dan arus kas."

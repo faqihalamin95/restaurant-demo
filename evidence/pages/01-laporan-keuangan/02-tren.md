@@ -246,7 +246,12 @@ LEFT JOIN m90_latest m ON true
 <div class="strategic-stack" style="margin-top: 24px; margin-bottom: 32px;">
   <div class="strategic-header">
     <div class="strategic-eyebrow">🔭 Perspektif Strategis</div>
-    <h2 class="strategic-title">Baca pola jangka panjang</h2>
+    <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Baca pola jangka panjang
+
+</div>
+<h2 class="strategic-title">Baca pola jangka panjang</h2>
     <p class="strategic-copy">Dua metrik di bawah ini dirancang untuk menjawab: apakah ada pola musiman yang perlu diantisipasi, dan apakah bisnis membaik secara fundamental dari tahun ke tahun?</p>
   </div>
 </div>
@@ -307,7 +312,12 @@ LEFT JOIN m90_latest m ON true
 <!-- The Visual Bridge: Trend Chart -->
 <div class="diagnostics-header" style="margin-top: 48px; margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">📈 TREK HISTORIS</div>
-  <h2 class="diagnostics-title">Peta Perjalanan Profitabilitas ({monthly_margin_trend.length} Bulan Terakhir)</h2>
+  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Peta Perjalanan Profitabilitas ({monthly_margin_trend.length} Bulan Terakhir)
+
+</div>
+<h2 class="diagnostics-title">Peta Perjalanan Profitabilitas ({monthly_margin_trend.length} Bulan Terakhir)</h2>
   <p class="diagnostics-copy">Merekam tren pergerakan margin dari bulan ke bulan. <em>(Bulan berjalan dikecualikan untuk mencegah anomali data).</em></p>
 </div>
 
@@ -358,7 +368,12 @@ LEFT JOIN m90_latest m ON true
 
 <div class="diagnostics-header" style="margin-bottom: 24px;">
   <div class="diagnostics-eyebrow">🔬 ANALISIS PENDUKUNG (DEEP-DIVE)</div>
-  <h2 class="diagnostics-title">Rekam Jejak Fundamental Bisnis</h2>
+  <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Rekam Jejak Fundamental Bisnis
+
+</div>
+<h2 class="diagnostics-title">Rekam Jejak Fundamental Bisnis</h2>
   <p class="diagnostics-copy">Membedah metrik margin bersih dan riwayat pergerakan struktur biaya secara mendetail dari tahun ke tahun maupun antar kuartal.</p>
 </div>
 

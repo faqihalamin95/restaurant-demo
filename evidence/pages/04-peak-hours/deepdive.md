@@ -931,6 +931,11 @@ ORDER BY branch_name, start_date
 
 
 
+<div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Peta Kurva Nadi Operasional
+
+</div>
 <SectionHeader 
   eyebrow="📈 Distribusi Demand Harian"
   title="Peta Kurva Nadi Operasional"
@@ -1388,6 +1393,11 @@ ORDER BY branch_name, start_date
     </details>
   </div>
 
+<div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Pola Historis Seluruh Periode
+
+</div>
 <SectionHeader 
   eyebrow="🗓️ Pergeseran Musiman"
   title="Pola Historis Seluruh Periode"
@@ -1423,7 +1433,12 @@ ORDER BY branch_name, start_date
 	  <div class="strategic-stack">
 	    <div class="strategic-header">
 	      <div class="strategic-eyebrow">🔭 Perspektif Musiman</div>
-	      <h2 class="strategic-title">Baca pola tahunan untuk perencanaan kapasitas</h2>
+	      <div class="toc-anchor" style="position: absolute; opacity: 0; pointer-events: none; margin: 0; padding: 0; height: 0; overflow: hidden; font-size: 0px;">
+
+## Baca pola tahunan untuk perencanaan kapasitas
+
+</div>
+<h2 class="strategic-title">Baca pola tahunan untuk perencanaan kapasitas</h2>
 	      <p class="strategic-copy">Analisis di bawah ini merangkum perbandingan langsung performa restoran saat musim liburan melawan hari-hari reguler, serta rekomendasi kapasitas yang dapat Anda ambil.</p>
 	    </div>
 	
