@@ -8,10 +8,10 @@
       tabDeepDive: "🏪 Deep Dive",
       tabAnalysis: "🔭 Evaluasi Strategis",
       tabDirectory: "📁 Direktori Data",
-      linkSummary: "/id/03-inventori-stok",
-      linkDeepDive: "/id/03-inventori-stok/deepdive",
-      linkAnalysis: "/id/03-inventori-stok/analysis",
-      linkDirectory: "/id/03-inventori-stok/direktori-data"
+      linkSummary: "/03-inventori-stok",
+      linkDeepDive: "/03-inventori-stok/deepdive",
+      linkAnalysis: "/03-inventori-stok/analysis",
+      linkDirectory: "/03-inventori-stok/direktori-data"
     },
     en: {
       tabSummary: "🏠 Summary",

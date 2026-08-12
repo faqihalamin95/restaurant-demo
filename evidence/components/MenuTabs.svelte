@@ -24,11 +24,11 @@
       tabEvaluation: "🔭 Evaluasi Strategis",
       tabReport: "📈 Rapor Menu",
       tabDirectory: "📂 Direktori Data",
-      linkSummary: "/id/05-menu-performance",
-      linkDeepDive: "/id/05-menu-performance/deepdive",
-      linkEvaluation: "/id/05-menu-performance/evaluasi",
-      linkReport: "/id/05-menu-performance/rapor",
-      linkDirectory: "/id/05-menu-performance/direktori"
+      linkSummary: "/05-menu-performance",
+      linkDeepDive: "/05-menu-performance/deepdive",
+      linkEvaluation: "/05-menu-performance/evaluasi",
+      linkReport: "/05-menu-performance/rapor",
+      linkDirectory: "/05-menu-performance/direktori"
     },
     en: {
       desc: "Menu performance dashboard: portfolio matrix analysis, menu priorities, trend movements, and operational action recommendations.",

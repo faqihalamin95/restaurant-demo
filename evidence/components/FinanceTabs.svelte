@@ -19,9 +19,9 @@
       tabOverview: "🏠 Ringkasan",
       tabDetails: "🧾 Rincian Biaya",
       tabTrends: "📈 Tren",
-      linkOverview: "/id/01-laporan-keuangan",
-      linkDetails: "/id/01-laporan-keuangan/01-rincian-biaya",
-      linkTrends: "/id/01-laporan-keuangan/02-tren"
+      linkOverview: "/01-laporan-keuangan",
+      linkDetails: "/01-laporan-keuangan/01-rincian-biaya",
+      linkTrends: "/01-laporan-keuangan/02-tren"
     },
     en: {
       desc: "Examine cost details per branch and their recommended actions in more detail.",

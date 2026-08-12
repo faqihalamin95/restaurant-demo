@@ -15,8 +15,8 @@
       deepDesc: "Bedah tren jam demi jam dan analisis jangka panjang pergeseran kuartal per cabang.",
       tabSummary: "🏠 Ringkasan",
       tabDeepDive: "🏪 Deep Dive",
-      linkSummary: "/id/04-peak-hours",
-      linkDeepDive: "/id/04-peak-hours/deepdive"
+      linkSummary: "/04-peak-hours",
+      linkDeepDive: "/04-peak-hours/deepdive"
     },
     en: {
       desc: "Customer demand dashboard: peak hours analysis, daily patterns, traffic volatility, and seasonal trends.",

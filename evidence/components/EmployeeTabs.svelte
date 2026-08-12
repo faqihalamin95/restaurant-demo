@@ -20,10 +20,10 @@
       tabTactical: "🎯 Aksi Taktis",
       tabStrategic: "🔭 Evaluasi Strategis",
       tabDirectory: "🗂️ Direktori Data",
-      linkOverview: "/id/07-employee-performance",
-      linkTactical: "/id/07-employee-performance/02-aksi-taktis",
-      linkStrategic: "/id/07-employee-performance/03-evaluasi-strategis",
-      linkDirectory: "/id/07-employee-performance/05-direktori-data"
+      linkOverview: "/07-employee-performance",
+      linkTactical: "/07-employee-performance/02-aksi-taktis",
+      linkStrategic: "/07-employee-performance/03-evaluasi-strategis",
+      linkDirectory: "/07-employee-performance/05-direktori-data"
     },
     en: {
       desc: "Employee performance analysis dashboard: summary of productivity, service efficiency, customer satisfaction, and sales contribution.",

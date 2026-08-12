@@ -23,10 +23,10 @@
       tabTactical: "🎯 Aksi Taktis",
       tabStrategic: "🔭 Evaluasi Strategis",
       tabDirectory: "🗂️ Direktori Member",
-      linkOverview: "/id/06-member-behavior",
-      linkTactical: "/id/06-member-behavior/02-aksi-taktis",
-      linkStrategic: "/id/06-member-behavior/03-evaluasi-strategis",
-      linkDirectory: "/id/06-member-behavior/04-direktori-member"
+      linkOverview: "/06-member-behavior",
+      linkTactical: "/06-member-behavior/02-aksi-taktis",
+      linkStrategic: "/06-member-behavior/03-evaluasi-strategis",
+      linkDirectory: "/06-member-behavior/04-direktori-member"
     },
     en: {
       desc: "Member behavior analysis dashboard: acquisition summary, RFM segmentation, spending patterns, and promotion efficiency.",
