@@ -275,7 +275,7 @@ ORDER BY conversion_pct ASC
 <div id="churn" class="diagnostics-stack" style="margin-top: 32px; margin-bottom: 24px;">
   <div class="diagnostics-header">
     <div class="diagnostics-eyebrow">🚨 Intervensi Langsung</div>
-    <h2 class="diagnostics-title">Penyelamatan Member VIP (Churn Risk)</h2>
+<h2 class="diagnostics-title">Penyelamatan Member VIP (Churn Risk)</h2>
     <p class="diagnostics-copy">Daftar member bernilai tinggi yang sudah melewati batas siklus kunjungan normal mereka. Segera lakukan penawaran untuk mencegah hilangnya omzet harian.</p>
   </div>
   
@@ -424,7 +424,7 @@ ORDER BY conversion_pct ASC
 <div id="milestone" class="diagnostics-stack" style="margin-top: 32px; margin-bottom: 24px;">
   <div class="diagnostics-header">
     <div class="diagnostics-eyebrow">💎 Eksekusi Apresiasi</div>
-    <h2 class="diagnostics-title">Apresiasi Pencapaian Milestone</h2>
+<h2 class="diagnostics-title">Apresiasi Pencapaian Milestone</h2>
     <p class="diagnostics-copy">Daftar member yang telah mencapai target kunjungan berkala (Milestone). Berikan apresiasi terukur untuk mempertahankan tren kunjungan aktif mereka.</p>
   </div>
 

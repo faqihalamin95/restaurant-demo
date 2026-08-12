@@ -1,0 +1,8 @@
+--- /home/faqih/projects/restaurant-demo/evidence/pages/01-laporan-keuangan/01-biaya-bahan.md
++++ /home/faqih/projects/restaurant-demo/evidence/pages/01-laporan-keuangan/01-biaya-bahan.md
+@@ -700,6 +700,10 @@
+ }
+ 
+ .clean-cta-button {
++EOF
+patch /home/faqih/projects/restaurant-demo/evidence/pages/01-laporan-keuangan/01-biaya-bahan.md < /home/faqih/projects/restaurant-demo/evidence/pages/01-laporan-keuangan/01-biaya-bahan.md.patch || echo "Patch failed"

@@ -1,0 +1,441 @@
+---
+title: Permintaan & Traffic
+sidebar_link: false
+---
+
+<PeakTabs activeTab="jam-sibuk" />
+
+<script>
+  import SectionCard from '$lib/SectionCard.svelte';
+  import SectionHeader from '$lib/SectionHeader.svelte';
+</script>
+
+```sql branch_list
+SELECT DISTINCT branch_name 
+FROM restaurant.peak_hours 
+ORDER BY branch_name
+```
+
+```sql branch_peak_metrics
+WITH base_data AS (
+    SELECT branch_name, order_hour, day_part, SUM(total_orders) AS total_orders
+    FROM restaurant.peak_hours
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+    GROUP BY branch_name, order_hour, day_part
+),
+hourly AS (
+    SELECT branch_name, order_hour, SUM(total_orders) AS total_orders FROM base_data GROUP BY branch_name, order_hour
+),
+stats AS (
+    SELECT branch_name, ROUND(AVG(total_orders),1) AS avg_orders, MAX(total_orders) AS max_orders, SUM(total_orders) AS grand_total
+    FROM hourly
+    GROUP BY branch_name
+),
+thresholded AS (
+    SELECT
+        h.branch_name,
+        h.order_hour,
+        h.total_orders,
+        s.avg_orders,
+        s.grand_total,
+        ROUND(s.avg_orders * 1.15, 1) AS peak_threshold,
+        CASE WHEN h.total_orders >= s.avg_orders * 1.15 THEN 1 ELSE 0 END AS is_peak
+    FROM hourly h JOIN stats s ON h.branch_name = s.branch_name
+),
+peak_candidates AS (
+    SELECT
+        branch_name,
+        CAST(order_hour AS INTEGER) AS order_hour,
+        total_orders,
+        grand_total,
+        CAST(order_hour AS INTEGER) - ROW_NUMBER() OVER (PARTITION BY branch_name ORDER BY order_hour) AS grp,
+        total_orders / NULLIF(avg_orders, 0) AS demand_surge_ratio
+    FROM thresholded
+    WHERE is_peak = 1
+),
+detected_windows AS (
+    SELECT
+        branch_name,
+        MIN(order_hour) AS start_hour,
+        MAX(order_hour) AS end_hour,
+        MAX(demand_surge_ratio) AS surge_ratio,
+        SUM(total_orders) AS window_orders,
+        MAX(grand_total) AS grand_total
+    FROM peak_candidates
+    GROUP BY branch_name, grp
+)
+SELECT
+    branch_name,
+    ROUND(SUM(window_orders) / MAX(grand_total) * 100, 1) AS peak_share_pct,
+    ROUND(MAX(surge_ratio), 1) AS max_demand_surge,
+    string_agg(
+        CASE
+            WHEN start_hour = end_hour THEN CAST(start_hour AS VARCHAR) || ':00'
+            ELSE CAST(start_hour AS VARCHAR) || ':00-' || CAST(end_hour AS VARCHAR) || ':00'
+        END,
+        ' & ' ORDER BY start_hour
+    ) AS peak_windows_label
+FROM detected_windows
+GROUP BY branch_name
+```
+
+```sql day_analysis
+SELECT
+    branch_name,
+    CASE dayofweek(order_date)
+        WHEN 0 THEN 7
+        ELSE dayofweek(order_date)
+    END AS sort_order,
+    CASE dayofweek(order_date)
+        WHEN 0 THEN 'Minggu'
+        WHEN 1 THEN 'Senin'
+        WHEN 2 THEN 'Selasa'
+        WHEN 3 THEN 'Rabu'
+        WHEN 4 THEN 'Kamis'
+        WHEN 5 THEN 'Jumat'
+        WHEN 6 THEN 'Sabtu'
+    END AS hari,
+    CASE order_type
+        WHEN 'dine_in' THEN '🍽️ Dine-In'
+        WHEN 'takeaway' THEN '🥡 Takeaway'
+        WHEN 'online' THEN '🛵 Online'
+        WHEN 'delivery' THEN '🛵 Delivery'
+        ELSE REPLACE(order_type, '_', ' ')
+    END AS order_type,
+    SUM(total_orders) AS total_orders
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+GROUP BY branch_name, sort_order, hari, order_type
+ORDER BY branch_name, sort_order
+```
+
+```sql heatmap_data
+WITH base AS (
+    SELECT
+        branch_name,
+        order_hour,
+        CASE dayofweek(order_date)
+            WHEN 0 THEN 7
+            ELSE dayofweek(order_date)
+        END AS sort_order,
+        CASE dayofweek(order_date)
+            WHEN 0 THEN 'Minggu'
+            WHEN 1 THEN 'Senin'
+            WHEN 2 THEN 'Selasa'
+            WHEN 3 THEN 'Rabu'
+            WHEN 4 THEN 'Kamis'
+            WHEN 5 THEN 'Jumat'
+            WHEN 6 THEN 'Sabtu'
+        END AS hari,
+        CASE order_type
+            WHEN 'dine_in' THEN '🍽️ Dine-In'
+            WHEN 'takeaway' THEN '🥡 Takeaway'
+            WHEN 'online' THEN '🛵 Online'
+            WHEN 'delivery' THEN '🛵 Delivery'
+            ELSE REPLACE(order_type, '_', ' ')
+        END AS order_type,
+        SUM(total_orders) AS total_orders
+    FROM restaurant.peak_hours
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+    GROUP BY branch_name, order_hour, sort_order, hari, order_type
+)
+SELECT
+    branch_name,
+    order_hour,
+    sort_order,
+    hari,
+    SUM(total_orders) AS total_orders,
+    string_agg(order_type || ': ' || CAST(CAST(total_orders AS INTEGER) AS VARCHAR), ' • ') AS rincian_tipe
+FROM base
+GROUP BY branch_name, order_hour, sort_order, hari
+ORDER BY branch_name, sort_order, order_hour
+```
+
+```sql daypart_data
+SELECT
+    branch_name,
+    day_part,
+    CASE order_type
+        WHEN 'dine_in' THEN '🍽️ Dine-In'
+        WHEN 'takeaway' THEN '🥡 Takeaway'
+        WHEN 'online' THEN '🛵 Online'
+        WHEN 'delivery' THEN '🛵 Delivery'
+        ELSE REPLACE(order_type, '_', ' ')
+    END AS order_type,
+    SUM(total_orders) AS total_orders
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+GROUP BY branch_name, day_part, order_type
+```
+
+{#if branch_list.length > 0}
+  {@const selectedBranch = String(inputs.pilih_cabang?.value ?? inputs.pilih_cabang ?? branch_list[0].branch_name)}
+  {@const activeBranchData = branch_peak_metrics.find(row => row.branch_name === selectedBranch)}
+  {@const branchDayData = day_analysis.filter(row => row.branch_name === selectedBranch)}
+  {@const branchHeatmap = heatmap_data.filter(row => row.branch_name === selectedBranch)}
+  {@const branchDaypart = daypart_data.filter(row => row.branch_name === selectedBranch)}
+  {@const heatmapLookup = Object.fromEntries(branchHeatmap.map(row => [row.order_hour + '_' + row.hari, row.rincian_tipe]))}
+    <div style="margin-top: 24px; margin-bottom: 24px;">
+    <SectionCard 
+      eyebrow="<span style='font-size: 12px;'>🏪 Pilih Cabang</span>" 
+      title="Pusat Kendali Jam & Hari Sibuk" 
+      description="Pilih cabang tertentu untuk memfokuskan analisis kepadatan traffic, jam sibuk harian, dan tren akhir pekan."
+    >
+      <ButtonGroup name="pilih_cabang">
+        {#each branch_list as branch, i}
+          <ButtonGroupItem value={branch.branch_name} valueLabel={branch.branch_name} default={i === 0} />
+        {/each}
+      </ButtonGroup>
+    </SectionCard>
+  </div>
+
+
+
+<SectionHeader 
+  eyebrow="📈 Distribusi Demand Harian"
+  title="Peta Kurva Nadi Operasional"
+  description="Bentuk kurva demand dari buka hingga tutup. Analisis pergeseran pola jam sibuk antara awal minggu hingga akhir pekan."
+/>
+
+{#if activeBranchData && activeBranchData.peak_share_pct !== null}
+  {@const share = activeBranchData.peak_share_pct}
+  {@const surge = activeBranchData.max_demand_surge}
+  {@const windows = activeBranchData.peak_windows_label}
+
+  {@const shareStatus = share > 65 ? 'kritis' : share > 50 ? 'waspada' : 'sehat'}
+  {@const surgeStatus = surge > 2.5 ? 'kritis' : surge > 1.5 ? 'waspada' : 'sehat'}
+
+  <div class="period-strip" style="grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 32px;">
+    
+    <div class="period-pill {shareStatus}">
+      <div class="period-pill-label">📊 Konsentrasi Jam Sibuk</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        <span class="pill-badge {shareStatus}">
+          {shareStatus === 'sehat' ? '✅ Terdistribusi' : shareStatus === 'waspada' ? '⚠️ Terpusat' : '🚨 Sangat Terpusat'}
+        </span>
+        {share}%
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Persentase total transaksi harian yang terjadi di jam-jam puncak.
+      </div>
+    </div>
+    
+    <div class="period-pill {surgeStatus}">
+      <div class="period-pill-label">⚡ Lonjakan Kesibukan</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        <span class="pill-badge {surgeStatus}">
+          {surgeStatus === 'sehat' ? '✅ Terkendali' : surgeStatus === 'waspada' ? '⚠️ Waspada' : '🚨 Ekstrem'}
+        </span>
+        {surge}x Lipat
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Perbandingan volume transaksi saat jam sibuk melawan rata-rata harian.
+      </div>
+    </div>
+    
+    <div class="period-pill">
+      <div class="period-pill-label">🕐 Zona Waktu Kritis</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        {windows}
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Periode krusial di mana staf dan bahan baku harus siap kapasitas 100%.
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 32px; margin-bottom: 32px;">
+    
+    <SectionCard 
+      eyebrow="<span style='font-size: 12px;'>📅 MAKRO</span>" 
+      title="Analisis Volume Hari Sibuk" 
+    >
+      <BarChart 
+        data={branchDayData} 
+        x=hari 
+        y=total_orders
+        series=order_type
+        type="stacked"
+        sort=false
+        yAxisTitle="Total Order (30 Hari)" 
+        xAxisTitle="Hari dalam Seminggu" 
+      />
+      <div class="chart-insight-bar">
+        📌 <strong>Panduan Aksi (Makro):</strong> Jadwalkan <i>Prep-Day</i> (persiapan bahan baku masif) satu hari sebelum batang grafik memuncak. Gunakan hari-hari paling lesu untuk meluncurkan diskon <i>Flash Sale</i> guna meratakan beban dapur mingguan.
+      </div>
+    </SectionCard>
+  </div>
+
+  <div style="margin-top: 32px; margin-bottom: 32px;">
+    <SectionCard 
+      eyebrow="<span style='font-size: 12px;'>🔍 MIKRO & ⛅ MESO</span>" 
+      title="Peta Titik Didih & Proporsi Sesi" 
+    >
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <div>
+          <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 14px; font-weight: 600; color: #4b5563;">Matriks Panas Per Jam</h3>
+          <Heatmap 
+            data={branchHeatmap} 
+            x=order_hour 
+            y=hari 
+            value=total_orders 
+            ySort="sort_order"
+            colorPalette={['#eff6ff', '#bfdbfe', '#60a5fa', '#3b82f6', '#1d4ed8', '#1e3a8a']}
+            echartsOptions={{
+              tooltip: {
+                formatter: function(params) {
+                  const key = params.value[0] + '_' + params.value[1];
+                  const rincian = heatmapLookup[key] || '';
+                  const lines = rincian ? rincian.split(' • ') : [];
+                  let html = "<div style='font-weight:600;margin-bottom:4px;'>" + params.value[1] + " — Jam " + params.value[0] + ":00</div>";
+                  html += "<div style='margin-bottom:6px;'>Total Order: <b>" + Math.round(params.value[2]) + "</b></div>";
+                  if (lines.length > 0) {
+                    html += "<hr style='margin:4px 0;border-color:rgba(0,0,0,0.1);'/>";
+                    lines.forEach(function(line) {
+                      const parts = line.split(': ');
+                      html += "<div style='display:flex;justify-content:space-between;gap:12px;font-size:11px;'>" +
+                        "<span>" + parts[0] + "</span>" +
+                        "<span style='font-weight:600;'>" + parts[1] + "</span></div>";
+                    });
+                  }
+                  return html;
+                }
+              }
+            }}
+          />
+          <div class="chart-insight-bar" style="margin-top: 16px;">
+            📌 <strong>Manajemen Krisis (Mikro):</strong> Zona <strong>biru gelap</strong> adalah jam paling berisiko tinggi (<i>bottleneck</i>). Pastikan kapasitas dapur 100% dan hindari pemberian jam istirahat pada sel waktu ini.
+            
+            <details style="margin-top: 16px; font-size: 0.85rem; cursor: pointer;">
+              <summary class="crisis-btn">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 1.1rem;">🆘</span> <span>Dapur kewalahan saat jam sibuk? Lakukan salah satu taktik darurat ini.</span>
+                </span>
+                <span class="crisis-chevron" style="color: #94a3b8; font-size: 1.1rem; display: inline-block;">▶</span>
+              </summary>
+              <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px; cursor: default; background: #f8fafc; padding: 16px; border-radius: 8px;">
+                <div class="crisis-card crisis-card-1">
+                  <div class="crisis-emoji">⏳</div>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.9rem; display: block; margin-bottom: 4px;">Opsi A: Perpanjang Waktu Tunggu</strong>
+                    <span style="color: #475569; line-height: 1.5; display: block;">Ubah estimasi waktu <i>prep-time</i> di aplikasi Ojol agar <i>driver</i> lambat datang dan dapur punya ruang napas melayani antrean <i>Dine-In</i>.</span>
+                  </div>
+                </div>
+                <div class="crisis-card crisis-card-2">
+                  <div class="crisis-emoji">⛔</div>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.9rem; display: block; margin-bottom: 4px;">Opsi B: Batasi Menu Ojol</strong>
+                    <span style="color: #475569; line-height: 1.5; display: block;">"Sold Out"-kan sementara menu <i>online</i> yang proses pembuatannya paling lama atau butuh banyak alat.</span>
+                  </div>
+                </div>
+                <div class="crisis-card crisis-card-3">
+                  <div class="crisis-emoji">🔄</div>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.9rem; display: block; margin-bottom: 4px;">Opsi C: Rotasi Kilat</strong>
+                    <span style="color: #475569; line-height: 1.5; display: block;">Tarik sementara staf dari stasiun persiapan atau kasir, dan perbantukan semua tangan ke jalur perakitan makanan.</span>
+                  </div>
+                </div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-top: 6px; padding: 0 4px; font-style: italic;">
+                  *Catatan: Jika kemacetan sangat ekstrem, opsi-opsi di atas dapat dikombinasikan sesuai kebutuhan operasional.
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+        
+        <div>
+          <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 14px; font-weight: 600; color: #4b5563;">Distribusi Tipe Pesanan</h3>
+          <BarChart 
+            data={branchDaypart} 
+            x=day_part 
+            y=total_orders 
+            series=order_type
+            type="stacked"
+            swapXY=true
+            sort=false
+            xAxisTitle="Total Order"
+            yAxisTitle="Sesi Waktu"
+          />
+          <div class="chart-insight-bar" style="margin-top: 16px;">
+            📌 <strong>Rostering (Meso):</strong> Distribusikan jumlah kru secara proporsional sesuai tinggi batang. Pastikan staf paling ramah bertugas di sesi dengan proporsi <i>Dine-In</i> terbesar.
+          </div>
+        </div>
+      </div>
+    </SectionCard>
+  </div>
+
+{:else}
+  <div style="padding: 60px 20px; text-align: center; background: var(--color-background-secondary); border: 1px dashed var(--color-border-tertiary); border-radius: 12px; margin-top: 24px;">
+    <h3 style="margin: 0 0 8px 0; color: var(--color-text-primary);">Data Tidak Ditemukan</h3>
+    <p style="color: var(--color-text-secondary); margin: 0;">Silakan pilih minimal satu cabang yang valid di kotak filter di atas.</p>
+  </div>
+{/if}
+{/if}
+
+<style>
+.crisis-btn {
+  font-weight: 600; 
+  color: #1e293b; 
+  background: linear-gradient(to right, #ffffff, #f8fafc);
+  border: 1px solid #e2e8f0; 
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px; 
+  padding: 10px 14px; 
+  list-style: none; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+.crisis-btn:hover {
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+.crisis-card {
+  border-radius: 8px; 
+  padding: 14px 16px; 
+  display: flex; 
+  gap: 16px; 
+  align-items: flex-start;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.crisis-card-1 { background: #fffbeb; border: 1px solid #fde68a; }
+.crisis-card-1:hover {
+  background: #fef3c7; border-color: #fcd34d;
+  transform: translateX(6px);
+  box-shadow: -4px 4px 8px -2px rgba(245,158,11,0.15);
+}
+.crisis-card-1 .crisis-emoji { background: #fef3c7; border-color: #fde68a; }
+.crisis-card-2 { background: #fff1f2; border: 1px solid #fecdd3; }
+.crisis-card-2:hover {
+  background: #ffe4e6; border-color: #fda4af;
+  transform: translateX(6px);
+  box-shadow: -4px 4px 8px -2px rgba(225,29,72,0.15);
+}
+.crisis-card-2 .crisis-emoji { background: #ffe4e6; border-color: #fecdd3; }
+.crisis-card-3 { background: #eff6ff; border: 1px solid #bfdbfe; }
+.crisis-card-3:hover {
+  background: #dbeafe; border-color: #93c5fd;
+  transform: translateX(6px);
+  box-shadow: -4px 4px 8px -2px rgba(59,130,246,0.15);
+}
+.crisis-card-3 .crisis-emoji { background: #dbeafe; border-color: #bfdbfe; }
+.crisis-emoji {
+  font-size: 1.25rem; 
+  line-height: 1; 
+  padding: 10px; 
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+.crisis-chevron {
+  transition: transform 0.25s ease;
+}
+details[open] .crisis-chevron {
+  transform: rotate(90deg);
+}
+</style>

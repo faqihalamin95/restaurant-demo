@@ -1,0 +1,464 @@
+---
+title: Permintaan & Traffic
+sidebar_link: false
+---
+
+<style>
+.over-container { display: none !important; }
+.pt-page { display: flex; flex-direction: column; gap: 22px; margin-top: 10px; }
+
+/* ── Executive Banner ── */
+.exec-banner {
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(37,99,235,0.12);
+  background:
+    radial-gradient(circle at top right, rgba(69,161,191,0.18), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 40%),
+    linear-gradient(135deg, rgba(37,99,235,0.06), rgba(194,65,12,0.04)),
+    var(--color-background-secondary);
+}
+.exec-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 8px; }
+.exec-headline { font-size: 1.75rem; font-weight: 900; letter-spacing: -0.035em; color: var(--color-text-primary); line-height: 1.12; margin: 0 0 8px; max-width: 76ch; }
+.exec-body { font-size: 0.95rem; line-height: 1.75; color: var(--color-text-secondary); max-width: 72ch; margin: 0; }
+.exec-tag { display: inline-flex; align-items: center; width: fit-content; margin-top: 14px; padding: 6px 13px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; border: 1.5px solid rgba(37,99,235,0.2); background: rgba(37,99,235,0.06); color: #1d4ed8; }
+.exec-tag.warn { border-color: rgba(245,158,11,0.32); background: rgba(245,158,11,0.08); color: #b45309; }
+.exec-tag.ok   { border-color: rgba(22,163,74,0.28);  background: rgba(22,163,74,0.07);  color: #15803d; }
+.exec-tag.kritis { border-color: rgba(239,68,68,0.28); background: rgba(239,68,68,0.07);  color: #b91c1c; }
+
+/* ── KPI rows ── */
+.kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.kpi-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kpi-card { padding: 18px; border-radius: 16px; border: 1.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); display: flex; flex-direction: column; gap: 8px; min-height: 176px; }
+/* jam sibuk */
+.kpi-card.share  { border-color: rgba(99,102,241,0.22);  background: linear-gradient(145deg, rgba(99,102,241,0.07), rgba(139,92,246,0.02)); }
+.kpi-card.surge  { border-color: rgba(245,158,11,0.22);  background: linear-gradient(145deg, rgba(245,158,11,0.07), rgba(251,191,36,0.02)); }
+.kpi-card.window { border-color: rgba(20,184,166,0.22);  background: linear-gradient(145deg, rgba(20,184,166,0.07), rgba(16,185,129,0.02)); }
+/* hari ramai */
+.kpi-card.busiest  { border-color: rgba(239,68,68,0.22);   background: linear-gradient(145deg, rgba(239,68,68,0.07),   rgba(220,38,38,0.02)); }
+.kpi-card.quietest { border-color: rgba(148,163,184,0.22); background: linear-gradient(145deg, rgba(148,163,184,0.07), rgba(100,116,139,0.02)); }
+.kpi-card.gap-card { border-color: rgba(245,158,11,0.22);  background: linear-gradient(145deg, rgba(245,158,11,0.07),  rgba(251,191,36,0.02)); }
+.kpi-card.weekend  { border-color: rgba(99,102,241,0.22);  background: linear-gradient(145deg, rgba(99,102,241,0.07),  rgba(139,92,246,0.02)); }
+/* volatilitas */
+.kpi-card.stability { border-color: rgba(20,184,166,0.22);  background: linear-gradient(145deg, rgba(20,184,166,0.07),  rgba(16,185,129,0.02)); }
+.kpi-card.spike     { border-color: rgba(239,68,68,0.22);   background: linear-gradient(145deg, rgba(239,68,68,0.07),   rgba(220,38,38,0.02)); }
+.kpi-card.drop      { border-color: rgba(99,102,241,0.22);  background: linear-gradient(145deg, rgba(99,102,241,0.07),  rgba(139,92,246,0.02)); }
+.kpi-card.anomaly   { border-color: rgba(245,158,11,0.22);  background: linear-gradient(145deg, rgba(245,158,11,0.07),  rgba(251,191,36,0.02)); }
+/* musiman */
+.kpi-card.strong  { border-color: rgba(22,163,74,0.22);  background: linear-gradient(145deg, rgba(22,163,74,0.07),  rgba(16,185,129,0.02)); }
+.kpi-card.weak    { border-color: rgba(239,68,68,0.22);  background: linear-gradient(145deg, rgba(239,68,68,0.07),  rgba(220,38,38,0.02)); }
+.kpi-card.growth  { border-color: rgba(99,102,241,0.22); background: linear-gradient(145deg, rgba(99,102,241,0.07), rgba(139,92,246,0.02)); }
+.kpi-card.holiday { border-color: rgba(245,158,11,0.22); background: linear-gradient(145deg, rgba(245,158,11,0.07), rgba(251,191,36,0.02)); }
+
+.kpi-label  { font-size: 10px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-text-tertiary); }
+.kpi-number { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.04em; color: var(--color-text-primary); line-height: 1; }
+.kpi-interp { font-size: 0.85rem; line-height: 1.65; color: var(--color-text-secondary); }
+
+/* ── Chart section ── */
+.chart-section { padding: 20px; border-radius: 20px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.chart-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+.chart-title   { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary); margin: 0 0 18px; }
+.chart-interp  { margin-top: 14px; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(99,102,241,0.15); background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.03)); font-size: 0.88rem; line-height: 1.7; color: var(--color-text-secondary); }
+.chart-interp strong { color: var(--color-text-primary); }
+
+/* ── Recommendation Block ── */
+.rec-block { padding: 20px; border-radius: 20px; border: 1.5px solid rgba(99,102,241,0.18); background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03)); }
+.rec-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 6px; }
+.rec-title   { font-size: 1rem; font-weight: 850; letter-spacing: -0.015em; color: var(--color-text-primary); margin-bottom: 14px; line-height: 1.35; }
+.rec-list    { display: flex; flex-direction: column; gap: 10px; }
+.rec-item    { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(99,102,241,0.13); }
+.rec-icon    { font-size: 1rem; line-height: 1.6; }
+.rec-text    { font-size: 0.88rem; line-height: 1.65; color: var(--color-text-secondary); }
+.rec-text strong { color: var(--color-text-primary); }
+
+/* ── Supporting accordion ── */
+.support-acc { border: 1px solid rgba(128,128,128,0.18); border-radius: 12px; background: rgba(255,255,255,0.55); overflow: hidden; }
+.support-acc summary { padding: 14px 16px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; background: rgba(128,128,128,0.04); font-size: 0.9rem; font-weight: 700; color: var(--color-text-primary); }
+.support-acc summary::-webkit-details-marker { display: none; }
+.support-acc[open] summary { border-bottom: 1px solid rgba(128,128,128,0.14); }
+.support-body { padding: 16px; display: flex; flex-direction: column; gap: 20px; font-size: 0.9em; line-height: 1.75; color: var(--color-text-secondary); }
+.support-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.support-item { padding: 12px 14px; border-radius: 12px; background: rgba(0,0,0,0.03); border: 1px solid var(--color-border-tertiary); }
+.support-item-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
+.support-item-title { font-size: 0.88rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 3px; }
+.support-item-desc  { font-size: 0.8rem; line-height: 1.55; color: var(--color-text-secondary); }
+
+.current-month-callout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(245,158,11,0.28); background: linear-gradient(135deg, rgba(245,158,11,0.13), rgba(251,191,36,0.05)); margin-bottom: 14px; }
+.current-month-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #92400e; margin-bottom: 4px; }
+.current-month-value { font-size: 0.98rem; font-weight: 850; color: var(--color-text-primary); line-height: 1.35; }
+.current-month-note { font-size: 0.8rem; line-height: 1.5; color: var(--color-text-secondary); margin-top: 4px; }
+
+/* ── Strategic lens sections ── */
+.strategic-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.strategic-header {
+  padding: 0 2px;
+  margin-bottom: 4px;
+}
+.strategic-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.strategic-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+.strategic-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+  margin: 0;
+}
+details.acc-strategic {
+  border-radius: 20px;
+  border: 1.5px solid rgba(99, 102, 241, 0.18);
+  background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03));
+  overflow: hidden;
+}
+details.acc-strategic > summary {
+  padding: 18px 20px;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+details.acc-strategic > summary::-webkit-details-marker { display: none; }
+details.acc-strategic > summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+details.acc-strategic[open] > summary::after { transform: rotate(90deg); }
+details.acc-strategic[open] > summary { border-bottom: 1.5px solid rgba(99,102,241,0.14); }
+details.acc-strategic .acc-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) { .kpi-row-4 { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 900px)  { .kpi-row-3 { grid-template-columns: 1fr; } }
+@media (max-width: 700px)  { .kpi-row-4 { grid-template-columns: 1fr; } .exec-headline { font-size: 1.25rem; } .exec-banner, .rec-block { padding: 20px; } }
+</style>
+
+<!-- ══════════════════════════════════════
+     SQL — SHARED
+══════════════════════════════════════ -->
+
+```sql periode_30d
+SELECT * FROM restaurant.peak_periode_30d
+```
+
+<!-- ══════════════════════════════════════
+     SQL — JAM SIBUK
+══════════════════════════════════════ -->
+
+```sql jam_metrics
+SELECT * FROM restaurant.peak_jam_metrics
+```
+
+```sql hourly_trend
+SELECT * FROM restaurant.peak_hourly_trend
+```
+
+```sql weekday_weekend_hourly
+SELECT * FROM restaurant.peak_weekday_weekend_hourly
+```
+
+```sql weekday_weekend_peaks
+SELECT * FROM restaurant.peak_weekday_weekend_peaks
+```
+
+```sql branch_peak_matrix
+SELECT * FROM restaurant.peak_branch_peak_matrix
+```
+
+```sql prediksi_besok
+SELECT * FROM restaurant.peak_prediksi_besok
+```
+
+<!-- ══════════════════════════════════════
+     SQL — HARI RAMAI
+══════════════════════════════════════ -->
+
+```sql hari_metrics
+SELECT * FROM restaurant.peak_hari_metrics
+```
+
+```sql daily_avg
+SELECT * FROM restaurant.peak_daily_avg
+```
+
+```sql branch_daily
+SELECT * FROM restaurant.peak_branch_daily
+```
+
+<!-- ══════════════════════════════════════
+     SQL — VOLATILITAS
+══════════════════════════════════════ -->
+
+```sql volatility_metrics
+SELECT * FROM restaurant.peak_volatility_metrics
+```
+
+```sql daily_trend
+SELECT * FROM restaurant.peak_daily_trend
+```
+
+```sql anomaly_detail
+SELECT * FROM restaurant.peak_anomaly_detail
+```
+
+<!-- ══════════════════════════════════════
+     SQL — MUSIMAN
+══════════════════════════════════════ -->
+
+```sql seasonal_metrics
+SELECT * FROM restaurant.peak_seasonal_metrics
+```
+
+```sql monthly_trend
+SELECT * FROM restaurant.peak_monthly_trend
+```
+
+```sql quarterly_trend
+SELECT * FROM restaurant.peak_quarterly_trend
+```
+
+<PeakTabs activeTab="jam-sibuk" />
+
+
+<script>
+  import SectionCard from '$lib/SectionCard.svelte';
+</script>
+
+<div style="margin-top: 24px; margin-bottom: 24px;">
+  <SectionCard 
+    eyebrow="<span style='font-size: 12px;'>🏪 Pilih Cabang</span>" 
+    title="Pusat Kendali Jam Sibuk" 
+    description="Pilih cabang tertentu untuk menganalisis waktu persiapan paling kritis, kebutuhan staf tambahan, dan pola jam sibuk harian."
+  >
+      <ButtonGroup name=cabang>
+        {#each branch_peak_matrix as b, i}
+          <ButtonGroupItem value={b.branch_name} valueLabel={b.branch_name} default={i === 0} />
+        {/each}
+      </ButtonGroup>
+  </SectionCard>
+</div>
+
+```sql branch_peak_metrics
+WITH base_data AS (
+    SELECT order_hour, day_part, SUM(total_orders) AS total_orders
+    FROM restaurant.peak_hours
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+    AND ('${inputs.cabang || 'Semua Cabang'}' = 'Semua Cabang' OR branch_name = '${inputs.cabang || 'Semua Cabang'}')
+    GROUP BY order_hour, day_part
+),
+hourly AS (
+    SELECT order_hour, SUM(total_orders) AS total_orders FROM base_data GROUP BY order_hour
+),
+daypart AS (
+    SELECT day_part, SUM(total_orders) AS total_orders FROM base_data GROUP BY day_part
+),
+stats AS (
+    SELECT ROUND(AVG(total_orders),1) AS avg_orders, MAX(total_orders) AS max_orders, SUM(total_orders) AS grand_total
+    FROM hourly
+),
+thresholded AS (
+    SELECT
+        h.order_hour,
+        h.total_orders,
+        s.avg_orders,
+        s.grand_total,
+        ROUND(s.avg_orders * 1.15, 1) AS peak_threshold,
+        CASE WHEN h.total_orders >= s.avg_orders * 1.15 THEN 1 ELSE 0 END AS is_peak
+    FROM hourly h CROSS JOIN stats s
+),
+peak_candidates AS (
+    SELECT
+        CAST(order_hour AS INTEGER) AS order_hour,
+        total_orders,
+        grand_total,
+        CAST(order_hour AS INTEGER) - ROW_NUMBER() OVER (ORDER BY order_hour) AS grp,
+        total_orders / NULLIF(avg_orders, 0) AS demand_surge_ratio
+    FROM thresholded
+    WHERE is_peak = 1
+),
+detected_windows AS (
+    SELECT
+        MIN(order_hour) AS start_hour,
+        MAX(order_hour) AS end_hour,
+        MAX(demand_surge_ratio) AS surge_ratio,
+        SUM(total_orders) AS window_orders,
+        MAX(grand_total) AS grand_total
+    FROM peak_candidates
+    GROUP BY grp
+)
+SELECT
+    ROUND(SUM(window_orders) / MAX(grand_total) * 100, 1) AS peak_share_pct,
+    ROUND(MAX(surge_ratio), 1) AS max_demand_surge,
+    string_agg(
+        CASE
+            WHEN start_hour = end_hour THEN CAST(start_hour AS VARCHAR) || ':00'
+            ELSE CAST(start_hour AS VARCHAR) || ':00-' || CAST(end_hour AS VARCHAR) || ':00'
+        END,
+        ' & ' ORDER BY start_hour
+    ) AS peak_windows_label
+FROM detected_windows
+```
+
+<SectionHeader 
+  eyebrow="📈 Distribusi Demand Harian"
+  title="Peta Kurva Nadi Operasional"
+  description="Bentuk kurva demand dari buka hingga tutup. Pilih hari spesifik untuk melihat pergeseran pola jam sibuk antara awal minggu hingga akhir pekan."
+/>
+
+{#if branch_peak_metrics && branch_peak_metrics.length > 0 && branch_peak_metrics[0].peak_share_pct !== null}
+  {@const share = branch_peak_metrics[0].peak_share_pct}
+  {@const surge = branch_peak_metrics[0].max_demand_surge}
+  {@const windows = branch_peak_metrics[0].peak_windows_label}
+
+  {@const shareStatus = share > 65 ? 'kritis' : share > 50 ? 'waspada' : 'sehat'}
+  {@const surgeStatus = surge > 2.5 ? 'kritis' : surge > 1.5 ? 'waspada' : 'sehat'}
+
+  <div class="period-strip" style="grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 32px;">
+    
+    <div class="period-pill {shareStatus}">
+      <div class="period-pill-label">📊 Konsentrasi Jam Sibuk</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        <span class="pill-badge {shareStatus}">
+          {shareStatus === 'sehat' ? '✅ Terdistribusi' : shareStatus === 'waspada' ? '⚠️ Terpusat' : '🚨 Sangat Terpusat'}
+        </span>
+        {share}%
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Persentase total transaksi harian yang terjadi di jam-jam puncak.
+      </div>
+    </div>
+    
+    <div class="period-pill {surgeStatus}">
+      <div class="period-pill-label">⚡ Lonjakan Kesibukan</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        <span class="pill-badge {surgeStatus}">
+          {surgeStatus === 'sehat' ? '✅ Terkendali' : surgeStatus === 'waspada' ? '⚠️ Waspada' : '🚨 Ekstrem'}
+        </span>
+        {surge}x Lipat
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Perbandingan volume transaksi saat jam sibuk melawan rata-rata harian.
+      </div>
+    </div>
+    
+    <div class="period-pill">
+      <div class="period-pill-label">🕐 Zona Waktu Kritis</div>
+      <div class="period-pill-value" style="font-size: 1.05rem;">
+        {windows}
+      </div>
+      <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
+        Periode krusial di mana staf dan bahan baku harus siap kapasitas 100%.
+      </div>
+    </div>
+
+  </div>
+{/if}
+
+
+<div class="chart-section" style="margin-top: 32px; padding: 24px; border-radius: 16px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+  <div class="chart-header" style="margin-bottom: 20px;">
+    <div style="margin-bottom: 16px;">
+      <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px;">📊 VISUALISASI DATA</div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); margin: 0;">Grafik Jam Sibuk Harian</h3>
+      <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-top: 6px; max-width: 500px;">Gunakan filter di bawah untuk melihat grafik pada hari tertentu.</p>
+    </div>
+    <div style="width: 100%;">
+      <ButtonGroup name=hari>
+        <ButtonGroupItem value="Semua Hari" valueLabel="📅 Semua" />
+        <ButtonGroupItem value="Senin" valueLabel="Senin" />
+        <ButtonGroupItem value="Selasa" valueLabel="Selasa" />
+        <ButtonGroupItem value="Rabu" valueLabel="Rabu" />
+        <ButtonGroupItem value="Kamis" valueLabel="Kamis" />
+        <ButtonGroupItem value="Jumat" valueLabel="Jumat" />
+        <ButtonGroupItem value="Sabtu" valueLabel="Sabtu" />
+        <ButtonGroupItem value="Minggu" valueLabel="Minggu" />
+      </ButtonGroup>
+    </div>
+  </div>
+
+```sql hourly_by_day
+SELECT
+  CAST(order_hour AS VARCHAR) || ':00' AS order_hour_label,
+  order_hour,
+  CASE dayofweek(order_date)
+    WHEN 0 THEN 'Minggu'
+    WHEN 1 THEN 'Senin'
+    WHEN 2 THEN 'Selasa'
+    WHEN 3 THEN 'Rabu'
+    WHEN 4 THEN 'Kamis'
+    WHEN 5 THEN 'Jumat'
+    WHEN 6 THEN 'Sabtu'
+  END AS nama_hari,
+  SUM(total_orders) AS total_orders
+FROM restaurant.peak_hours
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.peak_hours) - INTERVAL '29 days'
+AND ('${inputs.cabang || 'Semua Cabang'}' = 'Semua Cabang' OR branch_name = '${inputs.cabang || 'Semua Cabang'}')
+AND ('${inputs.hari || 'Semua Hari'}' = 'Semua Hari' OR 
+    CASE dayofweek(order_date)
+      WHEN 0 THEN 'Minggu'
+      WHEN 1 THEN 'Senin'
+      WHEN 2 THEN 'Selasa'
+      WHEN 3 THEN 'Rabu'
+      WHEN 4 THEN 'Kamis'
+      WHEN 5 THEN 'Jumat'
+      WHEN 6 THEN 'Sabtu'
+    END = '${inputs.hari || 'Semua Hari'}'
+)
+GROUP BY 1, 2
+ORDER BY order_hour ASC
+```
+
+  {#if hourly_by_day && hourly_by_day.length > 0}
+  <BarChart 
+    data={hourly_by_day} 
+    x="order_hour_label"
+    sort="order_hour" 
+    y="total_orders" 
+    title="Volume Order per Jam" 
+    xAxisTitle="Jam Operasional" 
+    yAxisTitle="Total Order"
+    colorPalette={['#4f46e5']}
+    yFmt="#,##0"
+  />
+  {:else}
+  <div class="action-empty" style="padding: 40px; text-align: center; color: var(--color-text-tertiary);">
+    <div style="font-size: 24px; margin-bottom: 12px;">📭</div>
+    <div style="font-size: 1.05rem; font-weight: 600;">Data Tidak Ditemukan</div>
+    <div style="font-size: 0.85rem; margin-top: 4px;">Pilih cabang lain atau muat ulang halaman.</div>
+  </div>
+  {/if}
+</div>

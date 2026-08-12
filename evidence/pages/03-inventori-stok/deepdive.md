@@ -296,7 +296,7 @@ ORDER BY item_name ASC
 <Tabs fullWidth=true>
   <Tab label="📋 Stok Aktual (Buku Besar)">
     <div style="margin-top: 16px;">
-      <SectionHeader 
+<SectionHeader 
         eyebrow="📋 BUKU BESAR GUDANG"
         title="Buku Besar Stok Gudang - {activeCabang}"
         description="Catatan lengkap dan detail metrik untuk seluruh item inventori di cabang ini."
@@ -320,7 +320,7 @@ ORDER BY item_name ASC
   <Tab label="🚨 Darurat (Low Stock)">
     <div style="margin-top: 16px;">
       {#if branch_lowstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <SectionHeader 
+<SectionHeader 
           eyebrow="🚨 KONDISI DARURAT"
           title="Daftar Bahan Rawan Habis - {activeCabang}"
           description="Pantauan item yang berisiko sold-out dalam waktu dekat dan butuh tindakan segera."
@@ -351,7 +351,7 @@ ORDER BY item_name ASC
   <Tab label="📦 Uang Mati (Overstock)">
     <div style="margin-top: 16px;">
       {#if branch_overstock.filter(d => d.branch_name === activeCabang).length > 0}
-        <SectionHeader 
+<SectionHeader 
           eyebrow="📦 PENUMPUKAN MODAL"
           title="Daftar Barang Overstock - {activeCabang}"
           description="Identifikasi barang dengan perputaran lambat yang membebani kapasitas gudang dan arus kas."

@@ -162,7 +162,7 @@ ORDER BY sort_order DESC
     <!-- HEADER BAB 1 -->
     <div class="diagnostics-header">
       <div class="diagnostics-eyebrow">🧠 DIAGNOSTIK UTAMA</div>
-      <h2 class="diagnostics-title">Sintesis Kesehatan Makro</h2>
+<h2 class="diagnostics-title">Sintesis Kesehatan Makro</h2>
       <p class="diagnostics-copy">Evaluasi menyeluruh terhadap kesehatan struktural program loyalitas restoran bulan ini.</p>
     </div>
 
@@ -211,7 +211,7 @@ ORDER BY sort_order DESC
     <div style="margin-top: 56px; border-top: 2px dotted rgba(128, 128, 128, 0.35); padding-top: 40px;">
       <div class="diagnostics-header" style="margin-bottom: 24px;">
         <div class="diagnostics-eyebrow">🔬 ANALISIS PENDUKUNG (DEEP-DIVE)</div>
-        <h2 class="diagnostics-title">Siklus Retensi & Kebosanan Pelanggan</h2>
+<h2 class="diagnostics-title">Siklus Retensi & Kebosanan Pelanggan</h2>
         <p class="diagnostics-copy">Membedah daya tahan loyalitas, mendeteksi titik jenuh pelanggan, serta memetakan pola frekuensi riil kunjungan mereka.</p>
       </div>
       
@@ -329,7 +329,7 @@ ORDER BY sort_order DESC
       <div style="margin-top: 56px; border-top: 2px dotted rgba(128, 128, 128, 0.35); padding-top: 40px;">
         <div class="diagnostics-header" style="margin-bottom: 24px;">
           <div class="diagnostics-eyebrow">🛡️ PANDUAN OPERASIONAL</div>
-          <h2 class="diagnostics-title">Tata Cara Eksekusi & Batasan Etika</h2>
+<h2 class="diagnostics-title">Tata Cara Eksekusi & Batasan Etika</h2>
           <p class="diagnostics-copy">Panduan taktis mengeksekusi insight data tanpa mengorbankan kenyamanan pelanggan dan reputasi merek jangka panjang.</p>
         </div>
       <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">

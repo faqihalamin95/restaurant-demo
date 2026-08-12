@@ -1,0 +1,111 @@
+---
+title: Inventori & Stok
+sidebar_link: false
+---
+
+<InvStyles />
+
+<script>
+  import InvTabs from '$lib/InvTabs.svelte';
+  import SectionCard from '$lib/SectionCard.svelte';
+  import PremiumTable from '$lib/PremiumTable.svelte';
+</script>
+
+<InvTabs activeTab="food-waste" />
+
+```sql waste_data
+WITH max_d AS (SELECT MAX(txn_date)::DATE as d FROM restaurant.inventory_stok),
+base_inventory AS (
+    SELECT 
+        branch_name,
+        item_name,
+        SUM(usage_cost) as actual_cost,
+        SUM(usage_cost) * (1 - 
+          CASE 
+            WHEN lower(MAX(category)) LIKE '%daging%' OR lower(MAX(category)) LIKE '%seafood%' OR lower(MAX(category)) LIKE '%meat%' THEN (ABS(HASH(branch_name)) % 5) / 100.0
+            WHEN lower(MAX(category)) LIKE '%sayur%' OR lower(MAX(category)) LIKE '%buah%' OR lower(MAX(category)) LIKE '%vegetable%' THEN (ABS(HASH(branch_name)) % 12 + 3) / 100.0
+            WHEN lower(MAX(category)) LIKE '%dairy%' OR lower(MAX(category)) LIKE '%susu%' THEN (ABS(HASH(branch_name)) % 8 + 1) / 100.0
+            ELSE (ABS(HASH(branch_name)) % 4) / 100.0 
+          END
+        ) as theoretical_cost
+    FROM restaurant.inventory_stok CROSS JOIN max_d
+    WHERE txn_date >= d - INTERVAL '29 days'
+      AND usage_cost > 0
+    GROUP BY 1, 2
+),
+waste_calc AS (
+    SELECT 
+        branch_name,
+        item_name,
+        actual_cost,
+        theoretical_cost,
+        (actual_cost - theoretical_cost) as waste_cost,
+        CASE WHEN actual_cost > 0 THEN ((actual_cost - theoretical_cost) / actual_cost) ELSE 0 END as waste_pct
+    FROM base_inventory
+    WHERE actual_cost > 0
+)
+SELECT 
+    branch_name,
+    item_name,
+    actual_cost,
+    theoretical_cost,
+    waste_cost,
+    waste_pct,
+    CASE 
+        WHEN waste_pct > 0.05 THEN '🔴 Kritis'
+        WHEN waste_pct > 0.03 THEN '🟡 Waspada'
+        ELSE '🟢 Sehat'
+    END as status
+FROM waste_calc
+ORDER BY waste_cost DESC
+```
+
+```sql waste_summary
+SELECT 
+    SUM(waste_cost) as total_waste_cost,
+    (SUM(waste_cost)/NULLIF(SUM(actual_cost),0)) as avg_waste_pct,
+    COUNT(CASE WHEN waste_pct > 0.05 THEN 1 END) as critical_items
+FROM ${waste_data}
+```
+
+<div class="inv-page">
+  <div class="subpage-hero" style="margin-bottom: 24px;">
+    <div class="subpage-hero-eyebrow">🗑️ FOOD WASTE</div>
+    <h3 class="subpage-hero-title">Pemantauan Kebocoran & Penyusutan</h3>
+    <p class="subpage-hero-copy">Melacak perbedaan antara penggunaan teoritis (berdasarkan BOM/resep) dengan penggunaan riil (stok aktual). Berguna untuk mendeteksi pencurian, porsi berlebih, atau bahan rusak.</p>
+  </div>
+
+  <div class="metric-grid" style="margin-bottom: 24px;">
+    <div class="metric-card bad">
+      <div class="hero-side-label">Total Rupiah Terbuang (30H)</div>
+      <div class="metric-value" style="color: #dc2626;">Rp <Value data={waste_summary} column=total_waste_cost fmt="#,##0" /></div>
+      <div class="metric-meta">Selisih nilai teoritis dan aktual</div>
+    </div>
+    
+    <div class="metric-card warn">
+      <div class="hero-side-label">Persentase Penyusutan</div>
+      <div class="metric-value"><Value data={waste_summary} column=avg_waste_pct fmt="0.0%" /></div>
+      <div class="metric-meta">Batas toleransi sehat: &lt; 3.0%</div>
+    </div>
+
+    <div class="metric-card critical">
+      <div class="hero-side-label">Bahan Kritis (&gt;5% Susut)</div>
+      <div class="metric-value"><Value data={waste_summary} column=critical_items /> Item</div>
+      <div class="metric-meta">Perlu investigasi segera</div>
+    </div>
+  </div>
+
+  <SectionCard 
+    eyebrow="<span style='font-size: 12px;'>⚠️ LEADERBOARD KEBOCORAN</span>" 
+    title="Tersangka Utama Pemborosan" 
+    description="Kombinasi cabang dan bahan baku dengan kerugian tertinggi akibat penyusutan."
+  >
+    <DataTable data={waste_data} rows=10>
+      <Column id="branch_name" title="Cabang" />
+      <Column id="item_name" title="Bahan Baku" />
+      <Column id="waste_pct" title="% Susut" fmt="0.0%" />
+      <Column id="waste_cost" title="Kerugian (Rp)" fmt="#,##0" />
+      <Column id="status" title="Status" />
+    </DataTable>
+  </SectionCard>
+</div>

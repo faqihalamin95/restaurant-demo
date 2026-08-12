@@ -1,0 +1,1 @@
+SELECT * FROM main_marts.mart_movers_7d

@@ -650,7 +650,7 @@ FROM restaurant.daily_revenue
       {/if}
     </div>
     
-    <h2 class="hero-card-title">
+<h2 class="hero-card-title">
       {#if status === 'sehat'}
         🎉 Finansial Sehat (Target 10% Tercapai)
       {:else if status === 'waspada'}

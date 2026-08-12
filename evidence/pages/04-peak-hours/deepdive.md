@@ -1423,7 +1423,7 @@ ORDER BY branch_name, start_date
 	  <div class="strategic-stack">
 	    <div class="strategic-header">
 	      <div class="strategic-eyebrow">🔭 Perspektif Musiman</div>
-	      <h2 class="strategic-title">Baca pola tahunan untuk perencanaan kapasitas</h2>
+<h2 class="strategic-title">Baca pola tahunan untuk perencanaan kapasitas</h2>
 	      <p class="strategic-copy">Analisis di bawah ini merangkum perbandingan langsung performa restoran saat musim liburan melawan hari-hari reguler, serta rekomendasi kapasitas yang dapat Anda ambil.</p>
 	    </div>
 	

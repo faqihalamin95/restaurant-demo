@@ -1,0 +1,1 @@
+SELECT * FROM main_marts.mart_structural_decline_90d

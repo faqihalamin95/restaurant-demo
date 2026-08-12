@@ -1,1 +1,0 @@
-SELECT * FROM main_marts.mart_member_purchase_behavior

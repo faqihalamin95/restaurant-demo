@@ -1,0 +1,142 @@
+import re
+from pathlib import Path
+
+f = Path('/home/faqih/projects/restaurant-demo/evidence_en/pages/02-branch-performance/deepdive.md')
+c = f.read_text()
+
+# Section Headers
+c = c.replace('eyebrow="🔬 Operasional &amp; Diagnostik"', 'eyebrow="🔬 Operasional &amp; Diagnostik"')
+c = c.replace('title="Bedah performa &amp; detail biaya"', 'title="Performance breakdown &amp; cost details"')
+c = c.replace('Gunakan instrumen di bawah ini untuk menganalisis detail pengeluaran, radar peringatan operasional harian, serta tren perkembangan margin.', 'Use the instruments below to analyze expenditure details, daily operational warning radar, and margin development trends.')
+c = c.replace('eyebrow="📑 Ruang Data Pendukung"', 'eyebrow="📑 Supporting Data Room"')
+c = c.replace('title="Pusat Data Ekstra &amp; Perspektif Strategis"', 'title="Extra Data Center &amp; Strategic Perspectives"')
+c = c.replace('Gunakan lensa tambahan di bawah ini untuk membedah komposisi mesin pendapatan serta melacak pola tren kesehatan bisnis dalam jangka panjang (Kuartalan &amp; YoY).', 'Use the additional lenses below to dissect the revenue engine composition and track long-term business health trend patterns (Quarterly & YoY).')
+
+# Table Headers
+c = c.replace('<th>Parameter Analisis</th>', '<th>Analysis Parameter</th>')
+c = c.replace('<th>30 Hari Terakhir (Aktif)</th>', '<th>Last 30 Days (Active)</th>')
+c = c.replace('<th>90 Hari Terakhir (Baseline)</th>', '<th>Last 90 Days (Baseline)</th>')
+c = c.replace('<th>Selisih / Perubahan</th>', '<th>Difference / Change</th>')
+c = c.replace('📈 Net Margin (%)', '📈 Net Margin (%)')
+c = c.replace('💵 Rata-rata Omzet Harian', '💵 Average Daily Revenue')
+c = c.replace('📦 Rata-rata Order Harian', '📦 Average Daily Orders')
+c = c.replace('🛍️ Average Order Value (AOV)', '🛍️ Average Order Value (AOV)')
+
+# Cost Cards
+c = c.replace('🥩 Biaya Bahan Baku', '🥩 Ingredient Costs')
+c = c.replace('🎯 Target normal maks 30%', '🎯 Normal target max 30%')
+c = c.replace('👀 Pantau Bawah (<25%)', '👀 Monitor Below (<25%)')
+c = c.replace('⭐ Zona Ideal (25-30%)', '⭐ Ideal Zone (25-30%)')
+c = c.replace('⚠️ Pantau Atas (30-35%)', '⚠️ Monitor Above (30-35%)')
+c = c.replace('📉 Pemborosan (>35%)', '📉 Waste (>35%)')
+c = c.replace('Rasio di bawah target. Verifikasi konsistensi standar porsi.', 'Ratio below target. Verify portion standard consistency.')
+c = c.replace('Rasio efisien. Pertahankan standar resep saat ini.', 'Efficient ratio. Maintain current recipe standards.')
+c = c.replace('Rasio mulai naik. Tinjau ulang pemakaian bahan baku harian.', 'Ratio starts to rise. Review daily ingredient usage.')
+c = c.replace('Proporsi di atas standar. Analisis potensi inefisiensi pengadaan.', 'Proportion above standard. Analyze potential procurement inefficiency.')
+
+c = c.replace('👥 Biaya SDM', '👥 Labor Costs')
+c = c.replace('🚨 Krisis (<15%)', '🚨 Crisis (<15%)')
+c = c.replace('Rasio sangat rendah. Risiko operasional dan pelayanan turun.', 'Ratio is very low. Operational and service risk drops.')
+c = c.replace('Rasio di bawah target. Pantau potensi kelelahan staf.', 'Ratio below target. Monitor potential staff burnout.')
+c = c.replace('Pengeluaran staf efisien. Pertahankan produktivitas.', 'Staff expenditure is efficient. Maintain productivity.')
+c = c.replace('Proporsi meningkat. Tinjau jam lembur dan jadwal staf.', 'Proportion increases. Review overtime hours and staff schedules.')
+c = c.replace('Indikasi inefisiensi. Evaluasi struktur tim dan shift.', 'Inefficiency indication. Evaluate team structure and shifts.')
+
+c = c.replace('⚙️ Biaya Operasional', '⚙️ Operational Costs')
+c = c.replace('Pengeluaran rendah. Pastikan utilitas fasilitas tetap memadai.', 'Low spending. Ensure facility utilities remain adequate.')
+c = c.replace('Pengeluaran efisien. Pertahankan pola operasional saat ini.', 'Efficient spending. Maintain current operational patterns.')
+c = c.replace('Rasio meningkat. Periksa tagihan listrik atau utilitas.', 'Ratio increases. Check electricity or utility bills.')
+c = c.replace('Beban operasional tinggi. Segera audit sewa dan utilitas bulanan.', 'High operational load. Immediately audit monthly rent and utilities.')
+
+c = c.replace('vs Baseline 90 Hari', 'vs 90 Day Baseline')
+
+# Underbudget Guide
+c = c.replace('💡 Bahaya Under-Budget (Efisiensi Semu)', '💡 Danger of Under-Budget (Pseudo Efficiency)')
+c = c.replace('Pengeluaran jauh di bawah batas target (<25% untuk bahan, <15% untuk SDM) tidak selalu berarti "hemat". Waspadai jebakan risiko tersembunyi berikut:', 'Expenditure well below the target limit (<25% for ingredients, <15% for HR) does not always mean "saving". Beware of the following hidden risk traps:')
+c = c.replace('Margin Semu', 'Pseudo Margin')
+c = c.replace('Waspadai indikasi pencurian porsi oleh dapur (under-portioning) atau supplier menurunkan kualitas standar bahan diam-diam (downgrade).', 'Watch out for indications of portion theft by the kitchen (under-portioning) or suppliers secretly lowering the quality of standard ingredients (downgrade).')
+c = c.replace('Krisis Understaffed', 'Understaffed Crisis')
+c = c.replace('Waktu layanan (serving time) melambat tajam, tingkat kesalahan pesanan melonjak, dan staf lama terancam resign karena kelelahan (burnout).', 'Serving time slows down sharply, order error rates soar, and old staff are threatened to resign due to exhaustion (burnout).')
+c = c.replace('Fasilitas Menurun', 'Declining Facilities')
+c = c.replace('Menghemat biaya kebersihan, pemeliharaan AC, atau perbaikan alat makan dapat merusak pengalaman bersantap secara permanen di mata konsumen.', 'Saving on cleaning costs, AC maintenance, or cutlery repairs can permanently damage the dining experience in the eyes of consumers.')
+
+# Composition Structure
+c = c.replace('STRUKTUR KOMPOSISI BIAYA', 'COST COMPOSITION STRUCTURE')
+c = c.replace('Proporsi Rincian Pengeluaran Cabang', 'Branch Expenditure Details Proportion')
+c = c.replace('Bedah sumber pembengkakan biaya (Bahan, SDM, Operasional) untuk mengetahui pos pengeluaran mana yang butuh efisiensi segera.', 'Dissect the source of cost swelling (Ingredients, HR, Operations) to find out which expenditure items need immediate efficiency.')
+
+# Tabs for composition
+c = c.replace('Tab label="⚙️ Operasional (Overhead)"', 'Tab label="⚙️ Operations (Overhead)"')
+c = c.replace('Total Biaya Operasional (30 Hari)', 'Total Operational Costs (30 Days)')
+c = c.replace('title="Sewa Bangunan: Rp ', 'title="Building Rent: Rp ')
+c = c.replace('title="Listrik: Rp ', 'title="Electricity: Rp ')
+c = c.replace('title="Air: Rp ', 'title="Water: Rp ')
+c = c.replace('title="Lainnya: Rp ', 'title="Others: Rp ')
+c = c.replace('Sewa Bangunan', 'Building Rent')
+c = c.replace('Listrik', 'Electricity')
+c = c.replace('Air', 'Water')
+c = c.replace('Lainnya (Marketing, dsb)', 'Others (Marketing, etc)')
+
+c = c.replace('Tab label="🥩 Bahan Baku (COGS)"', 'Tab label="🥩 Ingredients (COGS)"')
+c = c.replace('Total Biaya Bahan Baku (30 Hari)', 'Total Ingredient Costs (30 Days)')
+c = c.replace('title="Daging & Protein: Rp ', 'title="Meat & Protein: Rp ')
+c = c.replace('title="Sayuran & Bumbu: Rp ', 'title="Vegetables & Spices: Rp ')
+c = c.replace('title="Kemasan (Packaging): Rp ', 'title="Packaging: Rp ')
+c = c.replace('title="Minyak & Lainnya: Rp ', 'title="Oil & Others: Rp ')
+c = c.replace('Daging & Protein', 'Meat & Protein')
+c = c.replace('Sayuran & Bumbu', 'Vegetables & Spices')
+c = c.replace('Kemasan (Packaging)', 'Packaging')
+c = c.replace('Minyak & Lainnya', 'Oil & Others')
+
+c = c.replace('Tab label="👥 SDM (Payroll)"', 'Tab label="👥 HR (Payroll)"')
+c = c.replace('Total Biaya SDM (30 Hari)', 'Total Labor Costs (30 Days)')
+c = c.replace('title="Gaji Pokok: Rp ', 'title="Base Salary: Rp ')
+c = c.replace('title="Upah Lembur: Rp ', 'title="Overtime Pay: Rp ')
+c = c.replace('title="Bonus & Tunjangan: Rp ', 'title="Bonus & Allowance: Rp ')
+c = c.replace('Gaji Pokok', 'Base Salary')
+c = c.replace('Upah Lembur (Overtime)', 'Overtime Pay')
+c = c.replace('Bonus & Tunjangan', 'Bonus & Allowance')
+
+# Data Tabs
+c = c.replace('Tab label="🍕 Mesin Pendapatan (30 Hari)"', 'Tab label="🍕 Revenue Engine (30 Days)"')
+c = c.replace('title="Komposisi Omzet per Kategori"', 'title="Revenue Composition by Category"')
+c = c.replace('title="Top 10 Menu Omzet (Rp)"', 'title="Top 10 Menu Revenue (Rp)"')
+c = c.replace('📌 <strong>Risiko Ketergantungan:</strong> Jika porsi menu Top 5 mendominasi terlalu besar, pastikan ketersediaan bahan baku untuk menu tersebut tidak pernah putus, karena jika kosong, restoran kehilangan mayoritas omzetnya.', '📌 <strong>Dependency Risk:</strong> If the Top 5 menus dominate too much, ensure raw material availability never breaks, because if empty, the restaurant loses most of its revenue.')
+c = c.replace('📈 Top Movers (Menu Stabil)', '📈 Top Movers (Stable Menus)')
+c = c.replace('Menu mana yang mengalami perubahan tren terbesar?<br/>Menampilkan menu dengan lonjakan dan penurunan persentase penjualan terbesar bulan ini.', 'Which menus experienced the biggest trend changes?<br/>Showing menus with the biggest sales percentage surges and declines this month.')
+c = c.replace('title="Sebelum"', 'title="Before"')
+c = c.replace('title="Sekarang"', 'title="Now"')
+c = c.replace('title="Selisih"', 'title="Difference"')
+c = c.replace('📌 <strong>Anomali Pergerakan:</strong> Perhatikan arah dan panjang batang pada grafik untuk melihat tren persentase. Lalu, cek tabel di sebelahnya untuk memvalidasi apakah persentase tersebut berdampak signifikan secara porsi riil.', '📌 <strong>Movement Anomaly:</strong> Pay attention to the direction and length of bars on the graph to see percentage trends. Then, check the adjacent table to validate if the percentage has a significant real portion impact.')
+
+c = c.replace('Tab label="📊 Tren Strategis (Kuartal & YoY)"', 'Tab label="📊 Strategic Trends (Quarter & YoY)"')
+c = c.replace('📊 Quarter Report &middot; Baca Fenomena Musiman', '📊 Quarter Report &middot; Read Seasonal Phenomenon')
+c = c.replace('title="Perkembangan Omzet vs Laba Bersih per Kuartal"', 'title="Revenue vs Net Profit Development per Quarter"')
+c = c.replace('xAxisTitle="Kuartal"', 'xAxisTitle="Quarter"')
+c = c.replace('yAxisTitle="Nilai (Rp)"', 'yAxisTitle="Value (Rp)"')
+c = c.replace('<th class="markdown" style="text-align: left;">Kuartal</th>', '<th class="markdown" style="text-align: left;">Quarter</th>')
+c = c.replace('<th class="markdown" style="text-align: right;">Omzet Gross (Rp)</th>', '<th class="markdown" style="text-align: right;">Gross Revenue (Rp)</th>')
+c = c.replace('<th class="markdown" style="text-align: right;">Laba Bersih (Rp)</th>', '<th class="markdown" style="text-align: right;">Net Profit (Rp)</th>')
+c = c.replace('<th class="markdown" style="text-align: right;">Margin Bersih</th>', '<th class="markdown" style="text-align: right;">Net Margin</th>')
+c = c.replace('📌 <strong>Analisis Kuartalan:</strong> Membantu mengidentifikasi faktor musiman (seasonality) dan stabilitas laba bersih per kuartal secara konsisten.', '📌 <strong>Quarterly Analysis:</strong> Helps identify seasonal factors (seasonality) and net profit stability per quarter consistently.')
+
+c = c.replace('📈 Tren Jangka Panjang &amp; YoY (Historis)', '📈 Long-term Trends &amp; YoY (Historical)')
+c = c.replace('title="Tren Margin Bersih Tahunan (YoY)"', 'title="Annual Net Margin Trends (YoY)"')
+c = c.replace('xAxisTitle="Tahun"', 'xAxisTitle="Year"')
+c = c.replace('yAxisTitle="Margin (%)"', 'yAxisTitle="Margin (%)"')
+c = c.replace('label="Target Sehat 10%"', 'label="Healthy Target 10%"')
+c = c.replace('label="Waspada 5%"', 'label="Warning 5%"')
+c = c.replace('title="Tahun"', 'title="Year"')
+c = c.replace('title="Omzet (Gross)"', 'title="Gross Revenue"')
+c = c.replace('title="Laba Bersih"', 'title="Net Profit"')
+
+c = c.replace('🏷️ <strong>Statistik Sejarah Cabang:</strong><br/>', '🏷️ <strong>Location Historical Statistics:</strong><br/>')
+c = c.replace('• Tanggal Transaksi Pertama:', '• First Transaction Date:')
+c = c.replace('• Rata-rata Margin Bersih Historis:', '• Historical Average Net Margin:')
+c = c.replace('📌 <strong>Analisis YoY:</strong> Memberikan pandangan makro mengenai apakah cabang ini secara fundamental bertumbuh, stabil, atau mengalami perlambatan dari tahun ke tahun.', '📌 <strong>YoY Analysis:</strong> Provides a macro view on whether this location is fundamentally growing, stable, or slowing down year over year.')
+
+c = c.replace('⚠️ Deep Dive Belum Tersedia', '⚠️ Deep Dive Not Available')
+c = c.replace('Cabang ini belum punya data cukup untuk diagnosis detail', 'This location does not have enough data for a detailed diagnosis')
+c = c.replace('Pilih cabang lain atau cek apakah data revenue, net revenue, dan biaya untuk cabang ini sudah masuk lengkap pada horizon 30 sampai 90 hari.', 'Select another location or check if revenue, net revenue, and cost data for this location are fully entered within the 30 to 90 day horizon.')
+
+f.write_text(c)
