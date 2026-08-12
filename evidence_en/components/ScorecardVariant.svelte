@@ -9,11 +9,11 @@
 
 <div class="unified-card theme-apple">
   <div class="section-head" style="padding: 24px 24px 0 24px; margin-bottom: 0;">
-    <div class="section-eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
+    <div class="section-eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--color-text-primary, #0f172a); margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
       <span>👤 Profile & Performance</span>
     </div>
-    <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a;">Individual Performance Report</h3>
-    <p class="section-copy" style="margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: #0f172a;">
+    <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary, #0f172a);">Individual Performance Report</h3>
+    <p class="section-copy" style="margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: var(--color-text-secondary, #0f172a);">
       Summary of performance and discipline of the selected individual over the last 30 days ({startDateStr} &mdash; {endDateStr}).
     </p>
   </div>
@@ -103,21 +103,21 @@
 
 /* THEME: Apple 3D Base (For Main Card) */
 .theme-apple { 
-  background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03)); 
-  border: 1.5px solid rgba(99, 102, 241, 0.18); 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.02); 
-  color: #0f172a; 
+  background: transparent; 
+  border: 1.5px solid var(--color-border-primary, rgba(99, 102, 241, 0.18)); 
+  box-shadow: none; 
+  color: var(--color-text-primary, #0f172a); 
 }
-.theme-apple .id-card { background: linear-gradient(145deg, #ffffff, #f8fafc); border: 1px solid white; border-radius: 16px; box-shadow: 0 6px 15px rgba(0,0,0,0.04), inset 0 2px 5px white; }
-.theme-apple .id-card:hover { transform: scale(1.01) translateY(-2px); box-shadow: 0 15px 30px rgba(0,0,0,0.08), inset 0 2px 5px white; }
-.theme-apple .id-name { color: #0f172a; }
-.theme-apple .id-role { color: #64748b; }
-.theme-apple .id-avatar { background: white; border: 4px solid white; color: #3b82f6; box-shadow: 0 8px 16px rgba(0,0,0,0.08), inset 0 2px 4px rgba(255,255,255,0.8); }
-.theme-apple .id-stats-mini { background: transparent; border-top: 1px solid rgba(0,0,0,0.05); }
-.theme-apple .id-stat-val { color: #0f172a; }
-.theme-apple .id-stat-lbl { color: #64748b; }
-.theme-apple .id-stat-box:first-child { border-right: 1px solid rgba(0,0,0,0.05); }
-.theme-apple .id-branch { background: #f1f5f9; color: #475569; }
+.theme-apple .id-card { background: var(--color-background-secondary, linear-gradient(145deg, #ffffff, #f8fafc)); border: 1px solid var(--color-border-primary, white); border-radius: 16px; box-shadow: none; }
+.theme-apple .id-card:hover { transform: scale(1.01) translateY(-2px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+.theme-apple .id-name { color: var(--color-text-primary, #0f172a); }
+.theme-apple .id-role { color: var(--color-text-secondary, #64748b); }
+.theme-apple .id-avatar { background: var(--color-background-secondary, white); border: 4px solid var(--color-border-primary, white); color: var(--color-text-primary, #3b82f6); box-shadow: none; }
+.theme-apple .id-stats-mini { background: transparent; border-top: 1px solid var(--color-border-primary, rgba(0,0,0,0.05)); }
+.theme-apple .id-stat-val { color: var(--color-text-primary, #0f172a); }
+.theme-apple .id-stat-lbl { color: var(--color-text-secondary, #64748b); }
+.theme-apple .id-stat-box:first-child { border-right: 1px solid var(--color-border-primary, rgba(0,0,0,0.05)); }
+.theme-apple .id-branch { background: var(--color-background-secondary, #f1f5f9); color: var(--color-text-primary, #475569); }
 
 /* KPI CARD STYLES (Copied exactly from Menu Deepdive pergerakan.md) */
 .kpi-card {
@@ -139,7 +139,7 @@
 .kpi-card.cost .kpi-label { color: #dc2626; }
 
 .kpi-label { font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; text-align: center !important; display: flex; justify-content: center; align-items: center; gap: 4px; }
-.kpi-value { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
-.kpi-prev { margin-top: 8px; font-size: 0.78rem; line-height: 1.5; color: #64748b; }
-.compare-txt { color: #64748b; }
+.kpi-value { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary, #0f172a); }
+.kpi-prev { margin-top: 8px; font-size: 0.78rem; line-height: 1.5; color: var(--color-text-secondary, #64748b); }
+.compare-txt { color: var(--color-text-secondary, #64748b); }
 </style>

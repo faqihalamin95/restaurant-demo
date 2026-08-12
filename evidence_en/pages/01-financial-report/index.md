@@ -12,7 +12,7 @@ details {
   border-radius: 12px;
   margin: 10px 0;
   overflow: hidden;
-  background: rgba(255,255,255,0.55);
+  background: var(--color-background-secondary);
 }
 
 details > summary {
@@ -288,7 +288,7 @@ details.acc-strategic .acc-body {
   padding: 14px 15px;
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
-  background: rgba(255,255,255,0.72);
+  background: var(--color-background-secondary);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01);
 }
@@ -296,7 +296,7 @@ details.acc-strategic .acc-body {
 .hero-side-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-background-primary);
 }
 
 .hero-side-label {
@@ -669,7 +669,7 @@ details.acc-strategic .acc-body {
   padding: 14px 15px;
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
-  background: rgba(255,255,255,0.6);
+  background: var(--color-background-secondary);
 }
 
 .mini-value {
@@ -1403,9 +1403,9 @@ _Business financial health: margins, cost pressures, and seasonal context on one
           <div class="section-card">
             <div class="section-head" style="margin-bottom: 0;">
       <div>
-        <div class="section-eyebrow" style="color: #000000;">🎯 This Month's Revenue Target Achievement</div>
-        <h3 class="section-title" style="color: #000000;">Monitor Daily Revenue Pacing</h3>
-        <p class="section-copy" style="color: #000000;">Compare the current revenue pace with the proportion of days to ensure the end-of-month target is met.</p>
+        <div class="section-eyebrow" style="color: var(--color-text-primary);">🎯 This Month's Revenue Target Achievement</div>
+        <h3 class="section-title" style="color: var(--color-text-primary);">Monitor Daily Revenue Pacing</h3>
+        <p class="section-copy" style="color: var(--color-text-primary);">Compare the current revenue pace with the proportion of days to ensure the end-of-month target is met.</p>
       </div>
 
     </div>
@@ -1427,7 +1427,7 @@ _Business financial health: margins, cost pressures, and seasonal context on one
       </div>
       
       <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-        <span style="color: #000000; font-weight: 600;">Achieved: <strong>{Math.round((fin_kpi_mtd[0].gross_mtd / (target_recommendation[0]?.recommended_target || 1500000000)) * 1000) / 10}%</strong></span>
+        <span style="color: var(--color-text-primary); font-weight: 600;">Achieved: <strong>{Math.round((fin_kpi_mtd[0].gross_mtd / (target_recommendation[0]?.recommended_target || 1500000000)) * 1000) / 10}%</strong></span>
         <div style="display: flex; align-items: center; gap: 4px; color: var(--color-text-secondary);">
           <span style="display: inline-block; width: 8px; height: 8px; background: #f43f5e; border-radius: 50%;"></span>
           Pacing Day {fin_kpi_mtd[0].hari_berjalan}: {Math.round((fin_kpi_mtd[0].hari_berjalan / fin_kpi_mtd[0].total_hari_bulan) * 100)}%
@@ -1449,7 +1449,7 @@ _Business financial health: margins, cost pressures, and seasonal context on one
               </div>
             </div>
             <div class="cost-grid">
-              <div class="cost-card" style="background: {fin_cost_pct[0].bahan_30d < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : fin_cost_pct[0].bahan_30d <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : fin_cost_pct[0].bahan_30d <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {fin_cost_pct[0].bahan_30d < 25 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].bahan_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].bahan_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-card" style="background: {fin_cost_pct[0].bahan_30d < 25 ? 'rgba(245, 158, 11, 0.09)' : fin_cost_pct[0].bahan_30d <= 30 ? 'rgba(22, 163, 74, 0.08)' : fin_cost_pct[0].bahan_30d <= 35 ? 'rgba(245, 158, 11, 0.09)' : 'rgba(220, 38, 38, 0.08)'}; border-color: {fin_cost_pct[0].bahan_30d < 25 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].bahan_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].bahan_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
                 <div class="cost-label">🥩 Ingredient Cost</div>
                 <div class="cost-value" style="color:{fin_cost_pct[0].bahan_30d < 25 ? '#ea580c' : fin_cost_pct[0].bahan_30d <= 30 ? '#16a34a' : fin_cost_pct[0].bahan_30d <= 35 ? '#ea580c' : '#dc2626'};">{(Number(fin_cost_pct[0].bahan_30d)).toFixed(1)}%</div>
                 <div class="cost-target">🎯 Target: Max 30%</div>
@@ -1478,7 +1478,7 @@ _Business financial health: margins, cost pressures, and seasonal context on one
                   </div>
                 </div>
               </div>
-              <div class="cost-card" style="background: {fin_cost_pct[0].sdm_30d < 15 ? 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))' : fin_cost_pct[0].sdm_30d < 20 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : fin_cost_pct[0].sdm_30d <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : fin_cost_pct[0].sdm_30d <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {fin_cost_pct[0].sdm_30d < 15 ? 'rgba(239,68,68,0.5)' : fin_cost_pct[0].sdm_30d < 20 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].sdm_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].sdm_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-card" style="background: {fin_cost_pct[0].sdm_30d < 15 ? 'rgba(220, 38, 38, 0.08)' : fin_cost_pct[0].sdm_30d < 20 ? 'rgba(245, 158, 11, 0.09)' : fin_cost_pct[0].sdm_30d <= 30 ? 'rgba(22, 163, 74, 0.08)' : fin_cost_pct[0].sdm_30d <= 35 ? 'rgba(245, 158, 11, 0.09)' : 'rgba(220, 38, 38, 0.08)'}; border-color: {fin_cost_pct[0].sdm_30d < 15 ? 'rgba(239,68,68,0.5)' : fin_cost_pct[0].sdm_30d < 20 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].sdm_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].sdm_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
                 <div class="cost-label">👥 Labor Cost</div>
                 <div class="cost-value" style="color:{fin_cost_pct[0].sdm_30d < 15 ? '#dc2626' : fin_cost_pct[0].sdm_30d < 20 ? '#ea580c' : fin_cost_pct[0].sdm_30d <= 30 ? '#16a34a' : fin_cost_pct[0].sdm_30d <= 35 ? '#ea580c' : '#dc2626'};">{(Number(fin_cost_pct[0].sdm_30d)).toFixed(1)}%</div>
                 <div class="cost-target">🎯 Target: Max 30%</div>
@@ -1507,7 +1507,7 @@ _Business financial health: margins, cost pressures, and seasonal context on one
                   </div>
                 </div>
               </div>
-              <div class="cost-card" style="background: {fin_cost_pct[0].ops_30d < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : fin_cost_pct[0].ops_30d <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : fin_cost_pct[0].ops_30d <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {fin_cost_pct[0].ops_30d < 25 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].ops_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].ops_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+              <div class="cost-card" style="background: {fin_cost_pct[0].ops_30d < 25 ? 'rgba(245, 158, 11, 0.09)' : fin_cost_pct[0].ops_30d <= 30 ? 'rgba(22, 163, 74, 0.08)' : fin_cost_pct[0].ops_30d <= 35 ? 'rgba(245, 158, 11, 0.09)' : 'rgba(220, 38, 38, 0.08)'}; border-color: {fin_cost_pct[0].ops_30d < 25 ? 'rgba(234,179,8,0.5)' : fin_cost_pct[0].ops_30d <= 30 ? 'rgba(34,197,94,0.5)' : fin_cost_pct[0].ops_30d <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
                 <div class="cost-label">⚙️ Overhead Cost</div>
                 <div class="cost-value" style="color:{fin_cost_pct[0].ops_30d < 25 ? '#ea580c' : fin_cost_pct[0].ops_30d <= 30 ? '#16a34a' : fin_cost_pct[0].ops_30d <= 35 ? '#ea580c' : '#dc2626'};">{(Number(fin_cost_pct[0].ops_30d)).toFixed(1)}%</div>
                 <div class="cost-target">🎯 Target: Max 30%</div>
@@ -1542,7 +1542,7 @@ _Business financial health: margins, cost pressures, and seasonal context on one
               <span style="font-size: 0.9rem; margin-top: 2px; flex-shrink: 0;">📎</span>
               <div style="display: flex; flex-direction: column; gap: 2px;">
                 <span style="font-size: 0.78rem; line-height: 1.5; color: var(--color-text-secondary);">The 30% target benchmark is based on the <strong>30-30-30-10 financial rule</strong> (30% Ingredients, 30% Labor, 30% Overhead, 10% Operating Margin).</span>
-                <cite style="font-size: 0.7rem; color: #000000; font-style: italic;">Source: National Restaurant Association Industry Benchmarks</cite>
+                <cite style="font-size: 0.7rem; color: var(--color-text-secondary); font-style: italic;">Source: National Restaurant Association Industry Benchmarks</cite>
               </div>
             </div>
           </div>

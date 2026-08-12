@@ -968,7 +968,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
           <!-- Breakdown progress bars visually -->
           <div class="cost-grid" style="margin-top: 16px;">
             <!-- COGS Card -->
-            <div class="cost-card" style="background: {branchIngredientPct30 < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchIngredientPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchIngredientPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchIngredientPct30 < 25 ? 'rgba(234,179,8,0.5)' : branchIngredientPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchIngredientPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+            <div class="cost-card" style="background: {branchIngredientPct30 < 25 ? 'rgba(234,179,8,0.15)' : branchIngredientPct30 <= 30 ? 'rgba(34,197,94,0.15)' : branchIngredientPct30 <= 35 ? 'rgba(234,179,8,0.15)' : 'rgba(239,68,68,0.15)'}; border-color: {branchIngredientPct30 < 25 ? 'rgba(234,179,8,0.4)' : branchIngredientPct30 <= 30 ? 'rgba(34,197,94,0.4)' : branchIngredientPct30 <= 35 ? 'rgba(234,179,8,0.4)' : 'rgba(239,68,68,0.4)'};">
               <div class="cost-label">🥩 Ingredient Costs</div>
               <div class="cost-value" style="color:{branchIngredientPct30 < 25 ? '#ea580c' : branchIngredientPct30 <= 30 ? '#16a34a' : branchIngredientPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchIngredientPct30)).toFixed(1).replace('.', ',')}%</div>
               <div class="cost-target">🎯 Target: Max 30%</div>
@@ -998,7 +998,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
             </div>
 
             <!-- Labor Card -->
-            <div class="cost-card" style="background: {branchLaborPct30 < 15 ? 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))' : branchLaborPct30 < 20 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchLaborPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchLaborPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchLaborPct30 < 15 ? 'rgba(239,68,68,0.5)' : branchLaborPct30 < 20 ? 'rgba(234,179,8,0.5)' : branchLaborPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchLaborPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+            <div class="cost-card" style="background: {branchLaborPct30 < 15 ? 'rgba(239,68,68,0.15)' : branchLaborPct30 < 20 ? 'rgba(234,179,8,0.15)' : branchLaborPct30 <= 30 ? 'rgba(34,197,94,0.15)' : branchLaborPct30 <= 35 ? 'rgba(234,179,8,0.15)' : 'rgba(239,68,68,0.15)'}; border-color: {branchLaborPct30 < 15 ? 'rgba(239,68,68,0.4)' : branchLaborPct30 < 20 ? 'rgba(234,179,8,0.4)' : branchLaborPct30 <= 30 ? 'rgba(34,197,94,0.4)' : branchLaborPct30 <= 35 ? 'rgba(234,179,8,0.4)' : 'rgba(239,68,68,0.4)'};">
               <div class="cost-label">👥 Labor Costs</div>
               <div class="cost-value" style="color:{branchLaborPct30 < 15 ? '#dc2626' : branchLaborPct30 < 20 ? '#ea580c' : branchLaborPct30 <= 30 ? '#16a34a' : branchLaborPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchLaborPct30)).toFixed(1).replace('.', ',')}%</div>
               <div class="cost-target">🎯 Target: Max 30%</div>
@@ -1028,7 +1028,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
             </div>
 
             <!-- Overhead Card -->
-            <div class="cost-card" style="background: {branchOverheadPct30 < 25 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : branchOverheadPct30 <= 30 ? 'linear-gradient(180deg, rgba(240,253,244,0.9), rgba(220,252,231,0.6))' : branchOverheadPct30 <= 35 ? 'linear-gradient(180deg, rgba(254,252,232,0.9), rgba(254,249,195,0.6))' : 'linear-gradient(180deg, rgba(254,242,242,0.9), rgba(254,226,226,0.6))'}; border-color: {branchOverheadPct30 < 25 ? 'rgba(234,179,8,0.5)' : branchOverheadPct30 <= 30 ? 'rgba(34,197,94,0.5)' : branchOverheadPct30 <= 35 ? 'rgba(234,179,8,0.5)' : 'rgba(239,68,68,0.5)'};">
+            <div class="cost-card" style="background: {branchOverheadPct30 < 25 ? 'rgba(234,179,8,0.15)' : branchOverheadPct30 <= 30 ? 'rgba(34,197,94,0.15)' : branchOverheadPct30 <= 35 ? 'rgba(234,179,8,0.15)' : 'rgba(239,68,68,0.15)'}; border-color: {branchOverheadPct30 < 25 ? 'rgba(234,179,8,0.4)' : branchOverheadPct30 <= 30 ? 'rgba(34,197,94,0.4)' : branchOverheadPct30 <= 35 ? 'rgba(234,179,8,0.4)' : 'rgba(239,68,68,0.4)'};">
               <div class="cost-label">⚙️ Overhead Costs</div>
               <div class="cost-value" style="color:{branchOverheadPct30 < 25 ? '#ea580c' : branchOverheadPct30 <= 30 ? '#16a34a' : branchOverheadPct30 <= 35 ? '#ea580c' : '#dc2626'};">{(Number(branchOverheadPct30)).toFixed(1).replace('.', ',')}%</div>
               <div class="cost-target">🎯 Target: Max 30%</div>
@@ -1063,7 +1063,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
             <span class="risk-funfact-icon">📎</span>
             <div class="risk-funfact-content">
               <span>The 30% target benchmark is based on the <strong>30-30-30-10 financial rule</strong> (30% Ingredients, 30% Labor, 30% Overhead, 10% Operating Margin).</span>
-              <cite style="font-size: 0.7rem; color: #000000; font-style: italic;">Source: National Restaurant Association Industry Benchmarks</cite>
+              <cite style="font-size: 0.7rem; color: var(--color-text-secondary); font-style: italic;">Source: National Restaurant Association Industry Benchmarks</cite>
             </div>
           </div>
 
@@ -1274,7 +1274,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
             {@const tableData = filteredMenu.map(row => ({...row, qty_diff: row.qty_current - row.qty_previous})).sort((a,b) => Math.abs(b.qty_diff) - Math.abs(a.qty_diff))}
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 16px;">
-              <div class="interactive-card" style="padding: 24px;">
+              <div style="padding: 8px 0;">
                 <BarChart 
                   data={branch_category_mix.filter(row => row.branch_name === selectedBranch)} 
                   x="category" 
@@ -1287,7 +1287,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
                 />
               </div>
               
-              <div class="interactive-card" style="padding: 24px;">
+              <div style="padding: 8px 0;">
                 <BarChart 
                   data={filteredMenu.slice(0, 10).map(d => ({ ...d, Revenue: d.revenue_current }))} 
                   x="menu_name" 
@@ -1304,7 +1304,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
               📌 <strong>Supply Chain Exposure:</strong> Because the Top 5 items generate the bulk of total revenue, maintaining uninterrupted raw material availability is critical to prevent severe stockout losses.
             </div>
 
-            <div class="interactive-card" style="margin-bottom: 24px; padding: 24px;">
+            <div style="margin-bottom: 24px; padding: 8px 0;">
               <h4 style="margin-top: 0; margin-bottom: 4px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📈 Top Menu Sales Shifts (MoM)</h4>
               <p style="margin-top: 0; margin-bottom: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">Which menus experienced the biggest trend changes?<br/>Showing menus with the biggest sales percentage surges and declines this month.</p>
               <DataTable data={tableData} rows=6>
@@ -1323,7 +1323,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
         <Tab label="📊 Strategic Performance Trends (Quarterly &amp; YoY)">
           <div style="margin-top: 16px;">
             <!-- Evaluasi Jangka Menengah (Kuartal QoQ) -->
-            <div class="interactive-card" style="margin-bottom: 32px; padding: 24px;">
+            <div style="margin-bottom: 32px; padding: 8px 0;">
               <h4 style="margin-top: 0; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📊 Quarter Report &middot; Read Seasonal Phenomenon</h4>
               <div style="margin-bottom: 20px;">
                 <BarChart 
@@ -1368,7 +1368,7 @@ _Multi-location portfolio breakdown: evaluate margin health, revenue growth, uni
             </div>
 
             <!-- Tren Jangka Panjang & YoY (Historis) -->
-            <div class="interactive-card" style="margin-bottom: 16px; padding: 24px;">
+            <div style="margin-bottom: 16px; padding: 8px 0;">
               <h4 style="margin-top: 0; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; color: var(--color-text-primary);">📈 Long-term Trends &amp; YoY (Historical)</h4>
               <div style="margin-bottom: 20px;">
                 <LineChart 

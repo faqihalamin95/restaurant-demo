@@ -103,7 +103,7 @@ title: Inventory & Stock
   padding: 14px 15px;
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
-  background: rgba(255,255,255,0.72);
+  background: var(--color-background-secondary);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
 }
@@ -224,7 +224,7 @@ title: Inventory & Stock
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--color-background-secondary);
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid rgba(128, 128, 128, 0.08);
@@ -256,7 +256,7 @@ title: Inventory & Stock
 }
 
 .stat-pill {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-background-secondary);
   border: 1px solid rgba(128, 128, 128, 0.1);
   padding: 8px 6px;
   border-radius: 10px;

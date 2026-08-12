@@ -1459,7 +1459,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
   text-align: left;
   padding: 16px 20px;
   background: #f1f5f9;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-weight: 800;
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -1476,7 +1476,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
 }
 .premium-row td {
   padding: 16px 20px;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 .premium-row:last-child {
   border-bottom: none;
@@ -1560,7 +1560,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
 .clean-cta-desc {
   margin: 0;
   font-size: 0.88rem;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-weight: 400;
   max-width: 65ch;
   line-height: 1.6;
@@ -2243,7 +2243,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
   text-align: left;
   padding: 16px 20px;
   background: #f1f5f9;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-weight: 800;
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -2260,7 +2260,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
 }
 .premium-row td {
   padding: 16px 20px;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 .premium-row:last-child {
   border-bottom: none;
@@ -2344,7 +2344,7 @@ ORDER BY CASE WHEN branch_name = 'All Locations' THEN 0 ELSE 1 END, total_ops DE
 .clean-cta-desc {
   margin: 0;
   font-size: 0.88rem;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-weight: 400;
   max-width: 65ch;
   line-height: 1.6;

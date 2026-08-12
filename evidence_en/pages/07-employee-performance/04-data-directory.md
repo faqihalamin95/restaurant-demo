@@ -110,7 +110,7 @@ ORDER BY "Total Revenue (Rp)" DESC
   <p class="diagnostics-copy">Aggregated table of all active employees, summarizing total shifts, schedule variances, and overall financial performance.</p>
 </div>
 
-<div style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 64px;">
+<div style="background: transparent; border-radius: 16px; border: 1px solid var(--color-border-primary, #e2e8f0); padding: 20px; box-shadow: none; margin-bottom: 64px;">
   <DataTable data={master_roster} search="true" rows=15 download="true">
     <Column id="Employee Name" />
     <Column id="Role" />
@@ -142,15 +142,15 @@ ORDER BY employee_name
 ```
 
 <!-- EMPLOYEE SELECTOR -->
-<div class="profile-selector-container" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 24px; display: flex; align-items: center; gap: 20px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+<div class="profile-selector-container" style="background: transparent; border: 1px solid var(--color-border-primary, #e2e8f0); border-radius: 12px; padding: 16px 24px; display: flex; align-items: center; gap: 20px; margin-bottom: 24px; box-shadow: none;">
   <div class="selector-label" style="display: flex; align-items: center; gap: 10px;">
-    <span style="font-size: 1.1rem; background: #f1f5f9; padding: 8px; border-radius: 8px;">🔍</span>
-    <strong style="color: #0f172a; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Search Report Card:</strong>
+    <span style="font-size: 1.1rem; background: var(--color-background-secondary, #f1f5f9); padding: 8px; border-radius: 8px;">🔍</span>
+    <strong style="color: var(--color-text-primary, #0f172a); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Search Report Card:</strong>
   </div>
   <div style="flex-grow: 1; max-width: 320px;">
     <Dropdown name="emp_filter" data={employee_list} />
   </div>
-  <div style="font-size: 0.85rem; color: #64748b; font-style: italic;">
+  <div style="font-size: 0.85rem; color: var(--color-text-tertiary, #64748b); font-style: italic;">
     *Select an employee name to view their performance scorecard.
   </div>
 </div>
@@ -285,12 +285,12 @@ ORDER BY attendance_date DESC
       
       let color = '#10b981'; 
       let label = 'On Time';
-      let bgColor = 'white';
+      let bgColor = 'var(--color-background-primary, white)';
 
       if (!shift) {
           color = '#94a3b8'; 
           label = 'Off / No Shift';
-          bgColor = '#f8fafc';
+          bgColor = 'var(--color-background-secondary, #f8fafc)';
       }
       else if (shift.Status === '🪑 Absent' || shift.Status === '⛱️ Leave') { color = '#ef4444'; label = shift.Status; }
       else if (shift.Status === '🏃 Late') { color = '#f59e0b'; label = 'Late'; }
@@ -317,24 +317,24 @@ ORDER BY attendance_date DESC
   />
 
   <!-- Full Width History & Calendar -->
-  <div class="history-section" style="background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03)); border-radius: 20px; border: 1.5px solid rgba(99, 102, 241, 0.18); padding: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); margin-top: 32px;">
+  <div class="history-section" style="background: transparent; border-radius: 20px; border: 1.5px solid var(--color-border-primary, rgba(99, 102, 241, 0.18)); padding: 24px; box-shadow: none; margin-top: 32px;">
     
     <div class="section-head" style="margin-bottom: 24px;">
-      <div class="section-eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
+      <div class="section-eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--color-text-primary, #0f172a); margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
         <span>🕒 HISTORY & ATTENDANCE</span>
       </div>
-      <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a;">Employee Historical Breakdown</h3>
-      <p class="section-copy" style="margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: #0f172a;">
+      <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary, #0f172a);">Employee Historical Breakdown</h3>
+      <p class="section-copy" style="margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: var(--color-text-secondary, #0f172a);">
         Detailed daily shift history, tardiness records, and order fulfillment over the trailing 30 days.
       </p>
     </div>
 
     <!-- Real Calendar Grid -->
-    <h4 style="margin: 0 0 16px 0; font-size: 0.95rem; color: #0f172a; font-weight: 800; text-transform: uppercase;">📅 Attendance Calendar</h4>
+    <h4 style="margin: 0 0 16px 0; font-size: 0.95rem; color: var(--color-text-primary, #0f172a); font-weight: 800; text-transform: uppercase;">📅 Attendance Calendar</h4>
     <div class="streak-container">
       <div class="real-calendar-grid">
         {#each activeCalendar as day}
-          <div class="cal-day" style="border-top: 4px solid {day.color}; background: {day.bgColor}; opacity: {day.bgColor === 'white' ? '1' : '0.6'};" 
+          <div class="cal-day" style="border-top: 4px solid {day.color}; background: {day.bgColor}; opacity: {day.label === 'Off / No Shift' ? '0.6' : '1'};" 
                title="{day.dayName}, {day.dateString} - {day.label}">
             <div class="cal-day-name">{day.dayName}</div>
             <div class="cal-date-num" style="color: {day.color}">{day.dateNum}</div>
@@ -350,17 +350,17 @@ ORDER BY attendance_date DESC
       </div>
     </div>
 
-    <h4 style="margin: 0 0 16px 0; font-size: 0.95rem; color: #0f172a; font-weight: 800; text-transform: uppercase;">📋 Shift Details Table</h4>
+    <h4 style="margin: 0 0 16px 0; font-size: 0.95rem; color: var(--color-text-primary, #0f172a); font-weight: 800; text-transform: uppercase;">📋 Shift Details Table</h4>
     <div style="background: transparent; border-radius: 12px; border: 1px solid var(--color-border-tertiary, #e2e8f0); overflow-x: auto; overflow-y: auto; max-height: 400px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
       <table style="width:100%; border-collapse:collapse; font-size:0.88rem; text-align:left;">
-        <thead style="position: sticky; top: 0; z-index: 2; background: #f1f5f9;">
-          <tr style="border-bottom: 1.5px solid #e2e8f0;">
-            <th style="padding:10px 14px; font-weight:700; color:#0f172a; background: #f1f5f9;">Date</th>
-            <th style="padding:10px 14px; font-weight:700; color:#0f172a; background: #f1f5f9;">Shift</th>
-            <th style="padding:10px 14px; font-weight:700; color:#0f172a; background: #f1f5f9;">Status</th>
-            <th style="padding:10px 14px; font-weight:700; text-align:center; color:#0f172a; background: #f1f5f9;">Total Orders</th>
-            <th style="padding:10px 14px; font-weight:700; text-align:right; color:#0f172a; background: #f1f5f9;">Revenue (Rp)</th>
-            <th style="padding:10px 14px; font-weight:700; text-align:center; color:#0f172a; background: #f1f5f9;">Overtime (Hours)</th>
+        <thead style="position: sticky; top: 0; z-index: 2; background: var(--color-background-secondary, #f1f5f9);">
+          <tr style="border-bottom: 1.5px solid var(--color-border-primary, #e2e8f0);">
+            <th style="padding:10px 14px; font-weight:700; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Date</th>
+            <th style="padding:10px 14px; font-weight:700; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Shift</th>
+            <th style="padding:10px 14px; font-weight:700; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Status</th>
+            <th style="padding:10px 14px; font-weight:700; text-align:center; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Total Orders</th>
+            <th style="padding:10px 14px; font-weight:700; text-align:right; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Revenue (Rp)</th>
+            <th style="padding:10px 14px; font-weight:700; text-align:center; color:var(--color-text-primary, #0f172a); background: var(--color-background-secondary, #f1f5f9);">Overtime (Hours)</th>
           </tr>
         </thead>
         <tbody>
@@ -590,7 +590,7 @@ ORDER BY attendance_date DESC
 
 /* ── Activity Streak Calendar ── */
 .streak-container {
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--color-background-secondary);
   backdrop-filter: blur(12px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.8);

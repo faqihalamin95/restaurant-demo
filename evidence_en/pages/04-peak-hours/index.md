@@ -156,7 +156,7 @@ title: Demand & Traffic
   padding: 14px 15px;
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
-  background: rgba(255,255,255,0.72);
+  background: var(--color-background-secondary);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01);
 }
@@ -164,7 +164,7 @@ title: Demand & Traffic
 .hero-side-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-background-primary);
 }
 
 .hero-side-label {
@@ -251,13 +251,13 @@ title: Demand & Traffic
 .rec-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 6px; }
 .rec-title   { font-size: 1rem; font-weight: 850; letter-spacing: -0.015em; color: var(--color-text-primary); margin-bottom: 14px; line-height: 1.35; }
 .rec-list    { display: flex; flex-direction: column; gap: 10px; }
-.rec-item    { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(99,102,241,0.13); }
+.rec-item    { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 12px; background: var(--color-background-secondary); border: 1px solid rgba(99,102,241,0.13); }
 .rec-icon    { font-size: 1rem; line-height: 1.6; }
 .rec-text    { font-size: 0.88rem; line-height: 1.65; color: var(--color-text-secondary); }
 .rec-text strong { color: var(--color-text-primary); }
 
 /* ── Supporting accordion ── */
-.support-acc { border: 1px solid rgba(128,128,128,0.18); border-radius: 12px; background: rgba(255,255,255,0.55); overflow: hidden; }
+.support-acc { border: 1px solid rgba(128,128,128,0.18); border-radius: 12px; background: var(--color-background-secondary); overflow: hidden; }
 .support-acc summary { padding: 14px 16px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; background: rgba(128,128,128,0.04); font-size: 0.9rem; font-weight: 700; color: var(--color-text-primary); }
 .support-acc summary::-webkit-details-marker { display: none; }
 .support-acc[open] summary { border-bottom: 1px solid rgba(128,128,128,0.14); }
@@ -426,7 +426,7 @@ details.acc-strategic .acc-body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--color-background-secondary);
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid rgba(128, 128, 128, 0.08);
@@ -458,7 +458,7 @@ details.acc-strategic .acc-body {
 }
 
 .stat-pill {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-background-secondary);
   border: 1px solid rgba(128, 128, 128, 0.1);
   padding: 8px 6px;
   border-radius: 10px;

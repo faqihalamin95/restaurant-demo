@@ -353,7 +353,7 @@ ORDER BY count DESC
     display: flex;
     gap: 32px;
     padding: 20px 24px;
-    background: rgba(255, 255, 255, 0.65);
+    background: var(--color-background-secondary);
     backdrop-filter: blur(12px);
     border-radius: 16px;
     border: 1px solid rgba(13, 148, 136, 0.15);
@@ -406,7 +406,7 @@ ORDER BY count DESC
   }
 
   .chart-card {
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--color-background-secondary);
     border: 1px solid var(--color-border-tertiary);
     border-radius: 16px;
     padding: 24px;
@@ -433,7 +433,7 @@ ORDER BY count DESC
   }
 
   .table-card {
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--color-background-secondary);
     border: 1px solid var(--color-border-tertiary);
     border-radius: 16px;
     padding: 24px;

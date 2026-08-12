@@ -343,7 +343,7 @@ ORDER BY total_qty ASC
         
         {#if top_movers.length > 0}
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; align-items: start;">
-          <div style="border: 1px solid var(--color-border-tertiary); border-radius: 12px; padding: 16px; background: white;">
+          <div style="padding: 8px 0;">
             <BarChart 
               data={top_movers} 
               x="menu_name" 
@@ -352,7 +352,7 @@ ORDER BY total_qty ASC
               title="Volume Change (%)"
             />
           </div>
-          <div style="border: 1px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; background: white;">
+          <div style="padding: 8px 0;">
             <DataTable data={top_movers}>
               <Column id="menu_name" title="Menu Item" />
               <Column id="qty_previous" title="Prev (30d)" align="right" />
@@ -376,7 +376,7 @@ ORDER BY total_qty ASC
         </div>
         
         {#if passive_data.length > 0}
-        <div style="border: 1px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; background: white;">
+        <div style="padding: 8px 0;">
           <DataTable data={passive_data}>
             <Column id="menu_name" title="Menu Item" />
             <Column id="category" title="Category" />

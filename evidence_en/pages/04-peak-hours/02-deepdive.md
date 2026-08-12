@@ -39,7 +39,7 @@ title: Deepdive
 <style>
 .crisis-btn {
   font-weight: 600; 
-  color: #1e293b; 
+  color: var(--color-text-primary); 
   background: linear-gradient(to right, #ffffff, #f8fafc);
   border: 1px solid #e2e8f0; 
   border-left: 4px solid #f59e0b;
@@ -161,20 +161,20 @@ details[open] .crisis-chevron {
 .rec-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 6px; }
 .rec-title   { font-size: 1rem; font-weight: 850; letter-spacing: -0.015em; color: var(--color-text-primary); margin-bottom: 14px; line-height: 1.35; }
 .rec-list    { display: flex; flex-direction: column; gap: 10px; }
-.rec-item    { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(99,102,241,0.13); }
+.rec-item    { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 12px; background: var(--color-background-secondary); border: 1px solid rgba(99,102,241,0.13); }
 .rec-icon    { font-size: 1rem; line-height: 1.6; }
 .rec-text    { font-size: 0.88rem; line-height: 1.65; color: var(--color-text-secondary); }
 .rec-text strong { color: var(--color-text-primary); }
 
 /* ── Supporting accordion ── */
-.support-acc { border: 1px solid rgba(128,128,128,0.18); border-radius: 12px; background: rgba(255,255,255,0.55); overflow: hidden; }
+.support-acc { border: 1px solid rgba(128,128,128,0.18); border-radius: 12px; background: var(--color-background-secondary); overflow: hidden; }
 .support-acc summary { padding: 14px 16px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; background: rgba(128,128,128,0.04); font-size: 0.9rem; font-weight: 700; color: var(--color-text-primary); }
 .support-acc summary::-webkit-details-marker { display: none; }
 .support-acc[open] summary { border-bottom: 1px solid rgba(128,128,128,0.14); }
 .support-body { padding: 16px; display: flex; flex-direction: column; gap: 20px; font-size: 0.9em; line-height: 1.75; color: var(--color-text-secondary); }
 .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .support-item { padding: 16px; border-radius: 12px; background: rgba(0,0,0,0.02); border: 1px solid var(--color-border-tertiary); transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); cursor: default; }
-.support-item:hover { background: #ffffff; border-color: rgba(99,102,241,0.3); box-shadow: 0 6px 12px -2px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.support-item:hover { background: var(--color-background-secondary, #ffffff); border-color: rgba(99,102,241,0.3); box-shadow: 0 6px 12px -2px rgba(0,0,0,0.08); transform: translateY(-2px); }
 .support-item-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 6px; }
 .support-item-title { font-size: 0.95rem; font-weight: 800; color: var(--color-text-primary); margin-bottom: 4px; }
 .support-item-desc  { font-size: 0.85rem; line-height: 1.55; color: var(--color-text-secondary); }
@@ -373,7 +373,7 @@ details.acc-strategic .acc-body {
 }
 .theory-icon { font-size: 1.5rem; }
 .theory-text { font-size: 0.9rem; color: #475569; line-height: 1.5; }
-.rec-block h4 { margin: 0 0 12px 0; font-size: 1.05rem; color: #1e293b; }
+.rec-block h4 { margin: 0 0 12px 0; font-size: 1.05rem; color: var(--color-text-primary); }
 .rec-block p { font-size: 0.9rem; color: #475569; line-height: 1.5; margin-bottom: 12px; }
 .rec-pro { color: #059669 !important; font-weight: 500; }
 .rec-con { color: #d97706 !important; font-weight: 500; }
@@ -974,7 +974,7 @@ ORDER BY branch_name, start_date
     
     <div class="period-pill {shareStatus}">
       <div class="period-pill-label">📊 Peak Volume Concentration</div>
-      <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: #1e293b;">
+      <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">
         {share}%
       </div>
       <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
@@ -984,7 +984,7 @@ ORDER BY branch_name, start_date
     
     <div class="period-pill {surgeStatus}">
       <div class="period-pill-label">⚡ Throughput Surge Multiplier</div>
-      <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: #1e293b;">
+      <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">
         {surge}x Baseline
       </div>
       <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
@@ -1125,7 +1125,7 @@ ORDER BY branch_name, start_date
         <div class="period-strip" style="grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 24px;">
           <div class="period-pill sehat">
             <div class="period-pill-label">🍽️ Dine-In ({translateDay(selectedDays)})</div>
-            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: #1e293b;">
+            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">
               {pctDineIn}%
             </div>
             <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
@@ -1135,7 +1135,7 @@ ORDER BY branch_name, start_date
 
           <div class="period-pill waspada">
             <div class="period-pill-label">🥡 Takeaway ({translateDay(selectedDays)})</div>
-            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: #1e293b;">
+            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">
               {pctTakeaway}%
             </div>
             <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
@@ -1145,7 +1145,7 @@ ORDER BY branch_name, start_date
 
           <div class="period-pill kritis">
             <div class="period-pill-label">🛵 Online Delivery ({translateDay(selectedDays)})</div>
-            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: #1e293b;">
+            <div class="period-pill-value" style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">
               {pctDelivery}%
             </div>
             <div class="period-pill-copy" style="font-size: 0.76rem; line-height: 1.45;">
@@ -1524,17 +1524,17 @@ ORDER BY branch_name, start_date
     </div>
 
 {:else}
-  <div style="margin-top: 32px; padding: 48px 24px; text-align: center; background: rgba(0,0,0,0.02); border: 1px dashed rgba(245,158,11,0.3); border-radius: 16px;">
+  <div class="empty-state-box" style="margin-top: 32px; padding: 48px 24px; text-align: center; background: var(--color-background-secondary, rgba(0,0,0,0.02)); border: 1px dashed rgba(245,158,11,0.3); border-radius: 16px;">
     <div style="font-size: 2rem; margin-bottom: 12px;">⏳</div>
-    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Data Historis Belum Cukup</h3>
-    <p style="font-size: 0.95rem; color: var(--color-text-secondary); max-width: 480px; margin: 0 auto;">Location <strong>{selectedBranch}</strong> tercatat baru beroperasi selama {activeMonthly.length} bulan. Analysis pergeseran musiman memerlukan minimal 12 bulan (1 siklus tahunan) data historis penuh agar tren jangka panjang yang dibaca akurat dan tidak menyesatkan.</p>
+    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Insufficient Historical Data</h3>
+    <p style="font-size: 0.95rem; color: var(--color-text-secondary); max-width: 480px; margin: 0 auto;">Location <strong>{selectedBranch}</strong> has only been operating for {activeMonthly.length} months. Seasonal shift analysis requires a minimum of 12 full months (1 annual cycle) of historical data to ensure long-term trends are accurate and not misleading.</p>
   </div>
 {/if}
 {:else}
-  <div style="margin-top: 32px; padding: 48px 24px; text-align: center; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1); border-radius: 16px;">
+  <div class="empty-state-box" style="margin-top: 32px; padding: 48px 24px; text-align: center; background: var(--color-background-secondary, rgba(0,0,0,0.02)); border: 1px dashed var(--color-border-primary, rgba(0,0,0,0.1)); border-radius: 16px;">
     <div style="font-size: 2rem; margin-bottom: 12px;">🏪</div>
-    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Silakan Pilih Location</h3>
-    <p style="font-size: 0.95rem; color: var(--color-text-secondary); max-width: 400px; margin: 0 auto;">Pilih salah satu location di Pusat Kendali Musiman untuk memulai analisis data historisnya.</p>
+    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8px;">Please Select a Location</h3>
+    <p style="font-size: 0.95rem; color: var(--color-text-secondary); max-width: 400px; margin: 0 auto;">Select a location in the Seasonal Control Center to begin historical data analysis.</p>
   </div>
 {/if}
 </div>
@@ -1545,9 +1545,9 @@ ORDER BY branch_name, start_date
 
 
   {:else}
-    <div style="text-align: center; padding: 60px 20px; background: #f9fafb; border-radius: 12px; margin-top: 32px; border: 1px dashed #cbd5e1;">
-      <h3 style="margin-bottom: 12px; color: #475569;">☝️ Silakan Pilih Location Terlebih Dahulu</h3>
-      <p style="color: #64748b; font-size: 1.05rem;">Gunakan menu pilihan location di atas untuk memuat diagnosis pola traffic, jam sibuk harian, dan tren musiman secara spesifik.</p>
+    <div class="empty-state-box" style="text-align: center; padding: 60px 20px; background: var(--color-background-secondary, #f9fafb); border-radius: 12px; margin-top: 32px; border: 1px dashed var(--color-border-primary, #cbd5e1);">
+      <h3 style="margin-bottom: 12px; color: var(--color-text-primary, #475569);">☝️ Please Select a Location First</h3>
+      <p style="color: var(--color-text-secondary, #64748b); font-size: 1.05rem;">Use the location selector above to load specific diagnoses of traffic patterns, daily peak hours, and seasonal trends.</p>
     </div>
   {/if}
 {/if}

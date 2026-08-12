@@ -25,7 +25,7 @@ details {
   border-radius: 12px;
   margin: 10px 0;
   overflow: hidden;
-  background: rgba(255,255,255,0.55);
+  background: var(--color-background-secondary);
 }
 details > summary {
   padding: 14px 16px;
@@ -48,7 +48,7 @@ details[open] > summary { border-bottom: 1px solid rgba(128,128,128,0.14); }
   border-radius: 12px;
   margin: 10px 0;
   overflow: hidden;
-  background: rgba(255,255,255,0.55);
+  background: var(--color-background-secondary);
 }
 .context-acc summary {
   padding: 14px 16px;
@@ -306,13 +306,13 @@ details.acc-strategic .acc-body { padding: 20px; }
   padding: 14px 15px; 
   border-radius: 14px; 
   border: 1px solid var(--color-border-tertiary); 
-  background: rgba(255,255,255,0.72); 
+  background: var(--color-background-secondary); 
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hero-side-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-background-primary);
 }
 .hero-side-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
 .hero-side-value { font-size: 0.98rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; }
@@ -362,7 +362,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 .menu-status.critical .menu-status-action { border-left-color: rgba(239,68,68,0.50); background: rgba(239,68,68,0.055); }
 .menu-status-action strong { color: var(--color-text-primary); }
 .menu-status-metrics { display: flex; flex-direction: column; gap: 10px; }
-.menu-status-metric { flex: 1; padding: 14px 15px; border-radius: 14px; border: 1px solid var(--color-border-tertiary); background: rgba(255,255,255,0.72); }
+.menu-status-metric { flex: 1; padding: 14px 15px; border-radius: 14px; border: 1px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
 .menu-status-metric-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
 .menu-status-metric-value { font-size: 1.05rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; }
 .menu-status-metric-note { margin-top: 4px; font-size: 0.82rem; line-height: 1.6; color: var(--color-text-secondary); }
@@ -503,7 +503,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 .action-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .action-meta span { padding: 3px 8px; border-radius: 999px; background: rgba(0,0,0,0.045); font-size: 10px; font-weight: 750; color: var(--color-text-tertiary); }
 .action-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
-.action-detail { padding: 9px 10px; border-radius: 10px; border: 1px solid rgba(128,128,128,0.12); background: rgba(255,255,255,0.48); }
+.action-detail { padding: 9px 10px; border-radius: 10px; border: 1px solid rgba(128,128,128,0.12); background: var(--color-background-secondary); }
 .action-detail-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 3px; }
 .action-detail-copy { font-size: 0.8rem; line-height: 1.55; color: var(--color-text-secondary); }
 
@@ -787,7 +787,7 @@ ORDER BY a.total_revenue DESC
           </div>
         </div>
 
-        <div style="display: flex; gap: 8px; margin-bottom: 16px; background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.03);">
+        <div style="display: flex; gap: 8px; margin-bottom: 16px; background: var(--color-background-secondary); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.03);">
           <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="color: var(--color-text-secondary); font-size: 0.7rem; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Avg Item Price</div>
             <div style="font-size: 0.95rem; font-weight: 800; color: #2563eb;">Rp {Math.round(b.avg_item_price).toLocaleString('en-US')}</div>

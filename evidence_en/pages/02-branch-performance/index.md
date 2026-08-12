@@ -179,7 +179,7 @@ title: Branch Performance
   padding: 14px 15px;
   border-radius: 14px;
   border: 1px solid var(--color-border-tertiary);
-  background: rgba(255,255,255,0.72);
+  background: var(--color-background-secondary);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01);
 }
@@ -187,7 +187,7 @@ title: Branch Performance
 .hero-side-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-background-primary);
 }
 
 .hero-side-label {
@@ -349,7 +349,7 @@ title: Branch Performance
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--color-background-secondary);
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid rgba(128, 128, 128, 0.08);
@@ -381,7 +381,7 @@ title: Branch Performance
 }
 
 .stat-pill {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-background-secondary);
   border: 1px solid rgba(128, 128, 128, 0.1);
   padding: 8px 6px;
   border-radius: 10px;

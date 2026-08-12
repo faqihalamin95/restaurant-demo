@@ -268,7 +268,7 @@ sidebar_link: true
 .live-status-text {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #000000;
+  color: var(--color-text-primary);
 }
 
 .live-dot {
@@ -338,7 +338,7 @@ sidebar_link: true
 }
 .portal-desc {
   font-size: 0.85rem;
-  color: #000000;
+  color: var(--color-text-primary);
   line-height: 1.45;
 }
 
@@ -376,7 +376,7 @@ sidebar_link: true
 .section-title {
     font-size: 1.2rem;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--color-text-primary);
     margin-top: 48px;
     margin-bottom: 20px;
     display: flex;
@@ -413,12 +413,12 @@ sidebar_link: true
     margin: 0 0 4px 0;
     font-size: 1rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--color-text-primary);
 }
 .radar-content p {
     margin: 0;
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--color-text-secondary);
     line-height: 1.5;
 }
 
@@ -454,12 +454,12 @@ sidebar_link: true
 .ql-title {
     font-size: 1.1rem;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--color-text-primary);
     margin-bottom: 4px;
 }
 .ql-desc {
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--color-text-secondary);
 }
 
 /* CTA Banner — identical to Financial Report */
@@ -495,7 +495,7 @@ sidebar_link: true
 .clean-cta-desc {
     margin: 0;
     font-size: 0.88rem;
-    color: #475569;
+    color: var(--color-text-secondary);
     font-weight: 400;
     line-height: 1.6;
 }
@@ -666,7 +666,7 @@ FROM restaurant.daily_revenue
       {/if}
     </h2>
     
-    <p class="hero-card-desc" style="color: #000000; margin-bottom: 12px;">
+    <p class="hero-card-desc" style="color: var(--color-text-secondary); margin-bottom: 12px;">
       Current net operational margin is at <strong>{margin}%</strong>. 
       {#if status === 'sehat'}
         Margin is still healthy for the main operational base.
@@ -687,7 +687,7 @@ FROM restaurant.daily_revenue
   <div style="font-size: 2rem;">📋</div>
   <div>
     <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; text-transform: uppercase;">CROSS-SECTOR OPERATIONAL CONTROL</h2>
-    <div style="font-size: 0.85rem; color: black; font-weight: 500;">Focus: Monitor anomalies and optimization opportunities across all departments. Click the module below to enter in-depth analysis.</div>
+    <div style="font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 500;">Focus: Monitor anomalies and optimization opportunities across all departments. Click the module below to enter in-depth analysis.</div>
   </div>
 </div>
 

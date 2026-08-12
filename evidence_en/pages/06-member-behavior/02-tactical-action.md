@@ -743,13 +743,13 @@ ORDER BY conversion_pct ASC
   padding: 14px 15px; 
   border-radius: 14px; 
   border: 1px solid var(--color-border-tertiary); 
-  background: rgba(255,255,255,0.72); 
+  background: var(--color-background-secondary); 
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hero-side-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-background-primary);
 }
 .hero-side-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 4px; }
 .hero-side-value { font-size: 0.98rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; }
