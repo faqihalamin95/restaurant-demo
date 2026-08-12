@@ -1,0 +1,655 @@
+1 0 ---
+2 0 title: Permintaan & Traffic
+3 0 sidebar_link: false
+4 0 ---
+5 0 
+6 0 <PeakTabs activeTab="jam-sibuk" />
+7 0 
+8 0 <script>
+9 0   import SectionCard from '$lib/SectionCard.svelte
+10 0   import SectionHeader from '$lib/SectionHeader.sv
+11 0 </script>
+12 0 
+13 0 ```sql branch_list
+14 0 SELECT DISTINCT branch_name 
+15 0 FROM restaurant.peak_hours 
+16 0 ORDER BY branch_name
+17 0 ```
+18 0 
+19 0 ```sql branch_peak_metrics
+20 0 WITH base_data AS (
+21 0     SELECT branch_name, order_hour, day_part, SUM(
+22 0     FROM restaurant.peak_hours
+23 0     WHERE order_date >= (SELECT MAX(order_date) FR
+24 0     GROUP BY branch_name, order_hour, day_part
+25 0 ),
+26 0 hourly AS (
+27 0     SELECT branch_name, order_hour, SUM(total_orde
+28 0 ),
+29 0 stats AS (
+30 0     SELECT branch_name, ROUND(AVG(total_orders),1)
+31 0     FROM hourly
+32 0     GROUP BY branch_name
+33 0 ),
+34 0 thresholded AS (
+35 0     SELECT
+36 0         h.branch_name,
+37 0         h.order_hour,
+38 0         h.total_orders,
+39 0         s.avg_orders,
+40 0         s.grand_total,
+41 0         ROUND(s.avg_orders * 1.15, 1) AS peak_thre
+42 0         CASE WHEN h.total_orders >= s.avg_orders *
+43 0     FROM hourly h JOIN stats s ON h.branch_name = 
+44 0 ),
+45 0 peak_candidates AS (
+46 0     SELECT
+47 0         branch_name,
+48 0         CAST(order_hour AS INTEGER) AS order_hour,
+49 0         total_orders,
+50 0         grand_total,
+51 0         CAST(order_hour AS INTEGER) - ROW_NUMBER()
+52 0         total_orders / NULLIF(avg_orders, 0) AS de
+53 0     FROM thresholded
+54 0     WHERE is_peak = 1
+55 0 ),
+56 0 detected_windows AS (
+57 0     SELECT
+58 0         branch_name,
+59 0         MIN(order_hour) AS start_hour,
+60 0         MAX(order_hour) AS end_hour,
+61 0         MAX(demand_surge_ratio) AS surge_ratio,
+62 0         SUM(total_orders) AS window_orders,
+63 0         MAX(grand_total) AS grand_total
+64 0     FROM peak_candidates
+65 0     GROUP BY branch_name, grp
+66 0 )
+67 0 SELECT
+68 0     branch_name,
+69 0     ROUND(SUM(window_orders) / MAX(grand_total) * 
+70 0     ROUND(MAX(surge_ratio), 1) AS max_demand_surge
+71 0     string_agg(
+72 0         CASE
+73 0             WHEN start_hour = end_hour THEN CAST(s
+74 0             ELSE CAST(start_hour AS VARCHAR) || ':
+75 0         END,
+76 0         ' & ' ORDER BY start_hour
+77 0     ) AS peak_windows_label
+78 0 FROM detected_windows
+79 0 GROUP BY branch_name
+80 0 ```
+81 0 
+82 0 ```sql day_analysis
+83 0 SELECT
+84 0     branch_name,
+85 0     CASE dayofweek(order_date)
+86 0         WHEN 0 THEN 7
+87 0         ELSE dayofweek(order_date)
+88 0     END AS sort_order,
+89 0     CASE dayofweek(order_date)
+90 0         WHEN 0 THEN 'Minggu'
+91 0         WHEN 1 THEN 'Senin'
+92 0         WHEN 2 THEN 'Selasa'
+93 0         WHEN 3 THEN 'Rabu'
+94 0         WHEN 4 THEN 'Kamis'
+95 0         WHEN 5 THEN 'Jumat'
+96 0         WHEN 6 THEN 'Sabtu'
+97 0     END AS hari,
+98 0     CASE order_type
+99 0         WHEN 'dine_in' THEN '🍽️ Dine-In'
+100 0         WHEN 'takeaway' THEN '🥡 Takeaway'
+101 0         WHEN 'online' THEN '🛵 Online'
+102 0         WHEN 'delivery' THEN '🛵 Delivery'
+103 0         ELSE REPLACE(order_type, '_', ' ')
+104 0     END AS order_type,
+105 0     SUM(total_orders) AS total_orders
+106 0 FROM restaurant.peak_hours
+107 0 WHERE order_date >= (SELECT MAX(order_date) FROM r
+108 0 GROUP BY branch_name, sort_order, hari, order_type
+109 0 ORDER BY branch_name, sort_order
+110 0 ```
+111 0 
+112 0 ```sql weekend_analysis
+113 0 SELECT
+114 0     branch_name,
+115 0     CASE 
+116 0         WHEN EXTRACT(DOW FROM order_date) IN (0, 5
+117 0         ELSE 'Weekday (Sen-Kam)' 
+118 0     END AS period_type,
+119 0     SUM(total_orders) as total_orders
+120 0 FROM restaurant.peak_hours
+121 0 WHERE order_date >= (SELECT MAX(order_date) FROM r
+122 0 GROUP BY branch_name, period_type
+123 0 ORDER BY period_type
+124 0 ```
+125 0 
+126 0 ```sql heatmap_data
+127 0 WITH base AS (
+128 0     SELECT
+129 0         branch_name,
+130 0         order_hour,
+131 0         CASE dayofweek(order_date)
+132 0             WHEN 0 THEN 7
+133 0             ELSE dayofweek(order_date)
+134 0         END AS sort_order,
+135 0         CASE dayofweek(order_date)
+136 0             WHEN 0 THEN 'Minggu'
+137 0             WHEN 1 THEN 'Senin'
+138 0             WHEN 2 THEN 'Selasa'
+139 0             WHEN 3 THEN 'Rabu'
+140 0             WHEN 4 THEN 'Kamis'
+141 0             WHEN 5 THEN 'Jumat'
+142 0             WHEN 6 THEN 'Sabtu'
+143 0         END AS hari,
+144 0         CASE order_type
+145 0             WHEN 'dine_in' THEN '🍽️ Dine-In'
+146 0             WHEN 'takeaway' THEN '🥡 Takeaway'
+147 0             WHEN 'online' THEN '🛵 Online'
+148 0             WHEN 'delivery' THEN '🛵 Delivery'
+149 0             ELSE REPLACE(order_type, '_', ' ')
+150 0         END AS order_type,
+151 0         SUM(total_orders) AS total_orders
+152 0     FROM restaurant.peak_hours
+153 0     WHERE order_date >= (SELECT MAX(order_date) FR
+154 0     GROUP BY branch_name, order_hour, sort_order, 
+155 0 )
+156 0 SELECT
+157 0     branch_name,
+158 0     order_hour,
+159 0     sort_order,
+160 0     hari,
+161 0     SUM(total_orders) AS total_orders,
+162 0     string_agg(order_type || ': ' || CAST(CAST(tot
+163 0 FROM base
+164 0 GROUP BY branch_name, order_hour, sort_order, hari
+165 0 ORDER BY branch_name, sort_order, order_hour
+166 0 ```
+167 0 
+168 0 ```sql daypart_data
+169 0 SELECT
+170 0     branch_name,
+171 0     day_part,
+172 0     CASE day_part
+173 0         WHEN 'Pagi' THEN 'Pagi (08-10)'
+174 0         WHEN 'Makan Siang' THEN 'Makan Siang (11-1
+175 0         WHEN 'Sore' THEN 'Sore (14-16)'
+176 0         WHEN 'Makan Malam' THEN 'Makan Malam (17-2
+177 0         WHEN 'Larut Malam' THEN 'Larut Malam (21-2
+178 0         ELSE day_part
+179 0     END AS day_part_full,
+180 0     CASE day_part
+181 0         WHEN 'Pagi' THEN 1
+182 0         WHEN 'Makan Siang' THEN 2
+183 0         WHEN 'Sore' THEN 3
+184 0         WHEN 'Makan Malam' THEN 4
+185 0         WHEN 'Larut Malam' THEN 5
+186 0         ELSE 6
+187 0     END AS sort_order,
+188 0     CASE order_type
+189 0         WHEN 'dine_in' THEN '🍽️ Dine-In'
+190 0         WHEN 'takeaway' THEN '🥡 Takeaway'
+191 0         WHEN 'online' THEN '🛵 Online'
+192 0         WHEN 'delivery' THEN '🛵 Delivery'
+193 0         ELSE REPLACE(order_type, '_', ' ')
+194 0     END AS order_type,
+195 0     SUM(total_orders) AS total_orders
+196 0 FROM restaurant.peak_hours
+197 0 WHERE order_date >= (SELECT MAX(order_date) FROM r
+198 0 GROUP BY branch_name, day_part, sort_order, order_
+199 0 ORDER BY sort_order
+200 0 ```
+201 0 
+202 0 {#if branch_list.length > 0}
+203 0   {@const selectedBranch = String(inputs.pilih_cab
+204 0   {@const activeBranchData = branch_peak_metrics.f
+205 0   {@const branchDayData = day_analysis.filter(row 
+206 0   {@const branchWeekendData = weekend_analysis.fil
+207 0   {@const totalWeekday = branchWeekendData.find(r 
+208 0   {@const totalWeekend = branchWeekendData.find(r 
+209 0   {@const avgWeekday = totalWeekday / 4}
+210 0   {@const avgWeekend = totalWeekend / 3}
+211 0   {@const ratio = avgWeekday > 0 ? avgWeekend / av
+212 0   {@const badgeText = ratio > 1.4 ? '🔥 Akhir Peka
+213 0   {@const badgeBg = ratio > 1.4 ? '#fee2e2' : rati
+214 0   {@const badgeBorder = ratio > 1.4 ? '#fca5a5' : 
+215 0   {@const badgeColor = ratio > 1.4 ? '#991b1b' : r
+216 0   {@const badgeDesc = ratio > 1.4 ? 'Akhir pekan m
+217 0   {@const branchHeatmap = heatmap_data.filter(row 
+218 0   {@const branchDaypart = daypart_data.filter(row 
+219 0   {@const heatmapLookup = Object.fromEntries(branc
+220 1     <div style="margin-top: 24px; margin-bottom: 2
+221 1     <SectionCard 
+222 1       eyebrow="<span style='font-size: 12px;'>🏪 P
+223 1       title="Pusat Kendali Jam & Hari Sibuk" 
+224 1       description="Pilih cabang tertentu untuk mem
+225 1     >
+226 1       <ButtonGroup name="pilih_cabang">
+227 1         {#each branch_list as branch, i}
+228 1           <ButtonGroupItem value={branch.branch_na
+229 1         {/each}
+230 1       </ButtonGroup>
+231 1     </SectionCard>
+232 0   </div>
+233 0 
+234 0 
+235 0 
+236 0 <SectionHeader 
+237 0   eyebrow="📈 Distribusi Demand Harian"
+238 0   title="Peta Kurva Nadi Operasional"
+239 0   description="Bentuk kurva demand dari buka hingg
+240 0 />
+241 0 
+242 0 {#if activeBranchData && activeBranchData.peak_sha
+243 0   {@const share = activeBranchData.peak_share_pct}
+244 0   {@const surge = activeBranchData.max_demand_surg
+245 0   {@const windows = activeBranchData.peak_windows_
+246 0 
+247 0   {@const shareStatus = share > 65 ? 'kritis' : sh
+248 0   {@const surgeStatus = surge > 2.5 ? 'kritis' : s
+249 0 
+250 1   <div class="period-strip" style="grid-template-c
+251 1     
+252 2     <div class="period-pill {shareStatus}">
+253 2       <div class="period-pill-label">📊 Konsentras
+254 3       <div class="period-pill-value" style="font-s
+255 3         <span class="pill-badge {shareStatus}">
+256 3           {shareStatus === 'sehat' ? '✅ Terdistrib
+257 3         </span>
+258 3         {share}%
+259 2       </div>
+260 3       <div class="period-pill-copy" style="font-si
+261 3         Persentase total transaksi harian yang ter
+262 2       </div>
+263 1     </div>
+264 1     
+265 2     <div class="period-pill {surgeStatus}">
+266 2       <div class="period-pill-label">⚡ Lonjakan Ke
+267 3       <div class="period-pill-value" style="font-s
+268 3         <span class="pill-badge {surgeStatus}">
+269 3           {surgeStatus === 'sehat' ? '✅ Terkendali
+270 3         </span>
+271 3         {surge}x Lipat
+272 2       </div>
+273 3       <div class="period-pill-copy" style="font-si
+274 3         Perbandingan volume transaksi saat jam sib
+275 2       </div>
+276 1     </div>
+277 1     
+278 2     <div class="period-pill">
+279 2       <div class="period-pill-label">🕐 Zona Waktu
+280 3       <div class="period-pill-value" style="font-s
+281 3         {windows}
+282 2       </div>
+283 3       <div class="period-pill-copy" style="font-si
+284 3         Periode krusial di mana staf dan bahan bak
+285 2       </div>
+286 1     </div>
+287 1 
+288 0   </div>
+289 0 
+290 1   <div style="margin-top: 32px; margin-bottom: 32p
+291 1     
+292 1     <DiagnosticsHeader 
+293 1       marginTop="24px"
+294 1       eyebrow="📅 MAKRO"
+295 1       title="Analisis Volume Hari Sibuk"
+296 1       description="Gunakan instrumen di bawah ini 
+297 1     />
+298 1     
+299 1     <details class="acc-strategic" style="margin-t
+300 1       <summary>📊 Detail Analisis Makro &amp; Prof
+301 2       <div class="acc-body">
+302 3         <div class="section-head tight" style="mar
+303 4           <div>
+304 4             <div class="section-eyebrow">📊 Agrega
+305 4             <h3 class="section-title">Kapan beban 
+306 4             <p class="section-copy">Mendeteksi har
+307 3           </div>
+308 2         </div>
+309 2         <BarChart 
+310 2           data={branchDayData} 
+311 2           x=hari 
+312 2           y=total_orders
+313 2           series=order_type
+314 2           type="stacked"
+315 2           sort=false
+316 2           yAxisTitle="Total Order (30 Hari)" 
+317 2           xAxisTitle="Hari dalam Seminggu" 
+318 2         />
+319 3         <div class="chart-insight-bar" style="marg
+320 3           📌 <strong>Panduan Aksi (Makro):</strong
+321 2         </div>
+322 2 
+323 3         <div style="display: flex; flex-direction:
+324 4           <div style="width: 100%;">
+325 5             <div class="section-head tight" style=
+326 6               <div>
+327 6                 <div class="section-eyebrow">🧬 Ka
+328 6                 <h3 class="section-title">Siapa ya
+329 6                 <p class="section-copy">Memecah pr
+330 5               </div>
+331 4             </div>
+332 3           </div>
+333 3 
+334 4           <div style="display: flex; flex-directio
+335 5             <div style="max-width: 600px;">
+336 6               <div style="background: {badgeBg}; b
+337 6                 {badgeText}
+338 5               </div>
+339 6               <div style="font-size: 0.85rem; colo
+340 6                 {badgeDesc}
+341 5               </div>
+342 4             </div>
+343 4             
+344 5             <div style="width: 100%; max-width: 60
+345 5               <ECharts config={{
+346 5                 tooltip: { trigger: 'item' },
+347 5                 color: ['#3b82f6', '#f59e0b'],
+348 5                 legend: { show: false },
+349 5                 series: [
+350 5                   {
+351 5                     type: 'pie',
+352 5                     radius: ['40%', '70%'],
+353 5                     center: ['50%', '50%'],
+354 5                     itemStyle: { borderRadius: 8, 
+355 5                     data: branchWeekendData.map(ro
+356 5                     label: { show: true, formatter
+357 5                   }
+358 5                 ]
+359 5               }} 
+360 5             />
+361 4           </div>
+362 4 
+363 5           <div class="chart-insight-bar" style="ma
+364 5             📌 <strong>Panduan Aksi (Profil Cabang
+365 4           </div>
+366 3         </div>
+367 2       </div>
+368 2     </details>
+369 1   </div>
+370 1 
+371 2   <div>
+372 2     <DiagnosticsHeader 
+373 2       marginTop="48px"
+374 2       eyebrow="🔍 MIKRO &amp; ⛅ MESO"
+375 2       title="Peta Titik Didih &amp; Proporsi Sesi"
+376 2       description="Gunakan instrumen di bawah ini 
+377 2     />
+378 2     
+379 2     <details class="acc-strategic" style="margin-t
+380 2       <summary>📊 Detail Analisis Titik Kritis &am
+381 3       <div class="acc-body">
+382 4         <div class="section-head tight" style="mar
+383 5           <div>
+384 5             <div class="section-eyebrow">🔥 TITIK 
+385 5             <h3 class="section-title">Di jam berap
+386 5             <p class="section-copy">Mendeteksi kon
+387 4           </div>
+388 3         </div>
+389 3 
+390 4         <div style="display: grid; grid-template-c
+391 5         <div>
+392 5           <Heatmap 
+393 5             data={branchHeatmap} 
+394 5             x=order_hour 
+395 5             y=hari 
+396 5             value=total_orders 
+397 5             ySort="sort_order"
+398 5             colorPalette={['#eff6ff', '#bfdbfe', '
+399 5             echartsOptions={{
+400 5               tooltip: {
+401 5                 formatter: function(params) {
+402 5                   const key = params.value[0] + '_
+403 5                   const rincian = heatmapLookup[ke
+404 5                   const lines = rincian ? rincian.
+405 5                   let html = "<div style='font-wei
+406 5                   html += "<div style='margin-bott
+407 5                   if (lines.length > 0) {
+408 5                     html += "<hr style='margin:4px
+409 5                     lines.forEach(function(line) {
+410 5                       const parts = line.split(': 
+411 6                       html += "<div style='display
+412 6                         "<span>" + parts[0] + "</s
+413 5                         "<span style='font-weight:
+414 5                     });
+415 5                   }
+416 5                   return html;
+417 5                 }
+418 5               }
+419 5             }}
+420 5           />
+421 6           <div class="chart-insight-bar" style="ma
+422 6             📌 <strong>Manajemen Krisis (Mikro):</
+423 6             
+424 6             <details style="margin-top: 16px; font
+425 6               <summary class="crisis-btn">
+426 6                 🆘 Dapur kewalahan saat jam sibuk?
+427 6               </summary>
+428 7               <div style="display: flex; flex-dire
+429 8                 <div class="crisis-card crisis-car
+430 8                   <div class="crisis-emoji">⏳</div
+431 9                   <div>
+432 9                     <strong style="color: #0f172a;
+433 9                     <span style="color: #475569; l
+434 8                   </div>
+435 7                 </div>
+436 8                 <div class="crisis-card crisis-car
+437 8                   <div class="crisis-emoji">⛔</div
+438 9                   <div>
+439 9                     <strong style="color: #0f172a;
+440 9                     <span style="color: #475569; l
+441 8                   </div>
+442 7                 </div>
+443 8                 <div class="crisis-card crisis-car
+444 8                   <div class="crisis-emoji">🔄</di
+445 9                   <div>
+446 9                     <strong style="color: #0f172a;
+447 9                     <span style="color: #475569; l
+448 8                   </div>
+449 7                 </div>
+450 8                 <div style="font-size: 0.8rem; col
+451 8                   *Catatan: Jika kemacetan sangat 
+452 7                 </div>
+453 6               </div>
+454 6             </details>
+455 5           </div>
+456 4         </div>
+457 4         
+458 5         <div>
+459 5           <BarChart 
+460 5             data={branchDaypart} 
+461 5             x=day_part_full 
+462 5             y=total_orders 
+463 5             series=order_type
+464 5             type="stacked"
+465 5             swapXY=true
+466 5             sort=false
+467 5             xAxisTitle="Total Order"
+468 5             yAxisTitle="Sesi Waktu"
+469 5             echartsOptions={{
+470 5               yAxis: {
+471 5                 axisLabel: {
+472 5                   formatter: function(value) {
+473 5                     if(typeof value === 'string') 
+474 5                     return value;
+475 5                   }
+476 5                 }
+477 5               },
+478 5               tooltip: {
+479 5                 formatter: function(params) {
+480 5                   if (!params || !params.length) r
+481 5                   let name = params[0].name;
+482 5                   let html = "<div style='font-wei
+483 5                   let total = 0;
+484 5                   
+485 5                   params.forEach(function(p) {
+486 5                     let val = 0;
+487 5                     if (p.dimensionNames && Array.
+488 5                         let idx = p.dimensionNames
+489 5                         if (idx >= 0) {
+490 5                             val = p.value[idx];
+491 5                         } else if (p.encode && p.e
+492 5                             val = p.value[p.encode
+493 5                         } else {
+494 5                             val = p.value[p.series
+495 5                         }
+496 5                     } else if (typeof p.value === 
+497 5                         val = p.value[p.seriesName
+498 5                     } else {
+499 5                         val = p.value;
+500 5                     }
+501 5                     
+502 5                     let numVal = Number(val) || 0;
+503 5                     total += numVal;
+504 5                     let color = p.color;
+505 5                     let marker = "<span style='dis
+506 5                     
+507 6                     html += "<div style='display:f
+508 6                       "<span style='display:flex;a
+509 5                       "<span style='font-weight:60
+510 5                   });
+511 5                   
+512 5                   html += "<hr style='margin:8px 0
+513 6                   html += "<div style='display:fle
+514 6                     "<span>Total Orders</span>" +
+515 5                     "<span>" + total.toLocaleStrin
+516 5                     
+517 5                   return html;
+518 5                 }
+519 5               }
+520 5             }}
+521 5           />
+522 6           <div class="chart-insight-bar" style="ma
+523 6             📌 <strong>Rostering (Meso):</strong> 
+524 5           </div>
+525 4         </div>
+526 3       </div>
+527 3 
+528 4       <div style="margin-top: 32px;">
+529 4         <details class="guide-acc" style="margin-b
+530 4           <summary>💡 Cara membaca instrumen Mikro
+531 5           <div class="guide-body">
+532 5             <p style="margin-top: 4px; margin-bott
+533 5               Gunakan panduan di bawah ini untuk m
+534 5             </p>
+535 6             <div class="guide-grid" style="grid-te
+536 6               
+537 7               <div class="guide-card red">
+538 7                 <div class="guide-card-icon">🧭</d
+539 8                 <div class="guide-card-content">
+540 8                   <div class="guide-card-label">St
+541 8                   <h4 class="guide-card-title">Mem
+542 8                   <p class="guide-card-desc">Baris
+543 7                 </div>
+544 6               </div>
+545 6               
+546 7               <div class="guide-card orange">
+547 7                 <div class="guide-card-icon">🖱️</
+548 8                 <div class="guide-card-content">
+549 8                   <div class="guide-card-label">Ra
+550 8                   <h4 class="guide-card-title">Gun
+551 8                   <p class="guide-card-desc">Arahk
+552 7                 </div>
+553 6               </div>
+554 6 
+555 7               <div class="guide-card teal">
+556 7                 <div class="guide-card-icon">📊</d
+557 8                 <div class="guide-card-content">
+558 8                   <div class="guide-card-label">Di
+559 8                   <h4 class="guide-card-title">Kom
+560 8                   <p class="guide-card-desc">Grafi
+561 7                 </div>
+562 6               </div>
+563 6 
+564 7               <div class="guide-card blue">
+565 7                 <div class="guide-card-icon">🎛️</
+566 8                 <div class="guide-card-content">
+567 8                   <div class="guide-card-label">Pu
+568 8                   <h4 class="guide-card-title">Efe
+569 8                   <p class="guide-card-desc">Setia
+570 7                 </div>
+571 6               </div>
+572 6 
+573 5             </div>
+574 4           </div>
+575 4         </details>
+576 3       </div>
+577 3 
+578 2       </div>
+579 2     </details>
+580 1   </div>
+581 1 
+582 1 {:else}
+583 2   <div style="padding: 60px 20px; text-align: cent
+584 2     <h3 style="margin: 0 0 8px 0; color: var(--col
+585 2     <p style="color: var(--color-text-secondary); 
+586 1   </div>
+587 1 {/if}
+588 1 {/if}
+589 1 
+590 1 <style>
+591 1 .crisis-btn {
+592 1   font-weight: 600; 
+593 1   color: #1e293b; 
+594 1   background: linear-gradient(to right, #ffffff, #
+595 1   border: 1px solid #e2e8f0; 
+596 1   border-left: 4px solid #f59e0b;
+597 1   border-radius: 6px; 
+598 1   padding: 10px 14px; 
+599 1   cursor: pointer; 
+600 1   transition: all 0.2s;
+601 1   box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+602 1   list-style: none;
+603 1 }
+604 1 .crisis-btn:hover {
+605 1   background: #f8fafc;
+606 1   border-color: #cbd5e1;
+607 1   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+608 1   transform: translateY(-1px);
+609 1 }
+610 1 .crisis-card {
+611 1   border-radius: 8px; 
+612 1   padding: 14px 16px; 
+613 1   display: flex; 
+614 1   gap: 16px; 
+615 1   align-items: flex-start;
+616 1   box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+617 1   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 
+618 1 }
+619 1 .crisis-card-1 { background: #fffbeb; border: 1px 
+620 1 .crisis-card-1:hover {
+621 1   background: #fef3c7; border-color: #fcd34d;
+622 1   transform: translateX(6px);
+623 1   box-shadow: -4px 4px 8px -2px rgba(245,158,11,0.
+624 1 }
+625 1 .crisis-card-1 .crisis-emoji { background: #fef3c7
+626 1 .crisis-card-2 { background: #fff1f2; border: 1px 
+627 1 .crisis-card-2:hover {
+628 1   background: #ffe4e6; border-color: #fda4af;
+629 1   transform: translateX(6px);
+630 1   box-shadow: -4px 4px 8px -2px rgba(225,29,72,0.1
+631 1 }
+632 1 .crisis-card-2 .crisis-emoji { background: #ffe4e6
+633 1 .crisis-card-3 { background: #eff6ff; border: 1px 
+634 1 .crisis-card-3:hover {
+635 1   background: #dbeafe; border-color: #93c5fd;
+636 1   transform: translateX(6px);
+637 1   box-shadow: -4px 4px 8px -2px rgba(59,130,246,0.
+638 1 }
+639 1 .crisis-card-3 .crisis-emoji { background: #dbeafe
+640 1 .crisis-emoji {
+641 1   font-size: 1.25rem; 
+642 1   line-height: 1; 
+643 1   padding: 10px; 
+644 1   border-radius: 8px;
+645 1   border: 1px solid transparent;
+646 1   transition: all 0.2s ease;
+647 1 }
+648 1 .crisis-chevron {
+649 1   transition: transform 0.25s ease;
+650 1 }
+651 1 details[open] .crisis-chevron {
+652 1   transform: rotate(90deg);
+653 1 }
+654 1 </style>
+655 1 

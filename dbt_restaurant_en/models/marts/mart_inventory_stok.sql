@@ -54,5 +54,16 @@ joined as (
     left join branches b on d.branch_id    = b.branch_id
 )
 
-select * from joined
+select *,
+    case
+        when estimated_stock_delta < usage_qty * 3 then 'low'
+        when estimated_stock_delta > usage_qty * 14 then 'overstock'
+        else 'ok'
+    end as stock_status,
+    case
+        when usage_qty > 0 then estimated_stock_delta / usage_qty
+        else 99
+    end as days_remaining,
+    estimated_stock_delta * base_unit_cost as stock_value
+from joined
 order by txn_date desc, branch_id, inventory_id

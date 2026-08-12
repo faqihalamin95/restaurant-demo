@@ -1,0 +1,3597 @@
+---
+title: Performa Cabang
+---
+
+<style>
+.over-container { display: none !important; }
+
+.branch-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 10px;
+}
+
+.guide-acc {
+  border: 1px solid rgba(128,128,128,0.18);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.58);
+}
+
+.guide-acc summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 800;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-acc summary::-webkit-details-marker { display: none; }
+
+.guide-body {
+  padding: 0 16px 16px;
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 14px;
+}
+
+.guide-item {
+  padding: 14px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.guide-item-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.guide-item-title {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 5px;
+}
+
+.guide-item-desc {
+  font-size: 0.83rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.timeframe-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.timeframe-band {
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.62);
+}
+
+.timeframe-band strong {
+  display: block;
+  font-size: 0.94rem;
+  color: var(--color-text-primary);
+}
+
+.timeframe-band span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 3px;
+}
+
+.timeframe-band.quick {
+  background: rgba(59,130,246,0.08);
+  border-color: rgba(59,130,246,0.18);
+}
+
+.timeframe-band.ops {
+  background: rgba(20,184,166,0.08);
+  border-color: rgba(20,184,166,0.18);
+}
+
+.timeframe-band.core {
+  background: rgba(245,158,11,0.08);
+  border-color: rgba(245,158,11,0.18);
+}
+
+.timeframe-band.structural {
+  background: rgba(99,102,241,0.08);
+  border-color: rgba(99,102,241,0.18);
+}
+
+.timeframe-band.long {
+  background: rgba(148,163,184,0.08);
+  border-color: rgba(148,163,184,0.18);
+}
+
+.section-card {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.section-copy {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 72ch;
+}
+
+.timeframe-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: rgba(0,0,0,0.05);
+  color: var(--color-text-tertiary);
+}
+
+.period-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.period-pill {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.period-pill.sehat {
+  border-color: rgba(22,163,74,0.28);
+  background: linear-gradient(135deg, rgba(22,163,74,0.08), rgba(16,185,129,0.04));
+}
+
+.period-pill.waspada {
+  border-color: rgba(245,158,11,0.3);
+  background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(251,191,36,0.04));
+}
+
+.period-pill.kritis {
+  border-color: rgba(239,68,68,0.28);
+  background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(220,38,38,0.04));
+}
+
+.period-pill-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.period-pill-value {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.period-pill-copy {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.pill-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.pill-badge.sehat { background: rgba(22,163,74,0.15); color: #15803d; }
+.pill-badge.waspada { background: rgba(245,158,11,0.18); color: #b45309; }
+.pill-badge.kritis { background: rgba(239,68,68,0.15); color: #b91c1c; }
+
+.cockpit {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(37,99,235,0.14);
+  background:
+    radial-gradient(circle at top right, rgba(69,161,191,0.16), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 42%),
+    linear-gradient(135deg, rgba(37,99,235,0.05), rgba(194,65,12,0.03)),
+    var(--color-background-secondary);
+}
+
+.cockpit-score {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid;
+  font-size: 1.7rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.cockpit-score.sehat {
+  border-color: #16a34a;
+  background: rgba(22,163,74,0.08);
+  color: #15803d;
+}
+
+.cockpit-score.waspada {
+  border-color: #f59e0b;
+  background: rgba(245,158,11,0.09);
+  color: #b45309;
+}
+
+.cockpit-score.kritis {
+  border-color: #ef4444;
+  background: rgba(239,68,68,0.08);
+  color: #b91c1c;
+}
+
+.cockpit-score-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cockpit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cockpit-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.cockpit-headline {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  line-height: 1.15;
+}
+
+.cockpit-diagnosis {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+}
+
+.cockpit-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1.5px solid;
+}
+
+.cockpit-action.sehat {
+  border-color: rgba(22,163,74,0.3);
+  background: rgba(22,163,74,0.07);
+  color: #15803d;
+}
+
+.cockpit-action.waspada {
+  border-color: rgba(245,158,11,0.3);
+  background: rgba(245,158,11,0.08);
+  color: #b45309;
+}
+
+.cockpit-action.kritis {
+  border-color: rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.08);
+  color: #b91c1c;
+}
+
+.signal-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.signal-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.signal-card.safe {
+  border-color: rgba(22,163,74,0.25);
+  background: linear-gradient(135deg, rgba(22,163,74,0.07), rgba(16,185,129,0.03));
+}
+
+.signal-card.warn {
+  border-color: rgba(245,158,11,0.28);
+  background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(251,191,36,0.03));
+}
+
+.signal-card.critical {
+  border-color: rgba(239,68,68,0.25);
+  background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(220,38,38,0.03));
+}
+
+.signal-card.neutral {
+  border-color: rgba(99,102,241,0.2);
+  background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.03));
+}
+
+.signal-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+
+.signal-title {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+
+.signal-copy {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+.insight-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(99,102,241,0.16);
+  background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.03));
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.insight-box strong { color: var(--color-text-primary); }
+
+.matrix-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: 176px;
+  border: 1px solid var(--color-border-tertiary);
+  margin-bottom: 16px;
+}
+
+.quadrant {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quadrant.label-1 { background: linear-gradient(135deg, rgba(20,184,166,0.1), rgba(16,185,129,0.04)); }
+.quadrant.label-2 { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(251,191,36,0.04)); }
+.quadrant.label-3 { background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(220,38,38,0.04)); }
+.quadrant.label-4 { background: linear-gradient(135deg, rgba(148,163,184,0.1), rgba(100,116,139,0.04)); }
+
+.quadrant-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.quadrant-desc {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.portfolio-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.portfolio-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.6);
+}
+
+.portfolio-card .value {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin: 4px 0;
+}
+
+.portfolio-card .copy {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.deep-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+}
+
+.branch-selector-card {
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(99,102,241,0.16);
+  background: linear-gradient(135deg, rgba(99,102,241,0.045), rgba(255,255,255,0.72));
+  margin-bottom: 10px;
+}
+
+.branch-selector-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.branch-selector-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.branch-selector-copy {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mini-card {
+  padding: 14px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.62);
+}
+
+.mini-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+
+.mini-value {
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.mini-copy {
+  margin-top: 5px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.cost-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cost-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.62));
+}
+
+.cost-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.cost-value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.cost-target {
+  margin-top: 3px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.progress-track {
+  position: relative;
+  margin-top: 12px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.progress-fill { height: 100%; border-radius: inherit; }
+
+.progress-target {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: rgba(0,0,0,0.22);
+}
+
+.progress-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+}
+
+.cost-note {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.action-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.action-summary-card {
+  padding: 15px 16px;
+  border-radius: 15px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.64);
+}
+
+.action-summary-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 5px;
+}
+
+.action-summary-value {
+  font-size: 1.18rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.action-summary-copy {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.action-card {
+  padding: 17px 18px;
+  border-radius: 16px;
+  border-left: 4px solid;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-card.critical {
+  border-left-color: #ef4444;
+  border-color: rgba(239,68,68,0.22);
+  background: rgba(239,68,68,0.05);
+}
+
+.action-card.high {
+  border-left-color: #f59e0b;
+  border-color: rgba(245,158,11,0.22);
+  background: rgba(245,158,11,0.05);
+}
+
+.action-card.moderate {
+  border-left-color: #3b82f6;
+  border-color: rgba(59,130,246,0.2);
+  background: rgba(59,130,246,0.04);
+}
+
+.action-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-severity,
+.action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.action-severity.critical {
+  background: rgba(239,68,68,0.14);
+  color: #b91c1c;
+}
+
+.action-severity.high {
+  background: rgba(245,158,11,0.15);
+  color: #b45309;
+}
+
+.action-severity.moderate {
+  background: rgba(59,130,246,0.14);
+  color: #1d4ed8;
+}
+
+.action-badge {
+  background: rgba(0,0,0,0.05);
+  color: var(--color-text-tertiary);
+}
+
+.action-workline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-rank {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--color-text-primary);
+  background: rgba(0,0,0,0.06);
+}
+
+.action-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.action-impact {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+}
+
+.action-impact span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--color-text-secondary);
+}
+
+.action-copy,
+.action-next {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+.action-next {
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(99,102,241,0.13);
+  background: rgba(255,255,255,0.55);
+}
+
+.action-next strong { color: var(--color-text-primary); }
+
+.action-empty {
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(22,163,74,0.22);
+  background: linear-gradient(135deg, rgba(22,163,74,0.08), rgba(16,185,129,0.03));
+}
+
+.action-empty .title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.inline-link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.inline-link:hover { text-decoration: underline; }
+
+/* ── Context accordions (JIT) ── */
+.context-acc {
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  border-radius: 12px;
+  margin: 10px 0;
+  overflow: hidden;
+  background: rgba(255,255,255,0.55);
+}
+
+.context-acc summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  background: rgba(128, 128, 128, 0.04);
+  font-size: 0.9rem;
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-primary);
+}
+
+.context-acc summary::-webkit-details-marker { display: none; }
+
+.context-acc[open] summary {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.14);
+}
+
+.acc-body {
+  padding: 16px;
+  font-size: 0.9em;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+.acc-body ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.acc-body li { margin-bottom: 3px; }
+
+details.acc-strategic {
+  border-radius: 20px;
+  border: 1.5px solid rgba(99, 102, 241, 0.18);
+  background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(139,92,246,0.03));
+  overflow: hidden;
+}
+
+details.acc-strategic > summary {
+  padding: 18px 20px;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+
+details.acc-strategic > summary::-webkit-details-marker { display: none; }
+
+details.acc-strategic > summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+details.acc-strategic[open] > summary::after { transform: rotate(90deg); }
+
+details.acc-strategic[open] > summary {
+  border-bottom: 1.5px solid rgba(99,102,241,0.14);
+}
+
+details.acc-strategic .acc-body {
+  padding: 20px;
+}
+
+.strategic-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.strategic-header {
+  padding: 0 2px;
+  margin-bottom: 4px;
+}
+
+.strategic-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.strategic-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.strategic-copy {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+  margin: 0;
+}
+
+.chart-insight {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(99,102,241,0.15);
+  background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.03));
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.chart-insight strong { color: var(--color-text-primary); }
+
+/* ── Executive hero ── */
+.hero-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 18px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(37,99,235,0.12);
+  background:
+    radial-gradient(circle at top right, rgba(69,161,191,0.18), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 40%),
+    linear-gradient(135deg, rgba(37,99,235,0.06), rgba(194,65,12,0.04)),
+    var(--color-background-secondary);
+}
+
+.hero-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-headline {
+  margin: 0 0 2px;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: var(--color-text-primary);
+  line-height: 1.12;
+}
+
+.hero-copy {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  max-width: 62ch;
+}
+
+.hero-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(37,99,235,0.2);
+  background: rgba(37,99,235,0.06);
+  color: #1d4ed8;
+  cursor: default;
+}
+
+.hero-side-card {
+  min-width: 240px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.72);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.hero-side-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.hero-side-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.hero-side-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  gap: 6px;
+}
+
+.hero-side-row strong { color: var(--color-text-primary); }
+
+/* ── Branch health cards ── */
+
+.overview-status-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: 18px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(37,99,235,0.12);
+  background:
+    radial-gradient(circle at top right, rgba(69,161,191,0.18), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(99,102,241,0.08), transparent 40%),
+    linear-gradient(135deg, rgba(37,99,235,0.06), rgba(194,65,12,0.04)),
+    var(--color-background-secondary);
+}
+
+.overview-status-card.safe {
+  border-color: rgba(22,163,74,0.30);
+  background:
+    radial-gradient(circle at top right, rgba(22,163,74,0.16), transparent 35%),
+    linear-gradient(135deg, rgba(22,163,74,0.095), rgba(16,185,129,0.045)),
+    var(--color-background-secondary);
+}
+
+.overview-status-card.warn {
+  border-color: rgba(245,158,11,0.36);
+  background:
+    radial-gradient(circle at top right, rgba(245,158,11,0.18), transparent 35%),
+    linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.055)),
+    var(--color-background-secondary);
+}
+
+.overview-status-card.critical {
+  border-color: rgba(239,68,68,0.32);
+  background:
+    radial-gradient(circle at top right, rgba(239,68,68,0.16), transparent 35%),
+    linear-gradient(135deg, rgba(239,68,68,0.11), rgba(220,38,38,0.05)),
+    var(--color-background-secondary);
+}
+
+.overview-status-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.overview-status-title {
+  margin: 0 0 10px;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--color-text-primary);
+}
+
+.overview-status-copy {
+  margin: 0;
+  max-width: 66ch;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+.overview-status-action {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border-left: 4px solid rgba(37,99,235,0.38);
+  background: rgba(37,99,235,0.045);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+.overview-status-card.safe .overview-status-action { border-left-color: rgba(22,163,74,0.48); background: rgba(22,163,74,0.055); }
+.overview-status-card.warn .overview-status-action { border-left-color: rgba(245,158,11,0.56); background: rgba(245,158,11,0.065); }
+.overview-status-card.critical .overview-status-action { border-left-color: rgba(239,68,68,0.50); background: rgba(239,68,68,0.055); }
+.overview-status-action strong { color: var(--color-text-primary); }
+
+.overview-status-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.overview-status-metric {
+  flex: 1;
+  padding: 14px 15px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.72);
+}
+
+.overview-status-metric-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.overview-status-metric-value {
+  font-size: 1.05rem;
+  font-weight: 850;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.overview-status-metric-note {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.overview-summary {
+  padding: 17px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.035);
+}
+
+.overview-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.overview-summary-label {
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.overview-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.overview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid;
+}
+
+.overview-badge.safe { background: rgba(22,163,74,0.10); color: #166534; border-color: rgba(22,163,74,0.22); }
+.overview-badge.warn { background: rgba(234,179,8,0.10); color: #854d0e; border-color: rgba(234,179,8,0.26); }
+.overview-badge.critical { background: rgba(220,38,38,0.08); color: #991b1b; border-color: rgba(220,38,38,0.20); }
+
+.overview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.overview-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  border: 1px solid transparent;
+}
+
+.overview-row.safe { background: rgba(22,163,74,0.045); border-color: rgba(22,163,74,0.12); }
+.overview-row.warn { background: rgba(234,179,8,0.045); border-color: rgba(234,179,8,0.16); }
+.overview-row.critical { background: rgba(220,38,38,0.04); border-color: rgba(220,38,38,0.13); }
+
+.overview-icon { width: 18px; flex: 0 0 18px; margin-top: 1px; font-size: 14px; line-height: 1.2; text-align: center; }
+.overview-row-title { font-weight: 850; color: var(--color-text-primary); }
+.overview-row-copy { color: var(--color-text-secondary); }
+.overview-row-value { font-weight: 850; color: var(--color-text-primary); }
+
+.branch-analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.branch-analysis-grid.primary,
+.branch-analysis-grid.supporting {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.branch-analysis-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+.branch-analysis-card.safe { border-color: rgba(22,163,74,0.24); background: rgba(22,163,74,0.045); }
+.branch-analysis-card.warn { border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.055); }
+.branch-analysis-card.critical { border-color: rgba(239,68,68,0.24); background: rgba(239,68,68,0.045); }
+.branch-analysis-card.neutral { border-color: rgba(99,102,241,0.18); background: rgba(99,102,241,0.035); }
+
+.branch-analysis-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+}
+
+.branch-analysis-title {
+  font-size: 0.98rem;
+  font-weight: 850;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.branch-analysis-copy {
+  font-size: 0.84rem;
+  line-height: 1.62;
+  color: var(--color-text-secondary);
+}
+
+.branch-threshold-line {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(100,116,139,0.24);
+  font-size: 0.77rem;
+  line-height: 1.55;
+  color: var(--color-text-tertiary);
+}
+.branch-threshold-line strong { color: var(--color-text-primary); }
+
+.branch-health-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.branch-health-card {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 260px;
+}
+
+.branch-health-card.sehat {
+  border-color: rgba(22,163,74,0.3);
+  background: linear-gradient(160deg, rgba(22,163,74,0.07), rgba(16,185,129,0.03));
+}
+
+.branch-health-card.waspada {
+  border-color: rgba(245,158,11,0.32);
+  background: linear-gradient(160deg, rgba(245,158,11,0.08), rgba(251,191,36,0.03));
+}
+
+.branch-health-card.early-warning {
+  border-color: rgba(249,115,22,0.35);
+  background: linear-gradient(160deg, rgba(249,115,22,0.08), rgba(251,146,60,0.03));
+}
+
+.branch-health-card.recovery {
+  border-color: rgba(59,130,246,0.3);
+  background: linear-gradient(160deg, rgba(59,130,246,0.07), rgba(99,102,241,0.03));
+}
+
+.branch-health-card.membaik {
+  border-color: rgba(20,184,166,0.30);
+  background: linear-gradient(160deg, rgba(20,184,166,0.08), rgba(59,130,246,0.03));
+}
+
+.branch-health-card.stabil-rendah {
+  border-color: rgba(245,158,11,0.28);
+  background: linear-gradient(160deg, rgba(245,158,11,0.06), rgba(251,191,36,0.02));
+}
+
+.branch-health-card.turnaround {
+  border-color: rgba(239,68,68,0.3);
+  background: linear-gradient(160deg, rgba(239,68,68,0.08), rgba(220,38,38,0.03));
+}
+
+.branch-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  width: fit-content;
+}
+
+.branch-status-badge.sehat { background: rgba(22,163,74,0.15); color: #15803d; }
+.branch-status-badge.waspada { background: rgba(245,158,11,0.18); color: #b45309; }
+.branch-status-badge.early-warning { background: rgba(249,115,22,0.15); color: #c2410c; }
+.branch-status-badge.recovery { background: rgba(59,130,246,0.15); color: #1d4ed8; }
+.branch-status-badge.membaik { background: rgba(20,184,166,0.15); color: #0f766e; }
+.branch-status-badge.stabil-rendah { background: rgba(245,158,11,0.12); color: #92400e; }
+.branch-status-badge.turnaround { background: rgba(239,68,68,0.15); color: #b91c1c; }
+
+.branch-card-name {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.branch-margin-main {
+  font-size: 1.9rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.branch-margin-main.sehat { color: #15803d; }
+.branch-margin-main.waspada { color: #b45309; }
+.branch-margin-main.early-warning { color: #c2410c; }
+.branch-margin-main.recovery { color: #1d4ed8; }
+.branch-margin-main.membaik { color: #0f766e; }
+.branch-margin-main.stabil-rendah { color: #92400e; }
+.branch-margin-main.turnaround { color: #b91c1c; }
+
+.branch-margin-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+
+.branch-margin-structural {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  padding: 6px 0;
+  border-top: 1px solid var(--color-border-tertiary);
+}
+
+.branch-margin-structural strong { color: var(--color-text-primary); }
+
+.branch-stats-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.branch-diagnosis {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(99,102,241,0.12);
+  background: linear-gradient(135deg, rgba(99,102,241,0.045), rgba(139,92,246,0.025));
+}
+
+.branch-next-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Health matrix ── */
+.health-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 3px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-tertiary);
+}
+
+.matrix-cell {
+  padding: 14px 16px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.matrix-cell.benchmark {
+  background: linear-gradient(135deg, rgba(22,163,74,0.1), rgba(16,185,129,0.04));
+}
+
+.matrix-cell.waspada-zone {
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(251,191,36,0.04));
+}
+
+.matrix-cell.early-warning {
+  background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(251,146,60,0.04));
+}
+
+.matrix-cell.turnaround {
+  background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(220,38,38,0.04));
+}
+
+.matrix-cell.recovery {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(99,102,241,0.04));
+}
+
+.matrix-cell-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.matrix-cell-desc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.matrix-branch-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.matrix-branch-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(0,0,0,0.08);
+  color: var(--color-text-primary);
+}
+
+.matrix-axis-label {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  padding: 6px 0 0;
+}
+
+/* ── CTA strip ── */
+.cta-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cta-link {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-tertiary);
+  background: rgba(255,255,255,0.6);
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  cursor: default;
+}
+
+.cta-link strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+}
+
+/* ── Growth hero / profit hero ── */
+.subpage-hero {
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subpage-hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.subpage-hero-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.subpage-hero-copy {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 72ch;
+}
+
+@media (max-width: 1100px) {
+  .guide-grid,
+  .signal-row,
+  .portfolio-cards,
+  .deep-grid,
+  .cost-grid,
+  .period-strip,
+  .timeframe-strip,
+  .branch-health-grid,
+  .action-summary-grid,
+  .cta-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .guide-grid,
+  .signal-row,
+  .portfolio-cards,
+  .deep-grid,
+  .cost-grid,
+  .period-strip,
+  .mini-grid,
+  .timeframe-strip,
+  .cockpit,
+  .branch-health-grid,
+  .overview-status-card,
+  .branch-analysis-grid,
+  .branch-analysis-grid.primary,
+  .branch-analysis-grid.supporting,
+  .hero-wrap,
+  .action-summary-grid,
+  .cta-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .cockpit {
+    gap: 14px;
+  }
+
+  .cockpit-headline {
+    font-size: 1.32rem;
+  }
+}
+</style>
+
+```sql branch_list
+SELECT DISTINCT branch_name
+FROM restaurant.daily_revenue
+ORDER BY branch_name
+```
+
+```sql branch_dates
+SELECT
+    strftime('%d %b %Y', MAX(order_date)) AS tgl_akhir,
+    strftime('%d %b %Y', MAX(order_date) - INTERVAL '6 days') AS tgl_7_awal,
+    strftime('%d %b %Y', MAX(order_date) - INTERVAL '29 days') AS tgl_30_awal,
+    strftime('%d %b %Y', MAX(order_date) - INTERVAL '89 days') AS tgl_90_awal,
+    strftime('%d %b %Y', MIN(order_date)) AS tgl_historis_awal
+FROM restaurant.daily_revenue
+```
+
+```sql branch_health_overview
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue),
+max_n AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+y_rev AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue,
+        ROUND(AVG(pct_change_vs_sdow_avg) * 100, 1) AS avg_pct
+    FROM restaurant.daily_revenue CROSS JOIN max_d
+    WHERE order_date = d
+    GROUP BY branch_name
+),
+y_net AS (
+    SELECT branch_name, SUM(gross_revenue) AS gross, SUM(net_revenue) AS net,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date = d
+    GROUP BY branch_name
+),
+w_rev AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue,
+        ROUND(AVG(pct_change_vs_sdow_avg) * 100, 1) AS avg_pct
+    FROM restaurant.daily_revenue CROSS JOIN max_d
+    WHERE order_date >= d - INTERVAL '6 days'
+    GROUP BY branch_name
+),
+w_net AS (
+    SELECT branch_name, SUM(gross_revenue) AS gross, SUM(net_revenue) AS net,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '6 days'
+    GROUP BY branch_name
+),
+m_rev AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue,
+        ROUND(AVG(pct_change_vs_sdow_avg) * 100, 1) AS avg_pct
+    FROM restaurant.daily_revenue CROSS JOIN max_d
+    WHERE order_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+m_net AS (
+    SELECT branch_name, SUM(gross_revenue) AS gross, SUM(net_revenue) AS net,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+raw AS (
+    SELECT
+        (SELECT ROUND(SUM(net) / NULLIF(SUM(gross), 0) * 100, 1) FROM y_net) AS margin_y,
+        (SELECT COUNT(*) FROM y_net WHERE margin < 10) AS critical_y,
+        (SELECT COUNT(*) FROM y_rev WHERE avg_pct < -10) AS declining_y,
+        (SELECT ROUND((MAX(revenue) - MIN(revenue)) / NULLIF(MIN(revenue), 0) * 100, 1) FROM y_rev) AS gap_y,
+        (SELECT MAX(branch_name) FROM y_rev WHERE revenue = (SELECT MAX(revenue) FROM y_rev)) AS top_branch_y,
+        (SELECT MAX(branch_name) FROM y_rev WHERE revenue = (SELECT MIN(revenue) FROM y_rev)) AS bottom_branch_y,
+
+        (SELECT ROUND(SUM(net) / NULLIF(SUM(gross), 0) * 100, 1) FROM w_net) AS margin_7d,
+        (SELECT COUNT(*) FROM w_net WHERE margin < 10) AS critical_7d,
+        (SELECT COUNT(*) FROM w_rev WHERE avg_pct < -10) AS declining_7d,
+        (SELECT ROUND((MAX(revenue) - MIN(revenue)) / NULLIF(MIN(revenue), 0) * 100, 1) FROM w_rev) AS gap_7d,
+        (SELECT MAX(branch_name) FROM w_rev WHERE revenue = (SELECT MAX(revenue) FROM w_rev)) AS top_branch_7d,
+        (SELECT MAX(branch_name) FROM w_rev WHERE revenue = (SELECT MIN(revenue) FROM w_rev)) AS bottom_branch_7d,
+
+        (SELECT ROUND(SUM(net) / NULLIF(SUM(gross), 0) * 100, 1) FROM m_net) AS margin_30d,
+        (SELECT COUNT(*) FROM m_net WHERE margin < 10) AS critical_30d,
+        (SELECT COUNT(*) FROM m_rev WHERE avg_pct < -10) AS declining_30d,
+        (SELECT ROUND((MAX(revenue) - MIN(revenue)) / NULLIF(MIN(revenue), 0) * 100, 1) FROM m_rev) AS gap_30d,
+        (SELECT MAX(branch_name) FROM m_rev WHERE revenue = (SELECT MAX(revenue) FROM m_rev)) AS top_branch_30d,
+        (SELECT MAX(branch_name) FROM m_rev WHERE revenue = (SELECT MIN(revenue) FROM m_rev)) AS bottom_branch_30d
+)
+SELECT *,
+    CASE
+        WHEN critical_y > 0 OR margin_y < 10 OR gap_y > 120 THEN 'Kritis'
+        WHEN declining_y > 0 OR margin_y < 15 OR gap_y > 70 THEN 'Waspada'
+        ELSE 'Sehat'
+    END AS status_y,
+    CASE
+        WHEN critical_7d > 0 OR margin_7d < 10 OR gap_7d > 120 THEN 'Kritis'
+        WHEN declining_7d > 0 OR margin_7d < 15 OR gap_7d > 70 THEN 'Waspada'
+        ELSE 'Sehat'
+    END AS status_7d,
+    CASE
+        WHEN critical_30d > 0 OR margin_30d < 10 OR gap_30d > 120 THEN 'Kritis'
+        WHEN declining_30d > 0 OR margin_30d < 15 OR gap_30d > 70 THEN 'Waspada'
+        ELSE 'Sehat'
+    END AS status_30d,
+    CASE
+        WHEN critical_y > 0 THEN 'margin'
+        WHEN declining_y > 0 THEN 'permintaan'
+        WHEN gap_y > 70 THEN 'konsentrasi'
+        ELSE 'stabil'
+    END AS fokus_y,
+    CASE
+        WHEN critical_7d > 0 THEN 'margin'
+        WHEN declining_7d > 0 THEN 'permintaan'
+        WHEN gap_7d > 70 THEN 'konsentrasi'
+        ELSE 'stabil'
+    END AS fokus_7d,
+    CASE
+        WHEN critical_30d > 0 THEN 'margin'
+        WHEN declining_30d > 0 THEN 'permintaan'
+        WHEN gap_30d > 70 THEN 'konsentrasi'
+        ELSE 'stabil'
+    END AS fokus_30d,
+    GREATEST(0, LEAST(100, ROUND(
+        (100 - GREATEST(0, 15 - margin_y) * 4.5)
+        - (critical_y * 18)
+        - (declining_y * 8)
+        - (LEAST(gap_y, 140) / 140 * 14)
+    , 0))) AS score_y,
+    GREATEST(0, LEAST(100, ROUND(
+        (100 - GREATEST(0, 15 - margin_7d) * 4.5)
+        - (critical_7d * 18)
+        - (declining_7d * 8)
+        - (LEAST(gap_7d, 140) / 140 * 14)
+    , 0))) AS score_7d,
+    GREATEST(0, LEAST(100, ROUND(
+        (100 - GREATEST(0, 15 - margin_30d) * 4.5)
+        - (critical_30d * 18)
+        - (declining_30d * 8)
+        - (LEAST(gap_30d, 140) / 140 * 14)
+    , 0))) AS score_30d
+FROM raw
+```
+
+```sql branch_summary_y
+SELECT
+    dr.branch_name,
+    SUM(dr.total_revenue) AS total_revenue,
+    SUM(dr.total_orders) AS total_orders,
+    ROUND(SUM(dr.total_revenue) / NULLIF(SUM(dr.total_orders), 0), 0) AS avg_order_value,
+    ROUND(AVG(dr.pct_change_vs_sdow_avg) * 100, 1) AS avg_pct_vs_sdow,
+    SUM(nr.net_revenue) AS net_revenue,
+    ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_revenue dr
+LEFT JOIN restaurant.daily_net_revenue nr
+    ON dr.order_date = nr.metric_date AND dr.branch_id = nr.branch_id
+WHERE dr.order_date = (SELECT MAX(order_date) FROM restaurant.daily_revenue)
+GROUP BY dr.branch_name
+ORDER BY total_revenue DESC
+```
+
+```sql branch_summary_7d
+SELECT
+    dr.branch_name,
+    SUM(dr.total_revenue) AS total_revenue,
+    SUM(dr.total_orders) AS total_orders,
+    ROUND(SUM(dr.total_revenue) / NULLIF(SUM(dr.total_orders), 0), 0) AS avg_order_value,
+    ROUND(AVG(dr.pct_change_vs_sdow_avg) * 100, 1) AS avg_pct_vs_sdow,
+    SUM(nr.net_revenue) AS net_revenue,
+    ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_revenue dr
+LEFT JOIN restaurant.daily_net_revenue nr
+    ON dr.order_date = nr.metric_date AND dr.branch_id = nr.branch_id
+WHERE dr.order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '6 days'
+GROUP BY dr.branch_name
+ORDER BY total_revenue DESC
+```
+
+```sql branch_summary_30d
+SELECT
+    dr.branch_name,
+    SUM(dr.total_revenue) AS total_revenue,
+    SUM(dr.total_orders) AS total_orders,
+    ROUND(SUM(dr.total_revenue) / NULLIF(SUM(dr.total_orders), 0), 0) AS avg_order_value,
+    ROUND(AVG(dr.pct_change_vs_sdow_avg) * 100, 1) AS avg_pct_vs_sdow,
+    SUM(nr.net_revenue) AS net_revenue,
+    ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_revenue dr
+LEFT JOIN restaurant.daily_net_revenue nr
+    ON dr.order_date = nr.metric_date AND dr.branch_id = nr.branch_id
+WHERE dr.order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '29 days'
+GROUP BY dr.branch_name
+ORDER BY total_revenue DESC
+```
+
+```sql branch_daily_30d
+SELECT order_date, branch_name, total_revenue
+FROM restaurant.daily_revenue
+WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '29 days'
+ORDER BY order_date, branch_name
+```
+
+```sql branch_wow
+WITH max_date AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue)
+SELECT
+    branch_name,
+    SUM(CASE WHEN order_date >= (SELECT d FROM max_date) - INTERVAL '6 days' THEN total_revenue END) AS revenue_this_week,
+    SUM(CASE WHEN order_date <  (SELECT d FROM max_date) - INTERVAL '6 days'
+          AND order_date >= (SELECT d FROM max_date) - INTERVAL '13 days' THEN total_revenue END) AS revenue_last_week,
+    ROUND(
+        (
+            SUM(CASE WHEN order_date >= (SELECT d FROM max_date) - INTERVAL '6 days' THEN total_revenue END)
+            -
+            SUM(CASE WHEN order_date < (SELECT d FROM max_date) - INTERVAL '6 days'
+                  AND order_date >= (SELECT d FROM max_date) - INTERVAL '13 days' THEN total_revenue END)
+        ) /
+        NULLIF(
+            SUM(CASE WHEN order_date < (SELECT d FROM max_date) - INTERVAL '6 days'
+                  AND order_date >= (SELECT d FROM max_date) - INTERVAL '13 days' THEN total_revenue END)
+        , 0) * 100
+    , 1) AS pct_change
+FROM restaurant.daily_revenue
+GROUP BY branch_name
+ORDER BY pct_change DESC
+```
+
+```sql profitability_30d
+SELECT
+    branch_name,
+    SUM(gross_revenue) AS gross_revenue,
+    SUM(net_revenue) AS net_revenue,
+    SUM(inventory_usage_cost) AS cost_ingredients,
+    SUM(labor_total_cost) AS cost_labor,
+    SUM(operational_total_cost) AS cost_overhead,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct,
+    ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ingredients_pct,
+    ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS labor_pct,
+    ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS overhead_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '29 days'
+GROUP BY branch_name
+ORDER BY gross_revenue DESC
+```
+
+```sql profitability_90d
+SELECT
+    branch_name,
+    SUM(gross_revenue) AS gross_revenue,
+    SUM(net_revenue) AS net_revenue,
+    SUM(inventory_usage_cost) AS cost_ingredients,
+    SUM(labor_total_cost) AS cost_labor,
+    SUM(operational_total_cost) AS cost_overhead,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct,
+    ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ingredients_pct,
+    ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS labor_pct,
+    ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS overhead_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '89 days'
+GROUP BY branch_name
+ORDER BY gross_revenue DESC
+```
+
+```sql profitability_90d_by_margin
+SELECT
+    branch_name,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct
+FROM restaurant.daily_net_revenue
+WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '89 days'
+GROUP BY branch_name
+ORDER BY net_margin_pct ASC
+```
+
+```sql profitability_period_compare
+WITH max_n AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+p30 AS (
+    SELECT
+        branch_name,
+        SUM(gross_revenue) AS gross_30d,
+        SUM(net_revenue) AS net_30d,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_30d,
+        ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ingredients_30d,
+        ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS labor_30d,
+        ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS overhead_30d
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+p90 AS (
+    SELECT
+        branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_90d
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '89 days'
+    GROUP BY branch_name
+),
+hist AS (
+    SELECT
+        branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_historical
+    FROM restaurant.daily_net_revenue
+    GROUP BY branch_name
+)
+SELECT
+    p30.branch_name,
+    p30.gross_30d,
+    p30.net_30d,
+    p30.margin_30d,
+    p90.margin_90d,
+    hist.margin_historical,
+    ROUND(p30.margin_30d - p90.margin_90d, 1) AS margin_gap_30_vs_90,
+    p30.ingredients_30d,
+    p30.labor_30d,
+    p30.overhead_30d
+FROM p30
+LEFT JOIN p90 ON p30.branch_name = p90.branch_name
+LEFT JOIN hist ON p30.branch_name = hist.branch_name
+ORDER BY p30.margin_30d ASC
+```
+
+```sql branch_monthly
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue)
+SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    branch_name,
+    SUM(total_revenue) AS total_revenue
+FROM restaurant.daily_revenue CROSS JOIN max_d
+WHERE order_date >= d - INTERVAL '364 days'
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+
+```sql branch_quarterly_margin
+WITH max_d AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue)
+SELECT
+    DATE_TRUNC('quarter', metric_date) AS quarter_start,
+    branch_name,
+    ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_pct
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= DATE_TRUNC('quarter', d) - INTERVAL '630 days'
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+
+```sql branch_alltime
+SELECT
+    dr.branch_name,
+    SUM(dr.total_revenue) AS total_revenue,
+    SUM(dr.total_orders) AS total_orders,
+    ROUND(SUM(dr.total_revenue) / NULLIF(SUM(dr.total_orders), 0), 0) AS avg_order_value,
+    SUM(nr.net_revenue) AS net_revenue,
+    ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS net_margin_pct,
+    MIN(dr.order_date) AS first_date,
+    MAX(dr.order_date) AS last_date
+FROM restaurant.daily_revenue dr
+LEFT JOIN restaurant.daily_net_revenue nr
+    ON dr.order_date = nr.metric_date AND dr.branch_id = nr.branch_id
+GROUP BY dr.branch_name
+ORDER BY total_revenue DESC
+```
+
+```sql branch_concentration
+WITH s30 AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue_30d
+    FROM restaurant.daily_revenue
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+a AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue_alltime
+    FROM restaurant.daily_revenue
+    GROUP BY branch_name
+),
+r30 AS (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY revenue_30d DESC) AS rn,
+        SUM(revenue_30d) OVER () AS total_rev
+    FROM s30
+),
+ra AS (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY revenue_alltime DESC) AS rn,
+        SUM(revenue_alltime) OVER () AS total_rev
+    FROM a
+)
+SELECT
+    MAX(CASE WHEN r30.rn = 1 THEN r30.branch_name END) AS top_branch_30d,
+    MAX(CASE WHEN r30.rn = 1 THEN ROUND(r30.revenue_30d / NULLIF(r30.total_rev, 0) * 100, 1) END) AS top_share_30d,
+    MAX(CASE WHEN r30.rn = 2 THEN r30.branch_name END) AS second_branch_30d,
+    MAX(CASE WHEN r30.rn = 2 THEN ROUND(r30.revenue_30d / NULLIF(r30.total_rev, 0) * 100, 1) END) AS second_share_30d,
+    MAX(CASE WHEN r30.rn = (SELECT MAX(rn) FROM r30) THEN r30.branch_name END) AS bottom_branch_30d,
+    MAX(CASE WHEN ra.rn = 1 THEN ra.branch_name END) AS top_branch_alltime,
+    MAX(CASE WHEN ra.rn = 1 THEN ROUND(ra.revenue_alltime / NULLIF(ra.total_rev, 0) * 100, 1) END) AS top_share_alltime
+FROM r30 CROSS JOIN ra
+```
+
+```sql branch_classification
+WITH rev30 AS (
+    SELECT branch_name, SUM(total_revenue) AS revenue_30d
+    FROM restaurant.daily_revenue
+    WHERE order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+wow AS (
+    SELECT branch_name,
+        ROUND(
+            (
+                SUM(CASE WHEN order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '6 days' THEN total_revenue END)
+                -
+                SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '6 days'
+                      AND order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '13 days' THEN total_revenue END)
+            ) /
+            NULLIF(
+                SUM(CASE WHEN order_date < (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '6 days'
+                      AND order_date >= (SELECT MAX(order_date) FROM restaurant.daily_revenue) - INTERVAL '13 days' THEN total_revenue END)
+            , 0) * 100
+        , 1) AS wow_pct
+    FROM restaurant.daily_revenue
+    GROUP BY branch_name
+),
+m30 AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_30d
+    FROM restaurant.daily_net_revenue
+    WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+m90 AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS margin_90d
+    FROM restaurant.daily_net_revenue
+    WHERE metric_date >= (SELECT MAX(metric_date) FROM restaurant.daily_net_revenue) - INTERVAL '89 days'
+    GROUP BY branch_name
+),
+alltime AS (
+    SELECT dr.branch_name,
+        ROUND(SUM(nr.net_revenue) / NULLIF(SUM(nr.gross_revenue), 0) * 100, 1) AS alltime_margin
+    FROM restaurant.daily_revenue dr
+    LEFT JOIN restaurant.daily_net_revenue nr
+        ON dr.order_date = nr.metric_date AND dr.branch_id = nr.branch_id
+    GROUP BY dr.branch_name
+),
+base AS (
+    SELECT r.branch_name, r.revenue_30d, m30.margin_30d, m90.margin_90d, a.alltime_margin, w.wow_pct,
+        AVG(r.revenue_30d) OVER () AS avg_rev_30d
+    FROM rev30 r
+    LEFT JOIN m30 ON r.branch_name = m30.branch_name
+    LEFT JOIN m90 ON r.branch_name = m90.branch_name
+    LEFT JOIN alltime a ON r.branch_name = a.branch_name
+    LEFT JOIN wow w ON r.branch_name = w.branch_name
+)
+SELECT
+    branch_name,
+    revenue_30d,
+    margin_30d,
+    margin_90d,
+    alltime_margin,
+    wow_pct,
+    CASE
+        WHEN revenue_30d >= avg_rev_30d AND margin_30d >= 15 THEN 'Mesin Utama'
+        WHEN revenue_30d < avg_rev_30d AND margin_30d >= 15 THEN 'Kandidat Scale-Up'
+        WHEN revenue_30d >= avg_rev_30d AND margin_30d < 15 THEN 'Optimasi Margin'
+        ELSE 'Turnaround'
+    END AS peran_strategis,
+    CASE
+        WHEN revenue_30d >= avg_rev_30d AND margin_30d >= 15 THEN 'Lindungi kualitas eksekusi dan jangan biarkan biaya tumbuh lebih cepat dari volume.'
+        WHEN revenue_30d < avg_rev_30d AND margin_30d >= 15 THEN 'Cabang efisien, tapi butuh traffic lebih besar. Cocok untuk eksperimen promosi dan ekspansi demand.'
+        WHEN revenue_30d >= avg_rev_30d AND margin_30d < 15 THEN 'Penjualan ada, tapi laba bocor. Fokus ke bahan baku, tenaga kerja, dan order mix.'
+        ELSE 'Perlu pembenahan ganda: demand, efisiensi, atau bahkan positioning cabang.'
+    END AS fokus_manajemen
+FROM base
+ORDER BY revenue_30d DESC
+```
+
+```sql branch_action_queue
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue),
+max_n AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+rev AS (
+    SELECT
+        branch_name,
+        SUM(total_revenue) AS total_revenue,
+        ROUND(AVG(pct_change_vs_sdow_avg) * 100, 1) AS avg_pct_vs_sdow
+    FROM restaurant.daily_revenue CROSS JOIN max_d
+    WHERE order_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+costs AS (
+    SELECT
+        branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS net_margin_pct,
+        ROUND(SUM(inventory_usage_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS ingredients_pct,
+        ROUND(SUM(labor_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS labor_pct,
+        ROUND(SUM(operational_total_cost) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS overhead_pct
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+wow AS (
+    SELECT
+        branch_name,
+        ROUND(
+            (
+                SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '6 days' THEN total_revenue END)
+                -
+                SUM(CASE WHEN order_date < (SELECT d FROM max_d) - INTERVAL '6 days'
+                      AND order_date >= (SELECT d FROM max_d) - INTERVAL '13 days' THEN total_revenue END)
+            ) /
+            NULLIF(
+                SUM(CASE WHEN order_date < (SELECT d FROM max_d) - INTERVAL '6 days'
+                      AND order_date >= (SELECT d FROM max_d) - INTERVAL '13 days' THEN total_revenue END)
+            , 0) * 100
+        , 1) AS wow_pct
+    FROM restaurant.daily_revenue
+    GROUP BY branch_name
+),
+ops AS (
+    SELECT
+        r.branch_name,
+        r.total_revenue,
+        r.avg_pct_vs_sdow,
+        c.net_margin_pct,
+        c.ingredients_pct,
+        c.labor_pct,
+        c.overhead_pct,
+        w.wow_pct
+    FROM rev r
+    LEFT JOIN costs c ON r.branch_name = c.branch_name
+    LEFT JOIN wow w ON r.branch_name = w.branch_name
+),
+actions AS (
+    SELECT
+        branch_name,
+        1 AS severity_rank,
+        'Kritis' AS severity,
+        'Margin' AS theme,
+        'Margin cabang sudah kritis' AS headline,
+        'Margin 30 hari ' || net_margin_pct || '% — jauh di bawah target 15%.' AS detail,
+        'Audit struktur biaya cabang ini dulu; fokus ke tiga pos biaya utama.' AS next_step,
+        ROUND(GREATEST(0, (15 - net_margin_pct) / 100.0 * total_revenue), 0) AS impact
+    FROM ops
+    WHERE net_margin_pct < 10
+
+    UNION ALL
+
+    SELECT
+        branch_name,
+        CASE WHEN avg_pct_vs_sdow <= -15 THEN 1 ELSE 2 END AS severity_rank,
+        CASE WHEN avg_pct_vs_sdow <= -15 THEN 'Kritis' ELSE 'Tinggi' END AS severity,
+        'Demand' AS theme,
+        'Permintaan cabang melemah terhadap baseline hari serupa' AS headline,
+        'Rata-rata ' || avg_pct_vs_sdow || '% vs baseline hari-dalam-minggu sendiri.' AS detail,
+        'Cek faktor lokasi: staffing, service issue, event lokal, atau kompetisi sekitar.' AS next_step,
+        ROUND(ABS(avg_pct_vs_sdow) / 100.0 * total_revenue, 0) AS impact
+    FROM ops
+    WHERE avg_pct_vs_sdow < -10
+
+    UNION ALL
+
+    SELECT
+        branch_name,
+        CASE WHEN ingredients_pct > 35 THEN 1 ELSE 2 END AS severity_rank,
+        CASE WHEN ingredients_pct > 35 THEN 'Kritis' ELSE 'Tinggi' END AS severity,
+        'Bahan Baku' AS theme,
+        'Biaya bahan baku melampaui benchmark' AS headline,
+        'Bahan baku menyerap ' || ingredients_pct || '% dari gross revenue.' AS detail,
+        'Review COGS menu, waste, dan konsistensi porsi di cabang ini.' AS next_step,
+        ROUND(GREATEST(0, (ingredients_pct - 32) / 100.0 * total_revenue), 0) AS impact
+    FROM ops
+    WHERE ingredients_pct > 32
+
+    UNION ALL
+
+    SELECT
+        branch_name,
+        CASE WHEN labor_pct > 33 THEN 1 ELSE 2 END AS severity_rank,
+        CASE WHEN labor_pct > 33 THEN 'Kritis' ELSE 'Tinggi' END AS severity,
+        'Tenaga Kerja' AS theme,
+        'Rasio tenaga kerja terlalu berat terhadap penjualan' AS headline,
+        'Labor cost ' || labor_pct || '% dari gross revenue cabang.' AS detail,
+        'Sesuaikan roster terhadap kepadatan transaksi, terutama di jam lengang.' AS next_step,
+        ROUND(GREATEST(0, (labor_pct - 30) / 100.0 * total_revenue), 0) AS impact
+    FROM ops
+    WHERE labor_pct > 30
+
+    UNION ALL
+
+    SELECT
+        branch_name,
+        2 AS severity_rank,
+        'Tinggi' AS severity,
+        'Overhead' AS theme,
+        'Overhead terlalu besar untuk level revenue saat ini' AS headline,
+        'Overhead ' || overhead_pct || '% — ruang perbaikan ada di volume atau fixed cost.' AS detail,
+        'Bandingkan kapasitas cabang ini dengan cabang lain yang revenue-nya mirip.' AS next_step,
+        ROUND(GREATEST(0, (overhead_pct - 15) / 100.0 * total_revenue), 0) AS impact
+    FROM ops
+    WHERE overhead_pct > 15
+)
+SELECT *
+FROM actions
+ORDER BY severity_rank ASC, impact DESC, branch_name
+LIMIT 10
+```
+
+```sql branch_scorecard
+WITH branches AS (
+    SELECT DISTINCT branch_name FROM restaurant.daily_revenue
+),
+max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue),
+max_nr AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+rev AS (
+    SELECT
+        branch_name,
+        SUM(CASE WHEN order_date = (SELECT d FROM max_d) THEN total_revenue END) AS rev_yesterday,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '6 days' THEN total_revenue END) AS rev_7d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '29 days' THEN total_revenue END) AS rev_30d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '89 days' THEN total_revenue END) AS rev_90d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '13 days' AND order_date < (SELECT d FROM max_d) - INTERVAL '6 days' THEN total_revenue END) AS rev_prev7d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '59 days' AND order_date < (SELECT d FROM max_d) - INTERVAL '29 days' THEN total_revenue END) AS rev_prev30d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '179 days' AND order_date < (SELECT d FROM max_d) - INTERVAL '89 days' THEN total_revenue END) AS rev_prev90d
+    FROM restaurant.daily_revenue
+    GROUP BY branch_name
+),
+ord AS (
+    SELECT
+        branch_name,
+        SUM(CASE WHEN order_date = (SELECT d FROM max_d) THEN total_orders END) AS ord_yesterday,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '6 days' THEN total_orders END) AS ord_7d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '29 days' THEN total_orders END) AS ord_30d,
+        SUM(CASE WHEN order_date >= (SELECT d FROM max_d) - INTERVAL '89 days' THEN total_orders END) AS ord_90d
+    FROM restaurant.daily_revenue
+    GROUP BY branch_name
+),
+net AS (
+    SELECT
+        branch_name,
+        SUM(CASE WHEN metric_date = (SELECT d FROM max_nr) THEN net_revenue END) AS net_yesterday,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '6 days' THEN net_revenue END) AS net_7d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '29 days' THEN net_revenue END) AS net_30d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '89 days' THEN net_revenue END) AS net_90d,
+        SUM(CASE WHEN metric_date = (SELECT d FROM max_nr) THEN gross_revenue END) AS gross_yesterday,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '6 days' THEN gross_revenue END) AS gross_7d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '29 days' THEN gross_revenue END) AS gross_30d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '89 days' THEN gross_revenue END) AS gross_90d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '13 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '6 days' THEN net_revenue END) AS net_prev7d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '13 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '6 days' THEN gross_revenue END) AS gross_prev7d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '59 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '29 days' THEN net_revenue END) AS net_prev30d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '59 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '29 days' THEN gross_revenue END) AS gross_prev30d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '179 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '89 days' THEN net_revenue END) AS net_prev90d,
+        SUM(CASE WHEN metric_date >= (SELECT d FROM max_nr) - INTERVAL '179 days' AND metric_date < (SELECT d FROM max_nr) - INTERVAL '89 days' THEN gross_revenue END) AS gross_prev90d
+    FROM restaurant.daily_net_revenue
+    GROUP BY branch_name
+),
+hist AS (
+    SELECT
+        branch_name,
+        SUM(gross_revenue) AS gross_historical,
+        SUM(net_revenue) AS net_historical,
+        MIN(metric_date) AS first_metric_date
+    FROM restaurant.daily_net_revenue
+    GROUP BY branch_name
+)
+SELECT
+    branches.branch_name AS selected_branch,
+    rev_yesterday, rev_7d, rev_30d, rev_90d,
+    ROUND((rev_7d - rev_prev7d) / NULLIF(rev_prev7d, 0) * 100, 1) AS rev_pct_7d,
+    ROUND((rev_30d - rev_prev30d) / NULLIF(rev_prev30d, 0) * 100, 1) AS rev_pct_30d,
+    ROUND((rev_90d - rev_prev90d) / NULLIF(rev_prev90d, 0) * 100, 1) AS rev_pct_90d,
+    ord_yesterday, ord_7d, ord_30d, ord_90d,
+    ROUND(rev_yesterday / NULLIF(ord_yesterday, 0), 0) AS aov_yesterday,
+    ROUND(rev_7d / NULLIF(ord_7d, 0), 0) AS aov_7d,
+    ROUND(rev_30d / NULLIF(ord_30d, 0), 0) AS aov_30d,
+    ROUND(rev_90d / NULLIF(ord_90d, 0), 0) AS aov_90d,
+    net_yesterday, net_7d, net_30d, net_90d,
+    ROUND(net_yesterday / NULLIF(gross_yesterday, 0) * 100, 1) AS margin_yesterday,
+    ROUND(net_7d / NULLIF(gross_7d, 0) * 100, 1) AS margin_7d,
+    ROUND(net_30d / NULLIF(gross_30d, 0) * 100, 1) AS margin_30d,
+    ROUND(net_90d / NULLIF(gross_90d, 0) * 100, 1) AS margin_90d,
+    ROUND(net_historical / NULLIF(gross_historical, 0) * 100, 1) AS margin_historical,
+    ROUND(net_prev7d / NULLIF(gross_prev7d, 0) * 100, 1) AS margin_prev7d,
+    ROUND(net_prev30d / NULLIF(gross_prev30d, 0) * 100, 1) AS margin_prev30d,
+    ROUND(net_prev90d / NULLIF(gross_prev90d, 0) * 100, 1) AS margin_prev90d,
+    first_metric_date
+FROM branches
+LEFT JOIN rev ON branches.branch_name = rev.branch_name
+LEFT JOIN ord ON branches.branch_name = ord.branch_name
+LEFT JOIN net ON branches.branch_name = net.branch_name
+LEFT JOIN hist ON branches.branch_name = hist.branch_name
+ORDER BY selected_branch
+```
+
+```sql branch_cost_periods
+WITH max_d AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue)
+SELECT
+    branch_name,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN inventory_usage_cost END) AS ingr_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN labor_total_cost END) AS labor_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN operational_total_cost END) AS overhead_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '29 days' THEN gross_revenue END) AS gross_30d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN inventory_usage_cost END) AS ingr_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN labor_total_cost END) AS labor_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN operational_total_cost END) AS overhead_90d,
+    SUM(CASE WHEN metric_date >= d - INTERVAL '89 days' THEN gross_revenue END) AS gross_90d
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+GROUP BY branch_name
+ORDER BY branch_name
+```
+
+```sql branch_daily_trend
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue)
+SELECT
+    branch_name,
+    order_date,
+    total_revenue,
+    ROUND(revenue_sdow_avg, 0) AS revenue_sdow_avg
+FROM restaurant.daily_revenue CROSS JOIN max_d
+WHERE order_date >= d - INTERVAL '89 days'
+ORDER BY branch_name, order_date
+```
+
+```sql branch_net_trend
+WITH max_d AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue)
+SELECT
+    branch_name,
+    metric_date,
+    ROUND(net_revenue / NULLIF(gross_revenue, 0) * 100, 1) AS margin_pct
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= d - INTERVAL '89 days'
+ORDER BY branch_name, metric_date
+```
+
+```sql branch_cost_trend
+WITH max_d AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue)
+SELECT
+    branch_name,
+    metric_date,
+    inventory_usage_cost,
+    labor_total_cost,
+    operational_total_cost
+FROM restaurant.daily_net_revenue CROSS JOIN max_d
+WHERE metric_date >= d - INTERVAL '89 days'
+ORDER BY branch_name, metric_date
+```
+
+```sql branch_order_type
+WITH max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue)
+SELECT
+    branch_name,
+    order_date,
+    SUM(dine_in_orders) AS dine_in,
+    SUM(delivery_orders) AS delivery,
+    SUM(takeaway_orders) AS takeaway
+FROM restaurant.daily_revenue CROSS JOIN max_d
+WHERE order_date >= d - INTERVAL '29 days'
+GROUP BY branch_name, order_date
+ORDER BY branch_name, order_date
+```
+
+```sql branch_health_classification
+WITH max_n AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+max_d AS (SELECT MAX(order_date) AS d FROM restaurant.daily_revenue),
+active_rev AS (
+    SELECT branch_name,
+        SUM(total_revenue) AS active_revenue,
+        SUM(total_orders) AS active_orders,
+        ROUND(SUM(total_revenue) / NULLIF(SUM(total_orders), 0), 0) AS active_aov,
+        ROUND(AVG(pct_change_vs_sdow_avg) * 100, 1) AS baseline_change_pct
+    FROM restaurant.daily_revenue CROSS JOIN max_d
+    WHERE order_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+active_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS active_margin_pct
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+recent_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS recent_margin_pct
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '89 days'
+    GROUP BY branch_name
+),
+historical_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS historical_margin_pct
+    FROM restaurant.daily_net_revenue
+    GROUP BY branch_name
+),
+classified AS (
+    SELECT
+        r.branch_name,
+        r.active_revenue,
+        r.active_orders,
+        r.active_aov,
+        r.baseline_change_pct,
+        a.active_margin_pct,
+        n.recent_margin_pct,
+        h.historical_margin_pct,
+        CASE
+            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct >= 15 THEN 'Sehat'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 15 THEN 'Waspada'
+            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 15 THEN 'Early Warning'
+            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct < 15 THEN 'Recovery'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct < 10 THEN 'Membaik'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 10 AND n.recent_margin_pct < 15 THEN 'Stabil Rendah'
+            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Turnaround'
+            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct < 10 THEN 'Turnaround'
+            ELSE 'Waspada'
+        END AS health_status
+    FROM active_rev r
+    LEFT JOIN active_net a ON r.branch_name = a.branch_name
+    LEFT JOIN recent_net n ON r.branch_name = n.branch_name
+    LEFT JOIN historical_net h ON r.branch_name = h.branch_name
+)
+SELECT *,
+    CASE health_status
+        WHEN 'Sehat' THEN 'Margin 30H dan 90H sama-sama kuat. Jadikan benchmark operasional.'
+        WHEN 'Waspada' THEN 'Margin 30H mulai melunak, tapi baseline 90H masih sehat. Pantau lebih dekat.'
+        WHEN 'Early Warning' THEN 'Margin 30H turun tajam meski baseline 90H masih sehat. Audit 30 hari terakhir.'
+        WHEN 'Recovery' THEN 'Margin 30H sudah sehat setelah baseline 90H lemah. Pertahankan momentum ini.'
+        WHEN 'Membaik' THEN 'Margin 30H membaik dari baseline 90H yang lemah, tapi belum sehat. Lanjutkan perbaikan.'
+        WHEN 'Stabil Rendah' THEN 'Margin 30H dan 90H sama-sama sedang. Bukan krisis, tapi belum optimal.'
+        WHEN 'Turnaround' THEN 'Margin 30H dan 90H sama-sama lemah. Perlu pembenahan struktural.'
+        ELSE 'Pantau perkembangan margin di beberapa hari ke depan.'
+    END AS diagnosis,
+    CASE health_status
+        WHEN 'Sehat' THEN 'Analisis Lanjutan'
+        WHEN 'Waspada' THEN 'Analisis Lanjutan'
+        WHEN 'Early Warning' THEN 'Analisis Lanjutan / Deep Dive'
+        WHEN 'Recovery' THEN 'Deep Dive'
+        WHEN 'Membaik' THEN 'Analisis Lanjutan / Deep Dive'
+        WHEN 'Stabil Rendah' THEN 'Analisis Lanjutan'
+        WHEN 'Turnaround' THEN 'Pusat Aksi / Deep Dive'
+        ELSE 'Ringkasan'
+    END AS recommended_next_page,
+    CASE health_status
+        WHEN 'Turnaround' THEN 1
+        WHEN 'Early Warning' THEN 2
+        WHEN 'Stabil Rendah' THEN 3
+        WHEN 'Membaik' THEN 4
+        WHEN 'Waspada' THEN 5
+        WHEN 'Recovery' THEN 6
+        WHEN 'Sehat' THEN 7
+        ELSE 7
+    END AS sort_priority
+FROM classified
+ORDER BY sort_priority ASC, active_margin_pct ASC
+```
+
+```sql branch_status_counts
+WITH max_n AS (SELECT MAX(metric_date) AS d FROM restaurant.daily_net_revenue),
+active_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS active_margin_pct
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '29 days'
+    GROUP BY branch_name
+),
+recent_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS recent_margin_pct
+    FROM restaurant.daily_net_revenue CROSS JOIN max_n
+    WHERE metric_date >= d - INTERVAL '89 days'
+    GROUP BY branch_name
+),
+historical_net AS (
+    SELECT branch_name,
+        ROUND(SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0) * 100, 1) AS historical_margin_pct
+    FROM restaurant.daily_net_revenue
+    GROUP BY branch_name
+),
+classified AS (
+    SELECT
+        a.branch_name,
+        a.active_margin_pct,
+        n.recent_margin_pct,
+        h.historical_margin_pct,
+        CASE
+            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct >= 15 THEN 'Sehat'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 15 THEN 'Waspada'
+            WHEN a.active_margin_pct < 10 AND n.recent_margin_pct >= 15 THEN 'Early Warning'
+            WHEN a.active_margin_pct >= 15 AND n.recent_margin_pct < 15 THEN 'Recovery'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct < 10 THEN 'Membaik'
+            WHEN a.active_margin_pct >= 10 AND a.active_margin_pct < 15 AND n.recent_margin_pct >= 10 AND n.recent_margin_pct < 15 THEN 'Stabil Rendah'
+            WHEN a.active_margin_pct < 10 THEN 'Turnaround'
+            ELSE 'Waspada'
+        END AS health_status
+    FROM active_net a
+    LEFT JOIN recent_net n ON a.branch_name = n.branch_name
+    LEFT JOIN historical_net h ON a.branch_name = h.branch_name
+)
+SELECT
+    COUNT(CASE WHEN health_status = 'Sehat' THEN 1 END) AS sehat_count,
+    COUNT(CASE WHEN health_status = 'Waspada' THEN 1 END) AS waspada_count,
+    COUNT(CASE WHEN health_status = 'Early Warning' THEN 1 END) AS early_warning_count,
+    COUNT(CASE WHEN health_status = 'Recovery' THEN 1 END) AS recovery_count,
+    COUNT(CASE WHEN health_status = 'Membaik' THEN 1 END) AS membaik_count,
+    COUNT(CASE WHEN health_status = 'Stabil Rendah' THEN 1 END) AS stabil_rendah_count,
+    COUNT(CASE WHEN health_status = 'Turnaround' THEN 1 END) AS turnaround_count,
+    MAX(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN branch_name END) AS priority_branch,
+    MAX(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN health_status END) AS priority_status,
+    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN active_margin_pct END) AS priority_active_margin,
+    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN recent_margin_pct END) AS priority_recent_margin,
+    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN historical_margin_pct END) AS priority_historical_margin
+FROM classified
+```
+
+_Dashboard portofolio cabang: kesehatan margin, pertumbuhan, profitabilitas, strategi, dan prioritas aksi._
+
+<details class="context-acc">
+<summary>📋 Cara memilih subpage</summary>
+<div class="acc-body">
+<ul>
+  <li><strong>Ringkasan</strong> — baca status cepat dari AOV, gap antar cabang, dan sinyal utama dari beranda.</li>
+  <li><strong>Deep Dive</strong> — audit cabang satu per satu: status margin, scorecard, biaya, tren, dan data pendukung.</li>
+  <li><strong>Pusat Aksi</strong> — daftar kerja prioritas: cabang mana ditangani dulu dan langkah berikutnya.</li>
+  <li><strong>Analisis Lanjutan</strong> — baca pertumbuhan, profitabilitas, strategi portofolio, dan bukti historis jika butuh analisis lebih dalam.</li>
+</ul>
+Total bisnis tetap paling pas dibaca di halaman <a class="inline-link" href="/01-laporan-keuangan">Laporan Keuangan</a>.
+</div>
+</details>
+
+<details class="context-acc">
+<summary>🧭 Kontrak periode yang dipakai halaman ini</summary>
+<div class="acc-body">
+<ul>
+  <li><strong>7H</strong> — sinyal cepat. Dipakai untuk membaca pergerakan terbaru di Analisis Lanjutan dan Deep Dive.</li>
+  <li><strong>30H</strong> — status aktif. Ini periode utama untuk menentukan sehat, waspada, atau kritis.</li>
+  <li><strong>90H</strong> — baseline recent. Dipakai untuk membedakan masalah baru dari tekanan yang sudah menetap.</li>
+  <li><strong>Historis</strong> — konteks fundamental. Dipakai untuk strategi dan validasi jangka panjang, bukan alarm utama.</li>
+</ul>
+</div>
+</details>
+
+<ButtonGroup name=view>
+  <ButtonGroupItem valueLabel="🏠 Ringkasan" value="overview" default />
+  <ButtonGroupItem valueLabel="🏪 Deep Dive" value="deepdive" />
+  <ButtonGroupItem valueLabel="🎯 Pusat Aksi" value="action" />
+  <ButtonGroupItem valueLabel="🔭 Analisis Lanjutan" value="analysis" />
+</ButtonGroup>
+
+{#if branch_health_classification.length > 0 && branch_status_counts.length > 0 && branch_list.length > 0 && branch_concentration.length > 0}
+
+{@const branchOverviewRows = branch_summary_30d}
+{@const branchBestName = branchOverviewRows[0]?.branch_name ?? 'Belum ada data'}
+{@const branchTotalOrdersAll = branchOverviewRows.reduce((sum, row) => sum + (row.total_orders ?? 0), 0)}
+{@const branchTotalRevenueAll = branchOverviewRows.reduce((sum, row) => sum + (row.total_revenue ?? 0), 0)}
+{@const branchAovAll = Math.round(branchTotalRevenueAll / Math.max(branchTotalOrdersAll, 1))}
+{@const branchRevenueValues = branchOverviewRows.map(row => row.total_revenue ?? 0).filter(v => v > 0)}
+{@const branchMinRevenue = branchRevenueValues.reduce((min, v) => Math.min(min, v), branchRevenueValues[0] ?? 0)}
+{@const branchMaxRevenue = branchRevenueValues.reduce((max, v) => Math.max(max, v), 0)}
+{@const branchGapPct = branchMinRevenue > 0 ? Math.round((branchMaxRevenue - branchMinRevenue) / branchMinRevenue * 100) : 0}
+{@const branchAovState = branchAovAll >= 50000 ? 'safe' : branchAovAll >= 35000 ? 'warn' : 'critical'}
+{@const branchGapState = branchGapPct < 50 ? 'safe' : branchGapPct <= 100 ? 'warn' : 'critical'}
+{@const branchIndexStatus = branchAovState === 'critical' || branchGapState === 'critical' ? 'critical' : branchAovState === 'warn' || branchGapState === 'warn' ? 'warn' : 'safe'}
+{@const branchIndexStates = [branchAovState, branchGapState]}
+{@const branchIndexSafeCount = branchIndexStates.filter(s => s === 'safe').length}
+{@const branchIndexWarnCount = branchIndexStates.filter(s => s === 'warn').length}
+{@const branchIndexCriticalCount = branchIndexStates.filter(s => s === 'critical').length}
+
+<div class="branch-page">
+
+{#if inputs.view === 'overview'}
+
+  <!-- Executive Summary -->
+  <div class="overview-status-card {branchIndexStatus}">
+    <div>
+      <div class="overview-status-label">Status Utama · Performa Cabang 30H</div>
+      <h2 class="overview-status-title">
+        {#if branchIndexStatus === 'safe'}Performa cabang terlihat sehat dari AOV dan gap. ✅
+        {:else if branchIndexStatus === 'warn'}Cabang utama masih kuat, tapi gap antar cabang perlu dicek. ⚠️
+        {:else}Gap atau AOV cabang sudah masuk area kritis. 🚨{/if}
+      </h2>
+      <p class="overview-status-copy">
+        Cabang terbaik saat ini <strong>{branchBestName}</strong>. Total order semua cabang <strong>{branchTotalOrdersAll.toLocaleString('id-ID')}</strong>, AOV rata-rata <strong>Rp {branchAovAll.toLocaleString('id-ID')}</strong>, dan gap revenue antar cabang <strong>{branchGapPct}%</strong>. Ini meneruskan cara baca dari beranda: mulai dari kualitas transaksi dan ketimpangan cabang, baru lanjut ke margin.
+      </p>
+      <div class="overview-status-action">
+        <strong>Mulai dari sini:</strong>
+        {#if branchGapState === 'critical'}cek cabang terbawah di <strong>Deep Dive</strong>, lalu buka <strong>Analisis Lanjutan</strong> untuk melihat apakah gap juga muncul di margin.
+        {:else if branchGapState === 'warn'}cek cabang bawah sebelum gap membesar. Buka <strong>Deep Dive</strong> untuk audit cabang, lalu <strong>Analisis Lanjutan</strong> jika perlu membaca margin 30H/90H.
+        {:else if branchAovState !== 'safe'}cek AOV per cabang dan peluang upselling sebelum masuk audit margin.
+        {:else}gunakan cabang terbaik sebagai benchmark, lalu buka analisis lanjutan hanya jika ingin audit margin dan struktur cabang.{/if}
+      </div>
+    </div>
+    <div class="overview-status-metrics">
+      <div class="overview-status-metric">
+        <div class="overview-status-metric-label">🏪 Cabang Terbaik</div>
+        <div class="overview-status-metric-value">{branchBestName}</div>
+        <div class="overview-status-metric-note">Bukan sekadar ranking; gunakan sebagai acuan untuk mencari pola operasional yang bisa ditiru cabang lain.</div>
+      </div>
+      <div class="overview-status-metric">
+        <div class="overview-status-metric-label">📦 Order & AOV</div>
+        <div class="overview-status-metric-value">{branchTotalOrdersAll.toLocaleString('id-ID')} order · Rp {branchAovAll.toLocaleString('id-ID')}</div>
+        <div class="overview-status-metric-note">Order membaca volume aktivitas. AOV membaca kualitas nilai tiap transaksi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overview-summary">
+    <div class="overview-summary-head">
+      <div class="overview-summary-label">Ringkasan 2 Indikator Utama</div>
+      <div class="overview-badges">
+        <span class="overview-badge safe">✓ {branchIndexSafeCount} sehat</span>
+        <span class="overview-badge warn">! {branchIndexWarnCount} waspada</span>
+        <span class="overview-badge critical">x {branchIndexCriticalCount} kritis</span>
+      </div>
+    </div>
+    <div class="overview-list">
+      <div class="overview-row {branchAovState}">
+        <div class="overview-icon">{branchAovState === 'safe' ? '✅' : branchAovState === 'warn' ? '⚠️' : '🚨'}</div>
+        <div><span class="overview-row-title">AOV Cabang</span> <span class="overview-row-copy">- <span class="overview-row-value">Rp {branchAovAll.toLocaleString('id-ID')}</span>. Sehat = ≥Rp50.000, Waspada = Rp35.000-49.999, Kritis = di bawah Rp35.000.</span></div>
+      </div>
+      <div class="overview-row {branchGapState}">
+        <div class="overview-icon">{branchGapState === 'safe' ? '✅' : branchGapState === 'warn' ? '⚠️' : '🚨'}</div>
+        <div><span class="overview-row-title">Gap Antar Cabang</span> <span class="overview-row-copy">- <span class="overview-row-value">{branchGapPct}% gap revenue</span>. Sehat = &lt;50%, Waspada = 50-100%, Kritis = di atas 100%.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <details class="guide-acc">
+    <summary>📘 Kenapa AOV dan gap jadi angka utama?</summary>
+    <div class="guide-body">
+      AOV dan gap adalah pengetahuan dasar sebelum membaca analisis cabang yang lebih berat. Dua angka ini sengaja sama dengan beranda supaya owner punya alur baca yang konsisten.
+      <div class="guide-grid">
+        <div class="guide-item">
+          <div class="guide-item-label">AOV</div>
+          <div class="guide-item-title">Kualitas transaksi</div>
+          <div class="guide-item-desc">AOV menjawab apakah pelanggan membeli cukup banyak/nilai cukup tinggi per kunjungan. Target sehatnya Rp50.000 ke atas.</div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-label">Gap Cabang</div>
+          <div class="guide-item-title">Ketimpangan performa</div>
+          <div class="guide-item-desc">Gap membaca jarak revenue cabang tertinggi dan terendah. Gap besar berarti cabang bawah perlu dicek lebih dekat.</div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-label">Lanjutannya</div>
+          <div class="guide-item-title">Baru cek margin</div>
+          <div class="guide-item-desc">Jika AOV/gap memberi sinyal, lanjut ke margin 30H vs 90H untuk melihat apakah masalahnya operasional, biaya, atau struktural.</div>
+        </div>
+      </div>
+      <strong>Rumus gap:</strong> (revenue tertinggi - revenue terendah) / revenue terendah × 100%.
+    </div>
+  </details>
+
+  <div class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Status Margin Cabang</div>
+        <h3 class="section-title">Setelah AOV dan gap, cek apakah masalahnya juga muncul di margin</h3>
+        <p class="section-copy">Bagian ini menerjemahkan sinyal index menjadi diagnosis operasional: margin aktif 30H, baseline 90H, status cabang, dan arah deep dive berikutnya.</p>
+      </div>
+    </div>
+
+      <div class="overview-summary">
+        <div class="overview-summary-head">
+          <div class="overview-summary-label">Ringkasan Status Margin Cabang</div>
+          <div class="overview-badges">
+            <span class="overview-badge safe">✓ {branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count} sehat/recovery</span>
+            <span class="overview-badge warn">! {branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count} perlu dipantau</span>
+            <span class="overview-badge critical">x {branch_status_counts[0].turnaround_count} turnaround</span>
+          </div>
+        </div>
+        <div class="overview-list">
+          <div class="overview-row {branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count > 0 ? 'safe' : 'warn'}">
+            <div class="overview-icon">✅</div>
+            <div><span class="overview-row-title">Cabang sehat/recovery</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].sehat_count + branch_status_counts[0].recovery_count} cabang</span>. Ini cabang yang bisa dipertahankan sebagai standar operasional atau benchmark.</span></div>
+          </div>
+          <div class="overview-row {branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count > 0 ? 'warn' : 'safe'}">
+            <div class="overview-icon">{branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count > 0 ? '⚠️' : '✅'}</div>
+            <div><span class="overview-row-title">Cabang perlu dipantau</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].waspada_count + branch_status_counts[0].early_warning_count + branch_status_counts[0].membaik_count + branch_status_counts[0].stabil_rendah_count} cabang</span>. Termasuk cabang yang melunak, membaik tapi belum sehat, atau stabil rendah.</span></div>
+          </div>
+          <div class="overview-row {branch_status_counts[0].turnaround_count > 0 ? 'critical' : 'safe'}">
+            <div class="overview-icon">{branch_status_counts[0].turnaround_count > 0 ? '🚨' : '✅'}</div>
+            <div><span class="overview-row-title">Cabang turnaround</span> <span class="overview-row-copy">- <span class="overview-row-value">{branch_status_counts[0].turnaround_count} cabang</span>. Jika ada, ini masuk prioritas tindakan sebelum optimasi lain.</span></div>
+          </div>
+        </div>
+      </div>
+
+
+      <details class="context-acc" style="margin-top:14px;">
+        <summary>📖 Cara membaca status cabang</summary>
+        <div class="acc-body">
+          <ul>
+            <li><strong>Sehat</strong> — margin 30H ≥ 15% dan baseline 90H ≥ 15%. Benchmark untuk cabang lain.</li>
+            <li><strong>Waspada</strong> — margin 30H 10-15%, baseline 90H masih sehat. Cabang yang biasanya sehat mulai melunak.</li>
+            <li><strong>Early Warning</strong> — margin 30H &lt; 10%, tapi baseline 90H masih sehat. Penurunan baru, bukan masalah lama.</li>
+            <li><strong>Recovery</strong> — margin 30H ≥ 15%, baseline 90H masih rendah. Sudah sehat sekarang, tapi historinya masih perlu dipantau.</li>
+            <li><strong>Membaik</strong> — margin 30H 10-15%, baseline 90H &lt; 10%. Ada pemulihan dari kondisi lemah, tapi belum sehat.</li>
+            <li><strong>Stabil Rendah</strong> — margin 30H dan 90H sama-sama 10-15%. Bukan krisis, tapi belum optimal.</li>
+            <li><strong>Turnaround</strong> — margin 30H dan 90H sama-sama lemah. Perlu pembenahan struktural.</li>
+          </ul>
+          Margin 30H adalah status aktif. Margin 90H adalah baseline recent. Margin historis tetap ditampilkan sebagai konteks fundamental, bukan penentu status utama.
+        </div>
+      </details>
+  </div>
+
+  <div class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Detail Status per Cabang</div>
+        <h3 class="section-title">Cabang mana yang sehat, perlu dipantau, atau masuk turnaround?</h3>
+        <p class="section-copy">Kartu di bawah ini adalah bukti per cabang dari ringkasan margin di atas. Mulai dari cabang dengan status paling berat, lalu cek margin aktif 30H, baseline 90H, dan rekomendasi deep dive.</p>
+      </div>
+    </div>
+
+      <div class="branch-health-grid">
+        {#each branch_health_classification as row}
+          {@const branchStatusClass = row.health_status === 'Sehat' ? 'sehat' : row.health_status === 'Waspada' ? 'waspada' : row.health_status === 'Early Warning' ? 'early-warning' : row.health_status === 'Recovery' ? 'recovery' : row.health_status === 'Membaik' ? 'membaik' : row.health_status === 'Stabil Rendah' ? 'stabil-rendah' : 'turnaround'}
+          <div class="branch-health-card {branchStatusClass}">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <span class="branch-card-name">{row.branch_name}</span>
+              <span class="branch-status-badge {branchStatusClass}">{row.health_status === 'Sehat' ? '✅' : row.health_status === 'Waspada' ? '⚠️' : row.health_status === 'Early Warning' ? '🟠' : row.health_status === 'Recovery' ? '🔵' : row.health_status === 'Membaik' ? '🟢' : row.health_status === 'Stabil Rendah' ? '🟡' : '🚨'} {row.health_status}</span>
+            </div>
+            <div>
+              <div class="branch-margin-main {branchStatusClass}">{row.active_margin_pct}%</div>
+              <div class="branch-margin-label">Margin Aktif 30H</div>
+            </div>
+            <div class="branch-margin-structural">
+              <span>Margin 90H:</span>
+              <strong>{row.recent_margin_pct}%</strong>
+              <span>Historis:</span>
+              <strong>{row.historical_margin_pct}%</strong>
+            </div>
+            <div class="branch-stats-row">
+              <span>Revenue: Rp {(row.active_revenue/1000000).toFixed(1)}jt</span>
+              <span>Orders: {row.active_orders?.toLocaleString('id-ID')}</span>
+              <span>vs Baseline: {row.baseline_change_pct >= 0 ? '+' : ''}{row.baseline_change_pct}%</span>
+            </div>
+            <div class="branch-diagnosis">{row.diagnosis}</div>
+            <div class="branch-next-link">→ {row.recommended_next_page}</div>
+          </div>
+        {/each}
+      </div>
+  </div>
+
+      <details class="context-acc" style="margin-top:14px;">
+        <summary>🔍 Kenapa margin 30H dibandingkan dengan 90H?</summary>
+        <div class="acc-body">
+          <ul>
+            <li>Margin 30H menunjukkan kondisi aktif yang perlu diputuskan sekarang.</li>
+            <li>Margin 90H menunjukkan baseline recent: apakah masalahnya baru atau sudah menetap beberapa bulan.</li>
+            <li>Jika 30H lemah tapi 90H sehat, masalahnya early warning dan masih bisa dikoreksi cepat.</li>
+            <li>Jika 30H dan 90H sama-sama lemah, masalahnya sudah lebih struktural.</li>
+            <li>Margin historis tetap dipakai sebagai konteks fundamental, bukan sebagai alarm utama.</li>
+          </ul>
+        </div>
+      </details>
+
+{:else if inputs.view === 'analysis'}
+
+  <div class="strategic-stack">
+    <div class="strategic-header">
+      <div class="strategic-eyebrow">🔭 Analisis Lanjutan</div>
+      <h2 class="strategic-title">Validasi tren, margin, dan posisi cabang</h2>
+      <p class="strategic-copy">Bagian ini dipakai setelah Ringkasan, Deep Dive, atau Pusat Aksi memberi arah. Urutannya: cek momentum singkat, validasi profitabilitas, lalu baca konteks strategis supaya keputusan tidak hanya berbasis satu tabel.</p>
+    </div>
+  </div>
+
+  <details class="context-acc">
+    <summary>📖 Cara membaca Analisis Lanjutan</summary>
+    <div class="acc-body">
+      <ul>
+        <li><strong>Pertumbuhan</strong> menjawab apakah pergerakan terbaru terjadi di semua cabang atau hanya cabang tertentu.</li>
+        <li><strong>Profitabilitas</strong> menjawab apakah revenue benar-benar berubah menjadi laba, atau habis terserap biaya.</li>
+        <li><strong>Strategis</strong> menjawab peran cabang dalam portofolio: mana mesin utama, mana perlu didorong, dan mana masuk turnaround.</li>
+        <li>Gunakan tabel audit hanya setelah chart dan kartu ringkas menunjukkan arah masalah.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="signal-grid">
+    {#if branch_wow.length > 0}
+      <div class="signal-card {Math.abs(branch_wow[0].pct_change - branch_wow[branch_wow.length - 1].pct_change) >= 10 ? 'warn' : 'safe'}">
+        <div class="signal-label">📈 Pertumbuhan</div>
+        <div class="signal-title">{branch_wow[0].branch_name} paling kuat</div>
+        <div class="signal-copy">Momentum 7H terbaik {branch_wow[0].pct_change >= 0 ? '+' : ''}{branch_wow[0].pct_change}%, terlemah {branch_wow[branch_wow.length - 1].pct_change >= 0 ? '+' : ''}{branch_wow[branch_wow.length - 1].pct_change}%. Baca sebagai sinyal awal, bukan diagnosis final.</div>
+      </div>
+    {/if}
+    {#if profitability_period_compare.length > 0}
+      <div class="signal-card {profitability_period_compare[0].margin_30d < 10 ? 'critical' : profitability_period_compare[0].margin_30d < 15 ? 'warn' : 'safe'}">
+        <div class="signal-label">💰 Profitabilitas</div>
+        <div class="signal-title">{profitability_period_compare[0].branch_name} margin terlemah</div>
+        <div class="signal-copy">Margin 30H {profitability_period_compare[0].margin_30d}%. Jika gross tinggi tapi net rendah, masalahnya bukan omzet, melainkan biaya yang menyerap revenue.</div>
+      </div>
+    {/if}
+    {#if branch_concentration.length > 0}
+      <div class="signal-card neutral">
+        <div class="signal-label">🧭 Strategis</div>
+        <div class="signal-title">{branch_concentration[0].top_branch_30d} memimpin 30H</div>
+        <div class="signal-copy">Share 30H {branch_concentration[0].top_share_30d}%. Bandingkan dengan dominasi historis {branch_concentration[0].top_branch_alltime} untuk melihat apakah portofolio makin terkonsentrasi.</div>
+      </div>
+    {/if}
+  </div>
+
+  <details class="acc-strategic" open>
+    <summary>📈 Pertumbuhan · Momentum 7H dan divergensi 30H</summary>
+    <div class="acc-body">
+      <div class="section-head tight">
+        <div>
+          <div class="section-eyebrow">Pertumbuhan Cabang</div>
+          <h3 class="section-title">Cabang mana yang mulai bergerak, dan apakah polanya spesifik?</h3>
+          <p class="section-copy">Mulai dari 7H untuk sinyal cepat, lalu gunakan tren 30H untuk membedakan noise portofolio dari masalah cabang tertentu.</p>
+        </div>
+      </div>
+
+      {#if branch_wow.length > 0}
+        <div class="mini-grid" style="margin-bottom:16px;">
+          <div class="mini-card">
+            <div class="mini-label">🏆 Cabang Terkuat</div>
+            <div class="mini-value">{branch_wow[0].branch_name}</div>
+            <div class="mini-copy">{branch_wow[0].pct_change >= 0 ? '+' : ''}{branch_wow[0].pct_change}% vs minggu sebelumnya.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-label">📉 Cabang Terlemah</div>
+            <div class="mini-value">{branch_wow[branch_wow.length - 1].branch_name}</div>
+            <div class="mini-copy">{branch_wow[branch_wow.length - 1].pct_change >= 0 ? '+' : ''}{branch_wow[branch_wow.length - 1].pct_change}% vs minggu sebelumnya.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-label">📊 Rentang Momentum</div>
+            <div class="mini-value">{Math.abs(branch_wow[0].pct_change - branch_wow[branch_wow.length - 1].pct_change).toFixed(1)}pp</div>
+            <div class="mini-copy">Semakin lebar rentangnya, semakin besar kemungkinan isu spesifik cabang.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-label">⏱️ Lensa</div>
+            <div class="mini-value">7H → 30H</div>
+            <div class="mini-copy">7H untuk leading indicator, 30H untuk konfirmasi pola.</div>
+          </div>
+        </div>
+      {/if}
+
+      <LineChart data={branch_daily_30d} x="order_date" y="total_revenue" series="branch_name" title="Revenue Harian per Cabang — 30 Hari" yFmt="#,##0" xAxisTitle="Tanggal" yAxisTitle="Revenue (Rp)" />
+      <div class="chart-insight">📌 Jika semua cabang bergerak bersama, kemungkinan faktor portofolio atau kalender. Jika satu cabang menyimpang sendiri, lanjutkan ke Deep Dive cabang tersebut.</div>
+
+      <details class="context-acc">
+        <summary>📋 Audit data momentum mingguan</summary>
+        <div class="acc-body">
+          <DataTable data={branch_wow}>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="revenue_this_week" title="Minggu Ini (Rp)" fmt="#,##0"/>
+            <Column id="revenue_last_week" title="Minggu Lalu (Rp)" fmt="#,##0"/>
+            <Column id="pct_change" title="Perubahan" fmt="+0.0;-0.0" contentType="delta"/>
+          </DataTable>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="acc-strategic" open>
+    <summary>💰 Profitabilitas · Gross, net, dan biaya yang menyerap revenue</summary>
+    <div class="acc-body">
+      <div class="section-head tight">
+        <div>
+          <div class="section-eyebrow">Profitabilitas Cabang</div>
+          <h3 class="section-title">Revenue besar belum tentu sehat jika net revenue bocor.</h3>
+          <p class="section-copy">Gunakan chart gross vs net untuk melihat besarnya biaya terserap, lalu breakdown biaya untuk menentukan pintu audit pertama.</p>
+        </div>
+      </div>
+
+      {#if profitability_period_compare.length > 0}
+        <div class="signal-card {profitability_period_compare[0].margin_30d < 10 ? 'critical' : profitability_period_compare[0].margin_30d < 15 ? 'warn' : 'safe'}" style="margin-bottom:16px;">
+          <div class="signal-label">{profitability_period_compare[0].margin_30d < 10 ? '🚨' : profitability_period_compare[0].margin_30d < 15 ? '⚠️' : '✅'} Margin 30H Terlemah</div>
+          <div class="signal-title">{profitability_period_compare[0].branch_name} margin 30H {profitability_period_compare[0].margin_30d}%.</div>
+          <div class="signal-copy">Jika margin 30H dan 90H sama-sama rendah, masalahnya lebih struktural dan cocok masuk Pusat Aksi.</div>
+        </div>
+      {/if}
+
+      <Grid cols=2>
+        <div>
+          <BarChart data={profitability_30d} x="branch_name" y={["gross_revenue","net_revenue"]} type="grouped" title="Gross vs Net Revenue per Cabang — 30 Hari" yFmt="#,##0" xAxisTitle="Cabang" yAxisTitle="Revenue (Rp)" />
+          <div class="chart-insight">📌 Jarak gross dan net adalah biaya yang terserap. Cabang gross tinggi tapi net rendah perlu audit biaya.</div>
+        </div>
+        <div>
+          <BarChart data={profitability_30d} x="branch_name" y={["cost_ingredients","cost_labor","cost_overhead"]} type="stacked" title="Rincian Biaya per Cabang — 30 Hari" yFmt="#,##0" xAxisTitle="Cabang" yAxisTitle="Biaya (Rp)" />
+          <div class="chart-insight">📌 Komponen terbesar adalah pintu audit pertama: bahan untuk COGS/waste, labor untuk roster, overhead untuk fixed cost atau volume.</div>
+        </div>
+      </Grid>
+
+      <details class="context-acc">
+        <summary>📋 Audit margin 30H vs 90H vs historis</summary>
+        <div class="acc-body">
+          <DataTable data={profitability_period_compare}>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="gross_30d" title="Gross 30H (Rp)" fmt="#,##0"/>
+            <Column id="net_30d" title="Net 30H (Rp)" fmt="#,##0"/>
+            <Column id="margin_30d" title="Margin 30H" fmt="0.0\%"/>
+            <Column id="margin_90d" title="Margin 90H" fmt="0.0\%"/>
+            <Column id="margin_historical" title="Margin Historis" fmt="0.0\%"/>
+            <Column id="margin_gap_30_vs_90" title="Gap 30H vs 90H" fmt="+0.0;-0.0" contentType="delta"/>
+            <Column id="ingredients_30d" title="Bahan 30H" fmt="0.0\%"/>
+            <Column id="labor_30d" title="Labor 30H" fmt="0.0\%"/>
+            <Column id="overhead_30d" title="Overhead 30H" fmt="0.0\%"/>
+          </DataTable>
+          <div class="chart-insight">📌 Margin 30H adalah kondisi aktif. Margin 90H adalah baseline recent. Historis hanya konteks fundamental, bukan alarm utama.</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="acc-strategic" open>
+    <summary>🧭 Strategis · Peran cabang dan bukti historis</summary>
+    <div class="acc-body">
+      <div class="section-head tight">
+        <div>
+          <div class="section-eyebrow">Strategi Portofolio</div>
+          <h3 class="section-title">Cabang mana harus dilindungi, didorong, atau dibenahi?</h3>
+          <p class="section-copy">Bagian ini membaca konsentrasi revenue dan margin historis supaya keputusan tidak hanya mengejar omzet 30H.</p>
+        </div>
+      </div>
+
+      {#if branch_concentration.length > 0}
+        <div class="portfolio-cards" style="margin-bottom:16px;">
+          <div class="portfolio-card">
+            <div class="section-eyebrow">🏪 Top Share · 30H</div>
+            <div class="value">{branch_concentration[0].top_branch_30d}</div>
+            <div class="copy">Menyumbang <strong>{branch_concentration[0].top_share_30d}%</strong> revenue portofolio 30H.</div>
+          </div>
+          <div class="portfolio-card">
+            <div class="section-eyebrow">🥈 Kontributor Kedua</div>
+            <div class="value">{branch_concentration[0].second_branch_30d}</div>
+            <div class="copy">Menyumbang <strong>{branch_concentration[0].second_share_30d}%</strong>. Cek apakah portofolio terlalu bergantung pada satu cabang.</div>
+          </div>
+          <div class="portfolio-card">
+            <div class="section-eyebrow">🧭 Dominan Historis</div>
+            <div class="value">{branch_concentration[0].top_branch_alltime}</div>
+            <div class="copy">Historis memegang <strong>{branch_concentration[0].top_share_alltime}%</strong> total revenue.</div>
+          </div>
+        </div>
+      {/if}
+
+      <Grid cols=2>
+        <div>
+          <BarChart data={branch_monthly} x="month" y="total_revenue" series="branch_name" type="stacked" title="Revenue Bulanan Portofolio Cabang" yFmt="#,##0" xAxisTitle="Bulan" yAxisTitle="Revenue (Rp)" />
+          <div class="chart-insight">📌 Jika total naik tapi makin bertumpu pada satu cabang, risiko konsentrasi naik. Jika beberapa cabang tumbuh bersama, portofolio lebih sehat.</div>
+        </div>
+        <div>
+          <LineChart data={branch_quarterly_margin} x="quarter_start" y="margin_pct" series="branch_name" title="Margin per Quarter per Cabang" yFmt="0.0\%" xAxisTitle="Quarter" yAxisTitle="Margin (%)">
+            <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
+            <ReferenceLine y={10} label="10% Kritis" lineType="dashed" color="red" />
+          </LineChart>
+          <div class="chart-insight">📌 Margin quarter yang konsisten lemah lebih kuat sebagai sinyal fundamental dibanding penurunan 30H sesaat.</div>
+        </div>
+      </Grid>
+
+      <details class="context-acc">
+        <summary>📋 Audit peran strategis cabang</summary>
+        <div class="acc-body">
+          <DataTable data={branch_classification}>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="revenue_30d" title="Revenue 30H (Rp)" fmt="#,##0"/>
+            <Column id="margin_30d" title="Margin 30H" fmt="0.0\%"/>
+            <Column id="margin_90d" title="Margin 90H" fmt="0.0\%"/>
+            <Column id="alltime_margin" title="Margin Historis" fmt="0.0\%"/>
+            <Column id="peran_strategis" title="Peran"/>
+            <Column id="fokus_manajemen" title="Fokus Manajemen"/>
+          </DataTable>
+          <div class="chart-insight">📌 Peran strategis bukan status harian. Cabang efisien bisa jadi benchmark; cabang lemah di volume dan margin masuk turnaround.</div>
+        </div>
+      </details>
+
+      <details class="context-acc">
+        <summary>📚 Audit data historis lengkap</summary>
+        <div class="acc-body">
+          <DataTable data={branch_alltime}>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="total_revenue" title="Revenue Historis (Rp)" fmt="#,##0"/>
+            <Column id="total_orders" title="Orders Historis" fmt="#,##0"/>
+            <Column id="avg_order_value" title="AOV Historis (Rp)" fmt="#,##0"/>
+            <Column id="net_margin_pct" title="Margin Historis" fmt="0.0\%"/>
+            <Column id="first_date" title="Mulai"/>
+            <Column id="last_date" title="Data Terakhir"/>
+          </DataTable>
+        </div>
+      </details>
+    </div>
+  </details>
+
+
+{:else if inputs.view === 'deepdive'}
+
+  <div class="branch-selector-card">
+    <div class="branch-selector-head">
+      <div>
+        <div class="section-eyebrow">🏪 Pilih Cabang</div>
+        <h3 class="branch-selector-title">Deep Dive semua cabang atau satu cabang</h3>
+        <p class="branch-selector-copy">Mulai dari Semua Cabang untuk membaca AOV dan gap antar cabang, lalu pilih cabang tertentu untuk audit margin, biaya, dan tren detail.</p>
+      </div>
+    </div>
+    <ButtonGroup name=focus_branch>
+      <ButtonGroupItem value="all" valueLabel="Semua Cabang" default />
+      {#each branch_list as branch}
+        <ButtonGroupItem value={branch.branch_name} valueLabel={branch.branch_name} />
+      {/each}
+    </ButtonGroup>
+  </div>
+
+  {@const selectedBranchRaw = String(inputs.focus_branch ?? 'all')}
+  {@const selectedBranchNormalized = decodeURIComponent(selectedBranchRaw).replace(/\+/g, ' ')}
+  {@const selectedBranch = selectedBranchRaw === 'all' ? 'all' : branch_list.find(branch => branch.branch_name === selectedBranchRaw || branch.branch_name === selectedBranchNormalized)?.branch_name ?? branch_list[0].branch_name}
+  {@const branchLowestRevenue = branchOverviewRows[branchOverviewRows.length - 1]}
+  {@const branchHighestRevenue = branchOverviewRows[0]}
+  {@const branchAovValues = branchOverviewRows.map(row => row.avg_order_value ?? 0).filter(v => v > 0)}
+  {@const branchMinAov = branchAovValues.reduce((min, v) => Math.min(min, v), branchAovValues[0] ?? 0)}
+  {@const branchMaxAov = branchAovValues.reduce((max, v) => Math.max(max, v), 0)}
+  {@const branchAovSpreadPct = branchMinAov > 0 ? Math.round((branchMaxAov - branchMinAov) / branchMinAov * 100) : 0}
+  {@const branchWorstMargin = branchOverviewRows.reduce((worst, row) => (row.net_margin_pct ?? 999) < (worst.net_margin_pct ?? 999) ? row : worst, branchOverviewRows[0])}
+  {@const branchWeakestStructural = branch_health_classification[0]}
+  {@const activeScorecard = branch_scorecard.find(row => row.selected_branch === selectedBranch)}
+  {@const activeCostPeriods = branch_cost_periods.find(row => row.branch_name === selectedBranch)}
+  {@const activeDailyTrend = branch_daily_trend.filter(row => row.branch_name === selectedBranch)}
+  {@const activeNetTrend = branch_net_trend.filter(row => row.branch_name === selectedBranch)}
+  {@const activeCostTrend = branch_cost_trend.filter(row => row.branch_name === selectedBranch)}
+  {@const activeOrderType = branch_order_type.filter(row => row.branch_name === selectedBranch)}
+  {@const branchIngredientPct30 = activeCostPeriods ? activeCostPeriods.ingr_30d / (activeCostPeriods.gross_30d || 1) * 100 : 0}
+  {@const branchLaborPct30 = activeCostPeriods ? activeCostPeriods.labor_30d / (activeCostPeriods.gross_30d || 1) * 100 : 0}
+  {@const branchOverheadPct30 = activeCostPeriods ? activeCostPeriods.overhead_30d / (activeCostPeriods.gross_30d || 1) * 100 : 0}
+  {@const branchIngredientPct90 = activeCostPeriods ? activeCostPeriods.ingr_90d / (activeCostPeriods.gross_90d || 1) * 100 : 0}
+  {@const branchLaborPct90 = activeCostPeriods ? activeCostPeriods.labor_90d / (activeCostPeriods.gross_90d || 1) * 100 : 0}
+  {@const branchOverheadPct90 = activeCostPeriods ? activeCostPeriods.overhead_90d / (activeCostPeriods.gross_90d || 1) * 100 : 0}
+  {@const branchMainCostPressure = branchOverheadPct30 > 15 ? 'biaya operasional' : branchIngredientPct30 > 32 ? 'biaya bahan' : branchLaborPct30 > 30 ? 'biaya SDM' : 'tidak ada pos biaya utama yang melewati batas'}
+
+  {#if selectedBranch === 'all'}
+    <div class="overview-status-card {branchIndexStatus}">
+      <div>
+        <div class="overview-status-label">Deep Dive · Semua Cabang</div>
+        <h2 class="overview-status-title">
+          {#if branchGapState === 'safe'}Gap antar cabang masih terkendali. ✅
+          {:else if branchGapState === 'warn'}Gap antar cabang perlu dipantau sebelum melebar. ⚠️
+          {:else}Gap antar cabang sudah terlalu lebar. 🚨{/if}
+        </h2>
+        <p class="overview-status-copy">
+          AOV portofolio <strong>Rp {branchAovAll.toLocaleString('id-ID')}</strong> dan gap revenue antar cabang <strong>{branchGapPct}%</strong>. Cabang tertinggi adalah <strong>{branchHighestRevenue?.branch_name ?? 'Belum ada data'}</strong>, sedangkan cabang terendah adalah <strong>{branchLowestRevenue?.branch_name ?? 'Belum ada data'}</strong>. Mode ini menjelaskan dua indikator utama dari Ringkasan sebelum masuk audit satu cabang.
+        </p>
+        <div class="overview-status-action">
+          <strong>Mulai dari sini:</strong> cek apakah gap terjadi karena volume order, AOV, atau margin. Setelah itu pilih cabang terbawah untuk audit biaya dan tren detail.
+        </div>
+      </div>
+      <div class="overview-status-metrics">
+        <div class="overview-status-metric">
+          <div class="overview-status-metric-label">📊 Gap Revenue</div>
+          <div class="overview-status-metric-value">{branchGapPct}%</div>
+          <div class="overview-status-metric-note">Rumus: selisih revenue tertinggi dan terendah dibanding cabang terendah.</div>
+        </div>
+        <div class="overview-status-metric">
+          <div class="overview-status-metric-label">🧾 AOV Portofolio</div>
+          <div class="overview-status-metric-value">Rp {branchAovAll.toLocaleString('id-ID')}</div>
+          <div class="overview-status-metric-note">Gunakan untuk melihat kualitas nilai transaksi sebelum membandingkan margin.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategic-stack">
+      <div class="strategic-header">
+        <div class="strategic-eyebrow">🔭 Narasi Semua Cabang</div>
+        <h2 class="strategic-title">30H aktif → 90H baseline → historis → aksi</h2>
+        <p class="strategic-copy">Mode ini mengikuti pola baca laporan keuangan: mulai dari kondisi aktif 30 hari, validasi apakah polanya menetap di 90 hari, lalu cek konteks historis sebelum menentukan tindakan.</p>
+      </div>
+
+      <details class="acc-strategic" open>
+        <summary>📊 30H Aktif · Gap datang dari mana?</summary>
+        <div class="acc-body">
+          <div class="mini-grid" style="margin-bottom:16px;">
+            <div class="mini-card">
+              <div class="mini-label">🏆 Revenue Tertinggi</div>
+              <div class="mini-value">{branchHighestRevenue?.branch_name ?? 'Belum ada data'}</div>
+              <div class="mini-copy">Rp {(branchHighestRevenue?.total_revenue ?? 0).toLocaleString('id-ID', {maximumFractionDigits:0})} dalam 30H.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">📉 Revenue Terendah</div>
+              <div class="mini-value">{branchLowestRevenue?.branch_name ?? 'Belum ada data'}</div>
+              <div class="mini-copy">Rp {(branchLowestRevenue?.total_revenue ?? 0).toLocaleString('id-ID', {maximumFractionDigits:0})}; sumber utama gap {branchGapPct}%.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">🧾 Sebaran AOV</div>
+              <div class="mini-value">{branchAovSpreadPct}%</div>
+              <div class="mini-copy">AOV tertinggi Rp {branchMaxAov.toLocaleString('id-ID')} vs terendah Rp {branchMinAov.toLocaleString('id-ID')}.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">💰 Margin Terlemah</div>
+              <div class="mini-value">{branchWorstMargin?.branch_name ?? 'Belum ada data'}</div>
+              <div class="mini-copy">Margin 30H {branchWorstMargin?.net_margin_pct ?? 0}%. Ini kandidat audit biaya pertama.</div>
+            </div>
+          </div>
+
+          <DataTable data={branchOverviewRows} rows=10>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="total_revenue" title="Revenue 30H (Rp)" fmt="#,##0"/>
+            <Column id="total_orders" title="Orders 30H" fmt="#,##0"/>
+            <Column id="avg_order_value" title="AOV (Rp)" fmt="#,##0"/>
+            <Column id="net_margin_pct" title="Margin" fmt="0.0\%"/>
+            <Column id="avg_pct_vs_sdow" title="vs Baseline" fmt="+0.0;-0.0" contentType="delta"/>
+          </DataTable>
+          <div class="chart-insight">
+            📌 <strong>Kesimpulan 30H:</strong> jika AOV antar cabang relatif mirip, gap revenue lebih mungkin datang dari volume/order dan margin, bukan nilai transaksi. Cabang dengan revenue rendah dan margin rendah perlu dibuka di mode cabang individual.
+          </div>
+        </div>
+      </details>
+
+      <details class="acc-strategic">
+        <summary>📚 Historis & Strategis · Karakter cabang jangka panjang</summary>
+        <div class="acc-body">
+          <div class="portfolio-cards" style="margin-bottom:16px;">
+            <div class="portfolio-card">
+              <div class="section-eyebrow">🏪 Top Share · 30H</div>
+              <div class="value">{branch_concentration[0].top_branch_30d}</div>
+              <div class="copy">Menyumbang <strong>{branch_concentration[0].top_share_30d}%</strong> revenue 30H.</div>
+            </div>
+            <div class="portfolio-card">
+              <div class="section-eyebrow">🥈 Kontributor Kedua</div>
+              <div class="value">{branch_concentration[0].second_branch_30d}</div>
+              <div class="copy">Menyumbang <strong>{branch_concentration[0].second_share_30d}%</strong>. Pakai ini untuk membaca konsentrasi portofolio.</div>
+            </div>
+            <div class="portfolio-card">
+              <div class="section-eyebrow">🧭 Dominan Historis</div>
+              <div class="value">{branch_concentration[0].top_branch_alltime}</div>
+              <div class="copy">Secara historis memegang <strong>{branch_concentration[0].top_share_alltime}%</strong> total revenue.</div>
+            </div>
+          </div>
+          <DataTable data={branch_classification} rows=10>
+            <Column id="branch_name" title="Cabang"/>
+            <Column id="revenue_30d" title="Revenue 30H (Rp)" fmt="#,##0"/>
+            <Column id="margin_30d" title="Margin 30H" fmt="0.0\%"/>
+            <Column id="margin_90d" title="Margin 90H" fmt="0.0\%"/>
+            <Column id="alltime_margin" title="Margin Historis" fmt="0.0\%"/>
+            <Column id="peran_strategis" title="Peran"/>
+            <Column id="fokus_manajemen" title="Fokus Manajemen"/>
+          </DataTable>
+          <div class="chart-insight">
+            📌 <strong>Cara membaca historis:</strong> cabang dominan historis tidak otomatis jadi prioritas jika 30H masih sehat. Cabang lemah di 30H dan 90H perlu tindakan lebih dulu, meski kontribusinya lebih kecil.
+          </div>
+        </div>
+      </details>
+
+      <details class="acc-strategic" open>
+        <summary>🎯 Kesimpulan Operasional · Apa yang dilakukan setelah membaca semua cabang?</summary>
+        <div class="acc-body">
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="mini-label">1 · Audit Cabang Terlemah</div>
+              <div class="mini-value">{branchWeakestStructural?.branch_name ?? branchLowestRevenue?.branch_name ?? 'Belum ada data'}</div>
+              <div class="mini-copy">Mulai dari demand, biaya bahan, labor, overhead, dan order mix. Pilih cabang ini di selector untuk detail.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">2 · Validasi Gap</div>
+              <div class="mini-value">{branchGapPct}%</div>
+              <div class="mini-copy">Jika AOV mirip tetapi revenue jauh, fokus utama adalah traffic/order dan kapasitas cabang.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">3 · Jaga Benchmark</div>
+              <div class="mini-value">{branchHighestRevenue?.branch_name ?? 'Belum ada data'}</div>
+              <div class="mini-copy">Cabang terbaik dipakai sebagai pembanding proses, bukan sekadar ranking omzet.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">4 · Lanjut ke Pusat Aksi</div>
+              <div class="mini-value">Prioritas kerja</div>
+              <div class="mini-copy">Jika masalah sudah jelas, gunakan Pusat Aksi untuk urutan kerja dan estimasi dampak.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  {:else}
+
+  <!-- JIT accordion -->
+  <details class="context-acc">
+  <summary>📖 Cara membaca deep dive cabang</summary>
+  <div class="acc-body">
+  <ul>
+    <li>Mulai dari period ladder: 7H untuk sinyal cepat, 30H untuk status aktif, 90H untuk baseline recent, historis untuk fundamental.</li>
+    <li>Jika 30H turun tapi 90H masih sehat, perlakukan sebagai early warning.</li>
+    <li>Jika 30H dan 90H sama-sama lemah, perlakukan sebagai masalah struktural recent.</li>
+    <li>Jika revenue stabil tapi margin turun, cari cost leak di bahan, labor, atau overhead.</li>
+    <li>Jika revenue dan margin sama-sama turun, cek demand dan kondisi operasional lokal.</li>
+  </ul>
+  </div>
+  </details>
+
+  {#if selectedBranch !== 'all' && activeScorecard && activeScorecard.rev_30d !== null && activeCostPeriods && activeCostPeriods.gross_30d !== null}
+    <div class="hero-wrap">
+      <div class="hero-main">
+        <div class="hero-eyebrow">🏪 Status Cabang · 30H</div>
+        {#if activeScorecard.margin_30d >= 15 && activeScorecard.margin_90d >= 15}
+          <h2 class="hero-headline">{activeScorecard.selected_branch} sehat, tapi tetap cek pos biaya yang melewati batas. ✅</h2>
+          <p class="hero-copy">Margin 30H <strong>{activeScorecard.margin_30d}%</strong> masih sehat dan baseline 90H <strong>{activeScorecard.margin_90d}%</strong> juga kuat. Revenue 30H berubah <strong>{activeScorecard.rev_pct_30d >= 0 ? '+' : ''}{activeScorecard.rev_pct_30d}%</strong> vs periode sebelumnya. Fokusnya menjaga standar, bukan turnaround.</p>
+          <span class="hero-action">✅ Pertahankan standar, audit {branchMainCostPressure}</span>
+        {:else if activeScorecard.margin_30d < 10 && activeScorecard.margin_90d >= 15}
+          <h2 class="hero-headline">{activeScorecard.selected_branch} masuk early warning 30H. ⚠️</h2>
+          <p class="hero-copy">Margin 30H hanya <strong>{activeScorecard.margin_30d}%</strong>, padahal baseline 90H masih <strong>{activeScorecard.margin_90d}%</strong>. Ini lebih mirip masalah baru di 30 hari terakhir, jadi audit perubahan demand, biaya, dan eksekusi terbaru dulu.</p>
+          <span class="hero-action">⚠️ Audit 30 hari terakhir dulu</span>
+        {:else if activeScorecard.margin_30d >= 15 && activeScorecard.margin_90d < 15}
+          <h2 class="hero-headline">{activeScorecard.selected_branch} sedang recovery. 🔵</h2>
+          <p class="hero-copy">Margin 30H sudah <strong>{activeScorecard.margin_30d}%</strong>, lebih baik dari baseline 90H <strong>{activeScorecard.margin_90d}%</strong>. Jangan ubah strategi terlalu banyak; pertahankan pola yang membuat 30H membaik.</p>
+          <span class="hero-action">🔵 Pertahankan momentum recovery</span>
+        {:else if activeScorecard.margin_30d >= 10}
+          <h2 class="hero-headline">{activeScorecard.selected_branch} masih berjalan, tapi laba belum cukup kuat. ⚠️</h2>
+          <p class="hero-copy">Margin 30H <strong>{activeScorecard.margin_30d}%</strong> masih di zona waspada. Gap ke target 15% sekitar <strong>{(15 - activeScorecard.margin_30d).toFixed(1)}pp</strong>. Fokuskan audit pada {branchMainCostPressure} dan validasi apakah demand ikut melemah.</p>
+          <span class="hero-action">⚠️ Audit biaya dan demand cabang ini</span>
+        {:else}
+          <h2 class="hero-headline">{activeScorecard.selected_branch} membutuhkan tindakan serius. 🚨</h2>
+          <p class="hero-copy">Margin 30H hanya <strong>{activeScorecard.margin_30d}%</strong>, dengan baseline 90H <strong>{activeScorecard.margin_90d}%</strong>. Jika 90H juga lemah, masalahnya sudah struktural dan perlu masuk Pusat Aksi.</p>
+          <span class="hero-action">🚨 Mulai audit struktur biaya dan demand</span>
+        {/if}
+      </div>
+      <div class="hero-side-card">
+        <div class="hero-side-label">📅 Periode Utama</div>
+        <div class="hero-side-row"><span>7H · Sinyal cepat</span><strong>{activeScorecard.margin_7d}%</strong></div>
+        <div class="hero-side-row"><span>30H · Status aktif</span><strong style="color:{activeScorecard.margin_30d >= 15 ? '#15803d' : activeScorecard.margin_30d >= 10 ? '#b45309' : '#b91c1c'}">{activeScorecard.margin_30d}%</strong></div>
+        <div class="hero-side-row"><span>90H · Baseline</span><strong>{activeScorecard.margin_90d}%</strong></div>
+        <div class="hero-side-row"><span>Revenue 30H</span><strong>Rp {(activeScorecard.rev_30d/1000000).toFixed(1)}jt</strong></div>
+      </div>
+    </div>
+
+    <div class="strategic-stack">
+      <div class="strategic-header">
+        <div class="strategic-eyebrow">🔭 Narasi Cabang</div>
+        <h2 class="strategic-title">30H aktif → biaya penekan → tren → tindakan</h2>
+        <p class="strategic-copy">30H menjadi dasar keputusan. 7H membantu membaca sinyal terbaru, 90H memvalidasi apakah masalah menetap, dan historis hanya menjadi konteks karakter cabang.</p>
+      </div>
+
+      <details class="acc-strategic" open>
+        <summary>📌 Kesehatan Periode · 30H sebagai status utama</summary>
+        <div class="acc-body">
+          <div class="mini-grid" style="margin-bottom:16px;">
+            <div class="mini-card">
+              <div class="mini-label">7H · Sinyal Cepat</div>
+              <div class="mini-value">{activeScorecard.margin_7d}%</div>
+              <div class="mini-copy">Revenue Rp {activeScorecard.rev_7d?.toLocaleString('id-ID', {maximumFractionDigits:0})}; baca sebagai early movement.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">30H · Status Aktif</div>
+              <div class="mini-value">{activeScorecard.margin_30d}%</div>
+              <div class="mini-copy">{activeScorecard.margin_prev30d !== null ? `${activeScorecard.margin_30d >= activeScorecard.margin_prev30d ? '▲' : '▼'} ${Math.abs(activeScorecard.margin_30d - activeScorecard.margin_prev30d).toFixed(1)}pp vs 30H sebelumnya.` : 'Kondisi aktif sekarang.'}</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">90H · Baseline Recent</div>
+              <div class="mini-value">{activeScorecard.margin_90d}%</div>
+              <div class="mini-copy">{activeScorecard.margin_prev90d !== null ? `${activeScorecard.margin_90d >= activeScorecard.margin_prev90d ? '▲' : '▼'} ${Math.abs(activeScorecard.margin_90d - activeScorecard.margin_prev90d).toFixed(1)}pp vs 90H sebelumnya.` : 'Pembanding stabilitas recent.'}</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">Historis · Karakter</div>
+              <div class="mini-value">{activeScorecard.margin_historical}%</div>
+              <div class="mini-copy">Konteks fundamental, bukan alarm utama.</div>
+            </div>
+          </div>
+
+          <div class="signal-grid">
+            <div class="signal-card {activeScorecard.margin_30d >= 15 ? 'safe' : activeScorecard.margin_30d >= 10 ? 'warn' : 'critical'}">
+              <div class="signal-label">✅ Apa yang sehat</div>
+              <div class="signal-title">Margin 30H {activeScorecard.margin_30d}%</div>
+              <div class="signal-copy">{activeScorecard.margin_30d >= 15 ? 'Basis operasional cabang masih sehat. Gunakan sebagai benchmark jika konsisten di 90H.' : activeScorecard.margin_30d >= 10 ? 'Cabang belum jatuh ke zona kritis, tapi belum cukup kuat untuk dijadikan benchmark.' : 'Belum ada sisi margin yang sehat; audit harus dimulai dari biaya dan demand.'}</div>
+            </div>
+            <div class="signal-card {branchOverheadPct30 > 15 || branchIngredientPct30 > 32 || branchLaborPct30 > 30 || activeScorecard.rev_pct_30d < 0 ? 'warn' : 'safe'}">
+              <div class="signal-label">🎯 Perlu perhatian</div>
+              <div class="signal-title">{branchMainCostPressure}</div>
+              <div class="signal-copy">Revenue 30H berubah {activeScorecard.rev_pct_30d >= 0 ? '+' : ''}{activeScorecard.rev_pct_30d}%. Jika biaya melewati batas atau revenue turun, tugasnya menjaga efisiensi sebelum masalah melebar.</div>
+            </div>
+            <div class="signal-card {activeScorecard.margin_90d >= 15 ? 'safe' : activeScorecard.margin_90d >= 10 ? 'warn' : 'critical'}">
+              <div class="signal-label">🔭 Validasi 90H</div>
+              <div class="signal-title">Baseline {activeScorecard.margin_90d}%</div>
+              <div class="signal-copy">{activeScorecard.margin_90d >= 15 ? 'Baseline masih mendukung; masalah 30H lebih mungkin taktis jika muncul.' : 'Baseline belum sehat; perlakukan sebagai masalah yang lebih struktural.'}</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="acc-strategic" open>
+        <summary>💸 Breakdown Biaya · Cabang sehat pun bisa punya kebocoran</summary>
+        <div class="acc-body">
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="cost-label">🥩 Bahan Baku</div>
+              <div class="cost-value" style="color:{branchIngredientPct30 <= 32 ? '#16a34a' : '#dc2626'};">{branchIngredientPct30.toFixed(1)}%</div>
+              <div class="cost-target">Target maks 32%</div>
+              <div class="progress-track"><div class="progress-fill" style="width:{Math.min(branchIngredientPct30 / 40 * 100, 100)}%; background:{branchIngredientPct30 > 32 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div><div class="progress-target" style="left:{32 / 40 * 100}%;"></div></div>
+              <div class="progress-scale"><span>0%</span><span>32%</span><span>40%</span></div>
+              <div class="cost-note">90H: {branchIngredientPct90.toFixed(1)}%</div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-label">👨‍💼 Tenaga Kerja</div>
+              <div class="cost-value" style="color:{branchLaborPct30 <= 30 ? '#16a34a' : '#f59e0b'};">{branchLaborPct30.toFixed(1)}%</div>
+              <div class="cost-target">Target maks 30%</div>
+              <div class="progress-track"><div class="progress-fill" style="width:{Math.min(branchLaborPct30 / 40 * 100, 100)}%; background:{branchLaborPct30 > 30 ? 'linear-gradient(90deg,#f59e0b,#fde68a)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div><div class="progress-target" style="left:{30 / 40 * 100}%;"></div></div>
+              <div class="progress-scale"><span>0%</span><span>30%</span><span>40%</span></div>
+              <div class="cost-note">90H: {branchLaborPct90.toFixed(1)}%</div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-label">🏢 Overhead</div>
+              <div class="cost-value" style="color:{branchOverheadPct30 <= 15 ? '#16a34a' : '#dc2626'};">{branchOverheadPct30.toFixed(1)}%</div>
+              <div class="cost-target">Target maks 15%</div>
+              <div class="progress-track"><div class="progress-fill" style="width:{Math.min(branchOverheadPct30 / 25 * 100, 100)}%; background:{branchOverheadPct30 > 15 ? 'linear-gradient(90deg,#ef4444,#fca5a5)' : 'linear-gradient(90deg,#16a34a,#86efac)'};"></div><div class="progress-target" style="left:{15 / 25 * 100}%;"></div></div>
+              <div class="progress-scale"><span>0%</span><span>15%</span><span>25%</span></div>
+              <div class="cost-note">90H: {branchOverheadPct90.toFixed(1)}%</div>
+            </div>
+          </div>
+          <div class="chart-insight">📌 <strong>Kesimpulan biaya:</strong> mulai audit dari {branchMainCostPressure}. Jika cabang sehat tapi satu biaya melewati batas, tindakannya menjaga efisiensi, bukan mengganti strategi besar.</div>
+        </div>
+      </details>
+
+      <details class="acc-strategic">
+        <summary>📈 Tren 90 Hari · Noise atau mulai jadi pola?</summary>
+        <div class="acc-body">
+          <Grid cols=2>
+            {#if activeDailyTrend.length > 0}
+            <div>
+              <LineChart data={activeDailyTrend} x="order_date" y={["total_revenue","revenue_sdow_avg"]} title="Revenue Harian vs Baseline Hari Serupa" yFmt="#,##0" xAxisTitle="Tanggal" yAxisTitle="Revenue (Rp)" />
+              <div class="chart-insight">📌 Jika actual sering di bawah baseline hari serupa, masalahnya lebih dekat ke demand atau eksekusi cabang. Jika hanya sesekali, itu lebih mungkin noise harian.</div>
+            </div>
+            {/if}
+            {#if activeNetTrend.length > 0}
+            <div>
+              <LineChart data={activeNetTrend} x="metric_date" y="margin_pct" title="Margin Bersih Harian" yFmt="0.0\%" xAxisTitle="Tanggal" yAxisTitle="Margin (%)">
+                <ReferenceLine y={15} label="Target 15%" lineType="dashed" color="green" />
+                <ReferenceLine y={10} label="10% Kritis" lineType="dashed" color="red" />
+              </LineChart>
+              <div class="chart-insight">📌 Cluster panjang di bawah 15%, atau beberapa hari berturut-turut di bawah 10%, lebih penting daripada satu titik harian yang buruk.</div>
+            </div>
+            {/if}
+          </Grid>
+        </div>
+      </details>
+
+      <details class="acc-strategic" open>
+        <summary>🎯 Kesimpulan Cabang · Apa yang owner lakukan?</summary>
+        <div class="acc-body">
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="mini-label">1 · Status</div>
+              <div class="mini-value">{activeScorecard.margin_30d >= 15 ? 'Pertahankan' : activeScorecard.margin_30d >= 10 ? 'Perbaiki' : 'Tindak serius'}</div>
+              <div class="mini-copy">Keputusan dimulai dari margin 30H, bukan dari satu hari atau total revenue saja.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">2 · Fokus audit</div>
+              <div class="mini-value">{branchMainCostPressure}</div>
+              <div class="mini-copy">Mulai dari pos biaya yang paling melewati batas, lalu validasi dengan tren 90H.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">3 · Peran cabang</div>
+              <div class="mini-value">{activeScorecard.margin_30d >= 15 && activeScorecard.margin_90d >= 15 ? 'Benchmark' : 'Perlu follow-up'}</div>
+              <div class="mini-copy">Cabang sehat bisa jadi pembanding proses. Cabang lemah masuk Pusat Aksi.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label">4 · Lanjutkan</div>
+              <div class="mini-value">{activeScorecard.margin_30d < 15 ? 'Pusat Aksi' : 'Monitor'}</div>
+              <div class="mini-copy">Untuk langkah prioritas dan estimasi dampak, cek subpage Pusat Aksi.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      {#if activeCostTrend.length > 0 || activeOrderType.length > 0}
+      <details class="acc-strategic">
+        <summary>🧾 Data Pendukung · Biaya Harian dan Order Mix</summary>
+        <div class="acc-body">
+          <Grid cols=2>
+            {#if activeCostTrend.length > 0}
+            <div><BarChart data={activeCostTrend} x="metric_date" y={["inventory_usage_cost","labor_total_cost","operational_total_cost"]} type="stacked" title="Biaya Harian per Komponen — 90 Hari" yFmt="#,##0" xAxisTitle="Tanggal" yAxisTitle="Biaya (Rp)" /></div>
+            {/if}
+            {#if activeOrderType.length > 0}
+            <div><BarChart data={activeOrderType} x="order_date" y={["dine_in","delivery","takeaway"]} type="stacked" title="Komposisi Jenis Order — 30 Hari" xAxisTitle="Tanggal" yAxisTitle="Orders" /></div>
+            {/if}
+          </Grid>
+          <div class="chart-insight">📌 Gunakan bagian ini sebagai konfirmasi setelah arah masalah terlihat dari status, biaya, dan tren.</div>
+        </div>
+      </details>
+      {/if}
+    </div>
+
+  {:else}
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-eyebrow">⚠️ Deep Dive Belum Tersedia</div>
+        <h3 class="section-title">Cabang ini belum punya data cukup untuk diagnosis detail</h3>
+        <p class="section-copy">Pilih cabang lain atau cek apakah data revenue, net revenue, dan biaya untuk cabang ini sudah masuk lengkap pada horizon 30 sampai 90 hari.</p>
+      </div>
+    </div>
+  {/if}
+  {/if}
+
+{:else if inputs.view === 'action'}
+
+  <!-- JIT accordion -->
+  <details class="context-acc">
+  <summary>🔢 Bagaimana prioritas aksi ditentukan?</summary>
+  <div class="acc-body">
+  <ul>
+    <li>Turnaround lebih tinggi dari early warning karena lebih dalam dan lebih struktural.</li>
+    <li>Early warning tetap penting — jika baseline 90H sehat tapi margin 30H jatuh, ini masih bisa dikoreksi.</li>
+    <li>Cabang revenue besar dengan margin bocor punya dampak finansial lebih besar dari cabang kecil.</li>
+    <li>Recovery dipantau, tidak ditekan — momentum sedang membaik.</li>
+    <li>Estimasi dampak dihitung dari gap terhadap benchmark dikalikan ukuran revenue cabang.</li>
+  </ul>
+  </div>
+  </details>
+
+  <!-- Action hero -->
+  {#if branch_action_queue.length > 0}
+    {@const criticalActions = branch_action_queue.filter(row => row.severity === 'Kritis')}
+    {@const scheduledActions = branch_action_queue.filter(row => row.severity !== 'Kritis')}
+    {@const totalImpact = branch_action_queue.reduce((sum, row) => sum + (row.impact ?? 0), 0)}
+    {@const impactedBranches = new Set(branch_action_queue.map(row => row.branch_name)).size}
+    {@const actionBranches = Array.from(new Set(branch_action_queue.map(row => row.branch_name)))}
+
+    <div class="subpage-hero">
+      <div class="subpage-hero-eyebrow">🎯 Pusat Aksi — {branch_action_queue.length} item perlu ditindak</div>
+      <h3 class="subpage-hero-title">
+        {#if branch_action_queue[0].severity === 'Kritis'}
+          Prioritas pertama: {branch_action_queue[0].branch_name} — {branch_action_queue[0].theme} masuk zona kritis.
+        {:else}
+          Prioritas pertama: {branch_action_queue[0].branch_name} — {branch_action_queue[0].theme} perlu perhatian tinggi.
+        {/if}
+      </h3>
+      <p class="subpage-hero-copy"><strong>Aksi pertama:</strong> mulai dari {branch_action_queue[0].branch_name}. Tangani {branch_action_queue[0].theme.toLowerCase()} dulu karena dampaknya paling besar di window 30H. Jangan mulai dari optimasi cabang sehat sebelum cabang kritis punya rencana perbaikan.</p>
+    </div>
+
+    <div class="action-summary-grid">
+      <div class="action-summary-card">
+        <div class="action-summary-label">Estimasi Dampak</div>
+        <div class="action-summary-value">Rp {(totalImpact/1000000).toFixed(1)}jt</div>
+        <div class="action-summary-copy">Total peluang perbaikan dari semua gap aktif 30 hari.</div>
+      </div>
+      <div class="action-summary-card">
+        <div class="action-summary-label">Harus Ditangani Dulu</div>
+        <div class="action-summary-value">{criticalActions.length} kritis</div>
+        <div class="action-summary-copy">Masuk prioritas hari ini sebelum jadwal optimasi lain.</div>
+      </div>
+      <div class="action-summary-card">
+        <div class="action-summary-label">Cabang Terdampak</div>
+        <div class="action-summary-value">{impactedBranches} cabang</div>
+        <div class="action-summary-copy">Jika kecil, problem terkonsentrasi; jika besar, isu lebih sistemik.</div>
+      </div>
+    </div>
+
+
+    <div class="section-card">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Peta Aksi per Cabang</div>
+          <h3 class="section-title">Owner mulai dari cabang mana?</h3>
+          <p class="section-copy">Bagian ini mengubah daftar masalah menjadi urutan kerja per cabang. Item detail tetap tersedia di accordion audit di bawah.</p>
+        </div>
+      </div>
+      <div class="action-stack">
+        {#each actionBranches as branch, i}
+          {@const branchRows = branch_action_queue.filter(row => row.branch_name === branch)}
+          {@const branchFirst = branchRows[0]}
+          {@const branchCriticalCount = branchRows.filter(row => row.severity === 'Kritis').length}
+          {@const branchImpact = branchRows.reduce((sum, row) => sum + (row.impact ?? 0), 0)}
+          {@const branchThemes = branchRows.map(row => row.theme).join(' · ')}
+          <div class="action-card {branchCriticalCount > 0 ? 'critical' : branchFirst.severity === 'Tinggi' ? 'high' : 'moderate'}">
+            <div class="action-header">
+              <div class="action-workline">
+                <span class="action-rank">#{i + 1}</span>
+                <span class="action-severity {branchCriticalCount > 0 ? 'critical' : branchFirst.severity === 'Tinggi' ? 'high' : 'moderate'}">
+                  {branchCriticalCount > 0 ? '🚨 PRIORITAS CABANG' : branchFirst.severity === 'Tinggi' ? '🔴 JADWALKAN MINGGU INI' : '🔵 PANTAU'}
+                </span>
+              </div>
+              <span class="action-badge">{branchRows.length} aksi · Rp {(branchImpact/1000000).toFixed(1)}jt</span>
+            </div>
+            <div class="action-title">{branch} — mulai dari {branchFirst.theme}</div>
+            <div class="action-impact">{branchThemes} <span>sinyal yang perlu ditangani</span></div>
+            <div class="action-copy"><strong>Bukti utama:</strong> {branchFirst.detail}</div>
+            <div class="action-next"><strong>Target tindakan:</strong> {branchFirst.theme === 'Bahan Baku' ? 'Turunkan rasio bahan menuju target 32%; mulai dari COGS menu, waste, porsi, dan supplier.' : branchFirst.theme === 'Margin' ? 'Naikkan margin minimal ke zona waspada dulu (10%), lalu ke target sehat 15%.' : branchFirst.theme === 'Overhead' ? 'Validasi apakah fixed cost terlalu berat atau volume cabang kurang menutup kapasitas.' : branchFirst.theme === 'Demand' ? 'Cari penyebab traffic turun: staffing, service, event lokal, kompetisi, atau eksekusi promosi.' : 'Tetapkan target perbaikan sesuai gap terbesar cabang ini.'}</div>
+            <div class="action-next"><strong>Lihat bukti:</strong> buka Deep Dive {branch} untuk biaya/tren, lalu gunakan daftar audit detail di bawah untuk checklist.</div>
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Prinsip Eksekusi</div>
+          <h3 class="section-title">Jangan salah urutan tindakan</h3>
+          <p class="section-copy">Cabang kritis diselesaikan dulu. Cabang sehat cukup dipantau atau dioptimasi setelah masalah utama punya rencana.</p>
+        </div>
+      </div>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-label">1 · Kritis dulu</div><div class="mini-value">Turnaround</div><div class="mini-copy">Cabang dengan margin kritis dan biaya bocor lebih penting daripada optimasi cabang sehat.</div></div>
+        <div class="mini-card"><div class="mini-label">2 · Quick win</div><div class="mini-value">Bahan baku</div><div class="mini-copy">COGS, waste, porsi, dan supplier biasanya lebih cepat dicek daripada fixed cost.</div></div>
+        <div class="mini-card"><div class="mini-label">3 · Struktur</div><div class="mini-value">Overhead</div><div class="mini-copy">Overhead butuh validasi volume dan kapasitas; jangan disimpulkan hanya dari satu angka.</div></div>
+        <div class="mini-card"><div class="mini-label">4 · Benchmark</div><div class="mini-value">Cabang sehat</div><div class="mini-copy">Gunakan cabang sehat sebagai pembanding proses, bukan objek tindakan keras.</div></div>
+      </div>
+    </div>
+
+    {#if criticalActions.length > 0}
+      <details class="acc-strategic" open>
+        <summary>📋 Audit Detail · Item kritis hari ini</summary>
+        <div class="acc-body">
+          <div class="action-stack">
+            {#each criticalActions as row, i}
+              <div class="action-card critical">
+                <div class="action-header">
+                  <div class="action-workline">
+                    <span class="action-rank">#{i + 1}</span>
+                    <span class="action-severity critical">🚨 KRITIS · HARI INI</span>
+                  </div>
+                  <span class="action-badge">{row.theme} · {row.branch_name}</span>
+                </div>
+                <div class="action-title">{row.headline}</div>
+                <div class="action-impact">Rp {(row.impact ?? 0).toLocaleString('id-ID', {maximumFractionDigits:0})} <span>estimasi dampak 30 hari</span></div>
+                <div class="action-copy"><strong>Bukti:</strong> {row.detail}</div>
+                <div class="action-next"><strong>Langkah berikut:</strong> {row.next_step}</div>
+              </div>
+            {/each}
+          </div>
+        </div>
+      </details>
+    {/if}
+
+    {#if scheduledActions.length > 0}
+      <details class="acc-strategic" open={criticalActions.length === 0}>
+        <summary>📋 Audit Detail · Item minggu ini</summary>
+        <div class="acc-body">
+          <div class="action-stack">
+            {#each scheduledActions as row, i}
+              <div class="action-card {row.severity === 'Tinggi' ? 'high' : 'moderate'}">
+                <div class="action-header">
+                  <div class="action-workline">
+                    <span class="action-rank">#{criticalActions.length + i + 1}</span>
+                    <span class="action-severity {row.severity === 'Tinggi' ? 'high' : 'moderate'}">
+                      {row.severity === 'Tinggi' ? '🔴 TINGGI · MINGGU INI' : '🔵 MODERAT · PANTAU'}
+                    </span>
+                  </div>
+                  <span class="action-badge">{row.theme} · {row.branch_name}</span>
+                </div>
+                <div class="action-title">{row.headline}</div>
+                <div class="action-impact">Rp {(row.impact ?? 0).toLocaleString('id-ID', {maximumFractionDigits:0})} <span>estimasi dampak 30 hari</span></div>
+                <div class="action-copy"><strong>Bukti:</strong> {row.detail}</div>
+                <div class="action-next"><strong>Langkah berikut:</strong> {row.next_step}</div>
+              </div>
+            {/each}
+          </div>
+        </div>
+      </details>
+    {/if}
+  {:else}
+    <div class="action-empty">
+      <div class="title">✅ Tidak ada prioritas merah yang perlu dieksekusi sekarang.</div>
+      <div style="font-size:0.86rem;line-height:1.7;color:var(--color-text-secondary);">Bukan berarti semua cabang sempurna — artinya tidak ada gap besar yang jelas cukup untuk diprioritaskan di atas yang lain pada window 30 hari ini. Cek Ringkasan untuk status lengkap per cabang.</div>
+    </div>
+  {/if}
+
+{/if}
+
+</div>
+
+{:else}
+
+<div class="section-card">
+  <div class="section-head">
+    <div class="section-eyebrow">⚠️ Data Belum Siap</div>
+    <h3 class="section-title">Dashboard cabang belum bisa dirender penuh</h3>
+    <p class="section-copy">Dataset klasifikasi cabang atau status counts belum tersedia. Cek apakah query <code>branch_health_classification</code> dan <code>branch_status_counts</code> sudah berjalan dan menghasilkan baris data.</p>
+  </div>
+</div>
+
+{/if}
