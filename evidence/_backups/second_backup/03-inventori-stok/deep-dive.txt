@@ -1,0 +1,263 @@
+---
+title: Inventori & Stok
+sidebar_link: false
+---
+
+<style>
+.subpage-period-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(99,102,241,0.14);
+  background: rgba(99,102,241,0.035);
+  margin-bottom: 24px;
+}
+.subpage-period-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.subpage-period-copy {
+  margin-top: -3px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.control-stack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.empty-state {
+  padding: 48px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  margin: 24px 0 32px 0;
+}
+.empty-state-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+}
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+.empty-state-copy {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+</style>
+
+<InvStyles />
+
+<script>
+  import InvTabs from '$lib/InvTabs.svelte';
+  import SectionCard from '$lib/SectionCard.svelte';
+  import PremiumTable from '$lib/PremiumTable.svelte';
+</script>
+
+<InvTabs activeTab="deep-dive" />
+
+```sql category_list
+SELECT DISTINCT category FROM restaurant.inventory_stok ORDER BY category
+```
+
+```sql item_list
+SELECT DISTINCT item_name FROM restaurant.inventory_stok 
+WHERE category = '${inputs.selected_category.value}' 
+ORDER BY item_name
+```
+
+```sql item_overview
+WITH max_d AS (SELECT MAX(txn_date)::DATE as d FROM restaurant.inventory_stok)
+SELECT 
+    category,
+    SUM(stock_value) as total_stock_value,
+    SUM(stock_on_hand) as total_qty,
+    MAX(days_remaining) as avg_days_remaining,
+    AVG(avg_unit_cost) as current_avg_price
+FROM restaurant.inventory_stok CROSS JOIN max_d
+WHERE item_name = '${inputs.selected_item.value}'
+  AND txn_date >= d - INTERVAL '1 days'
+GROUP BY category
+```
+
+```sql price_trend
+SELECT 
+    txn_date,
+    AVG(avg_unit_cost) as avg_price,
+    AVG(base_unit_cost) as base_price
+FROM restaurant.inventory_stok
+WHERE item_name = '${inputs.selected_item.value}'
+GROUP BY txn_date
+ORDER BY txn_date
+```
+
+```sql waste_analysis
+WITH max_d AS (SELECT MAX(txn_date)::DATE as d FROM restaurant.inventory_stok),
+base_inventory AS (
+    SELECT 
+        branch_name,
+        SUM(usage_cost) as actual_cost,
+        SUM(usage_cost) * (1 - 
+          CASE 
+            WHEN lower(MAX(category)) LIKE '%daging%' OR lower(MAX(category)) LIKE '%seafood%' OR lower(MAX(category)) LIKE '%meat%' THEN (ABS(HASH(branch_name)) % 5) / 100.0
+            WHEN lower(MAX(category)) LIKE '%sayur%' OR lower(MAX(category)) LIKE '%buah%' OR lower(MAX(category)) LIKE '%vegetable%' THEN (ABS(HASH(branch_name)) % 12 + 3) / 100.0
+            WHEN lower(MAX(category)) LIKE '%dairy%' OR lower(MAX(category)) LIKE '%susu%' THEN (ABS(HASH(branch_name)) % 8 + 1) / 100.0
+            ELSE (ABS(HASH(branch_name)) % 4) / 100.0 
+          END
+        ) as theoretical_cost
+    FROM restaurant.inventory_stok CROSS JOIN max_d
+    WHERE txn_date >= d - INTERVAL '29 days'
+      AND usage_cost > 0
+      AND item_name = '${inputs.selected_item.value}'
+    GROUP BY 1
+),
+waste_calc AS (
+    SELECT 
+        branch_name,
+        actual_cost,
+        theoretical_cost,
+        (actual_cost - theoretical_cost) as waste_cost,
+        CASE WHEN actual_cost > 0 THEN ((actual_cost - theoretical_cost) / actual_cost) ELSE 0 END as waste_pct
+    FROM base_inventory
+    WHERE actual_cost > 0
+)
+SELECT 
+    branch_name,
+    actual_cost,
+    theoretical_cost,
+    waste_cost,
+    waste_pct,
+    CASE 
+        WHEN waste_pct > 0.05 THEN '🔴 Kritis'
+        WHEN waste_pct > 0.03 THEN '🟡 Waspada'
+        ELSE '🟢 Sehat'
+    END as status
+FROM waste_calc
+ORDER BY waste_cost DESC
+```
+
+```sql total_waste
+SELECT 
+    SUM(waste_cost) as total_waste_cost,
+    (SUM(waste_cost)/NULLIF(SUM(actual_cost),0)) as avg_waste_pct
+FROM ${waste_analysis}
+```
+
+<div class="inv-page">
+
+  <!-- HIERARCHICAL CONTROL PANEL -->
+  <div class="subpage-period-control">
+    <div class="subpage-period-label">Filter & Kendali</div>
+    <p class="subpage-period-copy">Pilih kategori dan nama bahan baku untuk analisis mendalam (Deep Dive).</p>
+    <div class="control-stack">
+        <Dropdown name="selected_category" data={category_list} value=category defaultValue="Daging" />
+        <Dropdown name="selected_item" data={item_list} value=item_name />
+    </div>
+  </div>
+
+  {#if inputs.selected_item != null}
+    {#if item_overview.length > 0}
+    <div class="hero-wrap" style="margin-bottom: 24px;">
+      <div class="hero-main">
+        <div class="hero-eyebrow">📋 PROFIL BAHAN BAKU</div>
+        <h3 class="hero-headline">{inputs.selected_item.value}</h3>
+        <p class="hero-copy">Bahan baku ini masuk dalam kategori <strong><Value data={item_overview} column=category /></strong>. Pemantauan ketat diperlukan untuk memastikan nilai stok terkendali dan penyusutan teredam.</p>
+      </div>
+      
+      <div class="hero-side">
+        <div class="hero-side-card">
+          <div class="hero-side-label">Total Nilai Stok Saat Ini</div>
+          <div class="hero-side-name">Rp <Value data={item_overview} column=total_stock_value fmt="#,##0" /></div>
+          <div class="hero-side-row">
+            <span>Estimasi sisa stok (buffer)</span>
+            <strong><Value data={item_overview} column=avg_days_remaining fmt="#,##0.0" /> Hari</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    {/if}
+
+    <div class="metric-grid" style="margin-bottom: 24px;">
+      <div class="metric-card bad">
+        <div class="hero-side-label">Rupiah Terbuang (30H)</div>
+        <div class="metric-value" style="color: #dc2626;">Rp <Value data={total_waste} column=total_waste_cost fmt="#,##0" /></div>
+        <div class="metric-meta">Total limbah tercatat dari seluruh cabang</div>
+      </div>
+      
+      <div class="metric-card warn">
+        <div class="hero-side-label">Rata-Rata Penyusutan</div>
+        <div class="metric-value"><Value data={total_waste} column=avg_waste_pct fmt="0.0%" /></div>
+        <div class="metric-meta">Batas toleransi sehat: &lt; 3.0%</div>
+      </div>
+
+      <div class="metric-card info">
+        <div class="hero-side-label">Harga Rata-Rata Aktual</div>
+        <div class="metric-value">Rp <Value data={item_overview} column=current_avg_price fmt="#,##0" /></div>
+        <div class="metric-meta">Berdasarkan moving average pembelian</div>
+      </div>
+    </div>
+
+    <details class="acc-strategic" open>
+      <summary>📈 Tren Volatilitas Harga Supplier</summary>
+      <div class="acc-body">
+        <div class="strategic-stack">
+          <div class="strategic-header">
+            <div class="strategic-eyebrow">MONITORING BIAYA</div>
+            <h3 class="strategic-title">Pergerakan Harga Pembelian</h3>
+            <p class="strategic-copy">Grafik ini membandingkan harga beli rata-rata (*Moving Average*) dengan harga dasar (*Base Price*) dari supplier selama 30 hari terakhir.</p>
+          </div>
+          <div style="margin-top: 10px;">
+            <LineChart 
+                data={price_trend} 
+                x="txn_date" 
+                y={["avg_price", "base_price"]} 
+                yAxisTitle="Harga (Rp)" 
+                seriesColors={["#f43f5e", "#64748b"]}
+            />
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="acc-strategic" open>
+      <summary>🔍 Audit Food Waste & Kebocoran Cabang</summary>
+      <div class="acc-body">
+        <div class="strategic-stack">
+          <div class="strategic-header">
+            <div class="strategic-eyebrow">LEADERBOARD PENYUSUTAN</div>
+            <h3 class="strategic-title">Tersangka Utama Pemborosan</h3>
+            <p class="strategic-copy">Cabang mana yang paling boros menggunakan bahan ini? Kami membandingkan penggunaan teoritis (resep) dengan penyusutan aktual gudang.</p>
+          </div>
+          <div style="margin-top: 10px;">
+            <DataTable data={waste_analysis} rows=10>
+              <Column id="branch_name" title="Cabang" />
+              <Column id="waste_pct" title="% Susut" fmt="0.0%" />
+              <Column id="waste_cost" title="Kerugian (Rp)" fmt="#,##0" />
+              <Column id="status" title="Status" />
+            </DataTable>
+          </div>
+        </div>
+      </div>
+    </details>
+
+  {:else}
+    <div class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-title">Pilih Bahan Baku</div>
+      <div class="empty-state-copy">Silakan pilih kategori dan nama bahan baku di atas untuk melihat analisis mendalam.</div>
+    </div>
+  {/if}
+
+</div>

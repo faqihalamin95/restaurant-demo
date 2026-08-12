@@ -1,38 +1,86 @@
 <script>
   export let activeTab = 'overview';
+  export let lang = 'id';
+
+  const t = {
+    id: {
+      desc: "Dashboard analisis performa pegawai: ringkasan produktivitas, efisiensi pelayanan, kepuasan pelanggan, dan kontribusi penjualan.",
+      guideTitle: "💡 Cara memilih subpage",
+      guideDesc: "Gunakan panduan ini untuk memilih lapisan analisis performa pegawai sesuai kebutuhan operasional Anda.",
+      macroLabel: "Makro",
+      macroTitle: "Ringkasan",
+      macroDesc: "Melihat tren produktivitas umum dan kinerja harian.",
+      opsLabel: "Mode Operasional",
+      opsTitle: "Aksi Taktis",
+      opsDesc: "Daftar tindakan langsung: staf mana yang perlu dibantu atau dirotasi segera.",
+      policyLabel: "Mode Kebijakan",
+      policyTitle: "Evaluasi Strategis",
+      policyDesc: "Evaluasi komprehensif, kebutuhan pelatihan, dan strategi promosi jangka panjang.",
+      tabOverview: "🏠 Ringkasan",
+      tabTactical: "🎯 Aksi Taktis",
+      tabStrategic: "🔭 Evaluasi Strategis",
+      tabDirectory: "🗂️ Direktori Data",
+      linkOverview: "/id/07-employee-performance",
+      linkTactical: "/id/07-employee-performance/02-aksi-taktis",
+      linkStrategic: "/id/07-employee-performance/03-evaluasi-strategis",
+      linkDirectory: "/id/07-employee-performance/05-direktori-data"
+    },
+    en: {
+      desc: "Employee performance analysis dashboard: summary of productivity, service efficiency, customer satisfaction, and sales contribution.",
+      guideTitle: "💡 How to choose a subpage",
+      guideDesc: "Use this guide to choose the layer of employee performance analysis according to your operational needs.",
+      macroLabel: "Macro",
+      macroTitle: "Summary",
+      macroDesc: "View general productivity trends and daily performance.",
+      opsLabel: "Operational Mode",
+      opsTitle: "Tactical Actions",
+      opsDesc: "List of direct actions: which staff need help or immediate rotation.",
+      policyLabel: "Policy Mode",
+      policyTitle: "Strategic Evaluation",
+      policyDesc: "Comprehensive evaluation, training needs, and long-term promotion strategies.",
+      tabOverview: "🏠 Summary",
+      tabTactical: "🎯 Tactical Actions",
+      tabStrategic: "🔭 Strategic Evaluation",
+      tabDirectory: "🗂️ Data Directory",
+      linkOverview: "/en/07-employee-performance",
+      linkTactical: "/en/07-employee-performance/02-tactical-action",
+      linkStrategic: "/en/07-employee-performance/03-strategic-evaluation",
+      linkDirectory: "/en/07-employee-performance/04-data-directory"
+    }
+  };
 </script>
 
-<p style="margin-top: 12px; margin-bottom: 12px;"><em>Dashboard analisis performa pegawai: ringkasan produktivitas, efisiensi pelayanan, kepuasan pelanggan, dan kontribusi penjualan.</em></p>
+<p style="margin-top: 12px; margin-bottom: 12px;"><em>{t[lang].desc}</em></p>
 
 <details class="guide-acc" style="margin-top:12px; margin-bottom:12px;">
-  <summary>💡 Cara memilih subpage</summary>
+  <summary>{t[lang].guideTitle}</summary>
   <div class="guide-body">
     <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-      Gunakan panduan ini untuk memilih lapisan analisis performa pegawai sesuai kebutuhan operasional Anda.
+      {t[lang].guideDesc}
     </p>
     <div class="guide-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
       <div class="guide-card blue">
         <div class="guide-card-icon">🏠</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Makro</div>
-          <h4 class="guide-card-title">Ringkasan</h4>
-          <p class="guide-card-desc">Melihat tren produktivitas umum dan kinerja harian.</p>
+          <div class="guide-card-label">{t[lang].macroLabel}</div>
+          <h4 class="guide-card-title">{t[lang].macroTitle}</h4>
+          <p class="guide-card-desc">{t[lang].macroDesc}</p>
         </div>
       </div>
       <div class="guide-card teal">
         <div class="guide-card-icon">🎯</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Mode Operasional</div>
-          <h4 class="guide-card-title">Aksi Taktis</h4>
-          <p class="guide-card-desc">Daftar tindakan langsung: staf mana yang perlu dibantu atau dirotasi segera.</p>
+          <div class="guide-card-label">{t[lang].opsLabel}</div>
+          <h4 class="guide-card-title">{t[lang].opsTitle}</h4>
+          <p class="guide-card-desc">{t[lang].opsDesc}</p>
         </div>
       </div>
       <div class="guide-card purple">
         <div class="guide-card-icon">🔭</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Mode Kebijakan</div>
-          <h4 class="guide-card-title">Evaluasi Strategis</h4>
-          <p class="guide-card-desc">Evaluasi komprehensif, kebutuhan pelatihan, dan strategi promosi jangka panjang.</p>
+          <div class="guide-card-label">{t[lang].policyLabel}</div>
+          <h4 class="guide-card-title">{t[lang].policyTitle}</h4>
+          <p class="guide-card-desc">{t[lang].policyDesc}</p>
         </div>
       </div>
     </div>
@@ -40,10 +88,10 @@
 </details>
 
 <div class="evidence-tabs-container">
-  <a href="/07-employee-performance" class="tab-button {activeTab === 'overview' ? 'active' : ''}">🏠 Ringkasan</a>
-  <a href="/07-employee-performance/02-aksi-taktis" class="tab-button {activeTab === 'taktis' ? 'active' : ''}">🎯 Aksi Taktis</a>
-  <a href="/07-employee-performance/03-evaluasi-strategis" class="tab-button {activeTab === 'strategis' ? 'active' : ''}">🔭 Evaluasi Strategis</a>
-  <a href="/07-employee-performance/05-direktori-data" class="tab-button {activeTab === 'direktori' ? 'active' : ''}">🗂️ Direktori Data</a>
+  <a href={t[lang].linkOverview} class="tab-button {activeTab === 'overview' ? 'active' : ''}">{t[lang].tabOverview}</a>
+  <a href={t[lang].linkTactical} class="tab-button {activeTab === 'taktis' ? 'active' : ''}">{t[lang].tabTactical}</a>
+  <a href={t[lang].linkStrategic} class="tab-button {activeTab === 'strategis' ? 'active' : ''}">{t[lang].tabStrategic}</a>
+  <a href={t[lang].linkDirectory} class="tab-button {activeTab === 'direktori' ? 'active' : ''}">{t[lang].tabDirectory}</a>
 </div>
 
 <style>
