@@ -2,45 +2,45 @@
   export let activeTab = 'overview';
 </script>
 
-<p style="margin-top: 12px; margin-bottom: 12px;"><em>Dashboard analisis perilaku member: ringkasan akuisisi, segmentasi RFM, pola belanja, dan efisiensi promosi.</em></p>
+<p style="margin-top: 12px; margin-bottom: 12px;"><em>Member behavior analysis dashboard: evaluate RFM segmentation positioning, acquisition velocity, spending patterns, and promotional campaign efficiency.</em></p>
 
 <details class="guide-acc" style="margin-top:12px; margin-bottom:12px;">
-  <summary>💡 Cara memilih subpage</summary>
+  <summary>💡 How to choose a subpage</summary>
   <div class="guide-body">
     <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-      Gunakan panduan ini untuk memilih lapisan analisis perilaku member sesuai kebutuhan operasional Anda.
+      Use this guide to select the layer of member behavior analysis according to your operational needs.
     </p>
-    <div class="guide-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+    <div class="guide-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
       <div class="guide-card blue">
         <div class="guide-card-icon">🏠</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Makro</div>
-          <h4 class="guide-card-title">Ringkasan</h4>
-          <p class="guide-card-desc">Melihat perbandingan nilai member vs non-member dan efektivitas sumber akuisisi.</p>
+          <div class="guide-card-label">Macro</div>
+          <h4 class="guide-card-title">Overview</h4>
+          <p class="guide-card-desc">Assess member vs non-member revenue contribution and evaluate acquisition channel effectiveness.</p>
         </div>
       </div>
       <div class="guide-card teal">
         <div class="guide-card-icon">🎯</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Mode Operasional</div>
-          <h4 class="guide-card-title">Aksi Taktis</h4>
-          <p class="guide-card-desc">Daftar *to-do list* harian/mingguan: siapa yang harus ditelepon (rawan *churn*) dan promo apa yang harus dimatikan.</p>
+          <div class="guide-card-label">Operational Mode</div>
+          <h4 class="guide-card-title">Tactical Actions</h4>
+          <p class="guide-card-desc">Daily/weekly action list: identify churn-risk members for re-engagement and flag underperforming promotions for deactivation.</p>
         </div>
       </div>
       <div class="guide-card purple">
         <div class="guide-card-icon">🔭</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Mode Kebijakan</div>
-          <h4 class="guide-card-title">Evaluasi Strategis</h4>
-          <p class="guide-card-desc">Evaluasi makro bulanan: pergerakan tren belanja AOV dan efektivitas desain program loyalitas jangka panjang.</p>
+          <div class="guide-card-label">Policy Mode</div>
+          <h4 class="guide-card-title">Strategic Evaluation</h4>
+          <p class="guide-card-desc">Monthly macro evaluation: track AOV spending trajectory shifts and measure long-term loyalty program design effectiveness.</p>
         </div>
       </div>
       <div class="guide-card orange">
         <div class="guide-card-icon">🗂️</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Data Mentah</div>
-          <h4 class="guide-card-title">Direktori Member</h4>
-          <p class="guide-card-desc">Mode *God View* untuk mencari nama spesifik, memfilter, dan membedah database seluruh pelanggan secara bebas.</p>
+          <div class="guide-card-label">Raw Data</div>
+          <h4 class="guide-card-title">Member Directory</h4>
+          <p class="guide-card-desc">Full-access mode: search, filter, and drill down into the complete customer database at individual record level.</p>
         </div>
       </div>
     </div>
@@ -48,10 +48,10 @@
 </details>
 
 <div class="evidence-tabs-container">
-  <a href="/06-member-behavior" class="tab-button {activeTab === 'overview' ? 'active' : ''}">🏠 Ringkasan</a>
-  <a href="/06-member-behavior/02-aksi-taktis" class="tab-button {activeTab === 'taktis' ? 'active' : ''}">🎯 Aksi Taktis</a>
-  <a href="/06-member-behavior/03-evaluasi-strategis" class="tab-button {activeTab === 'strategis' ? 'active' : ''}">🔭 Evaluasi Strategis</a>
-  <a href="/06-member-behavior/04-direktori-member" class="tab-button {activeTab === 'direktori' ? 'active' : ''}">🗂️ Direktori Member</a>
+  <a href="/06-member-behavior" class="tab-button {activeTab === 'overview' ? 'active' : ''}">🏠 Overview</a>
+  <a href="/06-member-behavior/02-tactical-action" class="tab-button {activeTab === 'taktis' ? 'active' : ''}">🎯 Tactical Actions</a>
+  <a href="/06-member-behavior/03-analysis" class="tab-button {activeTab === 'strategis' ? 'active' : ''}">🔭 Analysis</a>
+  <a href="/06-member-behavior/04-data-directory" class="tab-button {activeTab === 'direktori' ? 'active' : ''}">🗂️ Member Directory</a>
 </div>
 
 <style>

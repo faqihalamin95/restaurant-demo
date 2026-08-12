@@ -49,15 +49,14 @@ classified AS (
         n.recent_margin_pct,
         h.historical_margin_pct,
         CASE
-            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Sehat'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Waspada'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Healthy'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Warning'
             WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 10 THEN 'Early Warning'
-            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovery'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Membaik'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stabil Rendah'
-            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 5 THEN 'Turnaround'
-            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 5 THEN 'Turnaround'
-            ELSE 'Waspada'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovering'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Recovering'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stagnant'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 10 THEN 'Distressed'
+            ELSE 'Warning'
         END AS health_status
     FROM active_rev r
     LEFT JOIN active_net a ON r.branch_name = a.branch_name
@@ -66,33 +65,30 @@ classified AS (
 )
 SELECT *,
     CASE health_status
-        WHEN 'Sehat' THEN 'Margin 30H (≥ 10%) dan 90H (≥ 10%) sama-sama kuat. Jadikan benchmark operasional.'
-        WHEN 'Waspada' THEN 'Margin 30H mulai melunak (5-10%), tapi baseline 90H masih sehat (≥ 10%). Pantau lebih dekat.'
-        WHEN 'Early Warning' THEN 'Margin 30H turun tajam (< 5%) meski baseline 90H masih sehat (≥ 10%). Audit 30 hari terakhir.'
-        WHEN 'Recovery' THEN 'Margin 30H sudah sehat (≥ 10%) setelah baseline 90H lemah (< 10%). Pertahankan momentum ini.'
-        WHEN 'Membaik' THEN 'Margin 30H membaik (5-10%) dari baseline 90H yang lemah (< 5%), tapi belum sehat. Lanjutkan perbaikan.'
-        WHEN 'Stabil Rendah' THEN 'Margin 30H dan 90H sama-sama sedang (5-10%). Bukan krisis, tapi belum optimal.'
-        WHEN 'Turnaround' THEN 'Margin 30H dan 90H sama-sama lemah (< 5%). Perlu pembenahan struktural.'
-        ELSE 'Pantau perkembangan margin di beberapa hari ke depan.'
+        WHEN 'Healthy' THEN '30D and 90D margins are strong (>= 10%). Use as operational benchmark.'
+        WHEN 'Warning' THEN '30D margin softening (5-10%), but 90D baseline is still healthy (>= 10%). Monitor closely.'
+        WHEN 'Early Warning' THEN '30D margin dropped sharply (< 5%) despite healthy 90D baseline (>= 10%). Audit last 30 days.'
+        WHEN 'Recovering' THEN '30D margin is healthy (>= 10%) or improving from a weak 90D baseline. Maintain this momentum.'
+        WHEN 'Stagnant' THEN '30D and 90D margins are moderate (5-10%). Not a crisis, but not yet optimal.'
+        WHEN 'Distressed' THEN '30D and 90D margins are both weak (< 5%). Structural improvements needed.'
+        ELSE 'Monitor margin developments over the next few days.'
     END AS diagnosis,
     CASE health_status
-        WHEN 'Sehat' THEN 'Analisis Lanjutan'
-        WHEN 'Waspada' THEN 'Analisis Lanjutan'
-        WHEN 'Early Warning' THEN 'Analisis Lanjutan / Deep Dive'
-        WHEN 'Recovery' THEN 'Deep Dive'
-        WHEN 'Membaik' THEN 'Analisis Lanjutan / Deep Dive'
-        WHEN 'Stabil Rendah' THEN 'Analisis Lanjutan'
-        WHEN 'Turnaround' THEN 'Pusat Aksi / Deep Dive'
-        ELSE 'Ringkasan'
+        WHEN 'Healthy' THEN 'Further Analysis'
+        WHEN 'Warning' THEN 'Further Analysis'
+        WHEN 'Early Warning' THEN 'Further Analysis / Deep Dive'
+        WHEN 'Recovering' THEN 'Deep Dive'
+        WHEN 'Stagnant' THEN 'Further Analysis'
+        WHEN 'Distressed' THEN 'Action Center / Deep Dive'
+        ELSE 'Summary'
     END AS recommended_next_page,
     CASE health_status
-        WHEN 'Turnaround' THEN 1
+        WHEN 'Distressed' THEN 1
         WHEN 'Early Warning' THEN 2
-        WHEN 'Stabil Rendah' THEN 3
-        WHEN 'Membaik' THEN 4
-        WHEN 'Waspada' THEN 5
-        WHEN 'Recovery' THEN 6
-        WHEN 'Sehat' THEN 7
+        WHEN 'Stagnant' THEN 3
+        WHEN 'Recovering' THEN 4
+        WHEN 'Warning' THEN 5
+        WHEN 'Healthy' THEN 7
         ELSE 7
     END AS sort_priority
 FROM classified

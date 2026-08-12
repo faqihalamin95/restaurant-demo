@@ -2,37 +2,37 @@
   export let activeTab = 'overview';
 </script>
 
-<p style="margin-top: 12px; margin-bottom: 12px; color: var(--color-text-secondary);"><em>Bedah lebih detail rincian biaya per cabang dan rekomendasi aksinya.</em></p>
+<p style="margin-top: 12px; margin-bottom: 12px; color: var(--color-text-secondary);"><em>Detailed breakdown of costs per branch and actionable recommendations.</em></p>
 
 <details class="guide-acc" style="margin-top:12px; margin-bottom:12px;">
-  <summary>💡 Cara Navigasi Laporan Keuangan</summary>
+  <summary>💡 How to Navigate the Financial Report</summary>
   <div class="guide-body">
     <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-      Pilih sub-modul di bawah ini untuk melihat detail pergerakan tiap jenis biaya.
+      Select a sub-module below to view the detailed movement of each cost type.
     </p>
     <div class="guide-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
       <div class="guide-card blue">
         <div class="guide-card-icon">🏠</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Makro</div>
-          <h4 class="guide-card-title">Ringkasan</h4>
-          <p class="guide-card-desc">Evaluasi Net Margin dan kesehatan tren profitabilitas secara umum.</p>
+          <div class="guide-card-label">Macro</div>
+          <h4 class="guide-card-title">Overview</h4>
+          <p class="guide-card-desc">Evaluate Net Margin and overall profitability health trends.</p>
         </div>
       </div>
       <div class="guide-card orange">
         <div class="guide-card-icon">🥩</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Biaya Operasional</div>
-          <h4 class="guide-card-title">Rincian Biaya</h4>
-          <p class="guide-card-desc">Detail pergerakan harga supplier, efisiensi payroll, dan utilitas operasional.</p>
+          <div class="guide-card-label">Operational Costs</div>
+          <h4 class="guide-card-title">Cost Breakdown</h4>
+          <p class="guide-card-desc">Detailed movement of supplier prices, payroll efficiency, and operational utilities.</p>
         </div>
       </div>
       <div class="guide-card teal" style="background: linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(45, 212, 191, 0.06)); border-color: #14b8a6;">
         <div class="guide-card-icon">📈</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Evaluasi Panjang</div>
-          <h4 class="guide-card-title">Tren</h4>
-          <p class="guide-card-desc">Baca fenomena musiman dan tren margin YoY vs Kuartal.</p>
+          <div class="guide-card-label">Long-Term Evaluation</div>
+          <h4 class="guide-card-title">Trends</h4>
+          <p class="guide-card-desc">Read seasonal phenomena and YoY vs Quarterly margin trends.</p>
         </div>
       </div>
     </div>
@@ -40,9 +40,9 @@
 </details>
 
 <div class="evidence-tabs-container">
-  <a href="/01-laporan-keuangan" class="tab-button {activeTab === 'overview' ? 'active' : ''}">🏠 Ringkasan</a>
-  <a href="/01-laporan-keuangan/01-rincian-biaya" class="tab-button {activeTab === 'rincian-biaya' ? 'active' : ''}">🧾 Rincian Biaya</a>
-  <a href="/01-laporan-keuangan/02-tren" class="tab-button {activeTab === 'jangka-panjang' ? 'active' : ''}">📈 Tren</a>
+  <a href="/01-financial-report" class="tab-button {activeTab === 'overview' ? 'active' : ''}">🏠 Overview</a>
+  <a href="/01-financial-report/02-cost-breakdown" class="tab-button {activeTab === 'cost-breakdown' ? 'active' : ''}">🧾 Cost Breakdown</a>
+  <a href="/01-financial-report/03-trend" class="tab-button {activeTab === 'jangka-panjang' ? 'active' : ''}">📈 Trends</a>
 </div>
 
 <style>

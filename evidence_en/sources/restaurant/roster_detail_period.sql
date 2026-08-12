@@ -16,12 +16,12 @@ SELECT
     branch_name,
     shift_name,
     CASE shift_name
-        WHEN 'Pagi' THEN '08:00-15:00'
-        WHEN 'Siang' THEN '12:00-20:00'
-        WHEN 'Malam' THEN '16:00-23:00'
+        WHEN 'Morning' THEN '08:00-15:00'
+        WHEN 'Afternoon' THEN '12:00-20:00'
+        WHEN 'Night' THEN '16:00-23:00'
         ELSE 'Jadwal tercatat'
     END AS jam_shift,
-    CASE shift_name WHEN 'Siang' THEN 8 ELSE 7 END AS planned_hours,
+    CASE shift_name WHEN 'Afternoon' THEN 8 ELSE 7 END AS planned_hours,
     CASE
         WHEN attendance_status = 'present' THEN 'Hadir'
         WHEN attendance_status = 'late' THEN 'Terlambat'

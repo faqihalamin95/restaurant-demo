@@ -10,11 +10,11 @@
 <div class="unified-card theme-apple">
   <div class="section-head" style="padding: 24px 24px 0 24px; margin-bottom: 0;">
     <div class="section-eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
-      <span>👤 Profil & Kinerja</span>
+      <span>👤 Profile & Performance</span>
     </div>
-    <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a;">Rapor Kinerja Individu</h3>
+    <h3 class="section-title" style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a;">Individual Performance Report</h3>
     <p class="section-copy" style="margin: 4px 0 0; font-size: 0.87rem; line-height: 1.7; color: #0f172a;">
-      Ringkasan performa dan kedisiplinan individu terpilih selama 30 hari terakhir ({startDateStr} &mdash; {endDateStr}).
+      Summary of performance and discipline of the selected individual over the last 30 days ({startDateStr} &mdash; {endDateStr}).
     </p>
   </div>
   
@@ -32,11 +32,11 @@
       <div class="id-stats-mini">
         <div class="id-stat-box">
           <div class="id-stat-val">{empData.total_shifts}</div>
-          <div class="id-stat-lbl">Shift Aktif</div>
+          <div class="id-stat-lbl">Active Shifts</div>
         </div>
         <div class="id-stat-box">
           <div class="id-stat-val">~{Math.round(empData.avgOrders)}</div>
-          <div class="id-stat-lbl">Pesanan/Shift</div>
+          <div class="id-stat-lbl">Orders/Shift</div>
         </div>
       </div>
     </div>
@@ -44,33 +44,33 @@
     <!-- Right: Detailed Metrics Stack -->
     <div class="metrics-stack">
       <div class="kpi-card revenue">
-        <div class="kpi-label">💰 Rata-rata Omzet / Shift</div>
+        <div class="kpi-label">💰 Average Revenue / Shift</div>
         <div class="kpi-value">Rp {Number(Math.round(empData.avgRevenue)).toLocaleString('id-ID')}</div>
         <div class="kpi-prev" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
           <span style="background: {empData.deltaRevColor}20; color: {empData.deltaRevColor}; padding: 2px 6px; border-radius: 4px; font-weight: 800;">
             {empData.deltaRevIcon} {Math.abs(empData.deltaRevPct).toFixed(1)}%
           </span>
-          <span class="compare-txt">vs rata-rata (Rp {Number(Math.round(avgOthersRevenuePerShift)).toLocaleString('id-ID')})</span>
+          <span class="compare-txt">vs average (Rp {Number(Math.round(avgOthersRevenuePerShift)).toLocaleString('id-ID')})</span>
         </div>
       </div>
       <div class="kpi-card price">
-        <div class="kpi-label">⏰ Total Lembur (30 Hari)</div>
-        <div class="kpi-value">{empData.total_overtime} <span style="font-size:1rem;">Jam</span></div>
+        <div class="kpi-label">⏰ Total Overtime (30 Days)</div>
+        <div class="kpi-value">{empData.total_overtime} <span style="font-size:1rem;">Hours</span></div>
         <div class="kpi-prev" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
           <span style="background: {empData.deltaOtColor}20; color: {empData.deltaOtColor}; padding: 2px 6px; border-radius: 4px; font-weight: 800;">
-            {empData.deltaOtIcon} {Math.abs(empData.deltaOt).toFixed(1)} Jam
+            {empData.deltaOtIcon} {Math.abs(empData.deltaOt).toFixed(1)} Hours
           </span>
-          <span class="compare-txt">vs rata-rata ({avgOthersOvertime.toFixed(1)} Jam)</span>
+          <span class="compare-txt">vs average ({avgOthersOvertime.toFixed(1)} Hours)</span>
         </div>
       </div>
       <div class="kpi-card cost">
-        <div class="kpi-label">🏃 Tingkat Kedisiplinan</div>
+        <div class="kpi-label">🏃 Discipline Rate</div>
         <div class="kpi-value">{empData.disciplineRate.toFixed(1)}<span style="font-size:1rem;">%</span></div>
         <div class="kpi-prev" style="margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
           <div class="prog-bg" style="width: 100%; height: 6px; border-radius: 4px; overflow: hidden; background: #e2e8f0;">
             <div class="prog-bar" style="width: {empData.disciplineRate}%; height: 100%; background: {empData.disciplineRate >= 92 ? '#10b981' : (empData.disciplineRate >= 85 ? '#f59e0b' : '#ef4444')};"></div>
           </div>
-          <span class="compare-txt">{empData.total_absen}x Absen, {empData.total_late}x Telat</span>
+          <span class="compare-txt">{empData.total_absen}x Absent, {empData.total_late}x Late</span>
         </div>
       </div>
     </div>

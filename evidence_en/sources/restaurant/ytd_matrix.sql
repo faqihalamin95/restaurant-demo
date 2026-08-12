@@ -46,11 +46,11 @@ SELECT
     h.historical_margin_pct,
     ROUND((a.active_orders - pr.prev_orders) / CAST(NULLIF(pr.prev_orders, 0) AS FLOAT) * 100, 1) as baseline_change_pct,
     CASE 
-        WHEN n.active_margin_pct >= 10 AND pn.prev_margin_pct >= 10 THEN 'Sehat (YTD)'
-        WHEN n.active_margin_pct < 5 AND pn.prev_margin_pct < 5 THEN 'Turnaround (YTD)'
-        WHEN n.active_margin_pct < 5 AND pn.prev_margin_pct >= 10 THEN 'Waspada (YTD)'
-        WHEN n.active_margin_pct >= 10 AND pn.prev_margin_pct < 10 THEN 'Recovery (YTD)'
-        ELSE 'Stabil Rendah (YTD)'
+        WHEN n.active_margin_pct >= 10 AND pn.prev_margin_pct >= 10 THEN 'Healthy (YTD)'
+        WHEN n.active_margin_pct < 5 AND pn.prev_margin_pct < 5 THEN 'Distressed (YTD)'
+        WHEN n.active_margin_pct < 5 AND pn.prev_margin_pct >= 10 THEN 'Warning (YTD)'
+        WHEN n.active_margin_pct >= 10 AND pn.prev_margin_pct < 10 THEN 'Recovering (YTD)'
+        ELSE 'Stagnant (YTD)'
     END as health_status
 FROM active_rev a
 LEFT JOIN active_net n ON a.branch_name = n.branch_name

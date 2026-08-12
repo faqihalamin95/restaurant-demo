@@ -31,16 +31,16 @@
      
      if (col.type === 'currency') {
         const num = typeof val === 'number' ? val : parseFloat(val);
-        return 'Rp ' + (isNaN(num) ? '0' : num.toLocaleString('id-ID', {maximumFractionDigits: 0}));
+         return 'Rp ' + (isNaN(num) ? '0' : num.toLocaleString('en-US', {maximumFractionDigits: 0}));
      }
      if (col.type === 'currency_raw') {
         const num = typeof val === 'number' ? val : parseFloat(val);
-        return isNaN(num) ? '0' : num.toLocaleString('id-ID');
+        return isNaN(num) ? '0' : num.toLocaleString('en-US');
      }
      if (col.type === 'pct') {
         const num = typeof val === 'number' ? val : parseFloat(val);
-        if (isNaN(num)) return '0,0%';
-        return (num > 0 && col.showPlus ? '+' : '') + num.toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+        if (isNaN(num)) return '0.0%';
+        return (num > 0 && col.showPlus ? '+' : '') + num.toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
      }
      if (col.type === 'pct_ratio') {
         const num = typeof val === 'number' ? val : parseFloat(val);
@@ -59,13 +59,13 @@
      if (col.type === 'margin_growth') {
         const valNow = parseFloat(row[col.key]);
         const valPrev = parseFloat(row[col.prevKey]);
-        if (isNaN(valNow) || isNaN(valPrev)) return '0,0%';
+        if (isNaN(valNow) || isNaN(valPrev)) return '0.0%';
         const gap = valNow - valPrev;
         const icon = gap > 0 ? '▲' : gap < 0 ? '▼' : '';
         const color = gap > 0 ? '#16a34a' : gap < 0 ? '#dc2626' : 'inherit';
         
-        let nowStr = valNow.toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
-        let gapStr = Math.abs(gap).toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+        let nowStr = valNow.toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+        let gapStr = Math.abs(gap).toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
         if (gap === 0) return nowStr;
         return `${nowStr} <span style="color: ${color}; font-size: 0.85em; font-weight: 700; margin-left: 6px;">${icon} ${gapStr}</span>`;
      }
@@ -78,8 +78,8 @@
         const icon = gap > 0 ? '▲' : gap < 0 ? '▼' : '';
         const color = gap > 0 ? '#16a34a' : gap < 0 ? '#dc2626' : 'inherit';
         
-        let nowStr = valNow.toLocaleString('id-ID');
-        let pctStr = Math.abs(pct).toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+        let nowStr = valNow.toLocaleString('en-US');
+        let pctStr = Math.abs(pct).toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
         if (gap === 0) return nowStr;
         return `${nowStr} <span style="color: ${color}; font-size: 0.85em; font-weight: 700; margin-left: 6px;">${icon} ${pctStr}</span>`;
      }
@@ -128,7 +128,7 @@
     <button on:click={prevPage} disabled={currentPage === 1} style="padding: 6px 16px; border-radius: 6px; border: 1px solid var(--color-border-tertiary); background: {currentPage === 1 ? 'transparent' : '#0d9488'}; color: {currentPage === 1 ? 'var(--color-text-tertiary)' : 'white'}; cursor: {currentPage === 1 ? 'not-allowed' : 'pointer'}; font-size: 13px; font-weight: 600; transition: all 0.2s;">
       &#8592; Prev
     </button>
-    <span style="font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 600;">Halaman {currentPage} dari {totalPages}</span>
+    <span style="font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 600;">Page {currentPage} of {totalPages}</span>
     <button on:click={nextPage} disabled={currentPage === totalPages} style="padding: 6px 16px; border-radius: 6px; border: 1px solid var(--color-border-tertiary); background: {currentPage === totalPages ? 'transparent' : '#0d9488'}; color: {currentPage === totalPages ? 'var(--color-text-tertiary)' : 'white'}; cursor: {currentPage === totalPages ? 'not-allowed' : 'pointer'}; font-size: 13px; font-weight: 600; transition: all 0.2s;">
       Next &#8594;
     </button>

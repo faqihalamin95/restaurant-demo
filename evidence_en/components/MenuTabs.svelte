@@ -2,21 +2,21 @@
   export let activeTab = 'ringkasan';
 </script>
 
-<p style="margin-top: 12px; margin-bottom: 12px;"><em>Dashboard performa menu: analisis matriks portofolio, prioritas menu, pergerakan tren, dan rekomendasi aksi operasional.</em></p>
+<p style="margin-top: 12px; margin-bottom: 12px;"><em>Item-level portfolio breakdown: evaluate matrix positioning, menu priority, trend movement, and operational performance metrics across categories.</em></p>
 
 <details class="guide-acc" style="margin-top:12px; margin-bottom:12px;">
-  <summary>💡 Cara memilih subpage</summary>
+  <summary>💡 How to choose a subpage</summary>
   <div class="guide-body">
     <p style="margin-top: 4px; margin-bottom: 16px; font-weight: 500; color: var(--color-text-secondary);">
-      Gunakan panduan ini untuk memilih lapisan analisis menu sesuai kebutuhan operasional Anda.
+      Use this guide to select the layer of menu analysis according to your operational needs.
     </p>
     <div class="guide-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
       <div class="guide-card blue">
         <div class="guide-card-icon">🏠</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Makro</div>
-          <h4 class="guide-card-title">Ringkasan</h4>
-          <p class="guide-card-desc">Melihat kesehatan menu restoran secara keseluruhan.</p>
+          <div class="guide-card-label">Macro</div>
+          <h4 class="guide-card-title">Overview</h4>
+          <p class="guide-card-desc">View the overall health of the restaurant menu.</p>
         </div>
       </div>
       <div class="guide-card teal">
@@ -24,23 +24,23 @@
         <div class="guide-card-content">
           <div class="guide-card-label">Meso</div>
           <h4 class="guide-card-title">Deep Dive</h4>
-          <p class="guide-card-desc">Melihat peta sebaran menu sekaligus kesimpulan aksinya.</p>
+          <p class="guide-card-desc">View the menu distribution map along with the conclusions for action.</p>
         </div>
       </div>
       <div class="guide-card purple">
         <div class="guide-card-icon">📈</div>
         <div class="guide-card-content">
-          <div class="guide-card-label">Mikro & Historis</div>
-          <h4 class="guide-card-title">Rapor Menu</h4>
-          <p class="guide-card-desc">Melihat daftar menu yang meroket/anjlok, lalu membedah performa individualnya secara mendalam.</p>
+          <div class="guide-card-label">Micro & Historical</div>
+          <h4 class="guide-card-title">Report Card</h4>
+          <p class="guide-card-desc">View the list of skyrocketing/plummeting menus, then dissect their individual performance in depth.</p>
         </div>
       </div>
       <div class="guide-card orange">
         <div class="guide-card-icon">📂</div>
         <div class="guide-card-content">
           <div class="guide-card-label">Raw Data</div>
-          <h4 class="guide-card-title">Direktori Data</h4>
-          <p class="guide-card-desc">Eksplorasi data mentah performa menu per cabang.</p>
+          <h4 class="guide-card-title">Data Directory</h4>
+          <p class="guide-card-desc">Explore raw data of menu performance per branch.</p>
         </div>
       </div>
     </div>
@@ -48,11 +48,11 @@
 </details>
 
 <div class="evidence-tabs-container">
-  <a href="/05-menu-performance" class="tab-button {activeTab === 'ringkasan' ? 'active' : ''}">🏠 Ringkasan</a>
-  <a href="/05-menu-performance/deepdive" class="tab-button {activeTab === 'deepdive' ? 'active' : ''}">🏪 Deep Dive</a>
-  <a href="/05-menu-performance/evaluasi" class="tab-button {activeTab === 'evaluasi' ? 'active' : ''}">🔭 Evaluasi Strategis</a>
-  <a href="/05-menu-performance/rapor" class="tab-button {activeTab === 'rapor' ? 'active' : ''}">📈 Rapor Menu</a>
-  <a href="/05-menu-performance/direktori" class="tab-button {activeTab === 'direktori' ? 'active' : ''}">📂 Direktori Data</a>
+  <a href="/05-menu-performance" class="tab-button {activeTab === 'ringkasan' ? 'active' : ''}">🏠 Overview</a>
+  <a href="/05-menu-performance/02-deepdive" class="tab-button {activeTab === 'deepdive' ? 'active' : ''}">🏪 Deep Dive</a>
+  <a href="/05-menu-performance/03-analysis" class="tab-button {activeTab === 'evaluasi' ? 'active' : ''}">🔭 Analysis</a>
+  <a href="/05-menu-performance/04-report-card" class="tab-button {activeTab === 'rapor' ? 'active' : ''}">📈 Report Card</a>
+  <a href="/05-menu-performance/05-data-directory" class="tab-button {activeTab === 'direktori' ? 'active' : ''}">📂 Data Directory</a>
 </div>
 
 <style>

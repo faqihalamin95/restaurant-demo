@@ -44,15 +44,14 @@ classified AS (
         n.recent_margin_pct,
         h.historical_margin_pct,
         CASE
-            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Sehat'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Waspada'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct >= 10 THEN 'Healthy'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 10 THEN 'Warning'
             WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 10 THEN 'Early Warning'
-            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovery'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Membaik'
-            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stabil Rendah'
-            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct >= 5 THEN 'Turnaround'
-            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 5 THEN 'Turnaround'
-            ELSE 'Waspada'
+            WHEN a.active_margin_pct >= 10 AND n.recent_margin_pct < 10 THEN 'Recovering'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct < 5 THEN 'Recovering'
+            WHEN a.active_margin_pct >= 5 AND a.active_margin_pct < 10 AND n.recent_margin_pct >= 5 AND n.recent_margin_pct < 10 THEN 'Stagnant'
+            WHEN a.active_margin_pct < 5 AND n.recent_margin_pct < 10 THEN 'Distressed'
+            ELSE 'Warning'
         END AS health_status
     FROM active_rev r
     LEFT JOIN active_net a ON r.branch_name = a.branch_name
@@ -60,17 +59,16 @@ classified AS (
     LEFT JOIN historical_net h ON r.branch_name = h.branch_name
 )
 SELECT
-    COUNT(CASE WHEN health_status = 'Sehat' THEN 1 END) AS sehat_count,
-    COUNT(CASE WHEN health_status = 'Waspada' THEN 1 END) AS waspada_count,
+    COUNT(CASE WHEN health_status = 'Healthy' THEN 1 END) AS sehat_count,
+    COUNT(CASE WHEN health_status = 'Warning' THEN 1 END) AS waspada_count,
     COUNT(CASE WHEN health_status = 'Early Warning' THEN 1 END) AS early_warning_count,
-    COUNT(CASE WHEN health_status = 'Recovery' THEN 1 END) AS recovery_count,
-    COUNT(CASE WHEN health_status = 'Membaik' THEN 1 END) AS membaik_count,
-    COUNT(CASE WHEN health_status = 'Stabil Rendah' THEN 1 END) AS stabil_rendah_count,
-    COUNT(CASE WHEN health_status = 'Turnaround' THEN 1 END) AS turnaround_count,
-    MAX(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN branch_name END) AS priority_branch,
-    MAX(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN health_status END) AS priority_status,
-    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN active_margin_pct END) AS priority_active_margin,
-    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN recent_margin_pct END) AS priority_recent_margin,
-    MIN(CASE WHEN health_status IN ('Turnaround', 'Early Warning') THEN historical_margin_pct END) AS priority_historical_margin
+    COUNT(CASE WHEN health_status = 'Recovering' THEN 1 END) AS recovery_count,
+    COUNT(CASE WHEN health_status = 'Stagnant' THEN 1 END) AS stabil_rendah_count,
+    COUNT(CASE WHEN health_status = 'Distressed' THEN 1 END) AS turnaround_count,
+    MAX(CASE WHEN health_status IN ('Distressed', 'Early Warning') THEN branch_name END) AS priority_branch,
+    MAX(CASE WHEN health_status IN ('Distressed', 'Early Warning') THEN health_status END) AS priority_status,
+    MIN(CASE WHEN health_status IN ('Distressed', 'Early Warning') THEN active_margin_pct END) AS priority_active_margin,
+    MIN(CASE WHEN health_status IN ('Distressed', 'Early Warning') THEN recent_margin_pct END) AS priority_recent_margin,
+    MIN(CASE WHEN health_status IN ('Distressed', 'Early Warning') THEN historical_margin_pct END) AS priority_historical_margin
 FROM classified
 

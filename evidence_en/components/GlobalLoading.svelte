@@ -1,6 +1,6 @@
 <script>
-  export let title = "Memproses Jutaan Baris Data Transaksi...";
-  export let desc = "Menganalisis performa restoran & tren pelanggan. Mohon tunggu sebentar.";
+  export let title = "Processing Millions of Transaction Data Rows...";
+  export let desc = "Analyzing restaurant performance & customer trends. Please wait a moment.";
 </script>
 
 <div class="global-loading-container">

@@ -1796,7 +1796,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 /* ── 13. BRANCH HEALTH CARDS ── */
 .branch-health-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 14px;
 }
 .branch-health-card {
@@ -2696,7 +2696,6 @@ details.acc-strategic .acc-body { padding: 20px; }
   font-size: 0.9rem;
   line-height: 1.7;
   color: var(--color-text-secondary);
-  max-width: 68ch;
   margin: 0;
 }
 
@@ -3409,7 +3408,7 @@ details.acc-strategic .acc-body { padding: 20px; }
 
 .branch-health-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 14px;
   margin-bottom: 16px;
 }
@@ -3906,4 +3905,45 @@ details.acc-strategic .acc-body { padding: 20px; }
     align-items: flex-start;
     gap: 16px;
   }
+}
+
+/* Premium Custom Table CSS */
+.premium-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  background: #f8fafc;
+  margin-bottom: 32px;
+}
+.premium-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.premium-table th {
+  text-align: left;
+  padding: 16px 20px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+.premium-row {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+.premium-row:hover {
+  background: #f1f5f9;
+}
+.premium-row td {
+  padding: 16px 20px;
+  color: #475569;
+}
+.premium-row:last-child {
+  border-bottom: none;
 }

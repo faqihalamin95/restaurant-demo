@@ -116,3 +116,4 @@ SELECT
     (SELECT branch_name FROM main_marts.mart_employee_shift_performance CROSS JOIN max_d WHERE attendance_date >= max_d.d - INTERVAL '29 days' GROUP BY branch_name ORDER BY SUM(CASE WHEN attendance_status='absent' THEN 1 ELSE 0 END)*10 + SUM(CASE WHEN attendance_status='late' THEN 1 ELSE 0 END) DESC LIMIT 1) AS pressure_branch_30d,
     (SELECT shift_name FROM main_marts.mart_employee_shift_performance CROSS JOIN max_d WHERE attendance_date >= max_d.d - INTERVAL '29 days' GROUP BY shift_name ORDER BY SUM(CASE WHEN attendance_status='absent' THEN 1 ELSE 0 END)*10 + SUM(CASE WHEN attendance_status='late' THEN 1 ELSE 0 END) DESC LIMIT 1) AS pressure_shift_30d
 FROM base CROSS JOIN max_d m
+-- cache bust 1
